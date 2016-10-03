@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height_subtask"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/cbSubtask"
+        style="@style/item_checkBox_subtask"
+        android:buttonTint="@color/colorPrimary"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivRemoveSubtask"
+        style="@style/image_view_detail_remove"
+        />
+
+    <TextView
+        android:id="@+id/tvTitleSubtask"
+        style="@style/text_detail_subtasks"
+        android:layout_toLeftOf="@id/ivRemoveSubtask"
+        android:layout_toRightOf="@id/cbSubtask"
+        android:text="Mikrofasertuch für Politur kaufen"/>
+
+</RelativeLayout>

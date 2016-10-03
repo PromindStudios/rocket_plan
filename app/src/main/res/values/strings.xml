@@ -1,0 +1,153 @@
+<resources>
+    <string name="app_name">Rocket-Plan</string>
+    <string name="headerTitle">RocketPlan</string>
+    <string name="headerSubtitle">by Provelopment</string>
+    <string name="item_overview_title">Overview</string>
+
+    <!-- General names -->
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="overview">Overview</string>
+    <string name="done">Done</string>
+    <string name="help">Help</string>
+    <string name="custom">Custom</string>
+    <string name="at">at</string>
+
+    <!-- Tabs -->
+    <string name="title_tabTask">Tasks</string>
+    <string name="title_tabEvent">Events</string>
+    <string name="title_tabNote">Notes</string>
+
+    <!-- Details -->
+
+    <!-- Content -->
+    <string name="repetition_daily">Daily</string>
+    <string name="repetition_weekly">Weekly</string>
+    <string name="repetition_monthly">Monthly</string>
+    <string name="reminder_due_date">At due date</string>
+    <string name="reminder_one_hour">1 hour before due date</string>
+    <string name="reminder_one_day">1 day before due date</string>
+    <string name="date_due_at">Due at</string>
+    <string name="date_done_at">Done at</string>
+
+    <!-- Tasks - General -->
+    <string name="task">Task</string>
+    <string name="tasks">tasks</string>
+    <string name="detail_title">Title</string>
+    <string name="detail_subtext_title_task">Enter a title...</string>
+    <string name="detail_title_deadline">Deadline</string>
+    <string name="detail_title_reminder">Reminder</string>
+    <string name="detail_title_priority">Priority</string>
+    <string name="detail_subtext_date">Choose a date</string>
+    <string name="detail_subtext_time">Choose a time</string>
+    <string name="detail_subtext_repetition">Choose a repetition</string>
+    <string name="detail_subtext_reminder">Choose a reminder</string>
+    <string name="detail_subtext_priority">High priority</string>
+    <string name="task_due_today">This task is due today</string>
+    <string name="task_due_tomorrow">This task is due tomorrow</string>
+
+    <!-- Tasks - Files -->
+    <string name="detail_description_empty">Add a description</string>
+    <string name="detail_description_title">Description</string>
+    <string name="detail_description_hint">Enter a description...</string>
+    <string name="picture_edit">Take a new picture</string>
+
+    <!-- Tasks - Subtasks -->
+    <string name="detail_subtask_add">Add a Subtask</string>
+    <!-- Tasks - Files -->
+    <string name="detail_title_picture">Picture</string>
+    <string name="detail_subtext_picture">Add a picture</string>
+
+    <!-- Event - General -->
+    <string name="event">Event</string>
+    <string name="events">events</string>
+    <string name="detail_subtext_title_event">Enter a title for your event...</string>
+    <string name="detail_title_date_time">Date and Time</string>
+    <string name="detail_subtext_beginning">Choose a beginning</string>
+    <string name="detail_subtext_end">Choose an end</string>
+    <string name="event_due_today">This event is due today</string>
+    <string name="event_due_tomorrow">This event is due tomorrow</string>
+
+    <!-- Note - General -->
+    <string name="note">Note</string>
+    <string name="notes">Notes</string>
+    <string name="detail_subtext_title_note">Enter a title for your note...</string>
+    <string name="openDrawer">open</string>
+    <string name="closeDrawer">close</string>
+
+    <!-- Time -->
+    <string name="tab_day">Day</string>
+    <string name="tab_week">Week</string>
+    <string name="tab_month">Month</string>
+    <string name="time_due_today">Due today</string>
+    <string name="time_due_today_none">Nothing is due today</string>
+    <string name="time_done_today">Done today</string>
+    <string name="time_done_today_none">Nothing done today</string>
+    <string name="time_due_tomorrow">Due tomorrow</string>
+    <string name="time_due_tomorrow_none">Nothing is due tomorrow</string>
+    <string name="time_due_this_week">Due this week</string>
+    <string name="time_due_this_week_none">Nothing is due this week</string>
+    <string name="time_done_this_week">Done this week</string>
+    <string name="time_done_this_week_none">Nothing done this week</string>
+    <string name="time_due_next_week">Due next week</string>
+    <string name="time_due_next_week_none">Nothing is due next week</string>
+    <string name="time_due_this_month">Due this month</string>
+    <string name="time_due_this_month_none">Nothing is due this month</string>
+    <string name="time_done_this_month">Done this month</string>
+    <string name="time_done_this_month_none">Nothing done this month</string>
+    <string name="time_due_next_month">Due next month</string>
+    <string name="time_due_next_month_none">Nothing is due next month</string>
+
+    <!-- Dialogs -->
+    <string name="title_add_category">Add a Category</string>
+    <string name="hint_dialog_add">Enter a name...</string>
+    <string name="title_edit_category">Edit Category</string>
+    <string name="title_add_subtask">Add a Subtask</string>
+    <string name="title_edit_subtask">Edit Subtask</string>
+    <string name="choose_color">Choose a color</string>
+    <string name="title_about">About Rocket-Plan</string>
+    <string name="dialog_about_text">Dear Rocket Planer,\n\n
+first of all I am very happy that you have picked this app and are working with it. I will inform you briefly about my plans for this neat project, which I have started in 2015:
+\n\nWHAT YOU CAN DO WITH ROCKET-PLAN\n\n
+You are able to organize your daily tasks, events and notes – All in one App. You have a choice of useful functions, such as subtasks.
+\n\nWHAT YOU WILL BE ABLE TO DO\n\n
+-	Set a repitition for your tasks and events\n
+-	Choose a location for your events\n
+-	Use a clever App-Widget\n
+-	Work with a calendar function (Big thing)\n
+-	Take videos and record your voice, as part of the description\n
+-	Share the content with friends and family, without the need of registration\n\n
+I prepared the app for this features and are confident that it will work out all good. You can support me by giving me strong ratings, which will defiantly push this project. If you have any wishes please write me an e-mail to promindstudios@gmail.com
+\n\nCheers,\n\n
+Eric
+</string>
+
+    <!-- Collapse & Expand -->
+    <string name="show_done">Show done</string>
+    <string name="hide_done">Hide done</string>
+
+    <!-- Colors -->
+    <string name="color_one">Red</string>
+    <string name="color_two">Blue</string>
+    <string name="color_three">Teal</string>
+    <string name="color_four">Green</string>
+    <string name="color_five">Orange</string>
+
+    <!-- Reminder -->
+    <string name="add_reminder">Add a reminder</string>
+    <string name="before">before</string>
+    <string name="reminder_minute">Minute</string>
+    <string name="reminder_hour">Hour</string>
+    <string name="reminder_day">Day</string>
+    <string name="reminder_week">Week</string>
+    <string name="reminder_minute_plural">Minutes</string>
+    <string name="reminder_hour_plural">Hours</string>
+    <string name="reminder_day_plural">Days</string>
+    <string name="reminder_week_plural">Weeks</string>
+    <string name="at_due_time">At due time</string>
+    <string name="reminder_default_one">1 hour before</string>
+    <string name="reminder_default_two">1 day before</string>
+    <string name="reminder_dialog_custom_title">Custom Reminder</string>
+    <string name="reminder_choose_reminder_hint">Choose a reminder value</string>
+
+</resources>

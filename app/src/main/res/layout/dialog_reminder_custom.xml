@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/text_view_dialog_title"
+        android:id="@+id/tvTitle"
+        android:text="@string/reminder_dialog_custom_title"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:inputType="number"
+        android:textStyle="bold"
+        android:id="@+id/etReminder"
+        android:maxLength="3"
+        android:gravity="center_horizontal"
+        android:hint="@string/reminder_choose_reminder_hint"
+        android:textColorHint="@color/colorDivider"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="14sp"
+        android:textCursorDrawable="@null"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlOne"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/ic_check"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ivCheckOne"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ivCheckOne"
+            android:id="@+id/tvOne"
+            android:text="Minuten vorher"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlTwo"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/ic_check"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ivCheckTwo"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ivCheckTwo"
+            android:id="@+id/tvTwo"
+            android:text="Stunen"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlThree"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/ic_check"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ivCheckThree"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvThree"
+            android:layout_toLeftOf="@id/ivCheckThree"
+            android:text="Tage"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlFour"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/ic_check"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ivCheckFour"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvFour"
+            android:layout_toLeftOf="@id/ivCheckFour"
+            android:text="Wochen"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ibRemove"
+            style="@style/image_button_dialog"
+            android:src="@drawable/ic_content_clear"
+            />
+
+        <ImageButton
+            android:id="@+id/ibSave"
+            style="@style/image_button_dialog"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

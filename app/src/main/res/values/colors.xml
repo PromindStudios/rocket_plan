@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Basic Colors -->
+    <color name="colorHighLight">#212121</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#727272</color>
+    <color name="colorDivider">#B6B6B6</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorGreen">#4CAF50</color>
+    <color name="colorOrange">#fff5a525</color>
+    <color name="red_delete">#d50000</color>
+
+    <!-- Fab Colors -->
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+
+    <!-- Color Set: Default -->
+    <color name="colorPrimary">#e53935</color>
+    <color name="colorPrimaryDark">#c62828</color>
+    <color name="colorPrimaryLight">#ef5350</color>
+
+    <!-- Color Set: One -->
+    <color name="category_one">#f44336</color>
+    <color name="category_light_one">#ef9a9a</color>
+    <color name="category_dark_one">#b71c1c</color>
+
+    <!-- Color Set: Two -->
+    <color name="category_two">#3F51B5</color>
+    <color name="category_light_two">#9FA8DA</color>
+    <color name="category_dark_two">#1A237E</color>
+
+    <!-- Color Set: Three -->
+    <color name="category_three">#009688</color>
+    <color name="category_light_three">#80CBC4</color>
+    <color name="category_dark_three">#006064</color>
+
+    <!-- Color Set: Four -->
+    <color name="category_four">#4CAF50</color>
+    <color name="category_light_four">#A5D6A7</color>
+    <color name="category_dark_four">#1B5E20</color>
+
+    <!-- Color Set: Five -->
+    <color name="category_five">#FF9800</color>
+    <color name="category_light_five">#FFCC80</color>
+    <color name="category_dark_five">#E65100</color>
+
+    <!-- test -->
+
+
+</resources>

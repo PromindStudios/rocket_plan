@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/item_category_height"
+    android:id="@+id/rlMain"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlCategory"
+        style="@style/relative_layout_category_item"
+        android:layout_height="@dimen/item_category_title_height">
+
+        <ImageView
+            android:id="@+id/ivExpandCollapse"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:background="@color/colorTransparent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/ic_expanded_24dp" />
+
+        <TextView
+            android:id="@+id/tvCategoryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/ivExpandCollapse"
+            android:gravity="center_vertical"
+            android:text="Mobile-Box"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_size_item_title" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_category_content_total_height"
+        android:id="@+id/rlCategoryContent"
+        android:layout_below="@id/rlCategory"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rlTask"
+            style="@style/relative_layout_category_item">
+
+            <ImageView
+                android:id="@+id/ivTask"
+                style="@style/image_view_category_item_left"
+                android:src="@drawable/ic_task_24dp" />
+
+            <FrameLayout
+                style="@style/frame_layout_category_item_right"
+                android:id="@+id/flTaskAdd">
+
+                <ImageView
+                    style="@style/image_view_category_item_right"/>
+
+            </FrameLayout>
+
+
+            <TextView
+                style="@style/text_view_category_sub"
+                android:layout_toLeftOf="@id/flTaskAdd"
+                android:layout_toRightOf="@id/ivTask"
+                android:id="@+id/tvTask"
+                android:text="8 Aufgaben" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlEvent"
+            style="@style/relative_layout_category_item"
+            android:layout_below="@id/rlTask">
+
+            <ImageView
+                android:id="@+id/ivEvent"
+                style="@style/image_view_category_item_left"
+                android:src="@drawable/ic_event_24dp" />
+
+            <FrameLayout
+                style="@style/frame_layout_category_item_right"
+                android:id="@+id/flEventAdd">
+
+                <ImageView
+                    style="@style/image_view_category_item_right"/>
+
+            </FrameLayout>
+
+            <TextView
+                style="@style/text_view_category_sub"
+                android:layout_toLeftOf="@id/flEventAdd"
+                android:layout_toRightOf="@id/ivEvent"
+                android:id="@+id/tvEvent"
+                android:text="4 Termine" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlNote"
+            style="@style/relative_layout_category_item"
+            android:layout_below="@id/rlEvent">
+
+            <ImageView
+                android:id="@+id/ivNote"
+                style="@style/image_view_category_item_left"
+                android:src="@drawable/ic_note_24dp" />
+
+            <FrameLayout
+                style="@style/frame_layout_category_item_right"
+                android:id="@+id/flNoteAdd">
+
+                <ImageView
+                    style="@style/image_view_category_item_right"/>
+
+            </FrameLayout>
+
+
+            <TextView
+                style="@style/text_view_category_sub"
+                android:layout_toLeftOf="@id/flNoteAdd"
+                android:layout_toRightOf="@id/ivNote"
+                android:id="@+id/tvNote"
+                android:text="0 Notizen" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:id="@+id/vDivider"
+            android:background="@color/colorDivider" />
+
+</RelativeLayout>

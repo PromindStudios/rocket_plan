@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitleDescription"
+            style="@style/text_detail_title"
+            android:layout_width="385dp"
+            android:text="@string/detail_description_title"/>
+
+        <EditText
+            android:id="@+id/etDescription"
+            style="@style/edit_text_description"
+            android:layout_marginBottom="@dimen/detail_margin_bottom"
+            android:textCursorDrawable="@null"
+            android:inputType="textCapSentences"/>
+
+        <View
+            style="@style/divider_detail"/>
+
+        <TextView
+            android:id="@+id/tvTitlePicture"
+            style="@style/text_detail_title"
+            android:text="@string/detail_title_picture"/>
+
+        <ImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/detail_margin_bottom">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivAddPicture"
+                style="@style/image_view_detail_add"/>
+
+            <TextView
+                android:id="@+id/tvAddPicture"
+                style="@style/text_detail_choose"
+                android:layout_toRightOf="@id/ivAddPicture"
+                android:text="@string/detail_subtext_picture"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

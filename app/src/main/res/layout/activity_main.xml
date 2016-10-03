@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+<android.support.v4.widget.DrawerLayout
+
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.design.widget.CoordinatorLayout
+
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayoutMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarMain"
+                app.popupTheme="@style/AppTheme.PopupOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayoutMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:tabIndicatorColor="@color/colorWhite"
+                app:tabSelectedTextColor="@color/colorWhite"
+                app:tabTextColor="@color/colorWhite"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager
+            android:id="@+id/viewPagerMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+
+
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/fabMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            fab:fab_addButtonColorNormal="@color/white"
+            fab:fab_addButtonColorPressed="@color/white_pressed"
+            fab:fab_addButtonPlusIconColor="@color/colorSecondaryText"
+            fab:fab_labelStyle="@style/fab_labels_style"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/colorWhite"
+                fab:fab_title="@string/task"
+                app:backgroundTint="@color/colorPrimary"
+                fab:fab_icon="@drawable/ic_task_24dp"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="@string/event"
+                app:backgroundTint="@color/colorPrimary"
+                fab:fab_icon="@drawable/ic_event_24dp"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="@string/note"
+                app:backgroundTint="@color/colorPrimary"
+                fab:fab_icon="@drawable/ic_note_24dp"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <fragment
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:name="kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment"
+        android:id="@+id/drawerFragment"
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_drawer"
+        tools:layout="@layout/fragment_drawer"
+        />
+
+</android.support.v4.widget.DrawerLayout>
+
+</FrameLayout>
+

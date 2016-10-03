@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rocket-Plan</string>
+    <string name="headerTitle">RocketPlan</string>
+    <string name="headerSubtitle">by Provelopment</string>
+    <string name="item_overview_title">Übersicht</string>
+
+    <!-- General names -->
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
+    <string name="overview">Übersicht</string>
+    <string name="done">Erledigt</string>
+    <string name="help">Hilfe</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="at">um</string>
+
+    <!-- Tabs -->
+    <string name="title_tabTask">Aufgaben</string>
+    <string name="title_tabEvent">Termine</string>
+    <string name="title_tabNote">Notizen</string>
+
+    <!-- Details -->
+
+    <!-- Content -->
+    <string name="repetition_daily">Täglich</string>
+    <string name="repetition_weekly">Wöchentlich</string>
+    <string name="repetition_monthly">Monatlich</string>
+    <string name="reminder_due_date">Bei Fälligkeit</string>
+    <string name="reminder_one_hour">1 Stunde vor Fälligkeit</string>
+    <string name="reminder_one_day">1 Tag vor Fälligkeit</string>
+    <string name="date_due_at">Fällig am</string>
+    <string name="date_done_at">Erledigt am</string>
+
+    <!-- Tasks - General -->
+    <string name="task">Aufgabe</string>
+    <string name="tasks">aufgaben</string>
+    <string name="detail_title">Titel</string>
+    <string name="detail_subtext_title_task">Erstelle einen Titel...</string>
+    <string name="detail_title_deadline">Deadline</string>
+    <string name="detail_title_reminder">Erinnerung</string>
+    <string name="detail_title_priority">Priorität</string>
+    <string name="detail_subtext_date">Wähle ein Datum</string>
+    <string name="detail_subtext_time">Wähle eine Uhrzeit</string>
+    <string name="detail_subtext_repetition">Wähle eine Wiederholung</string>
+    <string name="detail_subtext_reminder">Wähle eine Erinnerung</string>
+    <string name="detail_subtext_priority">Hohe Priorität</string>
+    <string name="task_due_today">Diese Aufgabe ist heute fällig</string>
+    <string name="task_due_tomorrow">Diese Aufgabe ist morgen fällig</string>
+
+    <!-- Tasks - Files -->
+    <string name="detail_description_empty">Erstelle eine Beschreibung</string>
+    <string name="detail_description_title">Beschreibung</string>
+    <string name="detail_description_hint">Erstelle eine Beschreibung...</string>
+    <string name="picture_edit">Erstelle ein neues Bild</string>
+
+    <!-- Tasks - Subtasks -->
+    <string name="detail_subtask_add">Teilaufgabe erstellen</string>
+    <!-- Tasks - Files -->
+    <string name="detail_title_picture">Bild</string>
+    <string name="detail_subtext_picture">Erstelle ein Bild</string>
+
+    <!-- Event - General -->
+    <string name="event">Termin</string>
+    <string name="events">termine</string>
+    <string name="detail_subtext_title_event">Erstelle einen Titel...</string>
+    <string name="detail_title_date_time">Datum und Uhrzeit</string>
+    <string name="detail_subtext_beginning">Wähle einen Beginn</string>
+    <string name="detail_subtext_end">Wähle ein Ende</string>
+    <string name="event_due_today">Dieser Termin ist heute fällig</string>
+    <string name="event_due_tomorrow">Dieser Termin ist morgen fällig</string>
+
+    <!-- Note - General -->
+    <string name="note">Notiz</string>
+    <string name="notes">Notizen</string>
+    <string name="detail_subtext_title_note">Erstelle einen Titel...</string>
+    <string name="openDrawer">öffnen</string>
+    <string name="closeDrawer">schließen</string>
+
+    <!-- Time -->
+    <string name="tab_day">Tag</string>
+    <string name="tab_week">Woche</string>
+    <string name="tab_month">Monat</string>
+    <string name="time_due_today">Heute fällig</string>
+    <string name="time_due_today_none">Heute ist nichts fällig</string>
+    <string name="time_done_today">Heute erledigt</string>
+    <string name="time_done_today_none">Heute wurde nichts erledigt</string>
+    <string name="time_due_tomorrow">Morgen fällig</string>
+    <string name="time_due_tomorrow_none">Nichts ist morgen fällig</string>
+    <string name="time_due_this_week">Diese Woche fällig</string>
+    <string name="time_due_this_week_none">Diese Woche ist nichts fällig</string>
+    <string name="time_done_this_week">Diese Woche erledigt</string>
+    <string name="time_done_this_week_none">Diese Woche wurde nichts erledigt</string>
+    <string name="time_due_next_week">Nächste Woche fällig</string>
+    <string name="time_due_next_week_none">Nichts ist diese Woche fällig</string>
+    <string name="time_due_this_month">Diesen Monat fällig</string>
+    <string name="time_due_this_month_none">Nichts ist diesen Monat fällig</string>
+    <string name="time_done_this_month">Diesen Monat erledigt</string>
+    <string name="time_done_this_month_none">Nichts diesen Monat erledigt</string>
+    <string name="time_due_next_month">Nächsten Monat fällig</string>
+    <string name="time_due_next_month_none">Nichts ist nächsten Monat fällig</string>
+
+    <!-- Dialogs -->
+    <string name="title_add_category">Kategorie hinzufügen</string>
+    <string name="hint_dialog_add">Namen eingeben...</string>
+    <string name="title_edit_category">Kategorie bearbeiten</string>
+    <string name="title_add_subtask">Teilaufgabe hinzufügen</string>
+    <string name="title_edit_subtask">Teilaufgabe bearbeiten</string>
+    <string name="choose_color">Farbe auswählen</string>
+    <string name="title_about">Über Rocket-Plan</string>
+    <string name="dialog_about_text">Dear Rocket Planer,\n\n
+als erstes bedanke ich mich bei Dir, dass du diese App ausgewählt hast und mit dieser arbeitest. Ich werde Dich im Folgenden kurz über meine Pläne für dieses Projekt informieren, dass ich 2015 gestartet habe:
+\n\nWHAT YOU CAN DO WITH ROCKET-PLAN\n\n
+You are able to organize your daily tasks, events and notes – All in one App. You have a choice of useful functions, such as subtasks.
+\n\nWAS DU MACHEN KANNST\n\n
+-	Wiederholungen für Inhalte festlegen\n
+-	Einen Standort für deine Termine festlegen\n
+-	Ein smartes App-Widget nutzen\n
+-	Mit einer Kalender Funktion arbeiten (Große Sache)\n
+-	Videos und Sprachnachrichten aufnehmen, als Teil deiner Beschreibungen\n
+-	Inhalte mit Freunden und Familie teilen – Ohne nervige Anmeldung\n\n
+Ich habe die App bereits auf diese Funktionen vorbereitet und bin zuversichtlich, dass alles sehr gut klappt! Du kannst mich mit starken Bewertungen unterstützen und dieses Projekt so definitiv puschen! Falls du Wünsche hast, kannst du mir gerne eine E-Mail an promindstudios@gmail.com schreiben.
+\n\nCheers,\n\n
+Eric
+</string>
+
+    <!-- Collapse & Expand -->
+    <string name="show_done">Erledigt</string>
+    <string name="hide_done">Erledigt</string>
+
+    <!-- Colors -->
+    <string name="color_one">Rot</string>
+    <string name="color_two">Blau</string>
+    <string name="color_three">Teal</string>
+    <string name="color_four">Grün</string>
+    <string name="color_five">Orange</string>
+
+    <!-- Reminder -->
+    <string name="add_reminder">Erinnerung hinzufügen</string>
+    <string name="before">vorher</string>
+    <string name="reminder_minute">Minute</string>
+    <string name="reminder_hour">Stunde</string>
+    <string name="reminder_day">Tag</string>
+    <string name="reminder_week">Woche</string>
+    <string name="reminder_minute_plural">Minuten</string>
+    <string name="reminder_hour_plural">Stunden</string>
+    <string name="reminder_day_plural">Tage</string>
+    <string name="reminder_week_plural">Wochen</string>
+    <string name="at_due_time">Bei Fälligkeit</string>
+    <string name="reminder_default_one">1 Stunde vorher</string>
+    <string name="reminder_default_two">1 Tag vorher</string>
+    <string name="reminder_dialog_custom_title">Benutzerdefiniert</string>
+    <string name="reminder_choose_reminder_hint">Wähle einen Wert aus</string>
+
+</resources>

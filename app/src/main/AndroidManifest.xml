@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_5"
+        android:label="Rocket-Plan"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Activities -->
+
+        <activity android:name=".Activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.DetailActivity">
+        </activity>
+
+        <!-- Receiver -->
+
+        <receiver android:name=".Reminder.ReminderReceiver">
+            <intent-filter>
+                <action android:name="packagename.ACTION"/>
+                <action android:name="packagename.ACTION2"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".Reminder.BootBroadcastReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+    <!-- Permissions -->
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
+</manifest>
