@@ -530,7 +530,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        return cursorTasks(events, c);
+        return cursorEvents(events, c);
     }
 
     public ArrayList<Content> getAllCategoryEvents(int category_id) {
@@ -540,7 +540,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery = "SELECT * FROM " + TABLE_EVENT + " WHERE " + ID_CATEGORY + " = " + category_id;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        return cursorTasks(events, c);
+        return cursorEvents(events, c);
     }
 
     public ArrayList<Content> getAllUndoneEvents (int category_id) {
@@ -556,7 +556,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery = "SELECT * FROM " + TABLE_EVENT + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 1;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        return cursorTasks(events, c);
+        return cursorEvents(events, c);
     }
 
 

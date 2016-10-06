@@ -37,9 +37,10 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/rlSubtask"
         android:layout_toLeftOf="@id/vPriority"
+        android:layout_centerVertical="true"
         >
 
         <ImageView
@@ -51,7 +52,6 @@
             android:background="@color/colorTransparent"
             android:src="@drawable/ic_subtask"
             android:visibility="visible"
-            android:layout_centerVertical="true"
             android:tint="@color/colorSecondaryText" />
 
         <TextView
@@ -64,6 +64,7 @@
             android:layout_alignRight="@id/ivSubtask"
             android:layout_alignLeft="@id/ivSubtask"
             android:gravity="center_horizontal"
+            android:paddingTop="2dp"
             android:layout_below="@id/ivSubtask"
             android:textColor="@color/colorSecondaryText"
             android:textSize="10sp" />

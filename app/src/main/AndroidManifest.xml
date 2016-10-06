@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan">
 
     <application
         android:allowBackup="true"
@@ -11,21 +11,24 @@
 
         <!-- Activities -->
 
-        <activity android:name=".Activities.MainActivity">
+        <activity
+            android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.DetailActivity">
-        </activity>
+        <activity
+            android:name=".Activities.DetailActivity"
+            android:screenOrientation="portrait"></activity>
 
         <!-- Receiver -->
 
         <receiver android:name=".Reminder.ReminderReceiver">
             <intent-filter>
-                <action android:name="packagename.ACTION"/>
-                <action android:name="packagename.ACTION2"/>
+                <action android:name="packagename.ACTION" />
+                <action android:name="packagename.ACTION2" />
             </intent-filter>
         </receiver>
 
@@ -33,7 +36,7 @@
             android:name=".Reminder.BootBroadcastReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -42,8 +45,8 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 

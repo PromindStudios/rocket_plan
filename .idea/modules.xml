@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/RocketPlan.iml" filepath="$PROJECT_DIR$/RocketPlan.iml" />
       <module fileurl="file://$PROJECT_DIR$/RockitPlan.iml" filepath="$PROJECT_DIR$/RockitPlan.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

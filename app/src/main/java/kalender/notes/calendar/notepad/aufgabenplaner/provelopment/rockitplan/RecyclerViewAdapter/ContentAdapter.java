@@ -146,7 +146,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (position+1 == mPositionHideShow || position == mContent.size()) {
                 vhContent.vDivider.setVisibility(View.GONE);
             } else {
-                vhContent.vDivider.setVisibility(View.VISIBLE);
+                vhContent.vDivider.setVisibility(View.GONE);
             }
 
         } else {
