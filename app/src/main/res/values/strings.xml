@@ -18,6 +18,30 @@
     <string name="title_tabEvent">Events</string>
     <string name="title_tabNote">Notes</string>
 
+    <!-- Help -->
+
+    <string name="help_add_category_and_welcome">
+        Welcome to Rocket-Plan! \n\n
+        Get started and add your first category - Just push the "Plus" Button in the right corner! \n\n
+        If you want to edit a category just hold on to it. Happy plans for you my friend! \n\n
+        Eric - Promind Studios
+    </string>
+    <string name="help_add_category">
+        No categories?\n\n
+        Add one through pushing the "Plus" Button in the right corner!</string>
+    <string name="help_add_content_and_welcome">
+        Well you getting started! \n\n
+        Keep going and add your first content - Tasks, Events or Notes can be added through pushing the "Plus" Button in the right corner! \n\n
+        Anything else should be obvious. If you still have any questions or ideas for improvement just send me an e-mail to promindstudios@gmail.com \n\n
+        I also appreciate any rating in the Google Play Store! \n\n
+        Cheers \n\n
+        Eric - Promind Studios
+    </string>
+
+    <!-- Category -->
+
+    <string name="toast_add_category">Before you can add any content you have to create a category</string>
+
     <!-- Details -->
 
     <!-- Content -->
@@ -54,6 +78,7 @@
 
     <!-- Tasks - Subtasks -->
     <string name="detail_subtask_add">Add a Subtask</string>
+
     <!-- Tasks - Files -->
     <string name="detail_title_picture">Picture</string>
     <string name="detail_subtext_picture">Add a picture</string>

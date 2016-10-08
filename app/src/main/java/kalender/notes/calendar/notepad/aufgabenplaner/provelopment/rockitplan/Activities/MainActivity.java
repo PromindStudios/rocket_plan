@@ -3,6 +3,7 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.A
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -12,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -97,23 +100,10 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                mDrawerFragment.updateRecyclerView();
+                mDrawerFragment.updateDrawer();
             }
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-        /*
-        // Set Alarm
-        SharedPreferences sharedPreferences = getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
-        boolean isAlarmSet = sharedPreferences.getBoolean(MyConstants.IS_ALARM_SET, false);
-        if (!isAlarmSet) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(MyConstants.IS_ALARM_SET, true);
-            editor.commit();
-            AlarmSetter alarmSetter = new AlarmSetter();
-            alarmSetter.setAlarm(this);
-        }
-        */
 
         // Set up Default ViewPagerAdapter
         setUpTimeViewPagerAdapter(MyConstants.TIME_DAY);
@@ -160,6 +150,16 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 fabMenu.collapse();
             }
         });
+
+        // open Drawer in the beginning after a little delay to show the animation
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        }, 500);
+
     }
 
     @Override
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
     }
 
     public void updateDrawer() {
-        mDrawerFragment.updateRecyclerView();
+        mDrawerFragment.updateDrawer();
     }
 
     public void letUserSelectCategory(final int contenType) {
@@ -339,7 +339,9 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
             });
             builder.create().show();
         } else {
-            // Category erstellen
+            // Toast with hint to create Category first + Open Drawer
+            Toast.makeText(this, getString(R.string.toast_add_category), Toast.LENGTH_LONG).show();
+            mDrawerLayout.openDrawer(Gravity.LEFT);
         }
 
     }

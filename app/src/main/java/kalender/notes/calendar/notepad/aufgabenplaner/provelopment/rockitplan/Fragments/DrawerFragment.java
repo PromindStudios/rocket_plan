@@ -1,5 +1,6 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v4.app.DialogFragment;
 import android.content.Context;
@@ -43,8 +44,10 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     DatabaseHelper mDatabaseHelper;
     Context mContext;
     TextView tvInfo;
+    TextView tvHelp;
     ImageButton ibSettings;
-
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
 
     @Nullable
     @Override
@@ -52,30 +55,20 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
 
         View layout = inflater.inflate(R.layout.fragment_drawer, container, false);
 
+        // Initiate layout components
+        tvHelp = (TextView)layout.findViewById(R.id.tvHelpCategory);
+
+        // Initiate SharedPreferences
+        mSharedPreferences = getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
+        mEditor = mSharedPreferences.edit();
+
         // Initiate database helper and get categories
         mDatabaseHelper = new DatabaseHelper(getActivity());
-        ArrayList<Category> categories = mDatabaseHelper.getAllCategories();
 
         // Set up recycler view
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.rvCategory);
-        mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
-        mRecyclerView.setAdapter(mCategoryAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fabCategory);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment dialog = new AddEditCategoryDialog();
-                Bundle bundle = new Bundle();
-                bundle.putInt(MyConstants.DIALOGE_TYPE, MyConstants.DIALOGE_CATEGORY_ADD);
-                dialog.setArguments(bundle);
-                dialog.setTargetFragment(DrawerFragment.this, 0);
-                dialog.show(getActivity().getSupportFragmentManager(), "Add_Category");
-            }
-        });
-        */
+        updateDrawer();
 
         com.getbase.floatingactionbutton.FloatingActionButton myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
         myFab.setColorNormal(ResourcesCompat.getColor(getResources(), R.color.colorWhite, null));
@@ -83,6 +76,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         myFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mEditor.putBoolean(MyConstants.IS_START_CATEGORY, false).commit();
                 DialogFragment dialog = new AddEditCategoryDialog();
                 Bundle bundle = new Bundle();
                 bundle.putInt(MyConstants.DIALOGE_TYPE, MyConstants.DIALOGE_CATEGORY_ADD);
@@ -121,13 +115,30 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
 
     @Override
     public void onUpdateData() {
-        mCategoryAdapter.updateData();
+        updateDrawer();
     }
 
-    public void updateRecyclerView() {
-        ArrayList<Category> categories = mDatabaseHelper.getAllCategories();
-        mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
-        mRecyclerView.setAdapter(mCategoryAdapter);
+    public void updateDrawer() {
+        ArrayList<Category> categories = new ArrayList<>();
+        categories = mDatabaseHelper.getAllCategories();
+
+        if (categories.size() == 0) {
+            mRecyclerView.setVisibility(View.GONE);
+            tvHelp.setVisibility(View.VISIBLE);
+            boolean isStart = mSharedPreferences.getBoolean(MyConstants.IS_START_CATEGORY, true);
+            if (isStart) {
+                tvHelp.setText(getActivity().getString(R.string.help_add_category_and_welcome));
+            } else {
+                tvHelp.setText(getActivity().getString(R.string.help_add_category));
+            }
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            tvHelp.setVisibility(View.GONE);
+            mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
+            mRecyclerView.setAdapter(mCategoryAdapter);
+        }
+
+
     }
 
 }

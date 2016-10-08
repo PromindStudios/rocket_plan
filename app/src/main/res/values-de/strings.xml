@@ -33,7 +33,7 @@
 
     <!-- Tasks - General -->
     <string name="task">Aufgabe</string>
-    <string name="tasks">aufgaben</string>
+    <string name="tasks">Aufgaben</string>
     <string name="detail_title">Titel</string>
     <string name="detail_subtext_title_task">Erstelle einen Titel...</string>
     <string name="detail_title_deadline">Deadline</string>
@@ -61,7 +61,7 @@
 
     <!-- Event - General -->
     <string name="event">Termin</string>
-    <string name="events">termine</string>
+    <string name="events">Termine</string>
     <string name="detail_subtext_title_event">Erstelle einen Titel...</string>
     <string name="detail_title_date_time">Datum und Uhrzeit</string>
     <string name="detail_subtext_beginning">Wähle einen Beginn</string>
@@ -124,8 +124,8 @@ Eric
 </string>
 
     <!-- Collapse & Expand -->
-    <string name="show_done">Erledigt</string>
-    <string name="hide_done">Erledigt</string>
+    <string name="show_done">Erledigte</string>
+    <string name="hide_done">Erledigte</string>
 
     <!-- Colors -->
     <string name="color_one">Rot</string>

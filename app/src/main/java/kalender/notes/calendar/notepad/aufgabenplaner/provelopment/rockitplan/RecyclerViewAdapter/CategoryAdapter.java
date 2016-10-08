@@ -161,7 +161,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 case 1:
                                     // Delete
                                     mDatabaseHelper.deleteCategory(category);
-                                    updateData();
+                                    mDrawerFragment.updateDrawer();
                                     break;
                                 default:
                                     break;

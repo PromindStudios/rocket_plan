@@ -2,6 +2,7 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.F
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -52,6 +54,9 @@ public class ContentFragment extends Fragment implements ContentTimeInterface, D
     DatabaseHelper mDatabaseHelper;
     boolean mIsExpanded;
     MainActivityListener mainActivityListener;
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
+    TextView tvHelp;
 
 
 
@@ -69,12 +74,13 @@ public class ContentFragment extends Fragment implements ContentTimeInterface, D
 
         mDatabaseHelper = new DatabaseHelper(getActivity());
 
+        mSharedPreferences = getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
+
+        tvHelp = (TextView)layout.findViewById(R.id.tvHelpContent);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mainActivityListener.colorHead(mCategoryId);
-
-        setAdapterUp();
         return layout;
     }
 
@@ -88,8 +94,15 @@ public class ContentFragment extends Fragment implements ContentTimeInterface, D
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("ContentFragment", "onResume ausgefuehrt");
-        setAdapterUp();
+        boolean isStart = mSharedPreferences.getBoolean(MyConstants.IS_START_CONTENT, true);
+        if (isStart) {
+            tvHelp.setVisibility(View.VISIBLE);
+            mEditor = mSharedPreferences.edit();
+            mEditor.putBoolean(MyConstants.IS_START_CONTENT, false).commit();
+        } else {
+            tvHelp.setVisibility(View.GONE);
+            setAdapterUp();
+        }
     }
 
     public void delete(RecyclerView.ViewHolder viewHolder) {

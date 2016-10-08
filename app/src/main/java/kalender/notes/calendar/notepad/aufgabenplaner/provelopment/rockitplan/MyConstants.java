@@ -97,6 +97,9 @@ public class MyConstants {
     public static final String IS_EX_TIME_MONTH_THIS = "is_ex_time_month_this";
     public static final String IS_EX_TIME_MONTH_NEXT = "is_ex_time_month_next";
     public static final String IS_EX_TIME_MONTH_DONE = "is_ex_time_month_done";
+    public static final String IS_START_CATEGORY = "is_start_category";
+    public static final String IS_START_CONTENT = "is_start_content";
+
 
 
 }
