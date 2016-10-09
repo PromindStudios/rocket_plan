@@ -19,7 +19,6 @@
     <string name="title_tabNote">Notes</string>
 
     <!-- Help -->
-
     <string name="help_add_category_and_welcome">
         Welcome to Rocket-Plan! \n\n
         Get started and add your first category - Just push the "Plus" Button in the right corner! \n\n
@@ -32,6 +31,7 @@
     <string name="help_add_content_and_welcome">
         Well you getting started! \n\n
         Keep going and add your first content - Tasks, Events or Notes can be added through pushing the "Plus" Button in the right corner! \n\n
+        If you want to check or delete any content you can use the swipe function. \n\n
         Anything else should be obvious. If you still have any questions or ideas for improvement just send me an e-mail to promindstudios@gmail.com \n\n
         I also appreciate any rating in the Google Play Store! \n\n
         Cheers \n\n
@@ -39,7 +39,6 @@
     </string>
 
     <!-- Category -->
-
     <string name="toast_add_category">Before you can add any content you have to create a category</string>
 
     <!-- Details -->

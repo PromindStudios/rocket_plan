@@ -45,7 +45,7 @@ public class SubtaskFragment extends Fragment implements AddEditDialog.AddEditDi
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mSubtasks = mDatabaseHelper.getAllContentSubtasks(mTask.getId());
         Log.i("SubtaskTasFragment", Integer.toString(mTask.getId()));
-        mAdapter = new SubtaskAdapter(getActivity(), mSubtasks, mDatabaseHelper, SubtaskFragment.this, mTask.getId(), getActivity().getSupportFragmentManager());
+        mAdapter = new SubtaskAdapter(getActivity(), mSubtasks, mDatabaseHelper, SubtaskFragment.this, mTask.getId(), getActivity().getSupportFragmentManager(), mListener.getCategory());
         mRecyclerView = (RecyclerView)layout.findViewById(R.id.rvSubtasks);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

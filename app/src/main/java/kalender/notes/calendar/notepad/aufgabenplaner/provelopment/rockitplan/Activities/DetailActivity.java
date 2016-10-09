@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -55,6 +57,7 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
     Event mEvent;
     Note mNote;
     Content mContent;
+    Category mCategory;
 
     int mCategoryId;
     String mCategoryName;
@@ -113,6 +116,7 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
         }
 
         mCategoryName = mContent.getCategory();
+        mCategory = mDatabaseHelper.getCategory(mContent.getCategoryId());
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         mAdapterViewPager = new DetailViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount(), mContentType);
@@ -233,6 +237,11 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
     @Override
     public Note getNote() {
         return mNote;
+    }
+
+    @Override
+    public Category getCategory() {
+        return mCategory;
     }
 
     @Override

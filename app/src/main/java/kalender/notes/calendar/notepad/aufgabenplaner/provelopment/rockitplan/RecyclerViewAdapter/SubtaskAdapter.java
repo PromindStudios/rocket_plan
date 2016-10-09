@@ -21,7 +21,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Subtask;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.SubtaskFragment;
@@ -42,12 +44,16 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     LayoutInflater mLayoutInflater;
     Fragment mFragment;
     int mTaskId;
+    CategoryColor mCategoryColor;
     FragmentManager mFragmentManager;
+    Category mCategory;
 
 
-    public SubtaskAdapter(Context context, ArrayList<Subtask> subtasks, DatabaseHelper databaseHelper, SubtaskFragment subtaskTaskFragment, int taskId, FragmentManager fragmentManager) {
+    public SubtaskAdapter(Context context, ArrayList<Subtask> subtasks, DatabaseHelper databaseHelper, SubtaskFragment subtaskTaskFragment, int taskId, FragmentManager fragmentManager, Category category) {
         mContext = context;
         mDatabaseHelper = databaseHelper;
+        mCategory = category;
+        mCategoryColor = new CategoryColor(context, category.getColor());
         mSubtasks = subtasks;
         mLayoutInflater = LayoutInflater.from(mContext);
         mFragment = (Fragment)subtaskTaskFragment;
@@ -125,7 +131,7 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             myHolder.cbSubtask.setChecked(subtask.isDone());
 
             if (android.os.Build.VERSION.SDK_INT >= 21) {
-                myHolder.cbSubtask.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.colorPrimary)));
+                myHolder.cbSubtask.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(mContext, mCategoryColor.getCategoryColor())));
             } else {
                 int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
                 myHolder.cbSubtask.setButtonDrawable(id);

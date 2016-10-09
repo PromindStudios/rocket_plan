@@ -9,7 +9,7 @@
     <string name="edit">Bearbeiten</string>
     <string name="delete">Löschen</string>
     <string name="overview">Übersicht</string>
-    <string name="done">Erledigt</string>
+    <string name="done">Erledigte</string>
     <string name="help">Hilfe</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="at">um</string>
@@ -18,6 +18,29 @@
     <string name="title_tabTask">Aufgaben</string>
     <string name="title_tabEvent">Termine</string>
     <string name="title_tabNote">Notizen</string>
+
+    <!-- Help -->
+    <string name="help_add_category_and_welcome">
+        Willkommen! \n\n
+        Leg los und erstelle deine erste Kategorie - Einfach den "Plus" Button in der rechten Ecke drücken! \n\n
+        Falls du eine Kategorie bearbeiten willst, halte diese einfach gedrückt. Ich wünsche Dir viel Erfolg beim "Planen"! \n\n
+        Eric - Promind Studios
+    </string>
+    <string name="help_add_category">
+        Keine Kategorien?\n\n
+        Füge eine hinzu indem du den "Plus" Button in der rechten Ecke drückst!</string>
+    <string name="help_add_content_and_welcome">
+        Der Start ist gelungen! \n\n
+        Mach weiter und erstelle deinen ersten Inhalt - Aufgaben, Termine und Notizen können durch das Drücken des "Plus" Buttons in der rechten Ecke erstellt werden! \n\n
+        Falls du einen Inhalt abhacken oder löschen willst kannst du die Wisch-Funktion nutzen. \n\n
+        Alles andere sollte Dir leicht von der Hand gehen. Falls du Fragen oder gute Ideen haben solltest kannst du mir gerne eine E-Mail an "promindstudios@gmail.com" schreiben\n\n
+        Ich freue mich über jede gute Bewertung im Play Store! \n\n
+        Cheers \n\n
+        Eric - Promind Studios
+    </string>
+
+    <!-- Category -->
+    <string name="toast_add_category">Bevor du einen Inhalt hinzufügen kannst, musst du zuerst eine Kategorie erstellen</string>
 
     <!-- Details -->
 
@@ -55,6 +78,7 @@
 
     <!-- Tasks - Subtasks -->
     <string name="detail_subtask_add">Teilaufgabe erstellen</string>
+
     <!-- Tasks - Files -->
     <string name="detail_title_picture">Bild</string>
     <string name="detail_subtext_picture">Erstelle ein Bild</string>

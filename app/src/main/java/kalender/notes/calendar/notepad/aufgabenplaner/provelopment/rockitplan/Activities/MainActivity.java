@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
     String mCategoryName;
     int mTimeType;
 
+
+
     private CategoryColor mCategoryColor;
 
     @Override
@@ -120,6 +122,15 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
             public void onClick(View v) {
                 if (isContent) {
                     startDetailActivity(mCategoryId, mCategoryName, MyConstants.CONTENT_TASK, MyConstants.CONTENT_TIME_CONTENT, 0);
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_TASK);
+                            tab.select();
+                        }
+                    }, 1000);
+
                 } else {
                     letUserSelectCategory(MyConstants.CONTENT_TASK);
                 }
@@ -133,6 +144,15 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 if (isContent) {
                     startDetailActivity(mCategoryId, mCategoryName, MyConstants.CONTENT_EVENT, MyConstants.CONTENT_TIME_CONTENT, 0);
                     Log.i("mCategoryNameee", mCategoryName+Integer.toString(mCategoryId));
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_EVENT);
+                            tab.select();
+                        }
+                    }, 1000);
+
                 } else {
                     letUserSelectCategory(MyConstants.CONTENT_EVENT);
                 }
@@ -144,6 +164,14 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
             public void onClick(View v) {
                 if (isContent) {
                     startDetailActivity(mCategoryId, mCategoryName, MyConstants.CONTENT_NOTE, MyConstants.CONTENT_TIME_CONTENT, 0);
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_NOTE);
+                            tab.select();
+                        }
+                    }, 1000);
                 } else {
                     letUserSelectCategory(MyConstants.CONTENT_NOTE);
                 }

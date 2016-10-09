@@ -31,12 +31,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Reminder;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DatePickerDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.MyTimePickerDialog;
@@ -271,6 +273,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         }
 
 
+        // Category Color
+        CategoryColor categoryColor = new CategoryColor(getActivity(), mListener.getCategory().getColor());
 
         // Priority
 
@@ -293,7 +297,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         });
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            cbPriority.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getActivity(), R.color.colorPrimary)));
+            cbPriority.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getActivity(), categoryColor.getCategoryColor())));
         } else {
             int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
             cbPriority.setButtonDrawable(id);
@@ -417,6 +421,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         public Task getTask ();
         public Event getEvent();
         public Note getNote();
+        public Category getCategory();
         public void takePicture(FilesFragment filesFragment);
         public void selectTab();
         public void setToolbarTitle(String title);
