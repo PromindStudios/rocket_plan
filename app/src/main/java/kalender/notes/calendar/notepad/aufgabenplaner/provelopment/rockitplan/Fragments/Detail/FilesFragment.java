@@ -3,10 +3,15 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.F
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.jar.Manifest;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
@@ -47,6 +53,8 @@ public class FilesFragment extends Fragment {
     Content mContent;
 
     String mPicturePath;
+
+    private int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
 
 
     GeneralFragment.DetailActivityListener mListener;
@@ -114,7 +122,13 @@ public class FilesFragment extends Fragment {
         View.OnClickListener pictureOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.takePicture(FilesFragment.this);
+                // Check for permission
+                if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
+                } else {
+                    mListener.takePicture(FilesFragment.this);
+                }
+
             }
         };
         tvAddPicture.setOnClickListener(pictureOnClickListener);
@@ -206,6 +220,17 @@ public class FilesFragment extends Fragment {
                 imm.hideSoftInputFromWindow(etDescription.getWindowToken(), 0);
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.i("Permission", "Grantedt");
+        if (requestCode == PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mListener.takePicture(FilesFragment.this);
+            }
+        }
+        return;
     }
 
 }

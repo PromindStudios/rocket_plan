@@ -23,7 +23,7 @@
             style="@style/edit_text_description"
             android:layout_marginBottom="@dimen/detail_margin_bottom"
             android:textCursorDrawable="@null"
-            android:inputType="textCapSentences"/>
+            android:inputType="textCapSentences|textMultiLine"/>
 
         <View
             style="@style/divider_detail"/>

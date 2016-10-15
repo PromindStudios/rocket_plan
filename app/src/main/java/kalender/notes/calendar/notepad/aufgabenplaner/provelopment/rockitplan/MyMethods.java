@@ -258,6 +258,9 @@ public class MyMethods {
 
         // Subtract Time
         switch (reminder.getReminderType()) {
+            case MyConstants.REMINDER_AT_DUE_TIME:
+                alarmTime = dueTime;
+                break;
             case MyConstants.REMINDER_MINUTE:
                 dueTime.add(Calendar.MINUTE, -reminder.getReminderValue());
                 alarmTime = dueTime;

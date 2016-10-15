@@ -10,7 +10,8 @@
     <EditText
         android:id="@+id/edit_text"
         style="@style/edit_text_dialog"
-        android:textCursorDrawable="@null"/>
+        android:textCursorDrawable="@null"
+        android:inputType="textCapSentences|textMultiLine"/>
 
     <include
         layout="@layout/divider"/>

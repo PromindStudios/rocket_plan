@@ -11,7 +11,10 @@
     <EditText
         android:id="@+id/edit_text"
         style="@style/edit_text_dialog"
-        android:textCursorDrawable="@null"/>
+        android:textCursorDrawable="@null"
+        android:inputType="textCapSentences"
+        android:maxLength="20"
+        android:maxLines="1" />
 
     <View
         android:layout_width="100dp"

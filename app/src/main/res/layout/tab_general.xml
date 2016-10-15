@@ -35,9 +35,10 @@
                 android:hint="@string/detail_subtext_title_task"
                 android:imeActionLabel="@string/done"
                 android:imeOptions="actionDone"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textCursorDrawable="@null"
                 android:inputType="textCapSentences"
+                android:maxLength="35"
                 />
 
             <View style="@style/divider_detail" />
