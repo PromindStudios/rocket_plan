@@ -20,14 +20,12 @@ public class ContentViewPagerAdapter extends FragmentStatePagerAdapter{
     ContentFragment tabNote;
     int mCategoryId;
     String mCategoryName;
-    boolean mIsExpanded;
 
-    public ContentViewPagerAdapter(FragmentManager fm, int tabNumber, int categoryId, String categoryName, boolean isExpanded) {
+    public ContentViewPagerAdapter(FragmentManager fm, int tabNumber, int categoryId, String categoryName) {
         super(fm);
         mTabNumber = tabNumber;
         mCategoryId = categoryId;
         mCategoryName = categoryName;
-        mIsExpanded = isExpanded;
     }
 
     @Override
@@ -41,7 +39,6 @@ public class ContentViewPagerAdapter extends FragmentStatePagerAdapter{
                 bundle.putInt(MyConstants.CONTENT_TYPE, MyConstants.CONTENT_TASK);
                 bundle.putInt(MyConstants.CATEGORY_ID, mCategoryId);
                 bundle.putString(MyConstants.CATEGORY_NAME, mCategoryName);
-                bundle.putBoolean(MyConstants.IS_EXPANDED, mIsExpanded);
                 tabTask.setArguments(bundle);
                 return tabTask;
             case 1:

@@ -19,6 +19,9 @@
     <string name="month_plural">Months</string>
     <string name="every">Every</string>
 
+    <string name="calendar">Calendar</string>
+
+
     <!-- Week names -->
     <string name="monday_short">MO</string>
     <string name="tuesday_short">TU</string>
