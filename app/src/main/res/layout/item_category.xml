@@ -32,6 +32,94 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_category_content_total_height"
+        android:layout_below="@id/rlCategory"
+        android:layout_marginLeft="18dp"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/llCategoryContent"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivTask"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:src="@drawable/ic_task_24dp"
+            android:background="@color/colorTransparent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:id="@+id/tvTask"
+            style="@style/text_view_category_sub"
+            android:paddingLeft="16dp"
+            android:paddingRight="24dp"
+            />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="24dp"
+            android:background="@color/colorDivider" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivEvent"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/ic_event_24dp"
+            android:background="@color/colorTransparent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvEvent"
+            android:text="6"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="24dp"
+            style="@style/text_view_category_sub"
+            />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="24dp"
+            android:background="@color/colorDivider" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivNote"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="24dp"
+            android:src="@drawable/ic_note_24dp"
+            android:background="@color/colorTransparent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:id="@+id/tvNote"
+            style="@style/text_view_category_sub"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            />
+
+    </LinearLayout>
+
+    <!--
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_category_content_total_height"
@@ -125,6 +213,8 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    -->
 
         <View
             android:layout_width="match_parent"

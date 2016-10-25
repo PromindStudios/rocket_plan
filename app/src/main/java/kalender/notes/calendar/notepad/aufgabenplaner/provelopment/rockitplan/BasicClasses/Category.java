@@ -10,9 +10,11 @@ public class Category {
     private int mColor;
     private boolean mShowTaskDone;
     private boolean mShowEventDone;
+    private boolean mExpanded;
 
     public Category() {
         mTitle = null;
+        mExpanded = true;
     }
 
     public Category(String title, int color) {
@@ -20,6 +22,7 @@ public class Category {
         mColor = color;
         mShowEventDone = false;
         mShowTaskDone = true;
+        mExpanded = true;
     }
 
     public String getTitle() {
@@ -60,5 +63,13 @@ public class Category {
 
     public void setShowEventDone(boolean mShowEventDone) {
         this.mShowEventDone = mShowEventDone;
+    }
+
+    public boolean isExpanded() {
+        return mExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        mExpanded = expanded;
     }
 }

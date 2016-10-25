@@ -22,7 +22,7 @@
     <!-- Color Set: Default -->
     <color name="colorPrimary">#e53935</color>
     <color name="colorPrimaryDark">#c62828</color>
-    <color name="colorPrimaryLight">#ef5350</color>
+    <color name="colorPrimaryLight">#ef9a9a</color>
 
     <!-- Color Set: One -->
     <color name="category_one">#f44336</color>

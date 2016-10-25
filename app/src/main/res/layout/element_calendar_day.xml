@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+
+    <View
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:visibility="visible"
+        android:background="@drawable/android_circle_solid_primary_color"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:text="1"
+        android:textColor="@color/white"
+        android:id="@+id/tvCalenderDay"
+        android:textSize="12sp">
+    </TextView>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="2dp"
+        android:paddingTop="2dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/android_circle_solid_primary_color"
+        android:layout_below="@id/tvCalenderDay"/>
+
+</RelativeLayout>

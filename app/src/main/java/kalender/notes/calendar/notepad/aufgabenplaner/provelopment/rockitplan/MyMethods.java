@@ -70,11 +70,13 @@ public class MyMethods {
     public static Bitmap rotatePicture(String filename) {
         File pictureFile = new File(filename);
         Bitmap bitmap = null;
+        Bitmap smallBitmap = null;
         try {
             int rotationangle = 0;
             FileInputStream in = new FileInputStream(pictureFile);
             BitmapFactory.Options options = new BitmapFactory.Options();
             bitmap = BitmapFactory.decodeStream(in, null, options);
+            smallBitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.getWidth()/4), (bitmap.getHeight()/4), false);
             ExifInterface exifInterface = new ExifInterface(pictureFile.getAbsolutePath());
             String orientationString = exifInterface.getAttribute(ExifInterface.TAG_ORIENTATION);
             int orientation = orientationString != null ? Integer.parseInt(orientationString) : ExifInterface.ORIENTATION_NORMAL;
@@ -82,12 +84,12 @@ public class MyMethods {
             if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationangle = 180;
             if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationangle = 270;
             Matrix matrix = new Matrix();
-            matrix.setRotate(rotationangle, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            matrix.setRotate(rotationangle, (float) smallBitmap.getWidth() / 2, (float) smallBitmap.getHeight() / 2);
+            smallBitmap = Bitmap.createBitmap(smallBitmap, 0, 0, smallBitmap.getWidth(), smallBitmap.getHeight(), matrix, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return bitmap;
+        return smallBitmap;
     }
 
 

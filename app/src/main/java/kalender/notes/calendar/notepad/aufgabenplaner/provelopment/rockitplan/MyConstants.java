@@ -85,6 +85,13 @@ public class MyConstants {
     public static final String REMINDER_NOTIFICATION = "reminder_notification";
     public static final String REMINDER_FROM = "reminder_from";
 
+    // Repetition
+    public static final int REPETITION_TYPE_NONE = 0;
+    public static final int REPETITION_TYPE_HOUR = 1;
+    public static final int REPETITION_TYPE_DAY = 2;
+    public static final int REPETITION_TYPE_WEEK = 3;
+    public static final int REPETITION_TYPE_MONTH = 4;
+
 
     // Shared Preferences
     public static final String SHARED_PREFERENCES = "shared_preferences_rocketplan";

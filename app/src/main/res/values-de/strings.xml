@@ -13,6 +13,12 @@
     <string name="help">Hilfe</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="at">um</string>
+    <string name="minute_plural">Minuten</string>
+    <string name="hour_plural">Stunden</string>
+    <string name="day_plural">Tage</string>
+    <string name="week_plural">Wochen</string>
+    <string name="month_plural">Month</string>
+    <string name="every">Alle</string>
 
     <!-- Tabs -->
     <string name="title_tabTask">Aufgaben</string>
@@ -45,9 +51,6 @@
     <!-- Details -->
 
     <!-- Content -->
-    <string name="repetition_daily">Täglich</string>
-    <string name="repetition_weekly">Wöchentlich</string>
-    <string name="repetition_monthly">Monatlich</string>
     <string name="reminder_due_date">Bei Fälligkeit</string>
     <string name="reminder_one_hour">1 Stunde vor Fälligkeit</string>
     <string name="reminder_one_day">1 Tag vor Fälligkeit</string>
@@ -165,14 +168,23 @@ Eric
     <string name="reminder_hour">Stunde</string>
     <string name="reminder_day">Tag</string>
     <string name="reminder_week">Woche</string>
-    <string name="reminder_minute_plural">Minuten</string>
-    <string name="reminder_hour_plural">Stunden</string>
-    <string name="reminder_day_plural">Tage</string>
-    <string name="reminder_week_plural">Wochen</string>
     <string name="at_due_time">Bei Fälligkeit</string>
     <string name="reminder_default_one">1 Stunde vorher</string>
     <string name="reminder_default_two">1 Tag vorher</string>
     <string name="reminder_dialog_custom_title">Benutzerdefiniert</string>
     <string name="reminder_choose_reminder_hint">Wähle einen Wert aus</string>
+
+    <!-- Repeat -->
+
+    <string name="repetition">Wiederholung</string>
+    <string name="add_repeat">Wiederholung hinzufügen</string>
+    <string name="repetition_hourly">Stündlich</string>
+    <string name="repetition_daily">Täglich</string>
+    <string name="repetition_weekly">Wöchentlich</string>
+    <string name="repetition_monthly">Monatlich</string>
+    <string name="repetition_delete_task">Nur diese Aufgabe löschen</string>
+    <string name="repetition_delete_all_tasks">Diese und folgende Aufgaben löschen</string>
+    <string name="repetition_delete_event">Nur diesen Termin löschen</string>
+    <string name="repetition_delete_all_events">Diesen und folgende Termine löschen</string>
 
 </resources>

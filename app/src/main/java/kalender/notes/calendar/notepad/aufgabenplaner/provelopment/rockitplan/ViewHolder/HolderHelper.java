@@ -136,6 +136,15 @@ public class HolderHelper {
         }
         */
 
+        // Repetition
+        if (mContentType == MyConstants.CONTENT_TASK || mContentType == MyConstants.CONTENT_EVENT) {
+            if (taskEvent.getRepetitionType() != MyConstants.REPETITION_TYPE_NONE) {
+                vhContent.ivRepeat.setVisibility(View.VISIBLE);
+            } else {
+                vhContent.ivRepeat.setVisibility(View.GONE);
+            }
+        }
+
 
         // Subtasks
         if (mContentType == MyConstants.CONTENT_TASK) {

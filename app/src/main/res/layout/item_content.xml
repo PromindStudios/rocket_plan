@@ -122,6 +122,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorSecondaryText"
                 android:text="At Mr. Wash"
+                android:visibility="gone"
                 android:id="@+id/tvSubtitle"
                 android:textSize="@dimen/text_size_item_subtitle"/>
 
@@ -135,12 +136,22 @@
                 android:layout_marginRight="4dp"
                 />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:src="@drawable/ic_repeat_12dp"
+                android:paddingTop="2dp"
+                android:id="@+id/ivRepeat"
+                android:paddingRight="8dp"
+                android:tint="@color/colorSecondaryText"/>
+
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Due at 4. Juli"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_size_item_subtitle" />
 

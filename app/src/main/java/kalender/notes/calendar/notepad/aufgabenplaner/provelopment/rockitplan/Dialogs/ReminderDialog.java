@@ -71,10 +71,10 @@ public class ReminderDialog extends DialogFragment {
         mListener = (ReminderDialogListener)getTargetFragment();
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_reminder_custom, null);
+        View dialogView = inflater.inflate(R.layout.dialog_reminder_repeat_custom, null);
 
         tvTitle = (TextView)dialogView.findViewById(R.id.tvTitle);
-        etReminder = (EditText)dialogView.findViewById(R.id.etReminder);
+        etReminder = (EditText)dialogView.findViewById(R.id.etCustom);
 
         rlMinute = (RelativeLayout)dialogView.findViewById(R.id.rlOne);
         tvMinute = (TextView)dialogView.findViewById(R.id.tvOne);
@@ -145,7 +145,6 @@ public class ReminderDialog extends DialogFragment {
                         }
                     }
                 }
-
             }
         });
 
@@ -210,25 +209,25 @@ public class ReminderDialog extends DialogFragment {
         clean();
         switch (reminderType) {
             case MyConstants.REMINDER_MINUTE:
-                tvMinute.setText(isSingular ? getActivity().getString(R.string.reminder_minute) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.reminder_minute_plural) + " " + getActivity().getString(R.string.before));
+                tvMinute.setText(isSingular ? getActivity().getString(R.string.reminder_minute) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.minute_plural) + " " + getActivity().getString(R.string.before));
                 ivCheckMinute.setVisibility(View.VISIBLE);
                 tvMinute.setTextColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
                 ivCheckMinute.setImageDrawable(mCategoryColor.colorIcon(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_check, null)));
                 break;
             case MyConstants.REMINDER_HOUR:
-                tvHour.setText(isSingular ? getActivity().getString(R.string.reminder_hour) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.reminder_hour_plural) + " " + getActivity().getString(R.string.before));
+                tvHour.setText(isSingular ? getActivity().getString(R.string.reminder_hour) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.hour_plural) + " " + getActivity().getString(R.string.before));
                 ivCheckHour.setVisibility(View.VISIBLE);
                 tvHour.setTextColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
                 ivCheckHour.setImageDrawable(mCategoryColor.colorIcon(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_check, null)));
                 break;
             case MyConstants.REMINDER_DAY:
-                tvDay.setText(isSingular ? getActivity().getString(R.string.reminder_day) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.reminder_day_plural) + " " + getActivity().getString(R.string.before));
+                tvDay.setText(isSingular ? getActivity().getString(R.string.reminder_day) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.day_plural) + " " + getActivity().getString(R.string.before));
                 ivCheckDay.setVisibility(View.VISIBLE);
                 tvDay.setTextColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
                 ivCheckDay.setImageDrawable(mCategoryColor.colorIcon(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_check, null)));
                 break;
             case MyConstants.REMINDER_WEEK:
-                tvWeek.setText(isSingular ? getActivity().getString(R.string.reminder_week) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.reminder_week_plural) + " " + getActivity().getString(R.string.before));
+                tvWeek.setText(isSingular ? getActivity().getString(R.string.reminder_week) + " " + getActivity().getString(R.string.before) : getActivity().getString(R.string.week_plural) + " " + getActivity().getString(R.string.before));
                 ivCheckWeek.setVisibility(View.VISIBLE);
                 tvWeek.setTextColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
                 ivCheckWeek.setImageDrawable(mCategoryColor.colorIcon(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_check, null)));
@@ -237,10 +236,10 @@ public class ReminderDialog extends DialogFragment {
     }
 
     private void clean() {
-        tvMinute.setText(isSingular ? getActivity().getString(R.string.reminder_minute) : getActivity().getString(R.string.reminder_minute_plural));
-        tvHour.setText(isSingular ? getActivity().getString(R.string.reminder_hour) : getActivity().getString(R.string.reminder_hour_plural));
-        tvDay.setText(isSingular ? getActivity().getString(R.string.reminder_day) : getActivity().getString(R.string.reminder_day_plural));
-        tvWeek.setText(isSingular ? getActivity().getString(R.string.reminder_week) : getActivity().getString(R.string.reminder_week_plural));
+        tvMinute.setText(isSingular ? getActivity().getString(R.string.reminder_minute) : getActivity().getString(R.string.minute_plural));
+        tvHour.setText(isSingular ? getActivity().getString(R.string.reminder_hour) : getActivity().getString(R.string.hour_plural));
+        tvDay.setText(isSingular ? getActivity().getString(R.string.reminder_day) : getActivity().getString(R.string.day_plural));
+        tvWeek.setText(isSingular ? getActivity().getString(R.string.reminder_week) : getActivity().getString(R.string.week_plural));
         tvMinute.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorSecondaryText));
         tvHour.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorSecondaryText));
         tvDay.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorSecondaryText));

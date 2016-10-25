@@ -1,7 +1,6 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
@@ -85,13 +84,13 @@ public class Reminder {
         } else {
             switch (mReminderType) {
                 case MyConstants.REMINDER_MINUTE:
-                    return context.getResources().getString(R.string.reminder_minute_plural);
+                    return context.getResources().getString(R.string.minute_plural);
                 case MyConstants.REMINDER_HOUR:
-                    return context.getResources().getString(R.string.reminder_hour_plural);
+                    return context.getResources().getString(R.string.hour_plural);
                 case MyConstants.REMINDER_DAY:
-                    return context.getResources().getString(R.string.reminder_day_plural);
+                    return context.getResources().getString(R.string.day_plural);
                 case MyConstants.REMINDER_WEEK:
-                    return context.getResources().getString(R.string.reminder_week_plural);
+                    return context.getResources().getString(R.string.week_plural);
                 default:
                     return "";
             }

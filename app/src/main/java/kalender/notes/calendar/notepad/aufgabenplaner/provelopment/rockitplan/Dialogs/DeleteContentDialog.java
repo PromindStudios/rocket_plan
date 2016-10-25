@@ -64,7 +64,7 @@ public class DeleteContentDialog extends DialogFragment {
         ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onDeleteContent(contentId, contentType, isExtended);
+                mListener.onDeleteContent(contentId, contentType);
                 DeleteContentDialog.this.getDialog().cancel();
             }
         });
@@ -82,7 +82,7 @@ public class DeleteContentDialog extends DialogFragment {
 
 
     public interface DeleteContentDialogListener {
-        public void onDeleteContent(int contentId, int contentType, boolean isExtended);
+        public void onDeleteContent(int contentId, int contentType);
         public void onUpdateContent(boolean isExtended);
     }
 }

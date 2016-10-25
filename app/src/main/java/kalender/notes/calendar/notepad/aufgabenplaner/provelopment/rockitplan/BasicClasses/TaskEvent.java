@@ -7,6 +7,8 @@ import org.joda.time.Days;
 
 import java.util.Calendar;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+
 import static android.media.CamcorderProfile.get;
 
 /**
@@ -16,7 +18,8 @@ public class TaskEvent extends Content {
 
     private Calendar mDate;
     private Calendar mTime;
-    private int mRepetition;
+    private int mRepetitionType;
+    private int mRepetitionValue;
     private int mReminder;
     private boolean mDone;
 
@@ -27,6 +30,8 @@ public class TaskEvent extends Content {
         mSubtitle = null;
         mDate = null;
         mTime = null;
+        mRepetitionType = MyConstants.REPETITION_TYPE_NONE;
+        mRepetitionValue = 0;
         mReminder = 0;
         mPriority = 0;
         mDescription = "";
@@ -53,12 +58,20 @@ public class TaskEvent extends Content {
         mTime = time;
     }
 
-    public int getRepetition() {
-        return mRepetition;
+    public int getRepetitionType() {
+        return mRepetitionType;
     }
 
-    public void setRepetition(int repetition) {
-        mRepetition = repetition;
+    public void setRepetitionType(int repetitionType) {
+        mRepetitionType = repetitionType;
+    }
+
+    public int getRepetitionValue() {
+        return mRepetitionValue;
+    }
+
+    public void setRepetitionValue(int repetitionValue) {
+        mRepetitionValue = repetitionValue;
     }
 
     public int getReminder() {
@@ -79,8 +92,8 @@ public class TaskEvent extends Content {
 
     public int getDaysTillDueDate() {
         Calendar t = Calendar.getInstance();
-        DateTime today = new DateTime(t.get(Calendar.YEAR), t.get(Calendar.MONTH), t.get(Calendar.DAY_OF_MONTH), 0, 0);
-        DateTime due = new DateTime(mDate.get(Calendar.YEAR), mDate.get(Calendar.MONTH), mDate.get(Calendar.DAY_OF_MONTH), 0, 0);
+        DateTime today = new DateTime(t.get(Calendar.YEAR), t.get(Calendar.MONTH)+1, t.get(Calendar.DAY_OF_MONTH), 0, 0);
+        DateTime due = new DateTime(mDate.get(Calendar.YEAR), mDate.get(Calendar.MONTH)+1, mDate.get(Calendar.DAY_OF_MONTH), 0, 0);
         Log.i("Daays", ""+ Days.daysBetween(today, due).getDays());
         return Days.daysBetween(today, due).getDays();
     }

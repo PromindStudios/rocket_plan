@@ -34,6 +34,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeAdapterInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
@@ -44,15 +45,10 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Vi
 /**
  * Created by Admin on 15.07.2016.
  */
-public class TimeFragment extends Fragment implements ContentTimeInterface, DeleteContentDialog.DeleteContentDialogListener{
+public class TimeFragment extends ContentTimeFragment{
 
     RecyclerView mRecyclerView;
     int mTimeType;
-    MainActivity mMainActivity;
-    ContentFragment.MainActivityListener mainActivityListener;
-
-    DatabaseHelper mDatabaseHelper;
-
     TimeAdapter mTimeAdapter;
 
     @Nullable
@@ -61,75 +57,33 @@ public class TimeFragment extends Fragment implements ContentTimeInterface, Dele
 
         Bundle bundle = getArguments();
         mTimeType = bundle.getInt(MyConstants.TIME_TYPE);
-
         mDatabaseHelper = new DatabaseHelper(getActivity());
-
         View layout = inflater.inflate(R.layout.fragment_content_time, container, false);
         mRecyclerView = (RecyclerView)layout.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setAdapterUp();
-
         mainActivityListener.colorHead(0);
 
         return layout;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("TimeFragment", "onResume ausgefuehrt");
-        setAdapterUp();
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mMainActivity = (MainActivity) context;
-        mainActivityListener = (ContentFragment.MainActivityListener)context;
-    }
-
-
-    @Override
-    public void delete(RecyclerView.ViewHolder viewHolder) {
-        Content content = mTimeAdapter.getCurrentContent(viewHolder);
-        DialogFragment dialog = new DeleteContentDialog();
-        Bundle bundle = new Bundle();
-        bundle.putInt(MyConstants.CONTENT_ID, content.getId());
-        bundle.putInt(MyConstants.CONTENT_TYPE, content.getContentType());
-        bundle.putInt(MyConstants.CATEGORY_ID, content.getCategoryId());
-        bundle.putBoolean(MyConstants.IS_EXPANDED, false);
-        dialog.setArguments(bundle);
-        dialog.setTargetFragment(TimeFragment.this, 0);
-        dialog.show(getActivity().getSupportFragmentManager(), "deleteContentTime");
+        mainActivityListener = (ContentTimeFragment.MainActivityListener) context;
     }
 
     @Override
-    public void checkUncheck(RecyclerView.ViewHolder viewHolder) {
-        boolean isDone = mTimeAdapter.checkUncheckContent(viewHolder);
-        if (isDone) {
-            setAdapterUp();
-        }
+    public void onResume() {
+        super.onResume();
+        setAdapterUp();
     }
 
-    @Override
-    public Content getContent(int position) {
-        return mTimeAdapter.getCorrectContent(position);
-    }
-
-    private void setAdapterUp() {
+    protected void setAdapterUp() {
         mTimeAdapter = new TimeAdapter(getActivity(), mTimeType, mMainActivity);
+        mAdapterListener = (ContentTimeAdapterInterface)mTimeAdapter;
         mRecyclerView.setAdapter(mTimeAdapter);
-        MyMethods.setUpSwipeFunction(MyConstants.CONTENT_TASK_EVENT, mRecyclerView, this, mMainActivity, mTimeAdapter);
-    }
-
-    @Override
-    public void onDeleteContent(int contentId, int contentType, boolean isExtended) {
-        mDatabaseHelper.deleteContent(contentId, contentType);
-        setAdapterUp();
-    }
-
-    @Override
-    public void onUpdateContent(boolean isExpanded) {
-        setAdapterUp();
+        setSwipeFunction(MyConstants.CONTENT_TASK_EVENT, mRecyclerView);
     }
 }

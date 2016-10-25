@@ -100,7 +100,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ContentViewHolder holder = new ContentViewHolder(view, new ContentViewHolder.vhTasksClickListener() {
                 @Override
                 public void openTask(int position, int type) {
-                    Content content = getCorrectContent(position);
+                    Content content = getContent(position);
                     startDetailActivity(content, type);
                 }
             });
@@ -124,7 +124,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             ContentViewHolder vhContent = (ContentViewHolder) holder;
             Content content;
-            content = getCorrectContent(position);
+            content = getContent(position);
 
             Log.i("Bei Aufbau: ", Integer.toString(content.getCategoryId()));
 
@@ -136,8 +136,9 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (taskEvent.getDate() == null && taskEvent.getSubtitle() == null) {
                     vhContent.llSubtitleDate.setVisibility(View.GONE);
                 } else {
+                    Log.i("KOOOMMM", DateTimeTexter.getGeneral(taskEvent));
                     vhContent.llSubtitleDate.setVisibility(View.VISIBLE);
-                    vhContent.tvSubtitle.setText(DateTimeTexter.getGeneral(taskEvent));
+                    vhContent.tvDate.setText(DateTimeTexter.getGeneral(taskEvent));
                 }
             }
 
@@ -198,7 +199,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public Content getCorrectContent(int position) {
+    public Content getContent(int position) {
         Log.i("Das ist", "die Position: "+Integer.toString(position));
         Log.i("Groesse von mContent ", Integer.toString(mContent.size()));
         if (mContentType == MyConstants.CONTENT_NOTE) {
@@ -253,55 +254,21 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public boolean deleteContent(RecyclerView.ViewHolder viewHolder) {
-            Content content = getCorrectContent(viewHolder.getAdapterPosition());
-            mDataBaseHelper.deleteContent(content.getId(), mContentType);
-
-        return mExtended;
-    }
-
     public void update() {
         setContent();
         notifyDataSetChanged();
     }
 
-    public boolean checkUncheckContent(RecyclerView.ViewHolder viewHolder) {
-        Log.i("ContentAdapter", "Gecheckt ");
 
-        Content c = getCorrectContent(viewHolder.getAdapterPosition());
-        Log.i("checkUncheckContent", Integer.toString(c.getCategoryId()));
-        TaskEvent taskEvent = (TaskEvent)c;
-        if (taskEvent.isDone()) {
-            taskEvent.setDate(null);
-            taskEvent.setTime(null);
-            taskEvent.setDone(false);
-        } else {
-            Calendar calendar = Calendar.getInstance();
-            taskEvent.setDate(calendar);
-            taskEvent.setTime(calendar);
-            taskEvent.setPriority(0);
-            taskEvent.setReminder(0);
 
-            taskEvent.setDone(true);
-
-            // Reminder löschen
-            mDataBaseHelper.deleteContentReminder(c.getId(), c.getContentType());
-
-        }
-        mDataBaseHelper.updateContent(taskEvent);
-        if (!taskEvent.isDone()) {
-            startDetailActivity(c, MyConstants.DETAIL_GENERAL);
-        }
-        return taskEvent.isDone();
-    }
-
-    public Content getCurrentContent(RecyclerView.ViewHolder viewHolder) {
-        return getCorrectContent(viewHolder.getAdapterPosition());
+    public Content getContent(RecyclerView.ViewHolder viewHolder) {
+        return getContent(viewHolder.getAdapterPosition());
     }
 
     public boolean isExtended () {
         return mExtended;
     }
+
 
     private void startDetailActivity (Content content, int type) {
         Intent intent = new Intent(mContext, DetailActivity.class);
@@ -312,4 +279,5 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         intent.putExtras(bundle);
         mMainActivity.startActivity(intent);
     }
+
 }

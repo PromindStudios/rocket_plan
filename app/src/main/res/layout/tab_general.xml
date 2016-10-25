@@ -57,6 +57,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/rlDate"
                     android:layout_marginBottom="@dimen/detail_margin_bottom">
 
                     <android.support.v7.widget.AppCompatImageView
@@ -97,6 +98,28 @@
                         android:text="@string/detail_subtext_time" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/rlRepeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/detail_margin_bottom">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/ivAddRepeat"
+                        style="@style/image_view_detail_add" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/ivRemoveRepeat"
+                        style="@style/image_view_detail_remove" />
+
+                    <TextView
+                        android:id="@+id/tvRepeat"
+                        style="@style/text_detail_choose"
+                        android:layout_toLeftOf="@id/ivRemoveRepeat"
+                        android:layout_toRightOf="@id/ivAddRepeat"
+                        android:text="@string/add_repeat" />
+                </RelativeLayout>
+
 
                 <View
                     android:id="@+id/vDividerTime"
@@ -112,33 +135,6 @@
                     android:id="@+id/rvReminder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-                <!--
-                <RelativeLayout
-                    android:id="@+id/rlReminder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/detail_margin_bottom"
-                    android:visibility="gone">
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/ivAddReminder"
-                        style="@style/image_view_detail_add" />
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/ivRemoveReminder"
-                        style="@style/image_view_detail_remove" />
-
-                    <TextView
-                        android:id="@+id/tvReminder"
-                        style="@style/text_detail_choose"
-                        android:layout_toLeftOf="@id/ivRemoveReminder"
-                        android:layout_toRightOf="@id/ivAddReminder"
-                        android:text="@string/detail_subtext_reminder" />
-
-                </RelativeLayout>
-
-              -->
 
             </LinearLayout>
 

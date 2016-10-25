@@ -12,6 +12,22 @@
     <string name="help">Help</string>
     <string name="custom">Custom</string>
     <string name="at">at</string>
+    <string name="minute_plural">Minutes</string>
+    <string name="hour_plural">Hours</string>
+    <string name="day_plural">Days</string>
+    <string name="week_plural">Weeks</string>
+    <string name="month_plural">Months</string>
+    <string name="every">Every</string>
+
+    <!-- Week names -->
+    <string name="monday_short">MO</string>
+    <string name="tuesday_short">TU</string>
+    <string name="wednesday_short">WE</string>
+    <string name="thursday_short">TH</string>
+    <string name="friday_short">FR</string>
+    <string name="saturday_short">SA</string>
+    <string name="sunday_short">SU</string>
+
 
     <!-- Tabs -->
     <string name="title_tabTask">Tasks</string>
@@ -44,9 +60,6 @@
     <!-- Details -->
 
     <!-- Content -->
-    <string name="repetition_daily">Daily</string>
-    <string name="repetition_weekly">Weekly</string>
-    <string name="repetition_monthly">Monthly</string>
     <string name="reminder_due_date">At due date</string>
     <string name="reminder_one_hour">1 hour before due date</string>
     <string name="reminder_one_day">1 day before due date</string>
@@ -164,14 +177,23 @@ Eric
     <string name="reminder_hour">Hour</string>
     <string name="reminder_day">Day</string>
     <string name="reminder_week">Week</string>
-    <string name="reminder_minute_plural">Minutes</string>
-    <string name="reminder_hour_plural">Hours</string>
-    <string name="reminder_day_plural">Days</string>
-    <string name="reminder_week_plural">Weeks</string>
     <string name="at_due_time">At due time</string>
     <string name="reminder_default_one">1 hour before</string>
     <string name="reminder_default_two">1 day before</string>
     <string name="reminder_dialog_custom_title">Custom Reminder</string>
     <string name="reminder_choose_reminder_hint">Choose a reminder value</string>
+
+    <!-- Repeat -->
+    <string name="repetition">Repetition</string>
+    <string name="add_repeat">Add a repetition</string>
+    <string name="repetition_hourly">Hourly</string>
+    <string name="repetition_daily">Daily</string>
+    <string name="repetition_weekly">Weekly</string>
+    <string name="repetition_monthly">Monthly</string>
+    <string name="repetition_delete_task">Delete only this task</string>
+    <string name="repetition_delete_all_tasks">Delete this task and the following</string>
+    <string name="repetition_delete_event">Delete only this event</string>
+    <string name="repetition_delete_all_events">Delete this event and the following</string>
+
 
 </resources>

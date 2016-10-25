@@ -3,6 +3,7 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -111,6 +112,12 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Subtask subtask = mSubtasks.get(position-1);
                     subtask.setDone(isChecked);
                     mDatabaseHelper.updateSubtask(subtask);
+                    try {
+                        notifyItemChanged(position);
+                    } catch (IllegalStateException e) {
+                        // no update at this position
+                    }
+
                 }
             });
             return holder;
@@ -129,6 +136,12 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Subtask subtask = mSubtasks.get(position-1);
             myHolder.tvTitle.setText(subtask.getTitle());
             myHolder.cbSubtask.setChecked(subtask.isDone());
+
+            if (subtask.isDone()) {
+                myHolder.tvTitle.setPaintFlags(myHolder.tvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                myHolder.tvTitle.setPaintFlags(myHolder.tvTitle.getPaintFlags() & ( ~ Paint.STRIKE_THRU_TEXT_FLAG));
+            }
 
             if (android.os.Build.VERSION.SDK_INT >= 21) {
                 myHolder.cbSubtask.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(mContext, mCategoryColor.getCategoryColor())));

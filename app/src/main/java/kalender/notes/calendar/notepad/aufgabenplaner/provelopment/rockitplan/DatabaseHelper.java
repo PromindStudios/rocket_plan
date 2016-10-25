@@ -31,11 +31,12 @@ import static kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockit
 /**
  * Created by eric on 05.05.2016.
  */
-public class DatabaseHelper extends SQLiteOpenHelper{
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION_1 = 1; // first
     private static final int DATABASE_VERSION_2 = 2; // 28.05.16 - updating subtask table
+    private static final int DATABASE_VERSION_3 = 3; // 19.10.16 - updating Category Table --> CATEGORY_EXPANDED
 
     // Database & Table Names
     private static final String DATABASE_NAME = "database_rocketplan";
@@ -64,6 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Category column names
     private static final String CATEGORY_COLOR = "category_color";
+    private static final String CATEGORY_EXPANDED = "category_expanded";
     private static final String SHOW_TASK_DONE = "show_task_done";
     private static final String SHOW_EVENT_DONE = "show_event_done";
 
@@ -97,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Table Create Statements
     private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + TABLE_CATEGORY +
-            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + TITLE + " TEXT," + SHOW_TASK_DONE + " INTEGER," + SHOW_EVENT_DONE + " INTEGER," + CATEGORY_COLOR + " INTEGER" + ")";
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + TITLE + " TEXT," + SHOW_TASK_DONE + " INTEGER," + SHOW_EVENT_DONE + " INTEGER," + CATEGORY_EXPANDED + " INTEGER," + CATEGORY_COLOR + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER," + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," + TASK_EVENT_DATE + " INTEGER," + TASK_EVENT_TIME + " INTEGER," +
@@ -105,13 +107,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TASK_EVENT_LOCATION_LONGITUDE + " INTEGER," + TASK_EVENT_LOCATION_LATITUDE + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT," + CONTENT_DONE + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_EVENT = "CREATE TABLE " + TABLE_EVENT +
-            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER,"  + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," + TASK_EVENT_DATE + " INTEGER," + TASK_EVENT_TIME + " INTEGER," +
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER," + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," + TASK_EVENT_DATE + " INTEGER," + TASK_EVENT_TIME + " INTEGER," +
             TASK_EVENT_DATE_END + " INTEGER," + TASK_EVENT_TIME_END + " INTEGER," + TASK_EVENT_REPETITION_TYPE + " INTEGER," + TASK_EVENT_REPETITION_VALUE + " INTEGER," + PRIORITY + " INTEGER," +
             TASK_EVENT_LOCATION_LONGITUDE + " INTEGER," + TASK_EVENT_LOCATION_LATITUDE + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT," + CONTENT_DONE + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_NOTE = "CREATE TABLE " + TABLE_NOTE +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER," + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," +
-            PRIORITY + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT,"+ FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT" + ")";
+            PRIORITY + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT" + ")";
 
     private static final String CREATE_TABLE_SUBTASK = "CREATE TABLE " + TABLE_SUBTASK +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TITLE + " TEXT," + SUBTASK_DONE + " INTEGER" + ")";
@@ -121,12 +123,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION_2);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_3);
         mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        createTables(db);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        if (oldVersion < 2) ;
+        if (oldVersion < 3) {
+            String upgradeQuery = "ALTER TABLE " + TABLE_CATEGORY + " ADD " + CATEGORY_EXPANDED + " INTEGER";
+            db.execSQL(upgradeQuery);
+        }
+    }
+
+    private void createTables(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_CATEGORY);
         db.execSQL(CREATE_TABLE_TASK);
         db.execSQL(CREATE_TABLE_EVENT);
@@ -135,43 +151,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_REMINDER);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    private void deleteAllTables(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBTASK);
-        switch(oldVersion) {
-
-            case 1:
-                db.execSQL(CREATE_TABLE_CATEGORY);
-                db.execSQL(CREATE_TABLE_TASK);
-                db.execSQL(CREATE_TABLE_EVENT);
-                db.execSQL(CREATE_TABLE_SUBTASK);
-                db.execSQL(CREATE_TABLE_REMINDER);
-                break;
-            case 2:
-                db.execSQL(CREATE_TABLE_CATEGORY);
-                db.execSQL(CREATE_TABLE_TASK);
-                db.execSQL(CREATE_TABLE_EVENT);
-                db.execSQL(CREATE_TABLE_SUBTASK);
-                db.execSQL(CREATE_TABLE_REMINDER);
-                break;
-        }
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
     }
 
     // Category methods
 
-    public void createCategory (Category category) {
+    public void createCategory(Category category) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TITLE, category.getTitle());
         values.put(CATEGORY_COLOR, category.getColor());
         values.put(SHOW_TASK_DONE, category.isShowTaskDone() ? 1 : 0);
         values.put(SHOW_EVENT_DONE, category.isShowEventDone() ? 1 : 0);
-        int i = (int)values.get(SHOW_TASK_DONE);
-        Log.i("DAD: ", Integer.toString(i));
+        values.put(CATEGORY_EXPANDED, category.isExpanded() ? 1 : 0);
         db.insert(TABLE_CATEGORY, null, values);
     }
 
@@ -189,14 +187,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         category.setId(c.getInt(c.getColumnIndex(ID)));
         category.setTitle(c.getString(c.getColumnIndex(TITLE)));
         category.setColor(c.getInt(c.getColumnIndex(CATEGORY_COLOR)));
-        int i = c.getInt(c.getColumnIndex(SHOW_TASK_DONE));
-        Log.i("Hauuu raus: ", Integer.toString(i));
         category.setShowTaskDone(c.getInt(c.getColumnIndex(SHOW_TASK_DONE)) == 1);
-        if (category.isShowTaskDone()) {
-            Log.i("Neger", "sind dran");
-        }
         category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
-        Log.i("Ged: ", category.getTitle() + category.getId());
+        category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
 
         return category;
     }
@@ -216,9 +209,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 category.setColor(c.getInt(c.getColumnIndex(CATEGORY_COLOR)));
                 category.setShowTaskDone(c.getInt(c.getColumnIndex(SHOW_TASK_DONE)) == 1);
                 category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
+                category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
                 categories.add(category);
             } while (c.moveToNext());
         }
+        Log.i("Siize:", Integer.toString(categories.size()));
         return categories;
     }
 
@@ -229,8 +224,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         values.put(TITLE, category.getTitle());
         values.put(CATEGORY_COLOR, category.getColor());
+        //values.put(CATEGORY_EXPANDED, category.isExpanded() ? 1 : 0);
         db.update(TABLE_CATEGORY, values, ID + " =?", new String[]{String.valueOf(category.getId())});
     }
+
+
+    public void updateCategoryExpanded(Category category) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CATEGORY_EXPANDED, category.isExpanded() ? 1 : 0);
+        db.update(TABLE_CATEGORY, values, ID + " =?", new String[]{String.valueOf(category.getId())});
+    }
+
 
     public void updateCategoryShow(int categoryId, int contentType, boolean expanded) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -240,21 +245,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         if (contentType == MyConstants.CONTENT_TASK) {
             values.put(SHOW_TASK_DONE, expanded ? 1 : 0);
-            if (expanded) {
-                Log.i("Updaden: ", "true");
-            } else {
-                Log.i("Updaden: ", "nicht true");
-            }
-
-            // Hier klappt alles
         } else {
             values.put(SHOW_EVENT_DONE, expanded ? 1 : 0);
         }
-        //int value = expanded ? 1 : 0;
-        //String strSQL = "UPDATE "+TABLE_CATEGORY+ " SET "+SHOW_TASK_DONE+" = "+value+" WHERE "+ID+" = "+categoryId;
-        //db.execSQL(strSQL);
-        int i = db.update(TABLE_CATEGORY, values, ID + " =?", new String[]{String.valueOf(categoryId)});
-        // Wird gespeichert
+        db.update(TABLE_CATEGORY, values, ID + " =?", new String[]{String.valueOf(categoryId)});
     }
 
     public void deleteCategory(Category category) {
@@ -277,7 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Task Methods
 
-    public int createTask (Task task) {
+    public int createTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID_CATEGORY, task.getCategoryId());
@@ -300,10 +294,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(DESCRIPTION, task.getDescription());
         values.put(FILE_PICTURE, task.getPicturePath());
         values.put(CONTENT_DONE, task.isDone() ? 1 : 0);
+        values.put(TASK_EVENT_REPETITION_TYPE, task.getRepetitionType());
+        values.put(TASK_EVENT_REPETITION_VALUE, task.getRepetitionValue());
 
         long task_id = db.insert(TABLE_TASK, null, values);
 
-        return (int)task_id;
+        return (int) task_id;
     }
 
     public Content getTask(int task_id) {
@@ -340,8 +336,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         task.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
         task.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
         task.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
+        task.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
+        task.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
         task.setContentType(MyConstants.CONTENT_TASK);
         task.setTable(TABLE_TASK);
+
         return task;
     }
 
@@ -362,7 +361,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorTasks(tasks, c);
     }
 
-    public ArrayList<Content> getAllUndoneTasks (int category_id) {
+    public ArrayList<Content> getAllUndoneTasks(int category_id) {
         ArrayList<Content> tasks = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_TASK + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 0;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -370,7 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorTasks(tasks, c);
     }
 
-    public ArrayList<Content> getAllDoneTasks (int category_id) {
+    public ArrayList<Content> getAllDoneTasks(int category_id) {
         ArrayList<Content> tasks = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_TASK + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 1;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -407,6 +406,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 task.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
                 task.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
                 task.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
+                task.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
+                task.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
                 task.setContentType(MyConstants.CONTENT_TASK);
                 task.setTable(TABLE_TASK);
                 tasks.add(task);
@@ -437,6 +438,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(DESCRIPTION, task.getDescription());
         values.put(FILE_PICTURE, task.getPicturePath());
         values.put(CONTENT_DONE, task.isDone() ? 1 : 0);
+        values.put(TASK_EVENT_REPETITION_TYPE, task.getRepetitionType());
+        values.put(TASK_EVENT_REPETITION_VALUE, task.getRepetitionValue());
+
+        db.update(TABLE_TASK, values, ID + " =?", new String[]{String.valueOf(task.getId())});
+    }
+
+    public void updateTaskCategoryId(Task task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ID_CATEGORY, task.getCategoryId());
 
         db.update(TABLE_TASK, values, ID + " =?", new String[]{String.valueOf(task.getId())});
     }
@@ -456,7 +468,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Event Methods
 
-    public int createEvent (Event event) {
+    public int createEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID_CATEGORY, event.getCategoryId());
@@ -478,10 +490,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(DESCRIPTION, event.getDescription());
         values.put(FILE_PICTURE, event.getPicturePath());
         values.put(CONTENT_DONE, event.isDone() ? 1 : 0);
+        values.put(TASK_EVENT_REPETITION_TYPE, event.getRepetitionType());
+        values.put(TASK_EVENT_REPETITION_VALUE, event.getRepetitionValue());
 
         long event_id = db.insert(TABLE_EVENT, null, values);
 
-        return (int)event_id;
+        return (int) event_id;
     }
 
     public Content getEvent(int event_id) {
@@ -518,6 +532,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         event.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
         event.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
         event.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
+        event.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
+        event.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
         event.setContentType(MyConstants.CONTENT_EVENT);
         event.setTable(TABLE_EVENT);
 
@@ -543,7 +559,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorEvents(events, c);
     }
 
-    public ArrayList<Content> getAllUndoneEvents (int category_id) {
+    public ArrayList<Content> getAllUndoneEvents(int category_id) {
         ArrayList<Content> events = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_EVENT + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 0;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -551,7 +567,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorEvents(events, c);
     }
 
-    public ArrayList<Content> getAllDoneEvents (int category_id) {
+    public ArrayList<Content> getAllDoneEvents(int category_id) {
         ArrayList<Content> events = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_EVENT + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 1;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -587,6 +603,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 event.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
                 event.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
                 event.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
+                event.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
+                event.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
                 event.setContentType(MyConstants.CONTENT_EVENT);
                 event.setTable(TABLE_EVENT);
                 events.add(event);
@@ -621,6 +639,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(DESCRIPTION, event.getDescription());
         values.put(FILE_PICTURE, event.getPicturePath());
         values.put(CONTENT_DONE, event.isDone() ? 1 : 0);
+        values.put(TASK_EVENT_REPETITION_TYPE, event.getRepetitionType());
+        values.put(TASK_EVENT_REPETITION_VALUE, event.getRepetitionValue());
+
+        db.update(TABLE_EVENT, values, ID + " =?", new String[]{String.valueOf(event.getId())});
+    }
+
+    public void updateEventCategoryId(Event event) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ID_CATEGORY, event.getCategoryId());
 
         db.update(TABLE_EVENT, values, ID + " =?", new String[]{String.valueOf(event.getId())});
     }
@@ -640,7 +669,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Note Methods
 
-    public int createNote (Note note) {
+    public int createNote(Note note) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID_CATEGORY, note.getCategoryId());
@@ -651,7 +680,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(DESCRIPTION, note.getDescription());
         values.put(FILE_PICTURE, note.getPicturePath());
         long note_id = db.insert(TABLE_NOTE, null, values);
-        return (int)note_id;
+        return (int) note_id;
     }
 
     public Content getNote(int note_id) {
@@ -748,6 +777,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.update(TABLE_NOTE, values, ID + " =?", new String[]{String.valueOf(note.getId())});
     }
 
+    public void updateNoteCategoryId(Note note) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ID_CATEGORY, note.getCategoryId());
+
+        db.update(TABLE_NOTE, values, ID + " =?", new String[]{String.valueOf(note.getId())});
+    }
+
     public void deleteNote(int id) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_NOTE, ID + " = ?", new String[]{String.valueOf(id)});
@@ -760,7 +798,23 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Content Methods
 
-    public Content getContent (int id, int contentType) {
+    public int createContent(Content content) {
+        int contentId = -2;
+        switch (content.getContentType()) {
+            case MyConstants.CONTENT_TASK:
+                contentId = createTask((Task) content);
+                break;
+            case MyConstants.CONTENT_EVENT:
+                contentId = createTask((Task) content);
+                break;
+            case MyConstants.CONTENT_NOTE:
+                contentId = createTask((Task) content);
+                break;
+        }
+        return contentId;
+    }
+
+    public Content getContent(int id, int contentType) {
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
                 return getTask(id);
@@ -804,7 +858,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(DESCRIPTION, content.getDescription());
         values.put(FILE_PICTURE, content.getPicturePath());
         if (contentType == MyConstants.CONTENT_EVENT || contentType == MyConstants.CONTENT_TASK) {
-            TaskEvent taskEvent = (TaskEvent)content;
+            TaskEvent taskEvent = (TaskEvent) content;
             if (taskEvent.getDate() == null) {
                 Log.i(MyConstants.DATABASE_HELPER, "create, Task ist null");
                 values.put(TASK_EVENT_DATE, 0);
@@ -818,11 +872,57 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 values.put(TASK_EVENT_TIME, taskEvent.getTime().getTimeInMillis());
             }
             values.put(CONTENT_DONE, taskEvent.isDone() ? 1 : 0);
+            values.put(TASK_EVENT_REPETITION_TYPE, taskEvent.getRepetitionType());
+            values.put(TASK_EVENT_REPETITION_VALUE, taskEvent.getRepetitionValue());
         }
         db.update(content.getTable(), values, ID + " =?", new String[]{String.valueOf(content.getId())});
     }
 
     // TaskEvent Methods
+
+    public int createRepeatTaskEvent(TaskEvent oldTaskEvent) {
+        int id;
+        switch (oldTaskEvent.getRepetitionType()) {
+            case MyConstants.REPETITION_TYPE_HOUR:
+                // geht nur wenn Time auch ausgewählt ist
+                if (oldTaskEvent.getTime() != null) {
+                    Calendar oldDate = Calendar.getInstance();
+                    oldDate.set(Calendar.YEAR, oldTaskEvent.getDate().get(Calendar.YEAR));
+                    oldDate.set(Calendar.MONTH, oldTaskEvent.getDate().get(Calendar.MONTH));
+                    oldDate.set(Calendar.DAY_OF_MONTH, oldTaskEvent.getDate().get(Calendar.DAY_OF_MONTH));
+                    oldDate.set(Calendar.HOUR_OF_DAY, oldTaskEvent.getTime().get(Calendar.HOUR_OF_DAY));
+                    oldDate.set(Calendar.MINUTE, oldTaskEvent.getTime().get(Calendar.MINUTE));
+                    oldDate.add(Calendar.HOUR_OF_DAY, oldTaskEvent.getRepetitionValue());
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(Calendar.YEAR, oldDate.get(Calendar.YEAR));
+                    newDate.set(Calendar.MONTH, oldDate.get(Calendar.MONTH));
+                    newDate.set(Calendar.DAY_OF_MONTH, oldDate.get(Calendar.DAY_OF_MONTH));
+                    Calendar newTime = Calendar.getInstance();
+                    newTime.set(Calendar.HOUR_OF_DAY, oldDate.get(Calendar.HOUR_OF_DAY));
+                    newTime.set(Calendar.MINUTE, oldDate.get(Calendar.MINUTE));
+                    oldTaskEvent.setDate(newDate);
+                    oldTaskEvent.setTime(newTime);
+                }
+                break;
+            case MyConstants.REPETITION_TYPE_DAY:
+                Calendar oldDate1 = oldTaskEvent.getDate();
+                oldDate1.add(Calendar.DAY_OF_MONTH, oldTaskEvent.getRepetitionValue());
+                oldTaskEvent.setDate(oldDate1);
+                break;
+            case MyConstants.REPETITION_TYPE_WEEK:
+                Calendar oldDate2 = oldTaskEvent.getDate();
+                oldDate2.add(Calendar.WEEK_OF_YEAR, oldTaskEvent.getRepetitionValue());
+                oldTaskEvent.setDate(oldDate2);
+                break;
+            case MyConstants.REPETITION_TYPE_MONTH:
+                Calendar oldDate3 = oldTaskEvent.getDate();
+                oldDate3.add(Calendar.MONTH, oldTaskEvent.getRepetitionValue());
+                oldTaskEvent.setDate(oldDate3);
+                break;
+        }
+        id = createContent(oldTaskEvent);
+        return id;
+    }
 
     public ArrayList<Content> getAllTaskEvents() {
         ArrayList<Content> tasks = new ArrayList<>();
@@ -840,7 +940,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Subtask Methods
 
-    public int createSubtask (Subtask subtask) {
+    public int createSubtask(Subtask subtask) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID_CONTENT, subtask.getContentId());
@@ -849,7 +949,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         long subtask_id = db.insert(TABLE_SUBTASK, null, values);
 
-        return (int)subtask_id;
+        return (int) subtask_id;
     }
 
     public Subtask getSubtask(int subtask_id) {
@@ -939,7 +1039,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Reminder Methods
 
-    public int createReminder (Reminder reminder, Context context) {
+    public int createReminder(Reminder reminder, Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID_CONTENT, reminder.getContentId());
@@ -949,7 +1049,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         long reminder_id = db.insert(TABLE_REMINDER, null, values);
 
-        return (int)reminder_id;
+        return (int) reminder_id;
     }
 
     public Reminder getReminder(int reminder_id) {
@@ -1022,7 +1122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(VALUE_REMINDER, reminder.getReminderValue());
 
         int n = db.update(TABLE_REMINDER, values, ID + " =?", new String[]{String.valueOf(reminder.getId())});
-        Log.i("MyRowsAffected", ""+n);
+        Log.i("MyRowsAffected", "" + n);
 
     }
 
@@ -1035,7 +1135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void deleteContentReminder(int contentId, int contentType) {
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<Reminder> reminders = getAllContentReminders(contentId, contentType);
-        for (int i = 0; i<reminders.size(); i++) {
+        for (int i = 0; i < reminders.size(); i++) {
             ReminderSetter.cancelAlarm(mContext, reminders.get(i).getId());
         }
         db.delete(TABLE_REMINDER, ID_CONTENT + " = ? AND " + TYPE_CONTENT + " = ?", new String[]{String.valueOf(contentId), String.valueOf(contentType)});
@@ -1056,8 +1156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if (c.getCount() > 0) {
             Log.i("Reminderr: ", "Exists");
             return true;
-        }
-        else {
+        } else {
             Log.i("Reminderr: ", "Doesnt Exists");
             return false;
         }
@@ -1090,8 +1189,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         @Override
         public int compare(Content lhs, Content rhs) {
 
-            TaskEvent lhsC = (TaskEvent)lhs;
-            TaskEvent rhsC = (TaskEvent)rhs;
+            TaskEvent lhsC = (TaskEvent) lhs;
+            TaskEvent rhsC = (TaskEvent) rhs;
 
             Calendar dateOne;
             Calendar dateTwo;

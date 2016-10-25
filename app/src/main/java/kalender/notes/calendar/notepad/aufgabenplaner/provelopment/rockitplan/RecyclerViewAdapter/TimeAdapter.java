@@ -95,7 +95,7 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             ContentViewHolder holder = new ContentViewHolder(view, new ContentViewHolder.vhTasksClickListener() {
                 @Override
                 public void openTask(int position, int type) {
-                    Content content = getCorrectContent(position);
+                    Content content = getContent(position);
                     startDetailActivity(content, type);
                 }
             });
@@ -127,7 +127,7 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ContentViewHolder) {
             ContentViewHolder h = (ContentViewHolder) holder;
-            Content content = getCorrectContent(position);
+            Content content = getContent(position);
             mHolderHelper.setUpContentHolder(h, content, true);
 
             // Date & Time
@@ -140,16 +140,16 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             switch (mTimeType) {
                 case MyConstants.TIME_DAY:
                     if (taskEvent.getDaysTillDueDate() < 0 || time != null) {
-                        h.tvSubtitle.setText(DateTimeTexter.getTimeDay(taskEvent));
+                        h.tvDate.setText(DateTimeTexter.getTimeDay(taskEvent));
                     } else {
                         h.llSubtitleDate.setVisibility(View.GONE);
                     }
                     break;
                 case MyConstants.TIME_WEEK:
-                    h.tvSubtitle.setText(DateTimeTexter.getTimeWeek(taskEvent));
+                    h.tvDate.setText(DateTimeTexter.getTimeWeek(taskEvent));
                     break;
                 case MyConstants.TIME_MONTH:
-                    h.tvSubtitle.setText(DateTimeTexter.getTimeMonth(taskEvent));
+                    h.tvDate.setText(DateTimeTexter.getTimeMonth(taskEvent));
                     break;
 
             }
@@ -452,7 +452,7 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    public Content getCorrectContent(int position) {
+    public Content getContent(int position) {
         Log.i("Poositin", Integer.toString(position));
         if (mTimeThreeExtended && position > mPositionDividerThree) {
             return mTaskEvents.get(position - 3);
@@ -469,43 +469,9 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    public void deleteContent(RecyclerView.ViewHolder viewHolder) {
-        Content content = getCorrectContent(viewHolder.getAdapterPosition());
-        mDataBaseHelper.deleteContent(content.getId(), content.getContentType());
-    }
 
-    public boolean checkUncheckContent(RecyclerView.ViewHolder viewHolder) {
-        Content c = getCorrectContent(viewHolder.getAdapterPosition());
-        TaskEvent taskEvent = (TaskEvent) c;
-
-
-        if (taskEvent.isDone()) {
-            taskEvent.setDate(null);
-            taskEvent.setTime(null);
-            taskEvent.setDone(false);
-        } else {
-            Calendar calendar = Calendar.getInstance();
-            taskEvent.setDate(calendar);
-            taskEvent.setTime(calendar);
-            taskEvent.setPriority(0);
-            taskEvent.setReminder(0);
-            taskEvent.setDone(true);
-        }
-        mDataBaseHelper.updateContent(taskEvent);
-
-        // Reminder löschen
-        mDataBaseHelper.deleteContentReminder(c.getId(), c.getContentType());
-
-        if (!taskEvent.isDone()) {
-            startDetailActivity(c, MyConstants.DETAIL_GENERAL);
-        }
-
-        return taskEvent.isDone();
-
-    }
-
-    public Content getCurrentContent(RecyclerView.ViewHolder viewHolder) {
-        return getCorrectContent(viewHolder.getAdapterPosition());
+    public Content getContent(RecyclerView.ViewHolder viewHolder) {
+        return getContent(viewHolder.getAdapterPosition());
     }
 
     private void saveExtended(int position) {

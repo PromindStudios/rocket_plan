@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     // ViewHolder Types
     private final int TYPE_TIME = 0;
     private final int TYPE_CATEGORY = 1;
+    private final int CATEGORY_TITLE_HEIGHT = 80;
+    private final int CATEGORY_ALL_HEIGHT = 130;
 
     Context mContext;
     ArrayList<Category> mCategories;
@@ -48,8 +51,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     DatabaseHelper mDatabaseHelper;
     DrawerFragment mDrawerFragment;
     FragmentManager mFragmentManager;
-
-    boolean isExpanded;
 
     CategoryAdapterListener mCategoryAdapterListener;
 
@@ -61,7 +62,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mDrawerFragment = drawerFragment;
         mFragmentManager = fragmentManager;
         mCategoryAdapterListener = (MainActivity)mContext;
-        isExpanded = false;
     }
 
     @Override
@@ -116,23 +116,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
 
                 @Override
-                public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryContent, int position) {
+                public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryTitle, LinearLayout llCategoryContent, int position) {
                     RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) rlMain.getLayoutParams();
                     Category category = getCorrectCategory(position);
                     CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
                     Drawable iconExpandCollapse;
-                    if (isExpanded) {
-                        isExpanded = false;
-                        params.height = MyMethods.dpToPx(mContext, 60);
+                    if (category.isExpanded()) {
+                        category.setExpanded(false);
+                        params.height = MyMethods.dpToPx(mContext, CATEGORY_TITLE_HEIGHT);
                         rlMain.setLayoutParams(params);
-                        rlCategoryContent.setVisibility(View.GONE);
+                        rlCategoryTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, MyMethods.dpToPx(mContext, CATEGORY_TITLE_HEIGHT)));
+                        llCategoryContent.setVisibility(View.GONE);
                         iconExpandCollapse = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_collapsed_24_white, null);
+                        mDatabaseHelper.updateCategoryExpanded(category);
                     } else {
-                        isExpanded = true;
-                        params.height = MyMethods.dpToPx(mContext, 210);
+                        category.setExpanded(true);
+                        params.height = MyMethods.dpToPx(mContext, CATEGORY_ALL_HEIGHT);
+                        rlCategoryTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, MyMethods.dpToPx(mContext, CATEGORY_TITLE_HEIGHT)));
                         rlMain.setLayoutParams(params);
-                        rlCategoryContent.setVisibility(View.VISIBLE);
+                        llCategoryContent.setVisibility(View.VISIBLE);
                         iconExpandCollapse = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_expanded_24_white, null);
+                        mDatabaseHelper.updateCategoryExpanded(category);
                     }
                     iconExpandCollapse.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), categoryColor.getCategoryColor(), null), PorterDuff.Mode.MULTIPLY);
                     Log.i("Coloor: ", Integer.toString(categoryColor.mColor));
@@ -185,16 +189,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             // Set heigt of category item
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.rlMain.getLayoutParams();
-            if (isExpanded) {
-                params.height = MyMethods.dpToPx(mContext, 210);
+            if (category.isExpanded()) {
+                params.height = MyMethods.dpToPx(mContext, CATEGORY_ALL_HEIGHT);
                 holder.rlMain.setLayoutParams(params);
+                holder.rlCategoryTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, MyMethods.dpToPx(mContext, CATEGORY_TITLE_HEIGHT)));
                 holder.ivExpandCollapse.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_expanded_24dp));
-                holder.rlCategoryContent.setVisibility(View.VISIBLE);
+                holder.llCategoryContent.setVisibility(View.VISIBLE);
             } else {
-                params.height = MyMethods.dpToPx(mContext, 60);
+                params.height = MyMethods.dpToPx(mContext, CATEGORY_TITLE_HEIGHT);
                 holder.rlMain.setLayoutParams(params);
                 holder.ivExpandCollapse.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_collapsed_24dp));
-                holder.rlCategoryContent.setVisibility(View.GONE);
+                holder.llCategoryContent.setVisibility(View.GONE);
             }
 
             // Title
@@ -206,27 +211,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             int eventSize = contentHelper.getUndoneContentSize(mDatabaseHelper.getAllCategoryEvents(category.getId()),MyConstants.CONTENT_EVENT);
             int noteSize = mDatabaseHelper.getAllCategoryNotes(category.getId()).size();
 
-            if (taskSize == 1) {
-                holder.tvTask.setText(Integer.toString(taskSize) + " " + mContext.getString(R.string.task));
+            if (taskSize == 0) {
+                holder.tvTask.setText("-");
             } else {
-                holder.tvTask.setText(Integer.toString(taskSize) + " " + mContext.getString(R.string.tasks));
+                holder.tvTask.setText(Integer.toString(taskSize));
             }
-            if (eventSize == 1) {
-                holder.tvEvent.setText(Integer.toString(eventSize) + " " + mContext.getString(R.string.event));
+            if (eventSize == 0) {
+                holder.tvEvent.setText("-");
             } else {
-                holder.tvEvent.setText(Integer.toString(eventSize) + " " + mContext.getString(R.string.events));
+                holder.tvEvent.setText(Integer.toString(eventSize));
             }
-            if (noteSize == 1) {
-                holder.tvNote.setText(Integer.toString(noteSize) + " " + mContext.getString(R.string.note));
+            if (noteSize == 0) {
+                holder.tvNote.setText("-");
             } else {
-                holder.tvNote.setText(Integer.toString(noteSize) + " " + mContext.getString(R.string.notes));
+                holder.tvNote.setText(Integer.toString(noteSize));
             }
 
             // Handle Category Color
             CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
 
             Drawable iconExpandCollapse;
-            if (isExpanded) {
+            if (category.isExpanded()) {
                 iconExpandCollapse = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_expanded_24_white, null);
             } else {
                 iconExpandCollapse = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_collapsed_24_white, null);
@@ -268,16 +273,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         ImageView ivExpandCollapse;
         ImageView ivTask;
-        FrameLayout flTaskAdd;
         ImageView ivEvent;
-        FrameLayout flEventAdd;
         ImageView ivNote;
-        FrameLayout flNoteAdd;
 
         View vDivider;
 
-        RelativeLayout rlCategoryContent;
+        LinearLayout llCategoryContent;
         RelativeLayout rlMain;
+        RelativeLayout rlCategoryTitle;
 
         myViewHolderClickListener mListener;
 
@@ -290,13 +293,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvNote = (TextView)itemView.findViewById(R.id.tvNote);
             ivExpandCollapse = (ImageView)itemView.findViewById(R.id.ivExpandCollapse);
             ivTask = (ImageView)itemView.findViewById(R.id.ivTask);
-            flTaskAdd = (FrameLayout)itemView.findViewById(R.id.flTaskAdd);
             ivEvent = (ImageView)itemView.findViewById(R.id.ivEvent);
-            flEventAdd = (FrameLayout)itemView.findViewById(R.id.flEventAdd);
             ivNote = (ImageView)itemView.findViewById(R.id.ivNote);
-            flNoteAdd = (FrameLayout)itemView.findViewById(R.id.flNoteAdd);
-            rlCategoryContent = (RelativeLayout)itemView.findViewById(R.id.rlCategoryContent);
+            llCategoryContent = (LinearLayout) itemView.findViewById(R.id.llCategoryContent);
             rlMain = (RelativeLayout)itemView.findViewById(R.id.rlMain);
+            rlCategoryTitle = (RelativeLayout)itemView.findViewById(R.id.rlCategory);
             vDivider = itemView.findViewById(R.id.vDivider);
 
             tvCategoryTitle.setOnClickListener(this);
@@ -306,11 +307,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ivTask.setOnClickListener(this);
             ivEvent.setOnClickListener(this);
             ivNote.setOnClickListener(this);
-            flTaskAdd.setOnClickListener(this);
-            flEventAdd.setOnClickListener(this);
-            flNoteAdd.setOnClickListener(this);
             ivExpandCollapse.setOnClickListener(this);
             tvCategoryTitle.setOnLongClickListener(this);
+            tvTask.setOnLongClickListener(this);
+            ivTask.setOnLongClickListener(this);
+            tvEvent.setOnLongClickListener(this);
+            ivEvent.setOnLongClickListener(this);
+            tvNote.setOnLongClickListener(this);
+            ivNote.setOnLongClickListener(this);
         }
 
         @Override
@@ -327,29 +331,38 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (v.getId() == R.id.ivNote || v.getId() == R.id.tvNote) {
                 mListener.onContentClick(getAdapterPosition(), MyConstants.CONTENT_NOTE);
             }
-            if (v.getId() == R.id.flTaskAdd) {
-                mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_TASK);
-            }
-            if (v.getId() == R.id.flEventAdd) {
-                mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_EVENT);
-            }
-            if (v.getId() == R.id.flNoteAdd) {
-                mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_NOTE);
-            }
             if (v.getId() == R.id.ivExpandCollapse) {
-                mListener.onCategoryExpandCollapse(rlMain, ivExpandCollapse, rlCategoryContent, getAdapterPosition());
+                mListener.onCategoryExpandCollapse(rlMain, ivExpandCollapse, rlCategoryTitle, llCategoryContent, getAdapterPosition());
             }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            if (v.getId() == R.id.tvCategoryTitle) {
-                mListener.onCategoryLongClick(getAdapterPosition());
-                return true;
-            } else {
-                return false;
+            switch (v.getId()) {
+                case R.id.tvCategoryTitle:
+                    mListener.onCategoryLongClick(getAdapterPosition());
+                    return true;
+                case R.id.ivTask:
+                    mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_TASK);
+                    return true;
+                case R.id.tvTask:
+                    mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_TASK);
+                    return true;
+                case R.id.ivEvent:
+                    mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_EVENT);
+                    return true;
+                case R.id.tvEvent:
+                    mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_EVENT);
+                    return true;
+                case R.id.ivNote:
+                    mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_NOTE);
+                    return true;
+                case R.id.tvNote:
+                    mListener.onContentAdd(getAdapterPosition(), MyConstants.CONTENT_NOTE);
+                    return true;
+                default:
+                    return false;
             }
-
         }
 
 
@@ -357,7 +370,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onCategoryClick(int position);
             public void onContentClick(int position, int contentType);
             public void onContentAdd (int position, int contentType);
-            public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryContent, int position);
+            public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryTitle, LinearLayout llCategoryContent, int position);
             public void onCategoryLongClick(int position);
         }
     }

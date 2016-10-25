@@ -289,7 +289,6 @@
     <style name="relative_layout_category_item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/item_category_content_height</item>
-        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="image_view_category_item_left">
@@ -320,13 +319,53 @@
     </style>
 
 
-
     <style name="text_view_category_sub">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:textSize">@dimen/text_size_item_title</item>
         <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!-- Calendar elements -->
+
+    <style name="relative_layout_calendar_day">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="linear_layout_horizontal_calendar_day">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:weightSum">7</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="view_circle_big_calendar_day">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:background">@drawable/android_circle_solid_primary_color</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="text_view_calendar_day">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="view_circle_small_calendar_day">
+        <item name="android:layout_width">2dp</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:background">@drawable/android_circle_solid_primary_color</item>
+        <item name="android:layout_centerHorizontal">true</item>
     </style>
 
 </resources>

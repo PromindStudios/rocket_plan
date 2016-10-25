@@ -32,6 +32,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentTimeFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
@@ -40,7 +41,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Re
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.ContentViewPagerAdapter;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.TimeViewPagerAdapter;
 
-public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener, ContentFragment.MainActivityListener {
+public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener, ContentTimeFragment.MainActivityListener {
 
     // Layout
     private Toolbar mToolbar;
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
 
         // Set up ClickListener for Fab Buttons
+
         fabTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
     public void setUpContentViewPagerAdapter(int categoryId, String categoryName, boolean isExpanded, int contentType) {
 
+        mContentViewPagerAdapter = null;
         Log.i("change", Integer.toString(categoryId));
         isContent = true;
 
@@ -272,14 +275,26 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
     }
 
     @Override
-    public void onCreateNewContent(int categoryId, String categoryName, int contentTyp) {
+    public void onCreateNewContent(final int categoryId, final String categoryName, final int contentTyp) {
         mCategoryId = categoryId;
         mCategoryName = categoryName;
+        getSupportActionBar().setTitle(mCategoryName);
         startDetailActivity(categoryId, categoryName, contentTyp, MyConstants.CONTENT_TIME_CONTENT, 0);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerLayout.closeDrawers();
+                setUpContentViewPagerAdapter(categoryId, categoryName, false, contentTyp);
+            }
+        }, 500);
+
     }
 
     public void setUpTimeViewPagerAdapter(int timeType) {
 
+        mContentViewPagerAdapter = null;
         // Set Toolbar Title
         getSupportActionBar().setTitle(getString(R.string.overview));
         mTimeType = timeType;
@@ -369,7 +384,12 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         } else {
             // Toast with hint to create Category first + Open Drawer
             Toast.makeText(this, getString(R.string.toast_add_category), Toast.LENGTH_LONG).show();
-            mDrawerLayout.openDrawer(Gravity.LEFT);
+            try {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
     }

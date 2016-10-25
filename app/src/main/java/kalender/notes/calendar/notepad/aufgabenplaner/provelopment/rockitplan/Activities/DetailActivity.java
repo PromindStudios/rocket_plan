@@ -96,21 +96,26 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
         mViewPager = (ViewPager)findViewById(R.id.view_pager_detail);
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout_detail);
 
+        // Set up toolbar
+        setSupportActionBar(mToolbar);
 
 
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_general)));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_files)));
         if (mContentType == MyConstants.CONTENT_TASK) {
+            getSupportActionBar().setSubtitle(getString(R.string.task));
             mTask = (Task)mDatabaseHelper.getTask(mContentId);
             mContent = mTask;
             mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_subtask_18dp)));
         }
         if (mContentType == MyConstants.CONTENT_EVENT) {
+            getSupportActionBar().setSubtitle(getString(R.string.event));
             mEvent = (Event)mDatabaseHelper.getEvent(mContentId);
             mContent = mEvent;
             Log.i("Sau: ", Integer.toString(mEvent.getCategoryId()));
         }
         if (mContentType == MyConstants.CONTENT_NOTE) {
+            getSupportActionBar().setSubtitle(getString(R.string.note));
             mNote = (Note)mDatabaseHelper.getNote(mContentId);
             mContent = mNote;
         }
@@ -122,8 +127,6 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
         mAdapterViewPager = new DetailViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount(), mContentType);
         mViewPager.setAdapter(mAdapterViewPager);
 
-        // Set up toolbar
-        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(mContent.getTitle());
 
         // Set up Fab Button
