@@ -10,7 +10,8 @@
         <!-- 1 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_1">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -31,7 +32,8 @@
         <!-- 2-->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_2">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -52,7 +54,9 @@
         <!-- 3 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+
+            android:id="@+id/rlDay_3">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -73,7 +77,8 @@
         <!-- 4 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_4">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -94,7 +99,8 @@
         <!-- 5 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_5">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -115,7 +121,8 @@
         <!-- 6 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_6">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -136,7 +143,8 @@
         <!-- 7 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_7">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -164,7 +172,8 @@
         <!-- 8 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_8">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -185,7 +194,8 @@
         <!-- 9-->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_9">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -206,7 +216,8 @@
         <!-- 10 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_10">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -227,7 +238,8 @@
         <!-- 11 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_11">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -248,7 +260,8 @@
         <!-- 5 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_12">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -269,7 +282,8 @@
         <!-- 13 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_13">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -290,7 +304,8 @@
         <!-- 14 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_14">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -318,7 +333,8 @@
         <!-- 15 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_15">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -339,7 +355,8 @@
         <!-- 16-->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_16">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -360,7 +377,8 @@
         <!-- 17 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_17">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -381,7 +399,8 @@
         <!-- 18 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_18">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -402,7 +421,8 @@
         <!-- 19 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_19">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -423,7 +443,8 @@
         <!-- 20 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_20">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -444,7 +465,8 @@
         <!-- 21 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_21">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -472,7 +494,8 @@
         <!-- 22 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_22">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -493,7 +516,8 @@
         <!-- 23-->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_23">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -514,7 +538,8 @@
         <!-- 24 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_24">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -535,7 +560,8 @@
         <!-- 25 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_25">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -556,7 +582,8 @@
         <!-- 26 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_26">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -577,7 +604,8 @@
         <!-- 27 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_27">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -598,7 +626,8 @@
         <!-- 28 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_28">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -626,7 +655,8 @@
         <!-- 29 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_29">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -647,7 +677,8 @@
         <!-- 30-->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_30">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -668,7 +699,8 @@
         <!-- 31 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_31">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -689,7 +721,8 @@
         <!-- 32 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_32">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -710,7 +743,8 @@
         <!-- 33 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_33">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -731,7 +765,8 @@
         <!-- 34 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_34">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -752,7 +787,8 @@
         <!-- 35 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_35">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -780,7 +816,8 @@
         <!-- 36 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_36">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -801,7 +838,8 @@
         <!-- 37-->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_37">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -822,7 +860,8 @@
         <!-- 38 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_38">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -843,7 +882,8 @@
         <!-- 39 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_39">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -864,7 +904,8 @@
         <!-- 40 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_40">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -885,7 +926,8 @@
         <!-- 41 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_41">
 
             <View
                 style="@style/view_circle_big_calendar_day"
@@ -906,7 +948,8 @@
         <!-- 42 -->
 
         <RelativeLayout
-            style="@style/relative_layout_calendar_day">
+            style="@style/relative_layout_calendar_day"
+            android:id="@+id/rlDay_42">
 
             <View
                 style="@style/view_circle_big_calendar_day"

@@ -6,12 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.DisplayMetrics;
@@ -24,18 +20,11 @@ import org.joda.time.Days;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Reminder;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.TimeFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeAdapterInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder.DividerViewHolder;
@@ -62,6 +51,13 @@ public class MyMethods {
 
     public static String formatTime(Calendar calendar) {
         SimpleDateFormat fmt = new SimpleDateFormat("k : mm");
+        fmt.setCalendar(calendar);
+        String dateFormated = fmt.format(calendar.getTime());
+        return dateFormated;
+    }
+
+    public static String formatDateForCalendarTitle(Calendar calendar) {
+        SimpleDateFormat fmt = new SimpleDateFormat("MMMM - yyyy");
         fmt.setCalendar(calendar);
         String dateFormated = fmt.format(calendar.getTime());
         return dateFormated;
@@ -284,6 +280,19 @@ public class MyMethods {
         Log.i("Alarm2", alarmTime.get(Calendar.HOUR_OF_DAY)+" "+alarmTime.get(Calendar.MINUTE));
 
         return alarmTime.getTimeInMillis();
+    }
+
+    public static String getContentName (Context context, int contentType) {
+        switch (contentType) {
+            case MyConstants.CONTENT_TASK:
+                return context.getString(R.string.task);
+            case MyConstants.CONTENT_EVENT:
+                return context.getString(R.string.event);
+            case MyConstants.CONTENT_NOTE:
+                return context.getString(R.string.note);
+            default:
+                return "Call Eric for help";
+        }
     }
 
 }

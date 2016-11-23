@@ -1,13 +1,10 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
 
 /**
  * Created by Admin on 06.08.2016.
@@ -31,26 +28,29 @@ public class CategoryColor {
         // set States
         mStates = new int[][] {new int[] { android.R.attr.state_enabled},};
 
-        mCategoryColor = new int[5];
+        mCategoryColor = new int[6];
         mCategoryColor[0] = R.color.category_one;
         mCategoryColor[1] = R.color.category_two;
         mCategoryColor[2] = R.color.category_three;
         mCategoryColor[3] = R.color.category_four;
         mCategoryColor[4] = R.color.category_five;
+        mCategoryColor[5] = R.color.category_six;
 
-        mCategoryColorLight = new int[5];
+        mCategoryColorLight = new int[6];
         mCategoryColorLight[0] = R.color.category_light_one;
         mCategoryColorLight[1] = R.color.category_light_two;
         mCategoryColorLight[2] = R.color.category_light_three;
         mCategoryColorLight[3] = R.color.category_light_four;
         mCategoryColorLight[4] = R.color.category_light_five;
+        mCategoryColorLight[5] = R.color.category_light_six;
 
-        mCategoryColorDark = new int[5];
+        mCategoryColorDark = new int[6];
         mCategoryColorLight[0] = R.color.category_dark_one;
         mCategoryColorLight[1] = R.color.category_dark_two;
         mCategoryColorLight[2] = R.color.category_dark_three;
         mCategoryColorLight[3] = R.color.category_dark_four;
         mCategoryColorLight[4] = R.color.category_dark_five;
+        mCategoryColorLight[5] = R.color.category_dark_six;
     }
 
     public CategoryColor (Context context) {
@@ -60,26 +60,29 @@ public class CategoryColor {
         // set States
         mStates = new int[][] {new int[] { android.R.attr.state_enabled},};
 
-        mCategoryColor = new int[5];
+        mCategoryColor = new int[6];
         mCategoryColor[0] = R.color.category_one;
         mCategoryColor[1] = R.color.category_two;
         mCategoryColor[2] = R.color.category_three;
         mCategoryColor[3] = R.color.category_four;
         mCategoryColor[4] = R.color.category_five;
+        mCategoryColor[5] = R.color.category_six;
 
-        mCategoryColorLight = new int[5];
+        mCategoryColorLight = new int[6];
         mCategoryColorLight[0] = R.color.category_light_one;
         mCategoryColorLight[1] = R.color.category_light_two;
         mCategoryColorLight[2] = R.color.category_light_three;
         mCategoryColorLight[3] = R.color.category_light_four;
         mCategoryColorLight[4] = R.color.category_light_five;
+        mCategoryColorLight[5] = R.color.category_light_six;
 
-        mCategoryColorDark = new int[5];
+        mCategoryColorDark = new int[6];
         mCategoryColorLight[0] = R.color.category_dark_one;
         mCategoryColorLight[1] = R.color.category_dark_two;
         mCategoryColorLight[2] = R.color.category_dark_three;
         mCategoryColorLight[3] = R.color.category_dark_four;
         mCategoryColorLight[4] = R.color.category_dark_five;
+        mCategoryColorLight[5] = R.color.category_dark_six;
     }
 
     public int getCategoryColor() {

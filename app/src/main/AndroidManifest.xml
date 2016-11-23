@@ -22,6 +22,12 @@
         <activity
             android:name=".Activities.DetailActivity"
             android:screenOrientation="portrait"></activity>
+        
+        <activity android:name=".Activities.ChooseCategoryActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
 
         <!-- Receiver -->
 
@@ -39,6 +45,19 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <!-- App Widget -->
+
+        <receiver android:name=".AppWidget.AppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info_list_add" />
+        </receiver>
+
+        <service android:name=".AppWidget.AppWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
     </application>
 

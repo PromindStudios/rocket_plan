@@ -10,7 +10,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:visibility="visible"
-        android:background="@drawable/android_circle_solid_primary_color"
+        android:background="@drawable/circle_solid_primary_color"
         android:layout_centerInParent="true"/>
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_height="2dp"
         android:paddingTop="2dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/android_circle_solid_primary_color"
+        android:background="@drawable/circle_solid_primary_color"
         android:layout_below="@id/tvCalenderDay"/>
 
 </RelativeLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -24,39 +24,39 @@
             <LinearLayout
                 style="@style/linear_layout_horizontal_calendar_day">
 
-                <include
+                <TextView
                     android:id="@+id/tvMonday"
-                    layout="@layout/element_week_day"
+                    style="@style/text_view_week_day"
                     android:text="@string/monday_short"/>
 
-                <include
+                <TextView
                     android:id="@+id/tvTuesday"
-                    layout="@layout/element_week_day"
+                    style="@style/text_view_week_day"
                     android:text="@string/tuesday_short"/>
 
-                <include
+                <TextView
                     android:id="@+id/tvWednesday"
-                    layout="@layout/element_week_day"
+                    style="@style/text_view_week_day"
                     android:text="@string/wednesday_short"/>
 
-                <include
+                <TextView
                     android:id="@+id/tvThursday"
-                    layout="@layout/element_week_day"
+                    style="@style/text_view_week_day"
                     android:text="@string/thursday_short"/>
 
-                <include
+                <TextView
                     android:id="@+id/tvFriday"
-                    layout="@layout/element_week_day"
+                    style="@style/text_view_week_day"
                     android:text="@string/friday_short"/>
 
-                <include
+                <TextView
                     android:id="@+id/tvSaturday"
-                    layout="@layout/element_week_day"
+                    style="@style/text_view_week_day"
                     android:text="@string/saturday_short"/>
 
-                <include
+                <TextView
                     android:id="@+id/tvSunday"
-                    layout="@layout/element_week_day"
+                    style="@style/text_view_week_day"
                     android:text="@string/sunday_short"/>
 
             </LinearLayout>

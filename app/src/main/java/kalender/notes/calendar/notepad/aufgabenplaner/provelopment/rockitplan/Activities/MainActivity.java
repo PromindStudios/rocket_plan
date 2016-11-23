@@ -3,30 +3,28 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.A
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.AppWidget.AppWidgetProvider;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
@@ -34,20 +32,16 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.CalendarFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentPagerFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentTimeFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentTimeCalendarFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.TimePagerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimePagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.ContentViewPagerAdapter;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.TimeViewPagerAdapter;
 
-public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener, ContentTimeFragment.MainActivityListener {
+public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener, ContentTimeCalendarFragment.MainActivityListener {
 
     // Layout
     private Toolbar mToolbar;
@@ -226,6 +220,15 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         updateDrawer();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Update App Widget
+        Intent intentAppWidget = new Intent(this, AppWidgetProvider.class);
+        intentAppWidget.setAction(MyConstants.UPDATE);
+        sendBroadcast(intentAppWidget);
+    }
+
     // Implemented methods from Interfaces
 
     @Override
@@ -374,6 +377,14 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         fragmentTransaction.replace(R.id.flContainer, calendarFragment);
         fragmentTransaction.commit();
         closeDrawer();
+    }
+
+    public void updateCalendarFragmentList(Calendar calendar, int calendarPage) {
+        Fragment fragment = mFragmentManager.findFragmentById(R.id.flContainer);
+        if (fragment instanceof CalendarFragment) {
+            ((CalendarFragment)fragment).updateContentList(calendar, calendarPage);
+        }
+
     }
 
     private void closeDrawer() {

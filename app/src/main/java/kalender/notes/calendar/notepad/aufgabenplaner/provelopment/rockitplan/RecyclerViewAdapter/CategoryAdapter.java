@@ -28,6 +28,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
@@ -166,8 +167,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                         break;
                                     case 1:
                                         // Delete
-                                        mDatabaseHelper.deleteCategory(category);
-                                        mDrawerFragment.updateDrawer();
+                                        DeleteContentDialog d = new DeleteContentDialog();
+                                        Bundle b = new Bundle();
+                                        b.putInt(MyConstants.CONTENT_ID, category.getId());
+                                        b.putInt(MyConstants.CATEGORY_ID, category.getId());
+                                        b.putInt(MyConstants.CONTENT_TYPE, 0);
+                                        d.setArguments(b);
+                                        d.setTargetFragment(mDrawerFragment, 0);
+                                        d.show(mFragmentManager, "..");
                                         break;
                                     default:
                                         break;

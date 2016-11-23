@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.My
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.ContentViewPagerAdapter;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.TimeViewPagerAdapter;
 
 /**
  * Created by Eric on 25.10.2016.
@@ -119,7 +117,6 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
                     }
                 }, 1000);
                 fabMenu.collapse();
-                fabMenu.collapse();
             }
         });
         fabNote.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +131,6 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
                         tab.select();
                     }
                 }, 1000);
-                fabMenu.collapse();
                 fabMenu.collapse();
             }
         });
@@ -153,6 +149,8 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
             window.setStatusBarColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
         }
 
+        setViewPagerUp();
+
         return layout;
     }
 
@@ -160,6 +158,10 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     public void onResume() {
         super.onResume();
 
+
+    }
+
+    private void setViewPagerUp() {
         mViewPagerAdapter = new ContentViewPagerAdapter(getActivity().getSupportFragmentManager(), mTabLayout.getTabCount(), mCategory.getId(), mCategory.getTitle());
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));

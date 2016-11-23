@@ -9,11 +9,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -23,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
@@ -120,6 +117,8 @@ public class TimePagerFragment extends Fragment implements ContentTimePagerInter
     public void onResume() {
         super.onResume();
 
+        int selectedTab = mViewPager.getCurrentItem();
+
         // Set up adapter
         mViewPagerAdapter = new TimeViewPagerAdapter(getActivity().getSupportFragmentManager(), mTabLayout.getTabCount());
         mViewPager.setAdapter(mViewPagerAdapter);
@@ -138,8 +137,7 @@ public class TimePagerFragment extends Fragment implements ContentTimePagerInter
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        //TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.TIME_DAY);
-        //tab.select();
+        mViewPager.setCurrentItem(selectedTab);
     }
 
     // Class Methods

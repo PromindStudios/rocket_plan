@@ -1,83 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/item_content_height">
+    android:layout_height="@dimen/item_content_height"
+    android:background="@color/white">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:background="@color/colorTransparent"
-        android:src="@drawable/ic_task"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:visibility="gone"
-        android:id="@+id/ivContent"/>
+        android:id="@+id/llContentLeft">
 
-    <View
+        <ImageView
+            android:id="@+id/ivContent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@color/colorTransparent"
+            android:paddingLeft="16dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_task"
+             />
+
+        <ImageView
+            android:id="@+id/ivCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@color/colorTransparent"
+            android:paddingLeft="16dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_checkbox_24dp" />
+
+    </LinearLayout>
+
+    <ImageView
         android:id="@+id/vPriority"
         android:layout_width="4dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="0dp"
-        android:layout_alignParentRight="true"
-        android:visibility="visible"
-        android:background="@color/colorPrimaryDark" />
+        android:layout_marginTop="4dp"
+        android:background="@color/colorPrimaryDark"
+        android:visibility="visible" />
 
-    <View
+    <ImageView
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:id="@+id/divider"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/colorDivider" />
 
     <RelativeLayout
+        android:id="@+id/rlSubtask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rlSubtask"
-        android:layout_toLeftOf="@id/vPriority"
         android:layout_centerVertical="true"
-        >
+        android:layout_toLeftOf="@id/vPriority">
 
         <ImageView
             android:id="@+id/ivSubtask"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorTransparent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:src="@drawable/ic_subtask"
-            android:visibility="visible"
-            android:tint="@color/colorSecondaryText" />
+            android:tint="@color/colorSecondaryText"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tvSubtask"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="3 / 4"
-            android:layout_alignRight="@id/ivSubtask"
             android:layout_alignLeft="@id/ivSubtask"
+            android:layout_alignRight="@id/ivSubtask"
+            android:layout_below="@id/ivSubtask"
+            android:layout_marginTop="4dp"
             android:gravity="center_horizontal"
             android:paddingTop="2dp"
-            android:layout_below="@id/ivSubtask"
+            android:text="3 / 4"
             android:textColor="@color/colorSecondaryText"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/llFiles"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/llFiles"
         android:layout_toLeftOf="@id/rlSubtask"
-        android:paddingRight="10dp"
-        android:paddingLeft="8dp">
+        android:paddingLeft="8dp"
+        android:paddingRight="10dp">
 
         <ImageView
             android:id="@+id/ivFiles"
@@ -91,14 +110,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/llContent"
-        android:paddingLeft="16dp"
-        android:layout_toRightOf="@id/ivContent"
         android:layout_toLeftOf="@id/llFiles"
+        android:layout_toRightOf="@id/llContentLeft"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
 
         <TextView
             android:id="@+id/tvTitle"
@@ -109,51 +128,52 @@
             android:textSize="@dimen/text_size_item_title" />
 
         <LinearLayout
+            android:id="@+id/llSubtitleDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/llSubtitleDate"
             android:layout_marginTop="12dp"
-            android:visibility="visible"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorSecondaryText"
-                android:text="At Mr. Wash"
-                android:visibility="gone"
-                android:id="@+id/tvSubtitle"
-                android:textSize="@dimen/text_size_item_subtitle"/>
-
-            <View
-                android:layout_width="1px"
-                android:layout_height="12dp"
-                android:background="@color/colorDivider"
-                android:layout_marginLeft="4dp"
-                android:visibility="gone"
-                android:id="@+id/vSubtitleDateDivider"
-                android:layout_marginRight="4dp"
-                />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <ImageView
+                android:id="@+id/ivRepeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorTransparent"
-                android:src="@drawable/ic_repeat_12dp"
-                android:paddingTop="2dp"
-                android:id="@+id/ivRepeat"
                 android:paddingRight="8dp"
-                android:tint="@color/colorSecondaryText"/>
+                android:paddingTop="2dp"
+                android:src="@drawable/ic_repeat_12dp"
+                android:tint="@color/colorSecondaryText" />
 
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Due at 4. Juli"
-                android:visibility="visible"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_size_item_subtitle" />
+                android:textSize="@dimen/text_size_item_subtitle"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/vSubtitleDateDivider"
+                android:layout_width="1px"
+                android:layout_height="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/colorDivider"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="At Mr. Wash"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_size_item_subtitle"
+                android:visibility="gone"/>
+
+
 
         </LinearLayout>
 

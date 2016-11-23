@@ -18,9 +18,9 @@
     <string name="week_plural">Weeks</string>
     <string name="month_plural">Months</string>
     <string name="every">Every</string>
-
     <string name="calendar">Calendar</string>
-
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 
     <!-- Week names -->
     <string name="monday_short">MO</string>
@@ -59,6 +59,8 @@
 
     <!-- Category -->
     <string name="toast_add_category">Before you can add any content you have to create a category</string>
+    <string name="alert_dialog_category_title">Category for this</string>
+
 
     <!-- Details -->
 
@@ -172,6 +174,7 @@ Eric
     <string name="color_three">Teal</string>
     <string name="color_four">Green</string>
     <string name="color_five">Orange</string>
+    <string name="color_six">Pink</string>
 
     <!-- Reminder -->
     <string name="add_reminder">Add a reminder</string>
@@ -198,5 +201,23 @@ Eric
     <string name="repetition_delete_event">Delete only this event</string>
     <string name="repetition_delete_all_events">Delete this event and the following</string>
 
+    <!-- Calendar Dialog -->
+    <string name="januar_short">JAN</string>
+    <string name="february_short">FEB</string>
+    <string name="march_short">MAR</string>
+    <string name="april_short">APR</string>
+    <string name="may_short">MAY</string>
+    <string name="june_short">JUN</string>
+    <string name="july_short">JUL</string>
+    <string name="august_short">AUG</string>
+    <string name="september_short">SEP</string>
+    <string name="october_short">OCT</string>
+    <string name="november_short">NOV</string>
+    <string name="december_short">DEC</string>
+
+    <!-- App Widget -->
+    <string name="tab_one_empty">Nothing to do today</string>
+    <string name="tab_two_empty">Nothing done today</string>
+    <string name="tab_three_empty">Nothing to do tomorrow</string>
 
 </resources>

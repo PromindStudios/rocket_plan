@@ -9,7 +9,7 @@
     <string name="edit">Bearbeiten</string>
     <string name="delete">Löschen</string>
     <string name="overview">Übersicht</string>
-    <string name="done">Erledigte</string>
+    <string name="done">Erledigt</string>
     <string name="help">Hilfe</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="at">um</string>
@@ -19,6 +19,18 @@
     <string name="week_plural">Wochen</string>
     <string name="month_plural">Month</string>
     <string name="every">Alle</string>
+    <string name="calendar">Kalender</string>
+    <string name="today">Heute</string>
+    <string name="tomorrow">Morgen</string>
+
+    <!-- Week names -->
+    <string name="monday_short">MO</string>
+    <string name="tuesday_short">DI</string>
+    <string name="wednesday_short">MI</string>
+    <string name="thursday_short">DO</string>
+    <string name="friday_short">FR</string>
+    <string name="saturday_short">SA</string>
+    <string name="sunday_short">SO</string>
 
     <!-- Tabs -->
     <string name="title_tabTask">Aufgaben</string>
@@ -47,6 +59,7 @@
 
     <!-- Category -->
     <string name="toast_add_category">Bevor du einen Inhalt hinzufügen kannst, musst du zuerst eine Kategorie erstellen</string>
+    <string name="alert_dialog_category_title">Kategorie für diese(n)</string>
 
     <!-- Details -->
 
@@ -160,6 +173,7 @@ Eric
     <string name="color_three">Teal</string>
     <string name="color_four">Grün</string>
     <string name="color_five">Orange</string>
+    <string name="color_six">Rosa</string>
 
     <!-- Reminder -->
     <string name="add_reminder">Erinnerung hinzufügen</string>
@@ -175,7 +189,6 @@ Eric
     <string name="reminder_choose_reminder_hint">Wähle einen Wert aus</string>
 
     <!-- Repeat -->
-
     <string name="repetition">Wiederholung</string>
     <string name="add_repeat">Wiederholung hinzufügen</string>
     <string name="repetition_hourly">Stündlich</string>
@@ -186,5 +199,24 @@ Eric
     <string name="repetition_delete_all_tasks">Diese und folgende Aufgaben löschen</string>
     <string name="repetition_delete_event">Nur diesen Termin löschen</string>
     <string name="repetition_delete_all_events">Diesen und folgende Termine löschen</string>
+
+    <!-- Calendar Dialog -->
+    <string name="januar_short">JAN</string>
+    <string name="february_short">FEB</string>
+    <string name="march_short">MÄR</string>
+    <string name="april_short">APR</string>
+    <string name="may_short">MAI</string>
+    <string name="june_short">JUN</string>
+    <string name="july_short">JUL</string>
+    <string name="august_short">AUG</string>
+    <string name="september_short">SEP</string>
+    <string name="october_short">OKT</string>
+    <string name="november_short">NOV</string>
+    <string name="december_short">DEZ</string>
+
+    <!-- App Widget -->
+    <string name="tab_one_empty">Alles erledigt für heute</string>
+    <string name="tab_two_empty">Nichts erledigt heute</string>
+    <string name="tab_three_empty">Morgen hast Du frei</string>
 
 </resources>

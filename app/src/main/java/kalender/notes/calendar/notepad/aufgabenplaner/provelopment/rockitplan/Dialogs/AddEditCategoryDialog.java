@@ -16,10 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Subtask;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.SubtaskFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
@@ -64,7 +62,7 @@ public class AddEditCategoryDialog extends DialogFragment {
         rlColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence[] items = {getActivity().getString(R.string.color_one), getActivity().getString(R.string.color_two), getActivity().getString(R.string.color_three), getActivity().getString(R.string.color_four), getActivity().getString(R.string.color_five)};
+                CharSequence[] items = {getActivity().getString(R.string.color_one), getActivity().getString(R.string.color_two), getActivity().getString(R.string.color_three), getActivity().getString(R.string.color_four), getActivity().getString(R.string.color_five), getActivity().getString(R.string.color_six)};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -84,6 +82,9 @@ public class AddEditCategoryDialog extends DialogFragment {
                                 break;
                             case 4:
                                 color = 4;
+                                break;
+                            case 5:
+                                color = 5;
                                 break;
                             default:
                                 break;

@@ -5,6 +5,9 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan;
  */
 public class MyConstants {
 
+    // General
+    public static final String UPDATE = "Update__";
+
     // Classes
     public static final String DATABASE_HELPER = "Database Helper: ";
 
@@ -106,7 +109,23 @@ public class MyConstants {
     public static final String IS_EX_TIME_MONTH_DONE = "is_ex_time_month_done";
     public static final String IS_START_CATEGORY = "is_start_category";
     public static final String IS_START_CONTENT = "is_start_content";
+    public static final String APP_WIDGET_TAB_SELECTED = "app_widget_tab_selected";
+    public static final int APP_WIDGET_TAB_TODAY = 1;
+    public static final int APP_WIDGET_TAB_DONE = 2;
+    public static final int APP_WIDGET_TAB_TOMORROW = 3;
 
 
+
+    // Calendar
+    public static final String CALENDAR_OBJECT = "calendar_object";
+    public static final String CALENDAR_PAGE = "calendar_page";
+    public static final String CALENDAR_YEAR = "calendar_year";
+    public static final String CALENDAR_MONTH = "calendar_month";
+
+    // App Widget
+    public static final String APP_WIDGET_ITEM_CLICK = "app_widget_item_click";
+    public static final String APP_WIDGET_ITEM_CHECK = "app_widget_item_check";
+    public static final String APP_WIDGET_LIST_VIEW_EVENT = "app_widget_list_view_event";
+    public static final String APP_WIDGET_ITEM_EVENT = "app_widget_item_event";
 
 }

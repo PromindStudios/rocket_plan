@@ -1,25 +1,19 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
-import android.content.SharedPreferences;
-import android.os.Build;
-import android.support.v4.app.DialogFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,15 +23,15 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AboutDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
 
 /**
  * Created by eric on 04.04.2016.
  */
-public class DrawerFragment extends Fragment implements AddEditCategoryDialog.AddEditDialogCategoryListener {
+public class DrawerFragment extends Fragment implements AddEditCategoryDialog.AddEditDialogCategoryListener, DeleteContentDialog.DeleteContentDialogListener{
 
     private RecyclerView mRecyclerView;
     private CategoryAdapter mCategoryAdapter;
@@ -141,4 +135,14 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
 
     }
 
+    @Override
+    public void onDeleteContent(int contentId, int contentType) {
+        mDatabaseHelper.deleteCategory(mDatabaseHelper.getCategory(contentId));
+        updateDrawer();
+    }
+
+    @Override
+    public void onUpdateContent() {
+
+    }
 }

@@ -9,14 +9,17 @@ public class Subtask {
     private int mContentId;
     private String mTitle;
     private boolean mDone;
+    private int mPosition;
 
     public Subtask (int contentId, String title) {
         mContentId = contentId;
         mTitle = title;
         mDone = false;
+        mPosition = 0;
     }
 
     public Subtask () {
+        mPosition = 0;
     }
 
 
@@ -50,5 +53,13 @@ public class Subtask {
 
     public void setDone(boolean done) {
         mDone = done;
+    }
+
+    public int getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(int mPosition) {
+        this.mPosition = mPosition;
     }
 }

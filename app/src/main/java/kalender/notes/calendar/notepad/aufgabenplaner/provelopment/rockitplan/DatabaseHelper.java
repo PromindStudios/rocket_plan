@@ -10,7 +10,6 @@ import android.util.Log;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -24,10 +23,6 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Reminder.ReminderSetter;
 
-import static android.R.attr.id;
-import static kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R.string.events;
-import static kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R.string.tasks;
-
 /**
  * Created by eric on 05.05.2016.
  */
@@ -37,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION_1 = 1; // first
     private static final int DATABASE_VERSION_2 = 2; // 28.05.16 - updating subtask table
     private static final int DATABASE_VERSION_3 = 3; // 19.10.16 - updating Category Table --> CATEGORY_EXPANDED
+    private static final int DATABASE_VERSION_4 = 4; // 23.11.16 - updating Category Table & Subtask Table --> POSITION
 
     // Database & Table Names
     private static final String DATABASE_NAME = "database_rocketplan";
@@ -62,6 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String FILE_VOICE = "file_voice";
     private static final String CONTENT_DONE = "content_done";
     private static final String TYPE_CONTENT = "type_content";
+    private static final String POSITION = "position";
 
     // Category column names
     private static final String CATEGORY_COLOR = "category_color";
@@ -123,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION_3);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_4);
         mContext = context;
     }
 
@@ -139,6 +136,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 3) {
             String upgradeQuery = "ALTER TABLE " + TABLE_CATEGORY + " ADD " + CATEGORY_EXPANDED + " INTEGER";
             db.execSQL(upgradeQuery);
+        }
+        if (oldVersion < 4) {
+            String upgradeQuery = "ALTER TABLE " + TABLE_CATEGORY + " ADD " + POSITION + " INTEGER";
+            db.execSQL(upgradeQuery);
+            String upgradeQuery2 = "ALTER TABLE " + TABLE_SUBTASK + " ADD " + POSITION + " INTEGER";
+            db.execSQL(upgradeQuery2);
         }
     }
 
@@ -170,7 +173,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(SHOW_TASK_DONE, category.isShowTaskDone() ? 1 : 0);
         values.put(SHOW_EVENT_DONE, category.isShowEventDone() ? 1 : 0);
         values.put(CATEGORY_EXPANDED, category.isExpanded() ? 1 : 0);
+        values.put(POSITION, category.getPosition());
         db.insert(TABLE_CATEGORY, null, values);
+
     }
 
     public Category getCategory(int category_id) {
@@ -190,6 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         category.setShowTaskDone(c.getInt(c.getColumnIndex(SHOW_TASK_DONE)) == 1);
         category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
         category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
+        category.setPosition(c.getInt(c.getColumnIndex(POSITION)));
 
         return category;
     }
@@ -210,10 +216,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 category.setShowTaskDone(c.getInt(c.getColumnIndex(SHOW_TASK_DONE)) == 1);
                 category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
                 category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
+                category.setPosition(c.getInt(c.getColumnIndex(POSITION)));
                 categories.add(category);
             } while (c.moveToNext());
         }
         Log.i("Siize:", Integer.toString(categories.size()));
+        Collections.sort(categories, new Comparator<Category>() {
+            @Override
+            public int compare(Category category, Category t1) {
+                return t1.getPosition() - category.getPosition();
+            }
+        });
         return categories;
     }
 
@@ -224,6 +237,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(TITLE, category.getTitle());
         values.put(CATEGORY_COLOR, category.getColor());
+        values.put(POSITION, category.getPosition());
         //values.put(CATEGORY_EXPANDED, category.isExpanded() ? 1 : 0);
         db.update(TABLE_CATEGORY, values, ID + " =?", new String[]{String.valueOf(category.getId())});
     }
@@ -427,7 +441,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (task.getDate() == null) {
             values.put(TASK_EVENT_DATE, 0);
         } else {
-            values.put(TASK_EVENT_DATE, task.getDate().getTimeInMillis());
+            Calendar calendar = task.getDate();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            values.put(TASK_EVENT_DATE, calendar.getTimeInMillis());
         }
         if (task.getTime() == null) {
             values.put(TASK_EVENT_TIME, 0);
@@ -627,8 +646,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.i(MyConstants.DATABASE_HELPER, "create, Task ist null");
             values.put(TASK_EVENT_DATE, 0);
         } else {
-            Log.i(MyConstants.DATABASE_HELPER, "create, Task ist nicht null");
-            values.put(TASK_EVENT_DATE, event.getDate().getTimeInMillis());
+            Calendar calendar = event.getDate();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            values.put(TASK_EVENT_DATE, calendar.getTimeInMillis());
         }
         if (event.getTime() == null) {
             values.put(TASK_EVENT_TIME, 0);
@@ -805,10 +828,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 contentId = createTask((Task) content);
                 break;
             case MyConstants.CONTENT_EVENT:
-                contentId = createTask((Task) content);
+                contentId = createEvent((Event) content);
                 break;
             case MyConstants.CONTENT_NOTE:
-                contentId = createTask((Task) content);
+                contentId = createNote((Note) content);
                 break;
         }
         return contentId;
@@ -863,13 +886,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.i(MyConstants.DATABASE_HELPER, "create, Task ist null");
                 values.put(TASK_EVENT_DATE, 0);
             } else {
-                Log.i(MyConstants.DATABASE_HELPER, "create, Task ist nicht null");
-                values.put(TASK_EVENT_DATE, taskEvent.getDate().getTimeInMillis());
+                Calendar calendar = taskEvent.getDate();
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                values.put(TASK_EVENT_DATE, calendar.getTimeInMillis());
             }
             if (taskEvent.getTime() == null) {
                 values.put(TASK_EVENT_TIME, 0);
             } else {
                 values.put(TASK_EVENT_TIME, taskEvent.getTime().getTimeInMillis());
+                Log.i("CRAAZY", DateTimeTexter.getNormal(taskEvent));
+                Log.i("WIEEE", ""+taskEvent.getTime().get(Calendar.HOUR_OF_DAY));
             }
             values.put(CONTENT_DONE, taskEvent.isDone() ? 1 : 0);
             values.put(TASK_EVENT_REPETITION_TYPE, taskEvent.getRepetitionType());
@@ -877,6 +906,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         db.update(content.getTable(), values, ID + " =?", new String[]{String.valueOf(content.getId())});
     }
+
 
     // TaskEvent Methods
 
@@ -936,6 +966,63 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Collections.sort(taskEvents, new TaskEventComparator());
 
         return taskEvents;
+    }
+
+    public ArrayList<Content> getAllTaskEventsAtDate(Calendar calendar) {
+        ArrayList<Content> taskEvents = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQueryTask = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis();
+        Cursor cT = db.rawQuery(selectQueryTask, null);
+        ArrayList<Content> events = new ArrayList<>();
+        ArrayList<Content> tasks = new ArrayList<>();
+        taskEvents.addAll(cursorTasks(tasks, cT));
+        String selectQueryEvent = "SELECT * FROM " + TABLE_EVENT + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis();
+        Cursor cE = db.rawQuery(selectQueryEvent, null);
+        taskEvents.addAll(cursorEvents(events, cE));
+        Collections.sort(taskEvents, new TaskEventComparator());
+
+        return taskEvents;
+    }
+
+    public ArrayList<Content> getAllTaskEventsAtDateAndDoneCheck(Calendar calendar, boolean areDone) {
+        ArrayList<Content> taskEvents = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQueryTask = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis() + " AND " + CONTENT_DONE + " = " + (areDone ? 1 : 0);
+        Cursor cT = db.rawQuery(selectQueryTask, null);
+        ArrayList<Content> events = new ArrayList<>();
+        ArrayList<Content> tasks = new ArrayList<>();
+        taskEvents.addAll(cursorTasks(tasks, cT));
+        String selectQueryEvent = "SELECT * FROM " + TABLE_EVENT + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis() + " AND " + CONTENT_DONE + " = " + (areDone ? 1 : 0);
+        Cursor cE = db.rawQuery(selectQueryEvent, null);
+        taskEvents.addAll(cursorEvents(events, cE));
+        Collections.sort(taskEvents, new TaskEventComparator());
+
+        Log.i("Day: ", ""+calendar.get(Calendar.DAY_OF_MONTH)+" Length: "+taskEvents.size());
+        return taskEvents;
+    }
+
+    public void checkUncheckTaskEvent(TaskEvent taskEvent) {
+        if (!taskEvent.isDone()) {
+            if (taskEvent.getRepetitionType() != MyConstants.REPETITION_TYPE_NONE) {
+                // Create new Content
+                createRepeatTaskEvent(taskEvent);
+            }
+            Calendar calendar = Calendar.getInstance();
+            Calendar calendar2 = Calendar.getInstance();
+            taskEvent.setDate(calendar);
+            taskEvent.setTime(calendar2);
+            taskEvent.setPriority(0);
+            taskEvent.setReminder(0);
+            taskEvent.setDone(true);
+            taskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_NONE);
+            taskEvent.setRepetitionValue(0);
+        } else {
+            taskEvent.setDate(null);
+            taskEvent.setTime(null);
+            taskEvent.setDone(false);
+        }
+        deleteContentReminder(taskEvent.getId(), taskEvent.getContentType());
+        updateContent(taskEvent);
     }
 
     // Subtask Methods
@@ -1181,7 +1268,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             File file = new File(content.getPicturePath());
             file.delete();
         }
+    }
 
+    public boolean checkIfDayHasAnyContent (Calendar calendar) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Log.i("Calendar in Millis: ", Long.toString(calendar.getTimeInMillis()));
+        String selectQueryTask = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis();
+        Cursor c = db.rawQuery(selectQueryTask, null);
+
+        /*
+        if (c.moveToFirst()) {
+            do {
+                long millis = c.getLong(c.getColumnIndex(TASK_EVENT_DATE));
+                Log.i("Task in Millis", Long.toString(millis));
+
+            } while (c.moveToNext());
+        }
+        */
+        if (c.getCount() > 0) {
+            Log.i("Wir haben", "eine Aufgabe hier!");
+            c.close();
+            db.close();
+            return true;
+        }
+
+        String selectQueryEvent = "SELECT * FROM " + TABLE_EVENT + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis();
+        Cursor c2 = db.rawQuery(selectQueryEvent, null);
+        if (c2.getCount() > 0) {
+            Log.i("Wir haben", "einen Termin hier!");
+            c.close();
+            c2.close();
+            db.close();
+            return true;
+        }
+        c.close();
+        c2.close();
+        db.close();
+        return false;
     }
 
     private class TaskEventComparator implements Comparator<Content> {

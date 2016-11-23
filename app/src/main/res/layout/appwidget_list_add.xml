@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_widget_rounded_corner"
+    android:layout_margin="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:id="@+id/llTabs">
+
+        <ImageButton
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_rocket_24"
+            android:id="@+id/ibHome"
+            android:background="@color/colorTransparent"/>
+
+        <TextView
+            android:id="@+id/tvTabToday"
+            style="@style/text_view_app_widget_tab"
+            android:text="@string/today"/>
+
+        <TextView
+            android:id="@+id/tvTabDone"
+            style="@style/text_view_app_widget_tab"
+            android:text="@string/done"/>
+
+        <TextView
+            android:id="@+id/tvTabTomorrow"
+            style="@style/text_view_app_widget_tab"
+            android:text="@string/tomorrow"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:id="@+id/llIndicator"
+        android:layout_below="@id/llTabs"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            style="@style/view_app_widget_tab_indicator"
+            android:id="@+id/vIndicatorToday"
+            android:background="@color/white"
+            android:visibility="invisible"/>
+
+        <ImageView
+            style="@style/view_app_widget_tab_indicator"
+            android:id="@+id/vIndicatorDone"
+            android:background="@color/white"
+            android:visibility="invisible"/>
+
+        <ImageView
+            style="@style/view_app_widget_tab_indicator"
+            android:id="@+id/vIndicatorTomorrow"
+            android:background="@color/white"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:id="@+id/llAdd"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/rlAddTask">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:src="@drawable/ic_task_24dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/ivAddTask"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_12dp"
+                android:layout_toRightOf="@id/ivAddTask"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="8dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/rlAddEvent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:src="@drawable/ic_event_24dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/ivAddEvent"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_12dp"
+                android:layout_toRightOf="@id/ivAddEvent"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="8dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/rlAddNote">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:src="@drawable/ic_note_24dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/ivAddNote"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_12dp"
+                android:layout_toRightOf="@id/ivAddNote"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="8dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llIndicator"
+        android:layout_above="@id/llAdd"
+        android:background="@color/white"
+        android:id="@+id/lvContent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llIndicator"
+        android:layout_above="@id/llAdd"
+        android:gravity="center"
+        android:background="@color/white"
+        android:padding="16dp"
+        android:text="@string/tab_one_empty"
+        android:textSize="14sp"
+        android:textColor="@color/colorSecondaryText"
+        android:id="@+id/tvNoContent" />
+
+</RelativeLayout>

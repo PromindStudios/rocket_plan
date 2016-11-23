@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="2015"
+            android:id="@+id/tvYear1"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="2016"
+            android:id="@+id/tvYear2"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="2017"
+            android:id="@+id/tvYear3"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorDivider"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/januar_short"
+            android:id="@+id/tvMonth1"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/february_short"
+            android:id="@+id/tvMonth2"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/march_short"
+            android:id="@+id/tvMonth3"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/april_short"
+            android:id="@+id/tvMonth4"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/may_short"
+            android:id="@+id/tvMonth5"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/june_short"
+            android:id="@+id/tvMonth6"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/july_short"
+            android:id="@+id/tvMonth7"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/august_short"
+            android:id="@+id/tvMonth8"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/september_short"
+            android:id="@+id/tvMonth9"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/october_short"
+            android:id="@+id/tvMonth10"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/november_short"
+            android:id="@+id/tvMonth11"/>
+
+        <TextView
+            style="@style/text_view_dialog_calendar_item"
+            android:text="@string/december_short"
+            android:id="@+id/tvMonth12"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorDivider"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ibExit"
+            style="@style/image_button_dialog"
+            android:src="@drawable/ic_content_clear"
+            />
+
+        <ImageButton
+            android:id="@+id/ibSave"
+            style="@style/image_button_dialog"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

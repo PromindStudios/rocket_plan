@@ -24,25 +24,22 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ac
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DateTimeTexter;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.RepeatDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.GeneralFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeAdapterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.ContentTimeAdapter;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder.DividerViewHolder;
 
 /**
  * Created by Eric on 17.10.2016.
  */
 
-public class ContentTimeFragment extends Fragment implements DeleteContentDialog.DeleteContentDialogListener {
+public class ContentTimeCalendarFragment extends Fragment implements DeleteContentDialog.DeleteContentDialogListener {
 
     MainActivity mMainActivity;
-    ContentTimeFragment.MainActivityListener mainActivityListener;
+    ContentTimeCalendarFragment.MainActivityListener mainActivityListener;
     ContentTimeAdapterInterface mAdapterListener;
     DatabaseHelper mDatabaseHelper;
 
@@ -50,7 +47,7 @@ public class ContentTimeFragment extends Fragment implements DeleteContentDialog
     public void onAttach(Context context) {
         super.onAttach(context);
         mMainActivity = (MainActivity) context;
-        mainActivityListener = (ContentTimeFragment.MainActivityListener) context;
+        mainActivityListener = (ContentTimeCalendarFragment.MainActivityListener) context;
     }
 
     // Content functions
@@ -96,7 +93,7 @@ public class ContentTimeFragment extends Fragment implements DeleteContentDialog
                 bundle.putInt(MyConstants.CATEGORY_ID, content.getCategoryId());
                 bundle.putBoolean(MyConstants.IS_EXPANDED, false);
                 dialog.setArguments(bundle);
-                dialog.setTargetFragment(ContentTimeFragment.this, 0);
+                dialog.setTargetFragment(ContentTimeCalendarFragment.this, 0);
                 dialog.show(getActivity().getSupportFragmentManager(), "deleteContentTime");
             }
         } else {
@@ -107,7 +104,7 @@ public class ContentTimeFragment extends Fragment implements DeleteContentDialog
             bundle.putInt(MyConstants.CATEGORY_ID, content.getCategoryId());
             bundle.putBoolean(MyConstants.IS_EXPANDED, false);
             dialog.setArguments(bundle);
-            dialog.setTargetFragment(ContentTimeFragment.this, 0);
+            dialog.setTargetFragment(ContentTimeCalendarFragment.this, 0);
             dialog.show(getActivity().getSupportFragmentManager(), "deleteContentTime");
         }
     }
@@ -126,18 +123,23 @@ public class ContentTimeFragment extends Fragment implements DeleteContentDialog
                 startDetailActivity(taskEvent, mDatabaseHelper.createRepeatTaskEvent(taskEvent));
             }
             Calendar calendar = Calendar.getInstance();
+            Calendar calendar2 = Calendar.getInstance();
             taskEvent.setDate(calendar);
-            taskEvent.setTime(calendar);
+            taskEvent.setTime(calendar2);
             taskEvent.setPriority(0);
             taskEvent.setReminder(0);
             taskEvent.setDone(true);
             taskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_NONE);
             taskEvent.setRepetitionValue(0);
+            Log.i("STILLL CRAZY", DateTimeTexter.getNormal(taskEvent));
+            Log.i("WIEEE WEER", ""+taskEvent.getTime().get(Calendar.HOUR_OF_DAY));
         }
 
         // Reminder löschen
         mDatabaseHelper.deleteContentReminder(taskEvent.getId(), taskEvent.getContentType());
         mDatabaseHelper.updateContent(taskEvent);
+        mMainActivity.updateDrawer();
+
 
         setAdapterUp();
     }
@@ -146,10 +148,11 @@ public class ContentTimeFragment extends Fragment implements DeleteContentDialog
     public void onDeleteContent(int contentId, int contentType) {
         mDatabaseHelper.deleteContent(contentId, contentType);
         setAdapterUp();
+        mMainActivity.updateDrawer();
     }
 
     @Override
-    public void onUpdateContent(boolean isExpanded) {
+    public void onUpdateContent() {
         setAdapterUp();
     }
 

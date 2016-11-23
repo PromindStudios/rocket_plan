@@ -5,8 +5,8 @@
 
     <item
         android:title="CHOOSE"
-        android:icon="@drawable/ic_delete_white"
-        android:id="@+id/delete_content"
+        android:icon="@drawable/ic_navigation_down_24dp"
+        android:id="@+id/navigation_down"
         app:showAsAction="ifRoom">
     </item>
 

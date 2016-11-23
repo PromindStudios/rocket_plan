@@ -1,8 +1,5 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan;
 
-import java.util.Calendar;
-
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.ContentHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 
 /**
@@ -15,7 +12,7 @@ public class DateTimeTexter {
         int daysBetween = taskEvent.getDaysTillDueDate();
         String textTime = "";
         if (taskEvent.getTime() != null) {
-            textTime = "  -  "+MyMethods.formatTime(taskEvent.getTime());
+            textTime = "  -  " + MyMethods.formatTime(taskEvent.getTime());
         }
 
         boolean isDone = taskEvent.isDone();
@@ -23,13 +20,13 @@ public class DateTimeTexter {
             dateTime = "OVERDUE";
         }
         if (daysBetween == 0) {
-            dateTime = "Today"+textTime;
+            dateTime = "Today" + textTime;
         }
         if (daysBetween == 1 && !isDone) {
-            dateTime = "Tomorrow"+textTime;
+            dateTime = "Tomorrow" + textTime;
         }
         if (daysBetween > 1 || isDone) {
-            dateTime = MyMethods.formatDate(taskEvent.getDate())+textTime;
+            dateTime = MyMethods.formatDate(taskEvent.getDate()) + textTime;
         }
         return dateTime;
     }
@@ -52,7 +49,7 @@ public class DateTimeTexter {
         String dateTime = "";
         String textTime = "";
         if (taskEvent.getTime() != null) {
-            textTime = "  -  "+MyMethods.formatTime(taskEvent.getTime());
+            textTime = "  -  " + MyMethods.formatTime(taskEvent.getTime());
         }
 
         boolean isDone = taskEvent.isDone();
@@ -60,13 +57,13 @@ public class DateTimeTexter {
             dateTime = "OVERDUE";
         }
         if (daysBetween == 0) {
-            dateTime = "Today"+textTime;
+            dateTime = "Today" + textTime;
         }
         if (daysBetween == 1 && !isDone) {
-            dateTime = "Tomorrow"+textTime;
+            dateTime = "Tomorrow" + textTime;
         }
         if (daysBetween > 1 || isDone) {
-            dateTime = MyMethods.formatWeekDay(taskEvent.getDate())+textTime;
+            dateTime = MyMethods.formatWeekDay(taskEvent.getDate()) + textTime;
         }
         return dateTime;
     }
@@ -74,4 +71,17 @@ public class DateTimeTexter {
     public static String getTimeMonth(TaskEvent taskEvent) {
         return getGeneral(taskEvent);
     }
+
+    public static String getNormal(TaskEvent taskEvent) {
+        String dateTime = "";
+        String textTime = "";
+        if (taskEvent.getTime() != null) {
+            textTime = "  -  " + MyMethods.formatTime(taskEvent.getTime());
+        }
+        dateTime = MyMethods.formatDate(taskEvent.getDate()) + textTime;
+
+        return dateTime;
+    }
+
+
 }

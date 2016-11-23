@@ -68,17 +68,17 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.llContent) {
-            mListener.openTask(getAdapterPosition(), MyConstants.DETAIL_GENERAL);
+            mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_GENERAL);
         }
         if (v.getId() == R.id.llFiles) {
-            mListener.openTask(getAdapterPosition(), MyConstants.DETAIL_FILES);
+            mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_FILES);
         }
         if (v.getId() == R.id.rlSubtask) {
-            mListener.openTask(getAdapterPosition(), MyConstants.DETAIL_SUBTASK);
+            mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_SUBTASK);
         }
     }
 
     public static interface vhTasksClickListener {
-        public void openTask(int position, int type);
+        public void openContent(int position, int type);
     }
 }

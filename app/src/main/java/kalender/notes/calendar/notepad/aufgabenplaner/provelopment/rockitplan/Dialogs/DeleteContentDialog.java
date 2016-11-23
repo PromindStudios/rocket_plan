@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,6 @@ public class DeleteContentDialog extends DialogFragment {
         final int contentId = arguments.getInt(MyConstants.CONTENT_ID);
         final int contentType = arguments.getInt(MyConstants.CONTENT_TYPE);
         int categoryId = arguments.getInt(MyConstants.CATEGORY_ID);
-        final boolean isExtended = arguments.getBoolean(MyConstants.IS_EXPANDED);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_delete_content, null);
@@ -57,7 +55,7 @@ public class DeleteContentDialog extends DialogFragment {
         ibExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onUpdateContent(isExtended);
+                mListener.onUpdateContent();
                 DeleteContentDialog.this.getDialog().cancel();
             }
         });
@@ -83,6 +81,6 @@ public class DeleteContentDialog extends DialogFragment {
 
     public interface DeleteContentDialogListener {
         public void onDeleteContent(int contentId, int contentType);
-        public void onUpdateContent(boolean isExtended);
+        public void onUpdateContent();
     }
 }

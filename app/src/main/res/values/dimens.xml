@@ -44,6 +44,7 @@
     <dimen name="circle_small_calendar_day">2dp</dimen>
     <dimen name="circle_small_calendar_day_padding_top">2dp</dimen>
     <dimen name="text_view_size_calendar_day">12sp</dimen>
+    <dimen name="calendar_dialog_item_height">48dp</dimen>
 
 
 </resources>
