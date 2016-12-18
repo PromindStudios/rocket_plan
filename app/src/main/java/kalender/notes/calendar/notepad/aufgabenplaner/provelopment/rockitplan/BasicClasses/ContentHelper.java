@@ -1,15 +1,9 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses;
 
 import android.content.Context;
-import android.util.Log;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
@@ -29,56 +23,35 @@ public class ContentHelper {
     }
 
     public ArrayList<Content> getAllContent(int contentType) {
+        ArrayList<Content> undoneContent = new ArrayList<>();
+        ArrayList<Content> doneContent = new ArrayList<>();
         ArrayList<Content> allContent = new ArrayList<>();
+        Category category = mDatabaseHelper.getCategory(mCategoryId);
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
-                allContent.addAll(mDatabaseHelper.getAllUndoneTasks(mCategoryId));
-                allContent.addAll(mDatabaseHelper.getAllDoneTasks(mCategoryId));
+                allContent.addAll(mDatabaseHelper.getAllUndoneTasks(mCategoryId, category.isTaskSortedByPriority()));
+                allContent.addAll(mDatabaseHelper.getAllDoneTasks(mCategoryId, category.isTaskSortedByPriority()));
                 break;
             case MyConstants.CONTENT_EVENT:
-                allContent.addAll(mDatabaseHelper.getAllUndoneEvents(mCategoryId));
-                allContent.addAll(mDatabaseHelper.getAllDoneEvents(mCategoryId));
+                allContent.addAll(mDatabaseHelper.getAllUndoneEvents(mCategoryId, category.isEventSortedByPriority()));
+                allContent.addAll(mDatabaseHelper.getAllDoneEvents(mCategoryId, category.isEventSortedByPriority()));
                 break;
             case MyConstants.CONTENT_NOTE:
-                allContent = mDatabaseHelper.getAllCategoryNotes(mCategoryId);
+                allContent = mDatabaseHelper.getAllCategoryNotes(mCategoryId, category.isNoteSortedByPriority());
                 break;
         }
         return allContent;
     }
 
-    public ArrayList<Content> getAllUndoneContent(int categoryType) {
+    public ArrayList<Content> getAllUndoneContent(int categoryId, int categoryType) {
+        Category category = mDatabaseHelper.getCategory(categoryId);
         ArrayList<Content> allContent = new ArrayList<>();
         switch (categoryType) {
             case MyConstants.CONTENT_TASK:
-                ArrayList<Content> tasks = mDatabaseHelper.getAllCategoryTasks(mCategoryId);
-                Log.i("all tasks: ", Integer.toString(tasks.size()));
-                ArrayList<Task> undoneTasks = new ArrayList<>();
-                if (tasks != null) {
-                    for (Content content : tasks) {
-                        Task task = (Task) content;
-                        if (!task.isDone()) {
-                            undoneTasks.add(task);
-                        }
-                    }
-                }
-                Collections.sort(undoneTasks, new TaskComparator());
-                allContent.addAll(undoneTasks);
-                Log.i("all content: ", Integer.toString(allContent.size()));
+                allContent = mDatabaseHelper.getAllUndoneTasks(categoryId, category.isTaskSortedByPriority());
                 break;
             case MyConstants.CONTENT_EVENT:
-                ArrayList<Content> events = mDatabaseHelper.getAllCategoryEvents(mCategoryId);
-                Log.i("JJ: ", Integer.toString(mCategoryId) + " " + events.size());
-                ArrayList<Event> undoneEvents = new ArrayList<>();
-                if (events != null) {
-                    for (Content content : events) {
-                        Event event = (Event) content;
-                        if (!event.isDone()) {
-                            undoneEvents.add(event);
-                        }
-                    }
-                }
-                Collections.sort(undoneEvents, new EventComparator());
-                allContent.addAll(undoneEvents);
+                allContent = mDatabaseHelper.getAllUndoneEvents(categoryId, category.isEventSortedByPriority());;
                 break;
         }
 

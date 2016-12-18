@@ -3,29 +3,37 @@
     android:id="@+id/rlExpandCollapse"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorDividerLight"
     android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/ivExpandCollapse"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="32dp"
         android:paddingLeft="16dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:background="@color/colorTransparent"
         android:src="@drawable/ic_expanded_24_white"
-        android:tint="@color/colorDivider"
+        android:tint="@color/colorWhite"
          />
 
     <TextView
         android:id="@+id/tvText"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="32dp"
         android:text="Due Today"
+        android:textAllCaps="true"
         android:paddingLeft="16dp"
         android:gravity="center_vertical"
         android:layout_toRightOf="@id/ivExpandCollapse"
-        android:textColor="@color/colorDivider"
-        android:textSize="@dimen/text_size_item_title" />
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_item_subtitle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorWhite"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>

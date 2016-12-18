@@ -126,9 +126,9 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (taskEvent.getDate() == null && taskEvent.getSubtitle() == null) {
                     vhContent.llSubtitleDate.setVisibility(View.GONE);
                 } else {
-                    Log.i("KOOOMMM", DateTimeTexter.getGeneral(taskEvent));
+                    Log.i("KOOOMMM", DateTimeTexter.getGeneral(taskEvent, mContext));
                     vhContent.llSubtitleDate.setVisibility(View.VISIBLE);
-                    vhContent.tvDate.setText(DateTimeTexter.getGeneral(taskEvent));
+                    vhContent.tvDate.setText(DateTimeTexter.getGeneral(taskEvent, mContext));
                 }
             }
 
@@ -137,7 +137,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (position+1 == mPositionHideShow || position == mContent.size()) {
                 vhContent.vDivider.setVisibility(View.GONE);
             } else {
-                vhContent.vDivider.setVisibility(View.GONE);
+                vhContent.vDivider.setVisibility(View.VISIBLE);
             }
 
         } else {
@@ -152,9 +152,11 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             // Set Text and Icon
             if (mContentHelper.getDoneContentSize(mContentType) == 0) {
+                vhShowHide.rlExpandCollapse.setVisibility(View.GONE);
                 vhShowHide.tvText.setText("");
                 vhShowHide.ivExpandCollapse.setVisibility(View.GONE);
             } else {
+                vhShowHide.rlExpandCollapse.setVisibility(View.VISIBLE);
                 vhShowHide.ivExpandCollapse.setVisibility(View.VISIBLE);
                 vhShowHide.tvText.setText(mContext.getString(R.string.done)+" "+content);
                 if (mExtended) {
@@ -213,31 +215,34 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void handleExpandCollaps(boolean isExpanded) {
+        mDataBaseHelper.updateCategoryShow(mCategoryId, mContentType, !isExpanded);
+        mContent = mDataBaseHelper.getCategoryContent(mCategoryId, mContentType);
         if (!isExpanded) {
             // expand
-            mContent = mContentHelper.getAllContent(mContentType);
+            //mContent = mContentHelper.getAllContent(mContentType);
             mPositionHideShow = mContentHelper.getUndoneContentSize(mContent, mContentType);
             mExtended = true;
         } else {
             // collapse
-            mContent = mContentHelper.getAllUndoneContent(mContentType);
+            //mContent = mContentHelper.getAllUndoneContent(mContentType, mCategoryId);
             mPositionHideShow = mContent.size();
             mExtended = false;
         }
         // Hier klappt alles
-        mDataBaseHelper.updateCategoryShow(mCategoryId, mContentType, mExtended);
+
     }
 
     private void setContent() {
+        mContent = mDataBaseHelper.getCategoryContent(mCategoryId, mContentType);
         if (mContentType == MyConstants.CONTENT_NOTE) {
-            mContent = mContentHelper.getAllContent(mContentType);
+            //mContent = mContentHelper.getAllContent(mContentType);
         } else {
             if (mExtended) {
-                mContent = mContentHelper.getAllContent(mContentType);
+                //mContent = mContentHelper.getAllContent(mContentType);
                 Log.i("Länge Content ", Integer.toString(mContent.size())+ Integer.toString(mContentType));
                 mPositionHideShow = mContentHelper.getUndoneContentSize(mContent, mContentType);
             } else {
-                mContent = mContentHelper.getAllUndoneContent(mContentType);
+                //mContent = mContentHelper.getAllUndoneContent(mContentType);
                 mPositionHideShow = mContent.size();
                 Log.i("Länge Content ", Integer.toString(mContent.size()));
             }

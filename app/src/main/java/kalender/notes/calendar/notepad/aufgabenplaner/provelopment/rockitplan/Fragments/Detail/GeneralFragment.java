@@ -2,8 +2,6 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.F
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,10 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -70,8 +67,11 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     TextView tvTime;
     TextView tvRepeat;
     TextView tvReminderTitle;
-    CheckBox cbPriority;
     View vDividerReminder;
+    RadioGroup rgPriority;
+    RadioButton rbPriorityNone;
+    RadioButton rbPriorityHigh;
+    RadioButton rbPriorityVeryHigh;
 
     LinearLayout llDateReminder;
     RelativeLayout rlTime;
@@ -113,7 +113,6 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         tvTime = (TextView) layout.findViewById(R.id.tvTime);
         tvRepeat = (TextView) layout.findViewById(R.id.tvRepeat);
         tvReminderTitle = (TextView) layout.findViewById(R.id.tvTitleReminder);
-        cbPriority = (AppCompatCheckBox) layout.findViewById(R.id.cbPriority);
         vDividerReminder = layout.findViewById(R.id.dividerReminder);
         llDateReminder = (LinearLayout) layout.findViewById(R.id.llDateReminder);
         vDummy = layout.findViewById(R.id.vDummyGeneral);
@@ -122,6 +121,10 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         rlTime = (RelativeLayout) layout.findViewById(R.id.rlTime);
         rlRepeat = (RelativeLayout) layout.findViewById(R.id.rlRepeat);
         rlDate = (RelativeLayout) layout.findViewById(R.id.rlDate);
+        rgPriority = (RadioGroup)layout.findViewById(R.id.rgPriority);
+        rbPriorityNone = (RadioButton)layout.findViewById(R.id.rbNoPriority);
+        rbPriorityHigh = (RadioButton)layout.findViewById(R.id.rbHighPriority);
+        rbPriorityVeryHigh = (RadioButton)layout.findViewById(R.id.rbVeryHighPriority);
 
         mDatabaseHelper = new DatabaseHelper(getActivity());
 
@@ -209,6 +212,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
                 View.OnClickListener dateOnClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        closeKeyboard();
                         Calendar date = mTaskEvent.getDate();
                         if (date == null) {
                             date = Calendar.getInstance();
@@ -260,18 +264,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
                 View.OnClickListener timeOnClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Calendar time = mTaskEvent.getTime();
-                        if (time == null) {
-                            time = Calendar.getInstance();
-                            time.set(Calendar.HOUR_OF_DAY, 12);
-                            time.set(Calendar.MINUTE, 0);
-                        }
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(MyConstants.TASK_EVENT_TIME, time);
-                        DialogFragment dialogFragment = new MyTimePickerDialog();
-                        dialogFragment.setTargetFragment(GeneralFragment.this, 0);
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                        openTimeDialog();
                     }
                 };
                 tvTime.setOnClickListener(timeOnClickListener);
@@ -361,31 +354,35 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
 
         // Priority
 
-        int priority = mContent.getPriority();
-        if (priority > 0) {
-            cbPriority.setChecked(true);
-        } else {
-            cbPriority.setChecked(false);
+        switch (mContent.getPriority()) {
+            case MyConstants.PRIORITY_NONE:
+                rgPriority.check(R.id.rbNoPriority);
+                break;
+            case MyConstants.PRIORITY_HIGH:
+                rgPriority.check(R.id.rbHighPriority);
+                break;
+            case MyConstants.PRIORITY_VERY_HIGH:
+                rgPriority.check(R.id.rbVeryHighPriority);
+                break;
         }
-        cbPriority.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mContent.setPriority(1);
-                } else {
-                    mContent.setPriority(0);
-                }
 
+        rgPriority.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                closeKeyboard();
+                switch (i) {
+                    case R.id.rbNoPriority:
+                        mContent.setPriority(MyConstants.PRIORITY_NONE);
+                        break;
+                    case R.id.rbHighPriority:
+                        mContent.setPriority(MyConstants.PRIORITY_HIGH);
+                        break;
+                    case R.id.rbVeryHighPriority:
+                        mContent.setPriority(MyConstants.PRIORITY_VERY_HIGH);
+                        break;
+                }
             }
         });
-
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            cbPriority.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getActivity(), categoryColor.getCategoryColor())));
-        } else {
-            int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
-            cbPriority.setButtonDrawable(id);
-        }
-
 
         return layout;
     }
@@ -449,6 +446,22 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         setReminderVisible(true);
         setTimeVisible(true);
         updateReminders();
+    }
+
+    @Override
+    public void openTimeDialog() {
+        Calendar time = mTaskEvent.getTime();
+        if (time == null) {
+            time = Calendar.getInstance();
+            time.set(Calendar.HOUR_OF_DAY, 12);
+            time.set(Calendar.MINUTE, 0);
+        }
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MyConstants.TASK_EVENT_TIME, time);
+        DialogFragment dialogFragment = new MyTimePickerDialog();
+        dialogFragment.setTargetFragment(GeneralFragment.this, 0);
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
     }
 
     @Override
@@ -539,8 +552,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
         } else {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+            closeKeyboard();
         }
     }
 
@@ -604,6 +616,13 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         setRepeatVisible(visible);
         setReminderVisible(visible);
     }
+
+
+    private void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+    }
+
 
 
 }

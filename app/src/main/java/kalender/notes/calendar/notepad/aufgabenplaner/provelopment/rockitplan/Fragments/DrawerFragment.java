@@ -65,8 +65,8 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         updateDrawer();
 
         com.getbase.floatingactionbutton.FloatingActionButton myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
-        myFab.setColorNormal(ResourcesCompat.getColor(getResources(), R.color.colorWhite, null));
-        myFab.setColorPressed(ResourcesCompat.getColor(getResources(), R.color.white_pressed, null));
+        myFab.setColorNormal(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
+        myFab.setColorPressed(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
         myFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

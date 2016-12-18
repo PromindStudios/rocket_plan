@@ -12,11 +12,18 @@ public class Category {
     private boolean mShowEventDone;
     private boolean mExpanded;
     private int mPosition;
+    private boolean mTaskSortedByPriority;
+    private boolean mEventSortedByPriority;
+    private boolean mNoteSortedByPriority;
 
     public Category() {
         mTitle = null;
         mExpanded = true;
         mPosition = 0;
+        mTaskSortedByPriority = false;
+        mEventSortedByPriority = false;
+        mNoteSortedByPriority = false;
+
     }
 
     public Category(String title, int color) {
@@ -26,6 +33,9 @@ public class Category {
         mShowTaskDone = true;
         mExpanded = true;
         mPosition = 0;
+        mTaskSortedByPriority = false;
+        mEventSortedByPriority = false;
+        mNoteSortedByPriority = false;
     }
 
     public String getTitle() {
@@ -82,5 +92,29 @@ public class Category {
 
     public void setPosition(int mPosition) {
         this.mPosition = mPosition;
+    }
+
+    public boolean isNoteSortedByPriority() {
+        return mNoteSortedByPriority;
+    }
+
+    public void setNoteSortedByPriority(boolean mNoteSotedByPriority) {
+        this.mNoteSortedByPriority = mNoteSotedByPriority;
+    }
+
+    public boolean isTaskSortedByPriority() {
+        return mTaskSortedByPriority;
+    }
+
+    public void setTaskSortedByPriority(boolean mTaskSortedByPriority) {
+        this.mTaskSortedByPriority = mTaskSortedByPriority;
+    }
+
+    public boolean isEventSortedByPriority() {
+        return mEventSortedByPriority;
+    }
+
+    public void setEventSortedByPriority(boolean mEventSortedByPriority) {
+        this.mEventSortedByPriority = mEventSortedByPriority;
     }
 }

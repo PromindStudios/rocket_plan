@@ -3,7 +3,6 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.V
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,15 +16,15 @@ public class DividerViewHolder extends RecyclerView.ViewHolder implements View.O
     public vhShowHideClickListener mListener;
     public TextView tvText;
     public ImageView ivExpandCollapse;
-    public RelativeLayout llExpandCollapse;
+    public RelativeLayout rlExpandCollapse;
 
     public DividerViewHolder(View itemView, vhShowHideClickListener listener) {
         super(itemView);
         mListener = listener;
         tvText = (TextView) itemView.findViewById(R.id.tvText);
         ivExpandCollapse = (ImageView)itemView.findViewById(R.id.ivExpandCollapse);
-        llExpandCollapse = (RelativeLayout) itemView.findViewById(R.id.rlExpandCollapse);
-        llExpandCollapse.setOnClickListener(this);
+        rlExpandCollapse = (RelativeLayout) itemView.findViewById(R.id.rlExpandCollapse);
+        rlExpandCollapse.setOnClickListener(this);
     }
 
     @Override

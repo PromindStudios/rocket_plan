@@ -45,12 +45,12 @@ public class CategoryColor {
         mCategoryColorLight[5] = R.color.category_light_six;
 
         mCategoryColorDark = new int[6];
-        mCategoryColorLight[0] = R.color.category_dark_one;
-        mCategoryColorLight[1] = R.color.category_dark_two;
-        mCategoryColorLight[2] = R.color.category_dark_three;
-        mCategoryColorLight[3] = R.color.category_dark_four;
-        mCategoryColorLight[4] = R.color.category_dark_five;
-        mCategoryColorLight[5] = R.color.category_dark_six;
+        mCategoryColorDark[0] = R.color.category_dark_one;
+        mCategoryColorDark[1] = R.color.category_dark_two;
+        mCategoryColorDark[2] = R.color.category_dark_three;
+        mCategoryColorDark[3] = R.color.category_dark_four;
+        mCategoryColorDark[4] = R.color.category_dark_five;
+        mCategoryColorDark[5] = R.color.category_dark_six;
     }
 
     public CategoryColor (Context context) {
@@ -77,12 +77,12 @@ public class CategoryColor {
         mCategoryColorLight[5] = R.color.category_light_six;
 
         mCategoryColorDark = new int[6];
-        mCategoryColorLight[0] = R.color.category_dark_one;
-        mCategoryColorLight[1] = R.color.category_dark_two;
-        mCategoryColorLight[2] = R.color.category_dark_three;
-        mCategoryColorLight[3] = R.color.category_dark_four;
-        mCategoryColorLight[4] = R.color.category_dark_five;
-        mCategoryColorLight[5] = R.color.category_dark_six;
+        mCategoryColorDark[0] = R.color.category_dark_one;
+        mCategoryColorDark[1] = R.color.category_dark_two;
+        mCategoryColorDark[2] = R.color.category_dark_three;
+        mCategoryColorDark[3] = R.color.category_dark_four;
+        mCategoryColorDark[4] = R.color.category_dark_five;
+        mCategoryColorDark[5] = R.color.category_dark_six;
     }
 
     public int getCategoryColor() {

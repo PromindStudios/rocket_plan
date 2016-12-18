@@ -17,12 +17,6 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/text_detail_title"
-                android:text="@string/detail_title" />
-
-
             <View
                 android:id="@+id/vDummyGeneral"
                 android:layout_width="0dp"
@@ -48,11 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvTitleDeadline"
-                    style="@style/text_detail_title"
-                    android:text="@string/detail_title_deadline" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -125,12 +114,6 @@
                     android:id="@+id/vDividerTime"
                     style="@style/divider_detail" />
 
-                <TextView
-                    android:id="@+id/tvTitleReminder"
-                    style="@style/text_detail_title"
-                    android:text="@string/detail_title_reminder"
-                    android:visibility="gone" />
-
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvReminder"
                     android:layout_width="match_parent"
@@ -143,27 +126,50 @@
                 style="@style/divider_detail"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tvTitlePriority"
-                style="@style/text_detail_title"
-                android:text="@string/detail_title_priority" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/detail_margin_bottom">
+                android:layout_height="wrap_content">
 
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/cbPriority"
-                    style="@style/detail_checkBox" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rgPriority"
+                    android:layout_marginBottom="@dimen/detail_margin_bottom">
 
-                <TextView
-                    android:id="@+id/tvPriority"
-                    style="@style/text_detail_subtext"
-                    android:layout_toRightOf="@id/cbPriority"
-                    android:text="@string/detail_subtext_priority" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rbNoPriority"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/priority_none"
+                        android:buttonTint="@color/colorSecondaryText"
+                        android:textColor="@color/colorSecondaryText"/>
 
-            </RelativeLayout>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rbHighPriority"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:textSize="14sp"
+                        android:text="@string/priority_high"
+                        android:buttonTint="@color/colorOrange"
+                        android:textColor="@color/colorSecondaryText"/>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rbVeryHighPriority"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/priority_very_high"
+                        android:buttonTint="@color/colorPrimary"
+                        android:textColor="@color/colorSecondaryText"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -119,7 +119,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             h.llSubtitleDate.setVisibility(View.VISIBLE);
             if (taskEvent.getDaysTillDueDate() < 0 || time != null) {
-                h.tvDate.setText(DateTimeTexter.getTimeDay(taskEvent));
+                h.tvDate.setText(DateTimeTexter.getTimeDay(taskEvent, mContext));
             } else {
                 h.llSubtitleDate.setVisibility(View.GONE);
             }

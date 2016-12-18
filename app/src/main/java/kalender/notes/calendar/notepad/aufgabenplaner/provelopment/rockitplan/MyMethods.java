@@ -120,6 +120,11 @@ public class MyMethods {
         return px;
     }
 
+    public static int pxToDp(Context context, int px) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int)(px * density);
+    }
+
     public static int getDaysTillDueDate(Calendar d) {
         Calendar t = Calendar.getInstance();
         DateTime today = new DateTime(t.get(Calendar.YEAR), t.get(Calendar.MONTH), t.get(Calendar.DAY_OF_MONTH), t.get(Calendar.HOUR_OF_DAY), t.get(Calendar.MINUTE));

@@ -4,6 +4,24 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_subtask"
+        android:padding="16dp"
+        android:id="@+id/rlSubtaskAdd"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivAddSubtask"
+            style="@style/image_view_detail_add"/>
+
+        <TextView
+            android:id="@+id/tvSubtasksAdd"
+            style="@style/text_detail_subtasks_add"
+            android:layout_toRightOf="@id/ivAddSubtask"/>
+
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

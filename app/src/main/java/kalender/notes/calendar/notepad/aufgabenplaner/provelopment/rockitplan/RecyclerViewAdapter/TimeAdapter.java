@@ -135,25 +135,25 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             switch (mTimeType) {
                 case MyConstants.TIME_DAY:
                     if (taskEvent.getDaysTillDueDate() < 0 || time != null) {
-                        h.tvDate.setText(DateTimeTexter.getTimeDay(taskEvent));
+                        h.tvDate.setText(DateTimeTexter.getTimeDay(taskEvent, mContext));
                     } else {
                         h.llSubtitleDate.setVisibility(View.GONE);
                     }
                     break;
                 case MyConstants.TIME_WEEK:
-                    h.tvDate.setText(DateTimeTexter.getTimeWeek(taskEvent));
+                    h.tvDate.setText(DateTimeTexter.getTimeWeek(taskEvent, mContext));
                     break;
                 case MyConstants.TIME_MONTH:
-                    h.tvDate.setText(DateTimeTexter.getTimeMonth(taskEvent));
+                    h.tvDate.setText(DateTimeTexter.getTimeMonth(taskEvent, mContext));
                     break;
 
             }
 
             // Handle Divider Visibility
-            if (position + 1 == mPositionDividerTwo || position + 1 == mPositionDividerThree || position == mTaskEvents.size() + 1 || position == mTaskEvents.size() + 2) {
+            if (position + 1 == mPositionDividerTwo || position + 1 == mPositionDividerThree || position == mTaskEvents.size() + 2) {
                 h.vDivider.setVisibility(View.GONE);
             } else {
-                h.vDivider.setVisibility(View.GONE);
+                h.vDivider.setVisibility(View.VISIBLE);
                 Log.i("WWWWochendende", "lkjklsdj2!");
             }
         } else {

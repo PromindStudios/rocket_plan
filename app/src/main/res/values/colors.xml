@@ -6,6 +6,8 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
+    <color name="colorDividerLight2">#b9b6b6b6</color>
+    <color name="colorDividerLight">#51b6b6b6</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorGreen">#4CAF50</color>
@@ -22,36 +24,36 @@
     <!-- Color Set: Default -->
     <color name="colorPrimary">#f44336</color>
     <color name="colorPrimaryDark">#c62828</color>
-    <color name="colorPrimaryLight">#d6f44336</color>
+    <color name="colorPrimaryLight">#95f44336</color>
 
     <!-- Color Set: One -->
     <color name="category_one">#f44336</color>
-    <color name="category_light_one">#ef9a9a</color>
+    <color name="category_light_one">#b4f44336</color>
     <color name="category_dark_one">#b71c1c</color>
 
     <!-- Color Set: Two -->
     <color name="category_two">#3F51B5</color>
-    <color name="category_light_two">#9FA8DA</color>
+    <color name="category_light_two">#b43f51b5</color>
     <color name="category_dark_two">#1A237E</color>
 
     <!-- Color Set: Three -->
     <color name="category_three">#009688</color>
-    <color name="category_light_three">#80CBC4</color>
+    <color name="category_light_three">#b4009688</color>
     <color name="category_dark_three">#006064</color>
 
     <!-- Color Set: Four -->
     <color name="category_four">#4CAF50</color>
-    <color name="category_light_four">#A5D6A7</color>
+    <color name="category_light_four">#b44caf50</color>
     <color name="category_dark_four">#1B5E20</color>
 
     <!-- Color Set: Five -->
     <color name="category_five">#FF9800</color>
-    <color name="category_light_five">#FFCC80</color>
+    <color name="category_light_five">#b4ff9800</color>
     <color name="category_dark_five">#E65100</color>
 
     <!-- Color Set: Five -->
     <color name="category_six">#E91E63</color>
-    <color name="category_light_six">#F8BBD0</color>
+    <color name="category_light_six">#b4e91e63</color>
     <color name="category_dark_six">#C2185B</color>
 
     <!-- test -->

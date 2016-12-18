@@ -101,7 +101,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 contentSize = contentHelper.getUndoneContentSize(mDatabaseHelper.getAllCategoryEvents(category.getId()), contentType);
                                 break;
                             case MyConstants.CONTENT_NOTE:
-                                contentSize = mDatabaseHelper.getAllCategoryNotes(category.getId()).size();
+                                contentSize = mDatabaseHelper.getAllCategoryNotes(category.getId(), category.isNoteSortedByPriority()).size();
                                 break;
                         }
 
@@ -149,7 +149,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onCategoryLongClick(int position) {
                         final Category category = getCorrectCategory(position);
-                        CharSequence[] items = {mContext.getString(R.string.edit), mContext.getString(R.string.delete)};
+                        CharSequence[] items = {mContext.getString(R.string.edit), mContext.getString(R.string.delete), mContext.getString(R.string.category_up), mContext.getString(R.string.category_down)};
                         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                         builder.setItems(items, new DialogInterface.OnClickListener() {
                             @Override
@@ -175,6 +175,35 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                         d.setArguments(b);
                                         d.setTargetFragment(mDrawerFragment, 0);
                                         d.show(mFragmentManager, "..");
+                                        break;
+                                    case 2:
+                                        // Move up
+                                        int p = mCategories.indexOf(category);
+                                        mCategories.remove(p);
+                                        if ((p - 1) >= 1) {
+                                            mCategories.add((p - 1), category);
+                                            for (Category c : mCategories) {
+                                                c.setPosition(mCategories.indexOf(c));
+                                                mDatabaseHelper.updateCategory(c);
+                                            }
+                                            mCategories = mDatabaseHelper.getAllCategories();
+                                            notifyDataSetChanged();
+                                        }
+                                        break;
+                                    case 3:
+                                        // Move down
+                                        int pDown = mCategories.indexOf(category);
+                                        int size = mCategories.size();
+                                        mCategories.remove(pDown);
+                                        if ((pDown + 1) <= size) {
+                                            mCategories.add((pDown + 1), category);
+                                            for (Category c : mCategories) {
+                                                c.setPosition(mCategories.indexOf(c));
+                                                mDatabaseHelper.updateCategory(c);
+                                            }
+                                            mCategories = mDatabaseHelper.getAllCategories();
+                                            notifyDataSetChanged();
+                                        }
                                         break;
                                     default:
                                         break;
@@ -202,12 +231,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder vholder, int position) {
         if (position == 0) {
-            timeCalendarViewHolder timeholder = (timeCalendarViewHolder)vholder;
+            timeCalendarViewHolder timeholder = (timeCalendarViewHolder) vholder;
             timeholder.tvTitle.setText(mContext.getString(R.string.overview));
-
+            timeholder.vDivider.setVisibility(View.GONE);
         } else {
-            if (position == mCategories.size() + 1) {
-                timeCalendarViewHolder calendarholder = (timeCalendarViewHolder)vholder;
+            if (position == 1) {
+                timeCalendarViewHolder calendarholder = (timeCalendarViewHolder) vholder;
                 calendarholder.tvTitle.setText(mContext.getString(R.string.calendar));
             } else {
                 categoryHolder holder = (categoryHolder) vholder;
@@ -235,7 +264,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 int taskSize = contentHelper.getUndoneContentSize(mDatabaseHelper.getAllCategoryTasks(category.getId()), MyConstants.CONTENT_TASK);
                 int eventSize = contentHelper.getUndoneContentSize(mDatabaseHelper.getAllCategoryEvents(category.getId()), MyConstants.CONTENT_EVENT);
-                int noteSize = mDatabaseHelper.getAllCategoryNotes(category.getId()).size();
+                int noteSize = mDatabaseHelper.getAllCategoryNotes(category.getId(), category.isNoteSortedByPriority()).size();
 
                 if (taskSize == 0) {
                     holder.tvTask.setText("-");
@@ -256,6 +285,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 // Handle Category Color
                 CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
 
+
                 Drawable iconExpandCollapse;
                 if (category.isExpanded()) {
                     iconExpandCollapse = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_expanded_24_white, null);
@@ -264,15 +294,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 holder.ivExpandCollapse.setImageDrawable(categoryColor.colorIcon(iconExpandCollapse));
 
+
                 holder.ivTask.setImageDrawable(categoryColor.colorIcon(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_task, null)));
                 holder.ivEvent.setImageDrawable(categoryColor.colorIcon(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_event, null)));
                 holder.ivNote.setImageDrawable(categoryColor.colorIcon(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null)));
 
                 if (position == mCategories.size()) {
                     //holder.vDivider.setVisibility(View.GONE);
-                    holder.vDivider.setVisibility(View.VISIBLE);
+                    holder.vDivider.setVisibility(View.GONE);
                 } else {
-                    holder.vDivider.setVisibility(View.VISIBLE);
+                    holder.vDivider.setVisibility(View.GONE);
                 }
             }
         }
@@ -285,14 +316,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_TIME;
-        } else {
-            if (position == mCategories.size() + 1) {
+        switch (position) {
+            case 0:
+                return TYPE_TIME;
+            case 1:
                 return TYPE_CALENDAR;
-            } else {
+            default:
                 return TYPE_CATEGORY;
-            }
         }
     }
 
@@ -416,6 +446,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         RelativeLayout rlTime;
         TextView tvTitle;
         timeViewHolderListener mListener;
+        View vDivider;
 
         public timeCalendarViewHolder(View itemView, timeViewHolderListener listener) {
             super(itemView);
@@ -423,7 +454,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mListener = listener;
 
             rlTime = (RelativeLayout) itemView.findViewById(R.id.rlTime);
-            tvTitle = (TextView)itemView.findViewById(R.id.tvTitle);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            vDivider = itemView.findViewById(R.id.vDivider);
             rlTime.setOnClickListener(this);
         }
 
@@ -459,7 +491,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public Category getCorrectCategory(int position) {
-        return mCategories.get(position - 1);
+        return mCategories.get(position - 2);
     }
 
 

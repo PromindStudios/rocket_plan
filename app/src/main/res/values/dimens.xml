@@ -34,7 +34,7 @@
     <dimen name="item_reminder_height">48dp</dimen>
 
     <!-- Text sizes -->
-    <dimen name="text_size_item_title">16sp</dimen>
+    <dimen name="text_size_item_title">15sp</dimen>
     <dimen name="text_size_item_subtitle">12sp</dimen>
     <dimen name="text_size_detail_title">19sp</dimen>
     <dimen name="text_size_detail_subtitle">16sp</dimen>

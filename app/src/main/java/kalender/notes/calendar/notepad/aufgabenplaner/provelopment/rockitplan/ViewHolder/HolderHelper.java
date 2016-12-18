@@ -1,14 +1,13 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
@@ -19,7 +18,6 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -52,11 +50,13 @@ public class HolderHelper {
         if (mContentType == MyConstants.CONTENT_EVENT) {
             event = (Event) content;
             taskEvent = (TaskEvent) content;
-            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_event, null);
+            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_flag_24dp, null);
         }
-
+        if (mContentType == MyConstants.CONTENT_NOTE) {
+            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);
+        }
         // Content Icon
-        if (isTime) {
+        /*if (isTime) {
             vhContent.ivContent.setVisibility(View.VISIBLE);
             Log.i("CaategoryId: ", Integer.toString(taskEvent.getCategoryId()));
 
@@ -65,16 +65,31 @@ public class HolderHelper {
             CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
             vhContent.ivContent.setImageDrawable(categoryColor.colorIcon(contentIcon));
         }
+        */
+
+        // Category
+        vhContent.ivCategory.setVisibility(View.VISIBLE);
+        Category category = mDatabaseHelper.getCategory(content.getCategoryId());
+        CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
+        vhContent.ivCategory.setBackgroundColor(ResourcesCompat.getColor(mContext.getResources(), categoryColor.getCategoryColorLight(), null));
+
+        // Priority
+        vhContent.ivContent.setVisibility(View.VISIBLE);
+        switch (content.getPriority()) {
+            case MyConstants.PRIORITY_NONE:
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorSecondaryText, null), PorterDuff.Mode.MULTIPLY);
+                break;
+            case MyConstants.PRIORITY_HIGH:
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorOrange, null), PorterDuff.Mode.MULTIPLY);
+                break;
+            case MyConstants.PRIORITY_VERY_HIGH:
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorPrimary, null), PorterDuff.Mode.MULTIPLY);
+                break;
+        }
+        vhContent.ivContent.setImageDrawable(contentIcon);
 
         // Title
         vhContent.tvTitle.setText(content.getTitle());
-
-        // Priority
-        if (content.getPriority() > 0) {
-            vhContent.vPriority.setVisibility(View.VISIBLE);
-        } else {
-            vhContent.vPriority.setVisibility(View.INVISIBLE);
-        }
 
 
         // Files

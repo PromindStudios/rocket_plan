@@ -26,6 +26,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
     public ImageView ivFiles;
     public ImageView ivContent;
     public ImageView ivRepeat;
+    public ImageView ivCategory;
 
     public LinearLayout llSubtitleDate;
     public LinearLayout llContent;
@@ -50,6 +51,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
         ivFiles = (ImageView) itemView.findViewById(R.id.ivFiles);
         ivContent = (ImageView) itemView.findViewById(R.id.ivContent);
         ivRepeat = (ImageView) itemView.findViewById(R.id.ivRepeat);
+        ivCategory = (ImageView) itemView.findViewById(R.id.ivCategory);
 
         llSubtitleDate = (LinearLayout) itemView.findViewById(R.id.llSubtitleDate);
         llContent = (LinearLayout) itemView.findViewById(R.id.llContent);

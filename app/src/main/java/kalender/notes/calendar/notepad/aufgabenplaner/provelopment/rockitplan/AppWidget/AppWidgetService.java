@@ -101,7 +101,7 @@ public class AppWidgetService extends RemoteViewsService{
 
             // Time
             if (taskEvent.getTime() != null) {
-                rv.setTextViewText(R.id.tvDate, DateTimeTexter.getTimeDay(taskEvent));
+                rv.setTextViewText(R.id.tvDate, DateTimeTexter.getTimeDay(taskEvent, mContext));
                 rv.setViewVisibility(R.id.vSubtitleDateDivider, View.VISIBLE);
             } else {
                 rv.setViewVisibility(R.id.vSubtitleDateDivider, View.GONE);

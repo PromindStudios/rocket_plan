@@ -33,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION_2 = 2; // 28.05.16 - updating subtask table
     private static final int DATABASE_VERSION_3 = 3; // 19.10.16 - updating Category Table --> CATEGORY_EXPANDED
     private static final int DATABASE_VERSION_4 = 4; // 23.11.16 - updating Category Table & Subtask Table --> POSITION
+    private static final int DATABASE_VERSION_5 = 5; // 24.11.16 - updating Note Tabble --> POSITION & updating Category Table --> TASK_SORTET_BY_PRIORITY, EVENT_SORTET_BY_PRIORITY, NOTE_SORTET_BY_PRIORITY
 
     // Database & Table Names
     private static final String DATABASE_NAME = "database_rocketplan";
@@ -64,6 +65,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CATEGORY_COLOR = "category_color";
     private static final String CATEGORY_EXPANDED = "category_expanded";
     private static final String SHOW_TASK_DONE = "show_task_done";
+    private static final String TASK_SORTED_BY_PRIORITY = "task_sorted_by_priority";
+    private static final String EVENT_SORTED_BY_PRIORITY = "event_sorted_by_priority";
+    private static final String NOTE_SORTED_BY_PRIORITY = "note_sorted_by_priority";
     private static final String SHOW_EVENT_DONE = "show_event_done";
 
 
@@ -96,7 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table Create Statements
     private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + TABLE_CATEGORY +
-            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + TITLE + " TEXT," + SHOW_TASK_DONE + " INTEGER," + SHOW_EVENT_DONE + " INTEGER," + CATEGORY_EXPANDED + " INTEGER," + CATEGORY_COLOR + " INTEGER" + ")";
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + TITLE + " TEXT," + SHOW_TASK_DONE + " INTEGER," + SHOW_EVENT_DONE + " INTEGER," + CATEGORY_EXPANDED + " INTEGER," + CATEGORY_COLOR + " INTEGER," + POSITION + " INTEGER," + TASK_SORTED_BY_PRIORITY + " INTEGER," +
+            EVENT_SORTED_BY_PRIORITY + " INTEGER," + NOTE_SORTED_BY_PRIORITY + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER," + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," + TASK_EVENT_DATE + " INTEGER," + TASK_EVENT_TIME + " INTEGER," +
@@ -110,17 +115,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_NOTE = "CREATE TABLE " + TABLE_NOTE +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER," + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," +
-            PRIORITY + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT" + ")";
+            PRIORITY + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT," + POSITION + " INTEGER"+")";
 
     private static final String CREATE_TABLE_SUBTASK = "CREATE TABLE " + TABLE_SUBTASK +
-            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TITLE + " TEXT," + SUBTASK_DONE + " INTEGER" + ")";
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TITLE + " TEXT," + SUBTASK_DONE + " INTEGER," + POSITION + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_REMINDER = "CREATE TABLE " + TABLE_REMINDER +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TYPE_CONTENT + " INTEGER," + TYPE_REMINDER + " INTEGER," + VALUE_REMINDER + " INTEGER" + ")";
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION_4);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_5);
         mContext = context;
     }
 
@@ -143,6 +148,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String upgradeQuery2 = "ALTER TABLE " + TABLE_SUBTASK + " ADD " + POSITION + " INTEGER";
             db.execSQL(upgradeQuery2);
         }
+        if (oldVersion < 5) {
+            String upgradeQuery = "ALTER TABLE " + TABLE_CATEGORY + " ADD " + TASK_SORTED_BY_PRIORITY + " INTEGER";
+            db.execSQL(upgradeQuery);
+            String upgradeQuery3 = "ALTER TABLE " + TABLE_CATEGORY + " ADD " + EVENT_SORTED_BY_PRIORITY + " INTEGER";
+            db.execSQL(upgradeQuery3);
+            String upgradeQuery4 = "ALTER TABLE " + TABLE_CATEGORY + " ADD " + NOTE_SORTED_BY_PRIORITY + " INTEGER";
+            db.execSQL(upgradeQuery4);
+            String upgradeQuery2 = "ALTER TABLE " + TABLE_NOTE + " ADD " + POSITION + " INTEGER";
+            db.execSQL(upgradeQuery2);
+        }
+
     }
 
     private void createTables(SQLiteDatabase db) {
@@ -174,12 +190,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(SHOW_EVENT_DONE, category.isShowEventDone() ? 1 : 0);
         values.put(CATEGORY_EXPANDED, category.isExpanded() ? 1 : 0);
         values.put(POSITION, category.getPosition());
-        db.insert(TABLE_CATEGORY, null, values);
+        values.put(TASK_SORTED_BY_PRIORITY, category.isTaskSortedByPriority() ? 1 : 0);
+        values.put(EVENT_SORTED_BY_PRIORITY, category.isEventSortedByPriority() ? 1 : 0);
+        values.put(NOTE_SORTED_BY_PRIORITY, category.isNoteSortedByPriority() ? 1 : 0);
+        long id = db.insert(TABLE_CATEGORY, null, values);
+        Log.i("Kategorie erstellen..", ""+id);
 
     }
 
     public Category getCategory(int category_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         String selectQuery = "SELECT * FROM " + TABLE_CATEGORY + " WHERE " + ID + " = " + category_id;
 
@@ -196,6 +216,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
         category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
         category.setPosition(c.getInt(c.getColumnIndex(POSITION)));
+        category.setTaskSortedByPriority(c.getInt(c.getColumnIndex(TASK_SORTED_BY_PRIORITY)) == 1);
+        category.setEventSortedByPriority(c.getInt(c.getColumnIndex(EVENT_SORTED_BY_PRIORITY)) == 1);
+        category.setNoteSortedByPriority(c.getInt(c.getColumnIndex(NOTE_SORTED_BY_PRIORITY)) == 1);
 
         return category;
     }
@@ -217,14 +240,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
                 category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
                 category.setPosition(c.getInt(c.getColumnIndex(POSITION)));
+                category.setTaskSortedByPriority(c.getInt(c.getColumnIndex(TASK_SORTED_BY_PRIORITY)) == 1);
+                category.setEventSortedByPriority(c.getInt(c.getColumnIndex(EVENT_SORTED_BY_PRIORITY)) == 1);
+                category.setNoteSortedByPriority(c.getInt(c.getColumnIndex(NOTE_SORTED_BY_PRIORITY)) == 1);
                 categories.add(category);
             } while (c.moveToNext());
+        }
+        for (Category cs : categories) {
+            Log.i("KOOMMM", "" + cs.getPosition());
         }
         Log.i("Siize:", Integer.toString(categories.size()));
         Collections.sort(categories, new Comparator<Category>() {
             @Override
-            public int compare(Category category, Category t1) {
-                return t1.getPosition() - category.getPosition();
+            public int compare(Category c1, Category c2) {
+                Integer i1 = new Integer(c1.getPosition());
+                Integer i2 = new Integer(c2.getPosition());
+                return i1.compareTo(i2);
             }
         });
         return categories;
@@ -238,6 +269,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(TITLE, category.getTitle());
         values.put(CATEGORY_COLOR, category.getColor());
         values.put(POSITION, category.getPosition());
+        values.put(TASK_SORTED_BY_PRIORITY, category.isTaskSortedByPriority() ? 1 : 0);
+        values.put(EVENT_SORTED_BY_PRIORITY, category.isEventSortedByPriority() ? 1 : 0);
+        values.put(NOTE_SORTED_BY_PRIORITY, category.isNoteSortedByPriority() ? 1 : 0);
         //values.put(CATEGORY_EXPANDED, category.isExpanded() ? 1 : 0);
         db.update(TABLE_CATEGORY, values, ID + " =?", new String[]{String.valueOf(category.getId())});
     }
@@ -375,20 +409,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursorTasks(tasks, c);
     }
 
-    public ArrayList<Content> getAllUndoneTasks(int category_id) {
+    public ArrayList<Content> getAllUndoneTasks(int category_id, boolean isSortedByPriority) {
         ArrayList<Content> tasks = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_TASK + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 0;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        return cursorTasks(tasks, c);
+        tasks = cursorTasks(tasks, c);
+        if (isSortedByPriority) {
+            Collections.sort(tasks, new Comparator<Content>() {
+                @Override
+                public int compare(Content c1, Content c2) {
+                    Integer i1 = new Integer(c1.getPriority());
+                    Integer i2 = new Integer(c2.getPriority());
+                    return i2.compareTo(i1);
+                }
+            });
+        }
+
+        return  tasks;
     }
 
-    public ArrayList<Content> getAllDoneTasks(int category_id) {
+    public ArrayList<Content> getAllDoneTasks(int category_id, boolean isSortedByPriority) {
         ArrayList<Content> tasks = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_TASK + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 1;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        return cursorTasks(tasks, c);
+        tasks = cursorTasks(tasks, c);
+        if (isSortedByPriority) {
+            Collections.sort(tasks, new Comparator<Content>() {
+                @Override
+                public int compare(Content c1, Content c2) {
+                    Integer i1 = new Integer(c1.getPriority());
+                    Integer i2 = new Integer(c2.getPriority());
+                    return i2.compareTo(i1);
+                }
+            });
+        }
+
+        return  tasks;
     }
 
 
@@ -578,20 +636,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursorEvents(events, c);
     }
 
-    public ArrayList<Content> getAllUndoneEvents(int category_id) {
+    public ArrayList<Content> getAllUndoneEvents(int category_id, boolean isSortedByPriority) {
         ArrayList<Content> events = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_EVENT + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 0;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        return cursorEvents(events, c);
+        events = cursorEvents(events, c);
+        if (isSortedByPriority) {
+            Collections.sort(events, new Comparator<Content>() {
+                @Override
+                public int compare(Content c1, Content c2) {
+                    Integer i1 = new Integer(c1.getPriority());
+                    Integer i2 = new Integer(c2.getPriority());
+                    return i2.compareTo(i1);
+                }
+            });
+        }
+
+        return events;
     }
 
-    public ArrayList<Content> getAllDoneEvents(int category_id) {
+    public ArrayList<Content> getAllDoneEvents(int category_id, boolean isSortedByPriority) {
         ArrayList<Content> events = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_EVENT + " WHERE " + ID_CATEGORY + " = " + category_id + " AND " + CONTENT_DONE + " = " + 1;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        return cursorEvents(events, c);
+        events = cursorEvents(events, c);
+        if (isSortedByPriority) {
+            Collections.sort(events, new Comparator<Content>() {
+                @Override
+                public int compare(Content c1, Content c2) {
+                    Integer i1 = new Integer(c1.getPriority());
+                    Integer i2 = new Integer(c2.getPriority());
+                    return i2.compareTo(i1);
+                }
+            });
+        }
+
+        return events;
     }
 
 
@@ -759,7 +841,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return notes;
     }
 
-    public ArrayList<Content> getAllCategoryNotes(int category_id) {
+    public ArrayList<Content> getAllCategoryNotes(int category_id, boolean isSortedByPriority) {
 
         ArrayList<Content> notes = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NOTE + " WHERE " + ID_CATEGORY + " = " + category_id;
@@ -783,6 +865,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 notes.add(note);
             } while (c.moveToNext());
         }
+        if (isSortedByPriority) {
+            Collections.sort(notes, new Comparator<Content>() {
+                @Override
+                public int compare(Content c1, Content c2) {
+                    Integer i1 = new Integer(c1.getPriority());
+                    Integer i2 = new Integer(c2.getPriority());
+                    return i2.compareTo(i1);
+                }
+            });
+        }
+
         return notes;
     }
 
@@ -898,13 +991,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } else {
                 values.put(TASK_EVENT_TIME, taskEvent.getTime().getTimeInMillis());
                 Log.i("CRAAZY", DateTimeTexter.getNormal(taskEvent));
-                Log.i("WIEEE", ""+taskEvent.getTime().get(Calendar.HOUR_OF_DAY));
+                Log.i("WIEEE", "" + taskEvent.getTime().get(Calendar.HOUR_OF_DAY));
             }
             values.put(CONTENT_DONE, taskEvent.isDone() ? 1 : 0);
             values.put(TASK_EVENT_REPETITION_TYPE, taskEvent.getRepetitionType());
             values.put(TASK_EVENT_REPETITION_VALUE, taskEvent.getRepetitionValue());
         }
         db.update(content.getTable(), values, ID + " =?", new String[]{String.valueOf(content.getId())});
+    }
+
+    public ArrayList<Content> getCategoryContent(int categoryId, int contentType) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<Content> contentList = new ArrayList<>();
+        Category category = getCategory(categoryId);
+        switch (contentType) {
+            case MyConstants.CONTENT_TASK:
+                contentList.addAll(getAllUndoneTasks(categoryId, category.isTaskSortedByPriority()));
+                if (category.isShowTaskDone()) {
+                    contentList.addAll(getAllDoneTasks(categoryId, category.isTaskSortedByPriority()));
+                }
+                break;
+            case MyConstants.CONTENT_EVENT:
+                contentList.addAll(getAllUndoneEvents(categoryId, category.isEventSortedByPriority()));
+                if (category.isShowEventDone()) {
+                    contentList.addAll(getAllDoneEvents(categoryId, category.isEventSortedByPriority()));
+                }
+                break;
+            case MyConstants.CONTENT_NOTE:
+                contentList.addAll(getAllCategoryNotes(categoryId, category.isNoteSortedByPriority()));
+        }
+        return contentList;
+    }
+
+    public ArrayList<Content> getCategoryUndoneContent(int categoryId, int contentType) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<Content> contentList = new ArrayList<>();
+        Category category = getCategory(categoryId);
+        switch (contentType) {
+            case MyConstants.CONTENT_TASK:
+                contentList.addAll(getAllUndoneTasks(categoryId, category.isTaskSortedByPriority()));
+                contentList.addAll(getAllDoneTasks(categoryId, category.isTaskSortedByPriority()));
+                break;
+            case MyConstants.CONTENT_EVENT:
+                contentList.addAll(getAllUndoneEvents(categoryId, category.isEventSortedByPriority()));
+                contentList.addAll(getAllDoneEvents(categoryId, category.isEventSortedByPriority()));
+                break;
+            case MyConstants.CONTENT_NOTE:
+                contentList.addAll(getAllCategoryNotes(categoryId, category.isNoteSortedByPriority()));
+        }
+        return contentList;
     }
 
 
@@ -997,7 +1132,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         taskEvents.addAll(cursorEvents(events, cE));
         Collections.sort(taskEvents, new TaskEventComparator());
 
-        Log.i("Day: ", ""+calendar.get(Calendar.DAY_OF_MONTH)+" Length: "+taskEvents.size());
+        Log.i("Day: ", "" + calendar.get(Calendar.DAY_OF_MONTH) + " Length: " + taskEvents.size());
         return taskEvents;
     }
 
@@ -1033,6 +1168,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(ID_CONTENT, subtask.getContentId());
         values.put(TITLE, subtask.getTitle());
         values.put(SUBTASK_DONE, subtask.isDone() ? 1 : 0);
+        values.put(POSITION, subtask.getPosition());
 
         long subtask_id = db.insert(TABLE_SUBTASK, null, values);
 
@@ -1054,6 +1190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         subtask.setContentId(c.getColumnIndex(ID_CONTENT));
         subtask.setTitle(c.getString(c.getColumnIndex(TITLE)));
         subtask.setDone(c.getInt(c.getColumnIndex(SUBTASK_DONE)) == 1);
+        subtask.setPosition(c.getInt(c.getColumnIndex(POSITION)));
 
         return subtask;
     }
@@ -1092,9 +1229,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 subtask.setContentId(c.getColumnIndex(ID_CONTENT));
                 subtask.setTitle(c.getString(c.getColumnIndex(TITLE)));
                 subtask.setDone(c.getInt(c.getColumnIndex(SUBTASK_DONE)) == 1);
+                subtask.setPosition(c.getInt(c.getColumnIndex(POSITION)));
                 subtasks.add(subtask);
             } while (c.moveToNext());
         }
+
+        Collections.sort(subtasks, new Comparator<Subtask>() {
+            @Override
+            public int compare(Subtask c1, Subtask c2) {
+                Integer i1 = new Integer(c1.getPosition());
+                Integer i2 = new Integer(c2.getPosition());
+                return i1.compareTo(i2);
+            }
+        });
         return subtasks;
 
     }
@@ -1105,6 +1252,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(TITLE, subtask.getTitle());
         values.put(SUBTASK_DONE, subtask.isDone() ? 1 : 0);
+        values.put(POSITION, subtask.getPosition());
 
         db.update(TABLE_SUBTASK, values, ID + " =?", new String[]{String.valueOf(subtask.getId())});
     }
@@ -1270,10 +1418,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean checkIfDayHasAnyContent (Calendar calendar) {
+    public boolean checkIfDayHasAnyContent(Calendar calendar) {
         SQLiteDatabase db = this.getReadableDatabase();
         Log.i("Calendar in Millis: ", Long.toString(calendar.getTimeInMillis()));
-        String selectQueryTask = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis();
+        String selectQueryTask = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis()+" AND "+CONTENT_DONE +" = 0";
         Cursor c = db.rawQuery(selectQueryTask, null);
 
         /*
@@ -1292,7 +1440,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
 
-        String selectQueryEvent = "SELECT * FROM " + TABLE_EVENT + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis();
+        String selectQueryEvent = "SELECT * FROM " + TABLE_EVENT + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis()+" AND "+CONTENT_DONE +" = 0";
         Cursor c2 = db.rawQuery(selectQueryEvent, null);
         if (c2.getCount() > 0) {
             Log.i("Wir haben", "einen Termin hier!");

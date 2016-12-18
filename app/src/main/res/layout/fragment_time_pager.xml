@@ -16,27 +16,16 @@
         app:tabSelectedTextColor="@color/colorWhite"
         app:tabTextColor="@color/colorWhite"/>
 
-    <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager
-        android:id="@+id/viewPager"
-        android:layout_below="@id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu
         android:id="@+id/fabMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        fab:fab_addButtonColorNormal="@color/white"
-        fab:fab_addButtonColorPressed="@color/white_pressed"
-        fab:fab_addButtonPlusIconColor="@color/colorSecondaryText"
-        fab:fab_labelStyle="@style/fab_labels_style"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp">
+        fab:fab_addButtonPlusIconColor="@color/colorWhite"
+        fab:fab_labelStyle="@style/fab_labels_style">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton
             android:id="@+id/fabTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,17 +35,17 @@
             fab:fab_icon="@drawable/ic_task_24dp"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton
             android:id="@+id/fabEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_title="@string/event"
             app:backgroundTint="@color/colorPrimary"
-            fab:fab_icon="@drawable/ic_event_24dp"
+            fab:fab_icon="@drawable/ic_flag_24dp"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton
             android:id="@+id/fabNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,6 +55,12 @@
             fab:fab_icon="@drawable/ic_note_24dp"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu>
+
+    <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout" />
 
 </RelativeLayout>

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Rocket-Plan</string>
     <string name="headerTitle">RocketPlan</string>
-    <string name="headerSubtitle">by Provelopment</string>
+    <string name="headerSubtitle">by Promind Studios</string>
     <string name="item_overview_title">Übersicht</string>
 
     <!-- General names -->
@@ -22,6 +22,8 @@
     <string name="calendar">Kalender</string>
     <string name="today">Heute</string>
     <string name="tomorrow">Morgen</string>
+    <string name="overdue">Überfällig</string>
+    <string name="time">Uhrzeit</string>
 
     <!-- Week names -->
     <string name="monday_short">MO</string>
@@ -31,6 +33,12 @@
     <string name="friday_short">FR</string>
     <string name="saturday_short">SA</string>
     <string name="sunday_short">SO</string>
+
+    <!-- Priority -->
+
+    <string name="priority_none">Keine</string>
+    <string name="priority_high">Hoch</string>
+    <string name="priority_very_high">Sehr hoch</string>
 
     <!-- Tabs -->
     <string name="title_tabTask">Aufgaben</string>
@@ -60,6 +68,8 @@
     <!-- Category -->
     <string name="toast_add_category">Bevor du einen Inhalt hinzufügen kannst, musst du zuerst eine Kategorie erstellen</string>
     <string name="alert_dialog_category_title">Kategorie für diese(n)</string>
+    <string name="category_up">Nach oben verschieben</string>
+    <string name="category_down">Nach unten verschieben</string>
 
     <!-- Details -->
 
@@ -85,6 +95,7 @@
     <string name="detail_subtext_priority">Hohe Priorität</string>
     <string name="task_due_today">Diese Aufgabe ist heute fällig</string>
     <string name="task_due_tomorrow">Diese Aufgabe ist morgen fällig</string>
+    <string name="add_task">Füge eine Aufgabe hinzu..</string>
 
     <!-- Tasks - Files -->
     <string name="detail_description_empty">Erstelle eine Beschreibung</string>
@@ -108,6 +119,7 @@
     <string name="detail_subtext_end">Wähle ein Ende</string>
     <string name="event_due_today">Dieser Termin ist heute fällig</string>
     <string name="event_due_tomorrow">Dieser Termin ist morgen fällig</string>
+    <string name="add_event">Füge einen Termin hinzu..</string>
 
     <!-- Note - General -->
     <string name="note">Notiz</string>
@@ -115,6 +127,7 @@
     <string name="detail_subtext_title_note">Erstelle einen Titel...</string>
     <string name="openDrawer">öffnen</string>
     <string name="closeDrawer">schließen</string>
+    <string name="add_note">Füge eine Notiz hinzu..</string>
 
     <!-- Time -->
     <string name="tab_day">Tag</string>
@@ -218,5 +231,10 @@ Eric
     <string name="tab_one_empty">Alles erledigt für heute</string>
     <string name="tab_two_empty">Nichts erledigt heute</string>
     <string name="tab_three_empty">Morgen hast Du frei</string>
+
+    <!-- Sort -->
+    <string name="sorted_by_due_date">Sortiert nach Fälligkeit</string>
+    <string name="sorted_by_priority">Sortiert nach Priorität</string>
+    <string name="sorted_by_time_of_creation">Sortiert nach dem Zeitpunkt der Erstellung</string>
 
 </resources>

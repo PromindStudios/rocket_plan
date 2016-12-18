@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Rocket-Plan</string>
     <string name="headerTitle">RocketPlan</string>
-    <string name="headerSubtitle">by Provelopment</string>
+    <string name="headerSubtitle">by Promind Studios</string>
     <string name="item_overview_title">Overview</string>
 
     <!-- General names -->
@@ -21,6 +21,9 @@
     <string name="calendar">Calendar</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
+    <string name="overdue">Overdue</string>
+    <string name="time">Time</string>
+
 
     <!-- Week names -->
     <string name="monday_short">MO</string>
@@ -31,6 +34,11 @@
     <string name="saturday_short">SA</string>
     <string name="sunday_short">SU</string>
 
+    <!-- Priority -->
+
+    <string name="priority_none">None</string>
+    <string name="priority_high">High</string>
+    <string name="priority_very_high">Very High</string>
 
     <!-- Tabs -->
     <string name="title_tabTask">Tasks</string>
@@ -60,6 +68,8 @@
     <!-- Category -->
     <string name="toast_add_category">Before you can add any content you have to create a category</string>
     <string name="alert_dialog_category_title">Category for this</string>
+    <string name="category_up">Move up</string>
+    <string name="category_down">Move down</string>
 
 
     <!-- Details -->
@@ -86,6 +96,8 @@
     <string name="detail_subtext_priority">High priority</string>
     <string name="task_due_today">This task is due today</string>
     <string name="task_due_tomorrow">This task is due tomorrow</string>
+    <string name="add_task">Add a task..</string>
+
 
     <!-- Tasks - Files -->
     <string name="detail_description_empty">Add a description</string>
@@ -109,6 +121,7 @@
     <string name="detail_subtext_end">Choose an end</string>
     <string name="event_due_today">This event is due today</string>
     <string name="event_due_tomorrow">This event is due tomorrow</string>
+    <string name="add_event">Add a event..</string>
 
     <!-- Note - General -->
     <string name="note">Note</string>
@@ -116,6 +129,7 @@
     <string name="detail_subtext_title_note">Enter a title for your note...</string>
     <string name="openDrawer">open</string>
     <string name="closeDrawer">close</string>
+    <string name="add_note">Add a note..</string>
 
     <!-- Time -->
     <string name="tab_day">Day</string>
@@ -219,5 +233,10 @@ Eric
     <string name="tab_one_empty">Nothing to do today</string>
     <string name="tab_two_empty">Nothing done today</string>
     <string name="tab_three_empty">Nothing to do tomorrow</string>
+
+    <!-- Sort -->
+    <string name="sorted_by_due_date">Sorted by due date</string>
+    <string name="sorted_by_priority">Sorted by priority</string>
+    <string name="sorted_by_time_of_creation">Sorted by time of creation</string>
 
 </resources>

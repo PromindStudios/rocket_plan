@@ -103,7 +103,7 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
             getSupportActionBar().setSubtitle(getString(R.string.task));
             mTask = (Task)mDatabaseHelper.getTask(mContentId);
             mContent = mTask;
-            mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_subtask_18dp)));
+            mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_subtask)));
         }
         if (mContentType == MyConstants.CONTENT_EVENT) {
             getSupportActionBar().setSubtitle(getString(R.string.event));

@@ -263,7 +263,12 @@ public class MonthFragment extends Fragment {
         oldCircleBig.setVisibility(View.GONE);
         TextView oldTextView = tvDayList.get(mSelectedPosition);
         if (mSelectedPosition >= mStartPosition && mSelectedPosition <= mEndPosition) {
-            oldTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryText));
+            if (mSelectedPosition == mTodayPosition) {
+                oldTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            } else {
+                oldTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryText));
+            }
+
         } else {
             oldTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorDivider));
         }

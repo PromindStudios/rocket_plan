@@ -114,8 +114,6 @@ public class MyConstants {
     public static final int APP_WIDGET_TAB_DONE = 2;
     public static final int APP_WIDGET_TAB_TOMORROW = 3;
 
-
-
     // Calendar
     public static final String CALENDAR_OBJECT = "calendar_object";
     public static final String CALENDAR_PAGE = "calendar_page";
@@ -127,5 +125,10 @@ public class MyConstants {
     public static final String APP_WIDGET_ITEM_CHECK = "app_widget_item_check";
     public static final String APP_WIDGET_LIST_VIEW_EVENT = "app_widget_list_view_event";
     public static final String APP_WIDGET_ITEM_EVENT = "app_widget_item_event";
+
+    // Priority
+    public static final int PRIORITY_NONE = 0;
+    public static final int PRIORITY_HIGH = 1;
+    public static final int PRIORITY_VERY_HIGH = 2;
 
 }
