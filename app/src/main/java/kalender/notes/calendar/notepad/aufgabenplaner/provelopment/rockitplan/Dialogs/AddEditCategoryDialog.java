@@ -45,6 +45,7 @@ public class AddEditCategoryDialog extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.dialog_add_edit_category, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
+        final TextView tvColor = (TextView) dialogView.findViewById(R.id.tvColor);
         ImageButton ibSave = (ImageButton) dialogView.findViewById(R.id.ibSave);
         ImageButton ibExit = (ImageButton) dialogView.findViewById(R.id.ibExit);
         RelativeLayout rlColor = (RelativeLayout)dialogView.findViewById(R.id.rlColor);
@@ -90,6 +91,7 @@ public class AddEditCategoryDialog extends DialogFragment {
                                 break;
                         }
                         categoryColor.setColor(color);
+                        tvColor.setText(categoryColor.getCategoryColorName());
                         vColor.setBackgroundColor(ResourcesCompat.getColor(getActivity().getResources(), categoryColor.getCategoryColor(), null));
                     }
 
@@ -104,6 +106,7 @@ public class AddEditCategoryDialog extends DialogFragment {
                 mListener = (DrawerFragment) getTargetFragment();
                 tvTitle.setText(getActivity().getString(R.string.title_add_category));
                 etEingabe.setHint(getActivity().getString(R.string.hint_dialog_add));
+                tvColor.setText(categoryColor.getCategoryColorName());
                 vColor.setBackgroundColor(ResourcesCompat.getColor(getActivity().getResources(), categoryColor.getCategoryColor(), null));
 
                 ibSave.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +137,8 @@ public class AddEditCategoryDialog extends DialogFragment {
                 etEingabe.setText(category.getTitle());
 
                 categoryColor.setColor(category.getColor());
+                color = category.getColor();
+                tvColor.setText(categoryColor.getCategoryColorName());
                 vColor.setBackgroundColor(ResourcesCompat.getColor(getActivity().getResources(), categoryColor.getCategoryColor(), null));
 
                 ibSave.setOnClickListener(new View.OnClickListener() {

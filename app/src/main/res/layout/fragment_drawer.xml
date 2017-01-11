@@ -81,36 +81,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:id="@+id/llInfo"
+        android:layout_height="32dp"
         android:visibility="gone"
-        android:background="@color/white"
+        android:orientation="horizontal"
+        android:id="@+id/llFooter"
+        android:background="@color/colorPrimaryLight"
+        android:gravity="center"
         android:layout_alignParentBottom="true">
 
-        <!--
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorTransparent"
-            android:src="@drawable/ic_info"
-            android:paddingTop="13dp"
-            android:tint="@color/colorDivider"
-            android:paddingLeft="20dp"
-            android:paddingRight="6dp"/>
-
-            -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Montag, 09. August 2016"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
+            android:text="@string/drawer_footer"
             android:textSize="11sp"
-            android:id="@+id/tvInfo"
-            android:background="@color/colorPrimaryLight"
+            android:id="@+id/tvFooter"
+            android:layout_gravity="center"
             android:textColor="@color/white"/>
 
     </LinearLayout>
@@ -119,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rlHeader"
-        android:layout_above="@id/llInfo"
+        android:layout_above="@id/llFooter"
         android:id="@+id/rvCategory">
 
     </android.support.v7.widget.RecyclerView>

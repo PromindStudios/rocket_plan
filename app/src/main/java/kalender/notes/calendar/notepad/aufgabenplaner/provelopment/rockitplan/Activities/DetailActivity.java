@@ -66,6 +66,7 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
     FilesFragment mFilesFragment;
 
     boolean tabSelectedFirst = false;
+    boolean tabTwoSelectedFirst = false;
     boolean mFromReminder = false;
 
     @Override
@@ -154,9 +155,10 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
 
             }
         });
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                //mAdapterViewPager.handleFocus(tab.getPosition());
                 mViewPager.setCurrentItem(tab.getPosition());
             }
             @Override
@@ -215,6 +217,8 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
 
     }
 
+
+
     @Override
     public void onBackPressed() {
         endActivity(false);
@@ -267,6 +271,15 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
         if (!tabSelectedFirst) {
             mTabLayout.getTabAt(mDetailType).select();
             tabSelectedFirst = true;
+        }
+    }
+
+    @Override
+    public void selectTabTwo() {
+        if (!tabTwoSelectedFirst) {
+            mTabLayout.getTabAt(mDetailType).select();
+            mAdapterViewPager.handleFocus(mDetailType);
+            tabTwoSelectedFirst = true;
         }
     }
 

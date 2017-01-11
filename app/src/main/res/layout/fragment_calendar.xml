@@ -79,21 +79,26 @@
             android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
 
+
+
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/dropdown_shadow"/>
 
     <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu
         android:id="@+id/fabMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="17dp"
         fab:fab_addButtonColorNormal="@color/white"
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/colorWhite"
         fab:fab_labelStyle="@style/fab_labels_style"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="17dp">
+        android:layout_alignParentEnd="true">
 
         <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton
             android:id="@+id/fabTask"
@@ -112,7 +117,7 @@
             app:backgroundTint="@color/colorPrimary"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_icon="@drawable/ic_flag_24dp"
+            fab:fab_icon="@drawable/ic_event_24dp"
             fab:fab_title="@string/event" />
 
         <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton

@@ -122,7 +122,9 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ContentViewHolder) {
             ContentViewHolder h = (ContentViewHolder) holder;
+            Log.i("TaskEvent Positionn", ""+position);
             Content content = getContent(position);
+            Log.i("TaskEvent Name", content.getTitle());
             mHolderHelper.setUpContentHolder(h, content, true);
 
             // Date & Time

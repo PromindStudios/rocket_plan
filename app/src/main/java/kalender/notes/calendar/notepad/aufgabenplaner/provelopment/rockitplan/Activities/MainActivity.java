@@ -113,87 +113,12 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        // Set up Default ViewPagerAdapter
-        //setUpTimeViewPagerAdapter(MyConstants.TIME_DAY);
-
-        // Iniatate Fab Buttons
-        //fabTask = (FloatingActionButton) findViewById(R.id.fabTask);
-        //fabEvent = (FloatingActionButton) findViewById(R.id.fabEvent);
-        //fabNote = (FloatingActionButton) findViewById(R.id.fabNote);
-        //fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
-
-        // Set up ClickListener for Fab Buttons
-
-        /*
-        fabTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isContent) {
-                    startDetailActivity(mCategoryId, mCategoryName, MyConstants.CONTENT_TASK, MyConstants.CONTENT_TIME_CONTENT, 0);
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_TASK);
-                            tab.select();
-                        }
-                    }, 1000);
-
-                } else {
-                    letUserSelectCategory(MyConstants.CONTENT_TASK);
-                }
-                fabMenu.collapse();
-
-            }
-        });
-        fabEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isContent) {
-                    startDetailActivity(mCategoryId, mCategoryName, MyConstants.CONTENT_EVENT, MyConstants.CONTENT_TIME_CONTENT, 0);
-                    Log.i("mCategoryNameee", mCategoryName+Integer.toString(mCategoryId));
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_EVENT);
-                            tab.select();
-                        }
-                    }, 1000);
-
-                } else {
-                    letUserSelectCategory(MyConstants.CONTENT_EVENT);
-                }
-                fabMenu.collapse();
-            }
-        });
-        fabNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isContent) {
-                    startDetailActivity(mCategoryId, mCategoryName, MyConstants.CONTENT_NOTE, MyConstants.CONTENT_TIME_CONTENT, 0);
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_NOTE);
-                            tab.select();
-                        }
-                    }, 1000);
-                } else {
-                    letUserSelectCategory(MyConstants.CONTENT_NOTE);
-                }
-                fabMenu.collapse();
-            }
-        });
-        */
-
         // Add Fragment
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         TimePagerFragment timePagerFragment = new TimePagerFragment();
         mContentTimePagerListener = (ContentTimePagerInterface)timePagerFragment;
-        fragmentTransaction.add(R.id.flContainer, timePagerFragment);
+        fragmentTransaction.replace(R.id.flContainer, timePagerFragment);
         fragmentTransaction.commit();
 
 
@@ -212,6 +137,16 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
+    }
+
+    @Override
+    protected void onPostResume() {
+
+        try {
+            super.onPostResume();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -384,7 +319,6 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         if (fragment instanceof CalendarFragment) {
             ((CalendarFragment)fragment).updateContentList(calendar, calendarPage);
         }
-
     }
 
     private void closeDrawer() {

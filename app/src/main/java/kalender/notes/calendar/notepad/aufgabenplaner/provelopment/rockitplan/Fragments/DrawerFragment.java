@@ -21,7 +21,7 @@ import java.util.Calendar;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AboutDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
@@ -37,11 +37,11 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     private CategoryAdapter mCategoryAdapter;
     DatabaseHelper mDatabaseHelper;
     Context mContext;
-    TextView tvInfo;
     TextView tvHelp;
     ImageButton ibSettings;
     SharedPreferences mSharedPreferences;
     SharedPreferences.Editor mEditor;
+    com.getbase.floatingactionbutton.FloatingActionButton myFab;
 
     @Nullable
     @Override
@@ -62,9 +62,9 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         // Set up recycler view
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.rvCategory);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateDrawer();
 
-        com.getbase.floatingactionbutton.FloatingActionButton myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
+
+        myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
         myFab.setColorNormal(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
         myFab.setColorPressed(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
         myFab.setOnClickListener(new View.OnClickListener() {
@@ -79,22 +79,22 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
                 dialog.show(getActivity().getSupportFragmentManager(), "Add_Category");
             }
         });
+        updateDrawer();
 
         // Button settings
         ibSettings = (ImageButton)layout.findViewById(R.id.ibSettings);
         ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment dialog = new AboutDialog();
+                DialogFragment dialog = new InformationDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString(MyConstants.DIALOGE_TITLE, getActivity().getString(R.string.title_about));
+                bundle.putString(MyConstants.DIALOGE_CONTENT, getActivity().getString(R.string.dialog_about_text));
+                dialog.setArguments(bundle);
                 dialog.show(getActivity().getSupportFragmentManager(), "dialog_about");
             }
         });
 
-        // Set current date
-        tvInfo = (TextView) layout.findViewById(R.id.tvInfo);
-        Calendar today = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("cccc', 'dd'.' MMM yyyy");
-        tvInfo.setText(sdf.format(today.getTime()));
         return layout;
     }
 
@@ -104,7 +104,16 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         // Set current date
         Calendar today = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("cccc', 'dd'.' MMMM yyyy");
-        tvInfo.setText(sdf.format(today.getTime()));
+    }
+
+    public void addCategory() {
+        mEditor.putBoolean(MyConstants.IS_START_CATEGORY, false).commit();
+        DialogFragment dialog = new AddEditCategoryDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyConstants.DIALOGE_TYPE, MyConstants.DIALOGE_CATEGORY_ADD);
+        dialog.setArguments(bundle);
+        dialog.setTargetFragment(DrawerFragment.this, 0);
+        dialog.show(getActivity().getSupportFragmentManager(), "Add_Category");
     }
 
     @Override
@@ -118,6 +127,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
 
         if (categories.size() == 0) {
             mRecyclerView.setVisibility(View.GONE);
+            myFab.setVisibility(View.VISIBLE);
             tvHelp.setVisibility(View.VISIBLE);
             boolean isStart = mSharedPreferences.getBoolean(MyConstants.IS_START_CATEGORY, true);
             if (isStart) {
@@ -127,6 +137,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
             }
         } else {
             mRecyclerView.setVisibility(View.VISIBLE);
+            myFab.setVisibility(View.GONE);
             tvHelp.setVisibility(View.GONE);
             mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
             mRecyclerView.setAdapter(mCategoryAdapter);

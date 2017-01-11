@@ -9,6 +9,7 @@
     <color name="colorDividerLight2">#b9b6b6b6</color>
     <color name="colorDividerLight">#51b6b6b6</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#FF000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorGreen">#4CAF50</color>
     <color name="colorOrange">#fff5a525</color>
@@ -22,12 +23,12 @@
     <color name="white_pressed">#f1f1f1</color>
 
     <!-- Color Set: Default -->
-    <color name="colorPrimary">#f44336</color>
+    <color name="colorPrimary">#e74c3c</color>
     <color name="colorPrimaryDark">#c62828</color>
-    <color name="colorPrimaryLight">#95f44336</color>
+    <color name="colorPrimaryLight">#7af44336</color>
 
     <!-- Color Set: One -->
-    <color name="category_one">#f44336</color>
+    <color name="category_one">#e74c3c</color>
     <color name="category_light_one">#b4f44336</color>
     <color name="category_dark_one">#b71c1c</color>
 

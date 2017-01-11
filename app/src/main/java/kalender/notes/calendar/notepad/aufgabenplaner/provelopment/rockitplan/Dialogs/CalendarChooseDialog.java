@@ -105,6 +105,7 @@ public class CalendarChooseDialog extends DialogFragment{
         for (int i = 0; i<mYearList.length; i++) {
             TextView tvYear = mYearsLayout.get(i);
             final int finalI = i;
+            tvYear.setText(Integer.toString(mYearList[i]));
             tvYear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

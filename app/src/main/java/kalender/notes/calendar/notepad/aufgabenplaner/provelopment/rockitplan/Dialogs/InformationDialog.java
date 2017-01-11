@@ -10,19 +10,19 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
  * Created by Admin on 25.08.2016.
  */
-public class AboutDialog extends DialogFragment {
+public class InformationDialog extends DialogFragment {
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        Bundle bundle = getArguments();
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_information, null);
         ImageButton ibSave = (ImageButton)dialogView.findViewById(R.id.ibSave);
@@ -31,11 +31,11 @@ public class AboutDialog extends DialogFragment {
         ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AboutDialog.this.getDialog().cancel();
+                InformationDialog.this.getDialog().cancel();
             }
         });
-        tvInfo.setText(getActivity().getString(R.string.dialog_about_text));
-        tvTitle.setText(getActivity().getString(R.string.title_about));
+        tvInfo.setText(bundle.getString(MyConstants.DIALOGE_CONTENT));
+        tvTitle.setText(bundle.getString(MyConstants.DIALOGE_TITLE));
         builder.setView(dialogView);
         return builder.create();
     }

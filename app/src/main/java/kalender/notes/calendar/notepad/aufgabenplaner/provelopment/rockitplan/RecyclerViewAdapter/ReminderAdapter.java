@@ -3,7 +3,6 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
@@ -16,14 +15,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Reminder;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.ReminderDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.GeneralFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
@@ -160,7 +155,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (reminderType == MyConstants.REMINDER_AT_DUE_TIME) {
                 holder.tvReminder.setText(mContext.getString(R.string.at_due_time));
             } else {
-                holder.tvReminder.setText(reminder.getReminderValue() + " " + reminder.getReminderTypeString(mContext) + " " + mContext.getString(R.string.before));
+                holder.tvReminder.setText(mContext.getString(R.string.reminde_me) + " " + reminder.getReminderValue() + " " + reminder.getReminderTypeString(mContext) + " " + mContext.getString(R.string.before));
             }
         }
     }

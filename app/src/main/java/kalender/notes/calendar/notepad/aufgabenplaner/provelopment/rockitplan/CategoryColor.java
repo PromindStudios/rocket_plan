@@ -17,6 +17,7 @@ public class CategoryColor {
     int[] mCategoryColor;
     int[] mCategoryColorLight;
     int[] mCategoryColorDark;
+    String[] mCategoryColorNames;
     int[][] mStates;
 
     ColorStateList mCategoryColorStateList;
@@ -51,6 +52,14 @@ public class CategoryColor {
         mCategoryColorDark[3] = R.color.category_dark_four;
         mCategoryColorDark[4] = R.color.category_dark_five;
         mCategoryColorDark[5] = R.color.category_dark_six;
+
+        mCategoryColorNames = new String[6];
+        mCategoryColorNames[0] = mContext.getString(R.string.color_one);
+        mCategoryColorNames[1] = mContext.getString(R.string.color_two);
+        mCategoryColorNames[2] = mContext.getString(R.string.color_three);
+        mCategoryColorNames[3] = mContext.getString(R.string.color_four);
+        mCategoryColorNames[4] = mContext.getString(R.string.color_five);
+        mCategoryColorNames[5] = mContext.getString(R.string.color_six);
     }
 
     public CategoryColor (Context context) {
@@ -83,6 +92,14 @@ public class CategoryColor {
         mCategoryColorDark[3] = R.color.category_dark_four;
         mCategoryColorDark[4] = R.color.category_dark_five;
         mCategoryColorDark[5] = R.color.category_dark_six;
+
+        mCategoryColorNames = new String[6];
+        mCategoryColorNames[0] = mContext.getString(R.string.color_one);
+        mCategoryColorNames[1] = mContext.getString(R.string.color_two);
+        mCategoryColorNames[2] = mContext.getString(R.string.color_three);
+        mCategoryColorNames[3] = mContext.getString(R.string.color_four);
+        mCategoryColorNames[4] = mContext.getString(R.string.color_five);
+        mCategoryColorNames[5] = mContext.getString(R.string.color_six);
     }
 
     public int getCategoryColor() {
@@ -108,6 +125,10 @@ public class CategoryColor {
     public int getCategoryColorDark() {
 
         return mCategoryColorDark[mColor];
+    }
+
+    public String getCategoryColorName() {
+        return  mCategoryColorNames[mColor];
     }
 
     public void setColor (int color) {

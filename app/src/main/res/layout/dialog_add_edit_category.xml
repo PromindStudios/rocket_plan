@@ -32,17 +32,17 @@
             android:id="@+id/vColor"
             android:layout_margin="16dp"
             android:background="@color/category_one"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             />
 
         <TextView
             android:layout_width="match_parent"
-            android:paddingLeft="16dp"
             android:layout_centerVertical="true"
+            android:id="@+id/tvColor"
             android:textSize="@dimen/text_small"
             android:textColor="@color/colorDivider"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/vColor"
+            android:layout_toRightOf="@id/vColor"
             android:text="@string/choose_color"/>
 
 

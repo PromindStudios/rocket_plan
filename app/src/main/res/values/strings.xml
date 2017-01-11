@@ -4,7 +4,7 @@
     <string name="headerSubtitle">by Promind Studios</string>
     <string name="item_overview_title">Overview</string>
 
-    <!-- General names -->
+    <!-- General -->
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="overview">Overview</string>
@@ -23,6 +23,7 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="overdue">Overdue</string>
     <string name="time">Time</string>
+    <string name="drawer_footer">Developed with passion - promindstudios@gmail.com</string>
 
 
     <!-- Week names -->
@@ -36,9 +37,9 @@
 
     <!-- Priority -->
 
-    <string name="priority_none">None</string>
-    <string name="priority_high">High</string>
-    <string name="priority_very_high">Very High</string>
+    <string name="priority_none">No priority</string>
+    <string name="priority_high">High priority</string>
+    <string name="priority_very_high">Very high priority</string>
 
     <!-- Tabs -->
     <string name="title_tabTask">Tasks</string>
@@ -64,12 +65,24 @@
         Cheers \n\n
         Eric - Promind Studios
     </string>
+    <string name="help_first_content_title">
+        Important information!
+    </string>
+
+    <string name="help_first_content">
+        Good job, you added your first content! \n\n
+            If you want to check a task, event or note JUST SWIPE IT TO THE RIGHT. If you want to delete it SWIPE IT TO THE LEFT.
+            It is that easy and all I wanted to say at this point :) Have fun!\n\n
+        Cheers \n\n
+        Eric - Promind Studios
+    </string>
 
     <!-- Category -->
     <string name="toast_add_category">Before you can add any content you have to create a category</string>
     <string name="alert_dialog_category_title">Category for this</string>
     <string name="category_up">Move up</string>
     <string name="category_down">Move down</string>
+    <string name="add_category">Add category</string>
 
 
     <!-- Details -->
@@ -202,14 +215,15 @@ Eric
     <string name="reminder_default_two">1 day before</string>
     <string name="reminder_dialog_custom_title">Custom Reminder</string>
     <string name="reminder_choose_reminder_hint">Choose a reminder value</string>
+    <string name="reminde_me">Remind me</string>
 
     <!-- Repeat -->
     <string name="repetition">Repetition</string>
     <string name="add_repeat">Add a repetition</string>
     <string name="repetition_hourly">Hourly</string>
-    <string name="repetition_daily">Daily</string>
-    <string name="repetition_weekly">Weekly</string>
-    <string name="repetition_monthly">Monthly</string>
+    <string name="repetition_daily">Daily repetition</string>
+    <string name="repetition_weekly">Weekly repetition</string>
+    <string name="repetition_monthly">Monthly repetition</string>
     <string name="repetition_delete_task">Delete only this task</string>
     <string name="repetition_delete_all_tasks">Delete this task and the following</string>
     <string name="repetition_delete_event">Delete only this event</string>

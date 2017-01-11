@@ -62,11 +62,11 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     AppCompatImageView ivRemoveDate;
     AppCompatImageView ivRemoveTime;
     AppCompatImageView ivRemoveRepeat;
-    TextView tvTitleDeadline;
+    //TextView tvTitleDeadline;
     TextView tvDate;
     TextView tvTime;
     TextView tvRepeat;
-    TextView tvReminderTitle;
+    //TextView tvReminderTitle;
     View vDividerReminder;
     RadioGroup rgPriority;
     RadioButton rbPriorityNone;
@@ -108,11 +108,11 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         ivRemoveDate = (AppCompatImageView) layout.findViewById(R.id.ivRemoveDate);
         ivRemoveTime = (AppCompatImageView) layout.findViewById(R.id.ivRemoveTime);
         ivRemoveRepeat = (AppCompatImageView) layout.findViewById(R.id.ivRemoveRepeat);
-        tvTitleDeadline = (TextView) layout.findViewById(R.id.tvTitleDeadline);
+        //tvTitleDeadline = (TextView) layout.findViewById(R.id.tvTitleDeadline);
         tvDate = (TextView) layout.findViewById(R.id.tvDate);
         tvTime = (TextView) layout.findViewById(R.id.tvTime);
         tvRepeat = (TextView) layout.findViewById(R.id.tvRepeat);
-        tvReminderTitle = (TextView) layout.findViewById(R.id.tvTitleReminder);
+        //tvReminderTitle = (TextView) layout.findViewById(R.id.tvTitleReminder);
         vDividerReminder = layout.findViewById(R.id.dividerReminder);
         llDateReminder = (LinearLayout) layout.findViewById(R.id.llDateReminder);
         vDummy = layout.findViewById(R.id.vDummyGeneral);
@@ -165,11 +165,15 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             }
         });
 
-        if (mContent.getTitle().equals("")) {
+        if (mContent.getTitle().equals("") || mContent.getTitle().matches("")) {
             etTitle.requestFocus();
             Log.i("Title", "ist leer");
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
+        } else {
+            Log.i("Sooollte hier", "sein");
+            closeKeyboard();
+            vDummy.requestFocus();
         }
 
 
@@ -354,6 +358,10 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
 
         // Priority
 
+        rbPriorityNone.setText("   "+getActivity().getString(R.string.priority_none));
+        rbPriorityHigh.setText("   "+getActivity().getString(R.string.priority_high));
+        rbPriorityVeryHigh.setText("   "+getActivity().getString(R.string.priority_very_high));
+
         switch (mContent.getPriority()) {
             case MyConstants.PRIORITY_NONE:
                 rgPriority.check(R.id.rbNoPriority);
@@ -387,14 +395,20 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         return layout;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mListener.selectTab();
+        handleFocus();
+    }
 
     private void setReminderVisible(boolean visible) {
         if (visible) {
-            tvReminderTitle.setVisibility(View.VISIBLE);
+            //tvReminderTitle.setVisibility(View.VISIBLE);
             vDividerReminder.setVisibility(View.VISIBLE);
             rvReminder.setVisibility(View.VISIBLE);
         } else {
-            tvReminderTitle.setVisibility(View.GONE);
+            //tvReminderTitle.setVisibility(View.GONE);
             vDividerReminder.setVisibility(View.GONE);
             rvReminder.setVisibility(View.GONE);
         }
@@ -408,6 +422,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         }
     }
 
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -419,6 +435,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         super.onAttach(context);
         mListener = (DetailActivity) context;
     }
+
 
     @Override
     public void onPause() {
@@ -526,6 +543,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         public void takePicture(FilesFragment filesFragment);
 
         public void selectTab();
+        public void selectTabTwo();
 
         public void setToolbarTitle(String title);
     }
@@ -546,12 +564,13 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     }
 
     public void handleFocus() {
-        if (mContent.getTitle() == null || mContent.getTitle().equals("")) {
+        if (mContent.getTitle() == null || mContent.getTitle().equals("") || mContent.getTitle().matches("")) {
             etTitle.requestFocus();
             Log.i("Title ist", "ist leer");
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
         } else {
+            vDummy.requestFocus();
             closeKeyboard();
         }
     }
@@ -596,7 +615,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             vDividerTime.setVisibility(View.VISIBLE);
         } else {
             rlDate.setVisibility(View.GONE);
-            tvTitleDeadline.setVisibility(View.GONE);
+            //tvTitleDeadline.setVisibility(View.GONE);
             vDividerTime.setVisibility(View.GONE);
         }
     }

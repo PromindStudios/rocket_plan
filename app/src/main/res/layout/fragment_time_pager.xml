@@ -16,6 +16,14 @@
         app:tabSelectedTextColor="@color/colorWhite"
         app:tabTextColor="@color/colorWhite"/>
 
+
+
+    <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout" />
+
     <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu
         android:id="@+id/fabMenu"
         android:layout_width="wrap_content"
@@ -42,7 +50,7 @@
             fab:fab_colorNormal="@color/white"
             fab:fab_title="@string/event"
             app:backgroundTint="@color/colorPrimary"
-            fab:fab_icon="@drawable/ic_flag_24dp"
+            fab:fab_icon="@drawable/ic_event_24dp"
             fab:fab_colorPressed="@color/white_pressed"/>
 
         <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton
@@ -56,11 +64,5 @@
             fab:fab_colorPressed="@color/white_pressed"/>
 
     </kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu>
-
-    <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tabLayout" />
 
 </RelativeLayout>

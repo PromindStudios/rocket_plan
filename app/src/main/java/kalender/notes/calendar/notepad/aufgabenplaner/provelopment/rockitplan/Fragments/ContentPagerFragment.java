@@ -2,6 +2,7 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.F
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DatePickerDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.MyTimePickerDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimePagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
@@ -63,7 +65,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     FloatingActionButton fabTask;
     FloatingActionButton fabEvent;
     FloatingActionButton fabNote;
-    FloatingActionButton fabAdd;
+    android.support.design.widget.FloatingActionButton fabAdd;
     FloatingActionsMenu fabMenu;
     ImageView ivAddDate;
     EditText etAddContent;
@@ -99,7 +101,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         fabTask = (FloatingActionButton) layout.findViewById(R.id.fabTask);
         fabEvent = (FloatingActionButton) layout.findViewById(R.id.fabEvent);
         fabNote = (FloatingActionButton) layout.findViewById(R.id.fabNote);
-        fabAdd = (FloatingActionButton) layout.findViewById(R.id.fabAdd);
+        fabAdd = (android.support.design.widget.FloatingActionButton) layout.findViewById(R.id.fabAdd);
         fabMenu = (FloatingActionsMenu) layout.findViewById(R.id.fabMenu);
         ivAddDate = (ImageView) layout.findViewById(R.id.ivDateAdd);
         etAddContent = (EditText) layout.findViewById(R.id.etAddContent);
@@ -203,10 +205,18 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
                     mViewPagerAdapter.getFragment(contentType).setAdapterUp();
                     cleanFastAdd();
                     closeKeyboard();
+
+                    if (getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).getBoolean(MyConstants.FIRST_CONTENT, true)) {
+                        DialogFragment dialog = new InformationDialog();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(MyConstants.DIALOGE_TITLE, getString(R.string.help_first_content_title));
+                        bundle.putString(MyConstants.DIALOGE_CONTENT, getString(R.string.help_first_content));
+                        dialog.setArguments(bundle);
+                        dialog.show(getActivity().getSupportFragmentManager(), "dialog_about");
+                        getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).edit().putBoolean(MyConstants.FIRST_CONTENT, false).commit();
+                    }
                 }
-
-
-
+                mViewPagerAdapter.getFragment(mViewPager.getCurrentItem()).disableHelpText();
                 fabMenu.collapse();
             }
         });
@@ -237,7 +247,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         fabTask.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
         fabEvent.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
         fabNote.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabAdd.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
+        fabAdd.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor())));
         fabMenu.getButton().setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
         fabMenu.getButton().setColorPressed(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
 
@@ -274,14 +284,14 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
             public void afterTextChanged(Editable editable) {
                 if (etAddContent.getText().toString().matches("")) {
                     // Fab Icon --> Plus
-                    fabAdd.setIconDrawable(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_add_24dp, null));
+                    fabAdd.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_add_24dp));
                     mFastDate = null;
                     mFastTime = null;
                     tvAddDate.setVisibility(View.INVISIBLE);
                     ivAddDate.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_text_24dp, null));
                 } else {
                     // Fab Icon --> Arrow to create fast Content
-                    fabAdd.setIconDrawable(ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_quick_add, null));
+                    fabAdd.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_quick_add));
                 }
 
             }

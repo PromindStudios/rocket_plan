@@ -50,7 +50,7 @@ public class HolderHelper {
         if (mContentType == MyConstants.CONTENT_EVENT) {
             event = (Event) content;
             taskEvent = (TaskEvent) content;
-            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_flag_24dp, null);
+            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_event_24dp, null);
         }
         if (mContentType == MyConstants.CONTENT_NOTE) {
             contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);

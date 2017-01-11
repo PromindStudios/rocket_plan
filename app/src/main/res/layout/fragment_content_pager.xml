@@ -16,6 +16,7 @@
         app:tabSelectedTextColor="@color/colorWhite"
         app:tabTextColor="@color/colorWhite"/>
 
+
     <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu
         android:id="@+id/fabMenu"
         android:layout_width="wrap_content"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorWhite"
             fab:fab_title="@string/task"
+            android:visibility="gone"
             app:backgroundTint="@color/colorPrimary"
             fab:fab_icon="@drawable/ic_task_24dp"
             fab:fab_colorPressed="@color/white_pressed"/>
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_title="@string/event"
+            android:visibility="gone"
             app:backgroundTint="@color/colorPrimary"
             fab:fab_icon="@drawable/ic_flag_24dp"
             fab:fab_colorPressed="@color/white_pressed"/>
@@ -52,6 +55,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_title="@string/note"
+            android:visibility="gone"
             app:backgroundTint="@color/colorPrimary"
             fab:fab_icon="@drawable/ic_note_24dp"
             fab:fab_colorPressed="@color/white_pressed"/>
@@ -66,24 +70,22 @@
         android:id="@+id/rlContentFab"
         android:layout_alignParentBottom="true">
 
-        <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fabAdd"
             android:layout_alignParentRight="true"
             fab:fab_icon="@drawable/ic_add_24dp"
-            fab:fab_colorPressed="@color/white_pressed"
             app:backgroundTint="@color/colorPrimary"
-            android:tint="@color/colorPrimaryLight"
+            app:borderWidth="0dp"
+            app:useCompatPadding="false"
+            android:visibility="visible"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
             />
-
-        <!--
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colorDivider"
-            android:layout_alignParentTop="true"/>
-            -->
         <RelativeLayout
             android:layout_width="56dp"
             android:layout_height="wrap_content"
@@ -123,11 +125,18 @@
             android:layout_toLeftOf="@id/fabAdd"
             android:layout_centerVertical="true"
             android:hint="Add a task"
+            android:inputType="textCapSentences"
             android:textColorHint="@color/colorDivider"
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/text_size_item_title"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/dropup_shadow"
+        android:layout_alignTop="@id/rlContentFab"/>
 
     <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager
         android:id="@+id/viewPager"
@@ -135,6 +144,12 @@
         android:layout_height="match_parent"
         android:layout_below="@id/tabLayout"
         android:layout_above="@id/rlContentFab" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/dropdown_shadow"
+        android:layout_below="@id/tabLayout"/>
 
 
 </RelativeLayout>

@@ -16,6 +16,7 @@
         <item name="actionMenuTextColor">@color/colorDivider</item>
         <item name="android:colorForeground">@android:color/white</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -27,6 +28,13 @@
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <!-- NEW -->
+
+
+
+
+    <!-- OLD -->
 
     <!-- Text Views -->
 
@@ -143,7 +151,7 @@
     <!-- Image Views | Detail -->
 
     <style name="image_view_detail_add" parent="image_view">
-        <item name="android:src">@drawable/ic_add_detail</item>
+        <item name="android:src">@drawable/ic_add_18dp</item>
         <item name="android:layout_marginRight">@dimen/detail_view_left_margin_right</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_centerVertical">true</item>
@@ -151,7 +159,7 @@
     </style>
 
     <style name="image_view_detail_remove" parent="image_view">
-        <item name="android:src">@drawable/ic_remove</item>
+        <item name="android:src">@drawable/ic_remove_18dp</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginLeft">4dp</item>
         <item name="android:layout_centerVertical">true</item>
@@ -242,7 +250,6 @@
     <style name="divider_detail">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
-        <item name="android:layout_marginBottom">24dp</item>
         <item name="android:background">@color/colorDivider</item>
     </style>
 

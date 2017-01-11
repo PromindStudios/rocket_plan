@@ -2,11 +2,13 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,15 +19,26 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvTitleDescription"
+                android:layout_height="1px"
+                android:layout_width="1px"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="d"/>
+
             <View
                 android:id="@+id/vDummyGeneral"
                 android:layout_width="0dp"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
 
             <EditText
                 android:id="@+id/etTitle"
                 style="@style/edit_text_title"
+                android:paddingTop="8dp"
                 android:hint="@string/detail_subtext_title_task"
                 android:imeActionLabel="@string/done"
                 android:imeOptions="actionDone"
@@ -35,7 +48,8 @@
                 android:maxLength="35"
                 />
 
-            <View style="@style/divider_detail" />
+            <View style="@style/divider_detail"
+                android:layout_marginBottom="24dp"/>
 
             <LinearLayout
                 android:id="@+id/llDateReminder"
@@ -112,7 +126,8 @@
 
                 <View
                     android:id="@+id/vDividerTime"
-                    style="@style/divider_detail" />
+                    style="@style/divider_detail"
+                    android:layout_marginBottom="16dp"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvReminder"
@@ -124,7 +139,9 @@
             <View
                 android:id="@+id/dividerReminder"
                 style="@style/divider_detail"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,7 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/rbNoPriority"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:layout_marginBottom="4dp"
                         android:text="@string/priority_none"
                         android:buttonTint="@color/colorSecondaryText"
@@ -152,7 +169,7 @@
                         android:id="@+id/rbHighPriority"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:text="@string/priority_high"
                         android:buttonTint="@color/colorOrange"
                         android:textColor="@color/colorSecondaryText"/>
@@ -161,7 +178,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/rbVeryHighPriority"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:layout_marginTop="4dp"
                         android:text="@string/priority_very_high"
                         android:buttonTint="@color/colorPrimary"

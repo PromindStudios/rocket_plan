@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
@@ -25,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.jar.Manifest;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
@@ -51,6 +49,7 @@ public class FilesFragment extends Fragment {
     Event mEvent;
     Note mNote;
     Content mContent;
+    View vDummy;
 
     String mPicturePath;
 
@@ -84,6 +83,7 @@ public class FilesFragment extends Fragment {
         etDescription = (EditText) layout.findViewById(R.id.etDescription);
         ivPicture = (ImageView) layout.findViewById(R.id.ivPicture);
         ivAddPicture = (AppCompatImageView) layout.findViewById(R.id.ivAddPicture);
+        vDummy = layout.findViewById(R.id.vDummy);
         ivRemmovePicture = (AppCompatImageView) layout.findViewById(R.id.ivRemoveDate);
         tvAddPicture = (TextView) layout.findViewById(R.id.tvAddPicture);
 
@@ -107,7 +107,17 @@ public class FilesFragment extends Fragment {
         });
         etDescription.setText(mContent.getDescription());
 
-
+        if (mContent.getDescription().equals("") || etDescription.getText().toString().matches("")) {
+            etDescription.requestFocus();
+            Log.i("Descreption", "ist leer");
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etDescription, InputMethodManager.SHOW_IMPLICIT);
+        } else {
+            vDummy.requestFocus();
+            Log.i("Description", "is not emptyyyyyyy");
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(etDescription.getWindowToken(), 0);
+        }
 
         // Picture
 
@@ -176,6 +186,19 @@ public class FilesFragment extends Fragment {
 
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mListener.selectTabTwo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mListener.selectTabTwo();
+        handleFocus();
+    }
+
 
 
     @Override
@@ -210,12 +233,14 @@ public class FilesFragment extends Fragment {
     public void handleFocus() {
         if (mContent != null) {
             Log.i("Meine Beschreibung", mContent.getDescription());
-            if (mContent.getDescription().equals("")) {
+            if (mContent.getDescription().equals("") || etDescription.getText().toString().matches("")) {
                 etDescription.requestFocus();
                 Log.i("Descreption", "ist leer");
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etDescription, InputMethodManager.SHOW_IMPLICIT);
             } else {
+                vDummy.requestFocus();
+                Log.i("Description", "is not empty");
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(etDescription.getWindowToken(), 0);
             }

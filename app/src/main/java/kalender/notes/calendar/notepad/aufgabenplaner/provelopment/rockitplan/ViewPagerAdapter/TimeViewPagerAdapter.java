@@ -1,5 +1,6 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +17,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.My
  * Created by Admin on 15.07.2016.
  */
 
-public class TimeViewPagerAdapter extends FragmentStatePagerAdapter{
+public class TimeViewPagerAdapter extends FragmentStatePagerAdapter {
 
     int mTabNumber;
     Map<Integer, TimeFragment> mFragmentList;

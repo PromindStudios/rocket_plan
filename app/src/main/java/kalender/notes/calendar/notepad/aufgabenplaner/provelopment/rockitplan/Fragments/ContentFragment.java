@@ -66,6 +66,10 @@ public class ContentFragment extends ContentTimeCalendarFragment {
         }
     }
 
+    public void disableHelpText() {
+        tvHelp.setVisibility(View.GONE);
+    }
+
     protected void setAdapterUp() {
         mContentAdapter = new ContentAdapter(getActivity(), mCategoryId, mMainActivity, mContentType);
         mAdapterListener = (ContentTimeAdapterInterface)mContentAdapter;

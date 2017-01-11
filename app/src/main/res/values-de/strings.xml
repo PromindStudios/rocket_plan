@@ -5,7 +5,7 @@
     <string name="headerSubtitle">by Promind Studios</string>
     <string name="item_overview_title">Übersicht</string>
 
-    <!-- General names -->
+    <!-- General -->
     <string name="edit">Bearbeiten</string>
     <string name="delete">Löschen</string>
     <string name="overview">Übersicht</string>
@@ -24,6 +24,7 @@
     <string name="tomorrow">Morgen</string>
     <string name="overdue">Überfällig</string>
     <string name="time">Uhrzeit</string>
+    <string name="drawer_footer">Developed with passion - promindstudios@gmail.com</string>
 
     <!-- Week names -->
     <string name="monday_short">MO</string>
@@ -36,9 +37,9 @@
 
     <!-- Priority -->
 
-    <string name="priority_none">Keine</string>
-    <string name="priority_high">Hoch</string>
-    <string name="priority_very_high">Sehr hoch</string>
+    <string name="priority_none">Keine Priorität</string>
+    <string name="priority_high">Hohe Priorität</string>
+    <string name="priority_very_high">Sehr hohe Priorität</string>
 
     <!-- Tabs -->
     <string name="title_tabTask">Aufgaben</string>
@@ -59,8 +60,19 @@
         Der Start ist gelungen! \n\n
         Mach weiter und erstelle deinen ersten Inhalt - Aufgaben, Termine und Notizen können durch das Drücken des "Plus" Buttons in der rechten Ecke erstellt werden! \n\n
         Falls du einen Inhalt abhacken oder löschen willst kannst du die Wisch-Funktion nutzen. \n\n
-        Alles andere sollte Dir leicht von der Hand gehen. Falls du Fragen oder gute Ideen haben solltest kannst du mir gerne eine E-Mail an "promindstudios@gmail.com" schreiben\n\n
+        Alles andere sollte Dir leicht von der Hand gehen. Falls du Fragen oder gute Ideen haben solltest kannst du mir gerne eine E-Mail an "promindstudios@gmail.com" schreiben.\n\n
         Ich freue mich über jede gute Bewertung im Play Store! \n\n
+        Cheers \n\n
+        Eric - Promind Studios
+    </string>
+    <string name="help_first_content_title">
+        Wichtige Info!
+    </string>
+
+    <string name="help_first_content">
+        Gute Arbeit, du hast deinen ersten Inhalt hinzugefügt! \n\n
+            Wenn du eine Aufgabe oder einen Termin abhaken möchtest, kannst du diesen NACH RECHTS WISCHEN. Zum Löschen kannst du diesen nach LINKS WISCHEN. So einfach geht es! Das war auch schon alles, was ich Dir bei dieser Gelegenheit mit auf dem Weg geben wollte. Viel Spaß beim Planen!
+\n\n
         Cheers \n\n
         Eric - Promind Studios
     </string>
@@ -70,6 +82,7 @@
     <string name="alert_dialog_category_title">Kategorie für diese(n)</string>
     <string name="category_up">Nach oben verschieben</string>
     <string name="category_down">Nach unten verschieben</string>
+    <string name="add_category">Kategorie hinzufügen</string>
 
     <!-- Details -->
 
@@ -200,14 +213,15 @@ Eric
     <string name="reminder_default_two">1 Tag vorher</string>
     <string name="reminder_dialog_custom_title">Benutzerdefiniert</string>
     <string name="reminder_choose_reminder_hint">Wähle einen Wert aus</string>
+    <string name="reminde_me">Erinnere mich</string>
 
     <!-- Repeat -->
     <string name="repetition">Wiederholung</string>
     <string name="add_repeat">Wiederholung hinzufügen</string>
     <string name="repetition_hourly">Stündlich</string>
-    <string name="repetition_daily">Täglich</string>
-    <string name="repetition_weekly">Wöchentlich</string>
-    <string name="repetition_monthly">Monatlich</string>
+    <string name="repetition_daily">Tägliche Wiederholung</string>
+    <string name="repetition_weekly">Wöchentliche Wiederholung</string>
+    <string name="repetition_monthly">Monatliche Wiederholung</string>
     <string name="repetition_delete_task">Nur diese Aufgabe löschen</string>
     <string name="repetition_delete_all_tasks">Diese und folgende Aufgaben löschen</string>
     <string name="repetition_delete_event">Nur diesen Termin löschen</string>

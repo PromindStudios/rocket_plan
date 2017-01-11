@@ -55,6 +55,7 @@ public class MyConstants {
     public static final String ALARM_REMINDER = "alarm_reminder";
     public static final String INTENT_REMINDER = "intent_reminder";
     public static final String IS_EXPANDED = "is_expanded";
+    public static final String FIRST_CONTENT = "first_content";
 
     // Detail
     public static final int DETAIL_GENERAL = 0;
@@ -130,5 +131,9 @@ public class MyConstants {
     public static final int PRIORITY_NONE = 0;
     public static final int PRIORITY_HIGH = 1;
     public static final int PRIORITY_VERY_HIGH = 2;
+
+    // Dialog
+    public static final String DIALOGE_TITLE = "dialoge_title";
+    public static final String DIALOGE_CONTENT = "dialoge_content";
 
 }

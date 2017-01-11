@@ -51,13 +51,15 @@ public class TimeFragment extends ContentTimeCalendarFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setAdapterUp();
+         setAdapterUp();
     }
 
     protected void setAdapterUp() {
+
         mTimeAdapter = new TimeAdapter(getActivity(), mTimeType, mMainActivity);
         mAdapterListener = (ContentTimeAdapterInterface)mTimeAdapter;
         mRecyclerView.setAdapter(mTimeAdapter);
         setSwipeFunction(MyConstants.CONTENT_TASK_EVENT, mRecyclerView);
+
     }
 }

@@ -251,6 +251,7 @@ public class FloatingActionButton extends ImageButton {
         int circleInsetTop = (int) (mShadowRadius - mShadowOffset);
         int circleInsetBottom = (int) (mShadowRadius + mShadowOffset);
 
+
         layerDrawable.setLayerInset(1,
                 circleInsetHorizontal,
                 circleInsetTop,
@@ -268,6 +269,7 @@ public class FloatingActionButton extends ImageButton {
                 circleInsetTop + iconOffset,
                 circleInsetHorizontal + iconOffset,
                 circleInsetBottom + iconOffset);
+
 
         setBackgroundCompat(layerDrawable);
     }
