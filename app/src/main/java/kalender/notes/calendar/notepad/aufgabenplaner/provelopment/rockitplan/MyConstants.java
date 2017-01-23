@@ -136,4 +136,7 @@ public class MyConstants {
     public static final String DIALOGE_TITLE = "dialoge_title";
     public static final String DIALOGE_CONTENT = "dialoge_content";
 
+    // Requests
+    public static final int REQUEST_ACTIVITY_SETTINGS = 1;
+
 }

@@ -54,12 +54,12 @@ public class CategoryColor {
         mCategoryColorDark[5] = R.color.category_dark_six;
 
         mCategoryColorNames = new String[6];
-        mCategoryColorNames[0] = mContext.getString(R.string.color_one);
-        mCategoryColorNames[1] = mContext.getString(R.string.color_two);
-        mCategoryColorNames[2] = mContext.getString(R.string.color_three);
-        mCategoryColorNames[3] = mContext.getString(R.string.color_four);
-        mCategoryColorNames[4] = mContext.getString(R.string.color_five);
-        mCategoryColorNames[5] = mContext.getString(R.string.color_six);
+        mCategoryColorNames[0] = mContext.getString(R.string.color_category_one);
+        mCategoryColorNames[1] = mContext.getString(R.string.color_category_two);
+        mCategoryColorNames[2] = mContext.getString(R.string.color_category_three);
+        mCategoryColorNames[3] = mContext.getString(R.string.color_category_four);
+        mCategoryColorNames[4] = mContext.getString(R.string.color_category_five);
+        mCategoryColorNames[5] = mContext.getString(R.string.color_category_six);
     }
 
     public CategoryColor (Context context) {
@@ -94,12 +94,12 @@ public class CategoryColor {
         mCategoryColorDark[5] = R.color.category_dark_six;
 
         mCategoryColorNames = new String[6];
-        mCategoryColorNames[0] = mContext.getString(R.string.color_one);
-        mCategoryColorNames[1] = mContext.getString(R.string.color_two);
-        mCategoryColorNames[2] = mContext.getString(R.string.color_three);
-        mCategoryColorNames[3] = mContext.getString(R.string.color_four);
-        mCategoryColorNames[4] = mContext.getString(R.string.color_five);
-        mCategoryColorNames[5] = mContext.getString(R.string.color_six);
+        mCategoryColorNames[0] = mContext.getString(R.string.color_category_one);
+        mCategoryColorNames[1] = mContext.getString(R.string.color_category_two);
+        mCategoryColorNames[2] = mContext.getString(R.string.color_category_three);
+        mCategoryColorNames[3] = mContext.getString(R.string.color_category_four);
+        mCategoryColorNames[4] = mContext.getString(R.string.color_category_five);
+        mCategoryColorNames[5] = mContext.getString(R.string.color_category_six);
     }
 
     public int getCategoryColor() {

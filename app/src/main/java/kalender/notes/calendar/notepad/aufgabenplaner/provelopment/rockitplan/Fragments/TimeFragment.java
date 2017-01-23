@@ -36,7 +36,6 @@ public class TimeFragment extends ContentTimeCalendarFragment {
         mRecyclerView = (RecyclerView)layout.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setAdapterUp();
-        mainActivityListener.colorHead(0);
 
         return layout;
     }
@@ -45,7 +44,6 @@ public class TimeFragment extends ContentTimeCalendarFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mMainActivity = (MainActivity) context;
-        mainActivityListener = (ContentTimeCalendarFragment.MainActivityListener) context;
     }
 
     @Override

@@ -39,7 +39,6 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Vi
 public class ContentTimeCalendarFragment extends Fragment implements DeleteContentDialog.DeleteContentDialogListener {
 
     MainActivity mMainActivity;
-    ContentTimeCalendarFragment.MainActivityListener mainActivityListener;
     ContentTimeAdapterInterface mAdapterListener;
     DatabaseHelper mDatabaseHelper;
 
@@ -47,7 +46,6 @@ public class ContentTimeCalendarFragment extends Fragment implements DeleteConte
     public void onAttach(Context context) {
         super.onAttach(context);
         mMainActivity = (MainActivity) context;
-        mainActivityListener = (ContentTimeCalendarFragment.MainActivityListener) context;
     }
 
     // Content functions
@@ -140,7 +138,6 @@ public class ContentTimeCalendarFragment extends Fragment implements DeleteConte
         mDatabaseHelper.updateContent(taskEvent);
         mMainActivity.updateDrawer();
 
-
         setAdapterUp();
     }
 
@@ -222,7 +219,6 @@ public class ContentTimeCalendarFragment extends Fragment implements DeleteConte
                         //TaskEvent taskEvent = (TaskEvent) adapterListener.getCorrectContent(viewHolder.getAdapterPosition());
                         if (taskEvent != null && !taskEvent.isDone()) {
                             iconColor = 1;
-                            Log.i("Naaame", taskEvent.getTitle() + " Position" + Integer.toString(viewHolder.getAdapterPosition()));
                         }
                         if (taskEvent != null && taskEvent.isDone()) {
                             iconColor = 2;
@@ -277,10 +273,5 @@ public class ContentTimeCalendarFragment extends Fragment implements DeleteConte
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
-
-    public interface MainActivityListener {
-        public void colorHead(int categoryId);
-    }
-
 
 }

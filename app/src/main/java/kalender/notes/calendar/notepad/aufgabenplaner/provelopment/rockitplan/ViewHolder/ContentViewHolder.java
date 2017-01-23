@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
@@ -31,10 +30,9 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
     public LinearLayout llSubtitleDate;
     public LinearLayout llContent;
     public LinearLayout llFiles;
-    public RelativeLayout rlSubtask;
+    public LinearLayout llSubtask;
 
     public View vSubtitleDateDivider;
-    public View vPriority;
     public View vDivider;
 
     public ContentViewHolder(View itemView, vhTasksClickListener listener) {
@@ -56,15 +54,13 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
         llSubtitleDate = (LinearLayout) itemView.findViewById(R.id.llSubtitleDate);
         llContent = (LinearLayout) itemView.findViewById(R.id.llContent);
         llFiles = (LinearLayout) itemView.findViewById(R.id.llFiles);
-        rlSubtask = (RelativeLayout) itemView.findViewById(R.id.rlSubtask);
-
-        vPriority = itemView.findViewById(R.id.vPriority);
+        llSubtask = (LinearLayout) itemView.findViewById(R.id.llSubtask);
         vSubtitleDateDivider = itemView.findViewById(R.id.vSubtitleDateDivider);
         vDivider = itemView.findViewById(R.id.divider);
 
         llContent.setOnClickListener(this);
         llFiles.setOnClickListener(this);
-        rlSubtask.setOnClickListener(this);
+        llSubtask.setOnClickListener(this);
     }
 
     @Override
@@ -75,7 +71,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
         if (v.getId() == R.id.llFiles) {
             mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_FILES);
         }
-        if (v.getId() == R.id.rlSubtask) {
+        if (v.getId() == R.id.llSubtask) {
             mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_SUBTASK);
         }
     }

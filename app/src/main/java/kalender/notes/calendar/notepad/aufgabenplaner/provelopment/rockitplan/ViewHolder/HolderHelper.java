@@ -18,6 +18,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -50,22 +51,11 @@ public class HolderHelper {
         if (mContentType == MyConstants.CONTENT_EVENT) {
             event = (Event) content;
             taskEvent = (TaskEvent) content;
-            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_event_24dp, null);
+            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_event, null);
         }
         if (mContentType == MyConstants.CONTENT_NOTE) {
             contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);
         }
-        // Content Icon
-        /*if (isTime) {
-            vhContent.ivContent.setVisibility(View.VISIBLE);
-            Log.i("CaategoryId: ", Integer.toString(taskEvent.getCategoryId()));
-
-            Category category = mDatabaseHelper.getCategory(taskEvent.getCategoryId());
-
-            CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
-            vhContent.ivContent.setImageDrawable(categoryColor.colorIcon(contentIcon));
-        }
-        */
 
         // Category
         vhContent.ivCategory.setVisibility(View.VISIBLE);
@@ -80,10 +70,10 @@ public class HolderHelper {
                 contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorSecondaryText, null), PorterDuff.Mode.MULTIPLY);
                 break;
             case MyConstants.PRIORITY_HIGH:
-                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorOrange, null), PorterDuff.Mode.MULTIPLY);
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.layout_color_light_five, null), PorterDuff.Mode.MULTIPLY);
                 break;
             case MyConstants.PRIORITY_VERY_HIGH:
-                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorPrimary, null), PorterDuff.Mode.MULTIPLY);
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.layout_color_light_one, null), PorterDuff.Mode.MULTIPLY);
                 break;
         }
         vhContent.ivContent.setImageDrawable(contentIcon);
@@ -160,7 +150,6 @@ public class HolderHelper {
             }
         }
 
-
         // Subtasks
         if (mContentType == MyConstants.CONTENT_TASK) {
             ArrayList<Subtask> subtasks = new ArrayList<>();
@@ -169,6 +158,7 @@ public class HolderHelper {
             if (subtasks.size() > 0) {
                 vhContent.tvSubtask.setVisibility(View.VISIBLE);
                 vhContent.ivSubtask.setVisibility(View.VISIBLE);
+                vhContent.llSubtask.setPadding(0,0, MyMethods.dpToPx(mContext, 16), 0);
                 ArrayList<Subtask> doneSubtasks = new ArrayList<>();
                 for (Subtask subtask : subtasks) {
                     if (subtask.isDone()) {
@@ -181,10 +171,12 @@ public class HolderHelper {
             } else {
                 vhContent.tvSubtask.setVisibility(View.GONE);
                 vhContent.ivSubtask.setVisibility(View.GONE);
+                vhContent.llSubtask.setPadding(0,0,0,0);
             }
         } else {
             vhContent.tvSubtask.setVisibility(View.GONE);
             vhContent.ivSubtask.setVisibility(View.GONE);
+            vhContent.llSubtask.setPadding(0,0,0,0);
         }
     }
 }

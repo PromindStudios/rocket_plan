@@ -45,18 +45,15 @@ public class ContentFragment extends ContentTimeCalendarFragment {
         tvHelp = (TextView)layout.findViewById(R.id.tvHelpContent);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mainActivityListener.colorHead(mCategoryId);
 
         return layout;
     }
-
-
 
     @Override
     public void onResume() {
         super.onResume();
         boolean isStart = mSharedPreferences.getBoolean(MyConstants.IS_START_CONTENT, true);
-        if (isStart) {
+        if (mDatabaseHelper.getContentCounterValue() < 1) {
             tvHelp.setVisibility(View.VISIBLE);
             mEditor = mSharedPreferences.edit();
             mEditor.putBoolean(MyConstants.IS_START_CONTENT, false).commit();

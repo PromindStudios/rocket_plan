@@ -143,6 +143,9 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             DividerViewHolder vhShowHide = (DividerViewHolder) holder;
 
+            //LayoutColor layoutColor = new LayoutColor(mContext, mDataBaseHelper.getLayoutColorValue());
+            //vhShowHide.rlExpandCollapse.setBackgroundColor(layoutColor.getLayoutColorLight());
+
             String content ="";
             if (mContentType == MyConstants.CONTENT_TASK) {
                 content = mContext.getString(R.string.tasks);
@@ -158,7 +161,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 vhShowHide.rlExpandCollapse.setVisibility(View.VISIBLE);
                 vhShowHide.ivExpandCollapse.setVisibility(View.VISIBLE);
-                vhShowHide.tvText.setText(mContext.getString(R.string.done)+" "+content);
+                vhShowHide.tvText.setText(mContext.getString(R.string.done));
                 if (mExtended) {
                     vhShowHide.ivExpandCollapse.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_expanded));
 
@@ -219,12 +222,10 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mContent = mDataBaseHelper.getCategoryContent(mCategoryId, mContentType);
         if (!isExpanded) {
             // expand
-            //mContent = mContentHelper.getAllContent(mContentType);
             mPositionHideShow = mContentHelper.getUndoneContentSize(mContent, mContentType);
             mExtended = true;
         } else {
             // collapse
-            //mContent = mContentHelper.getAllUndoneContent(mContentType, mCategoryId);
             mPositionHideShow = mContent.size();
             mExtended = false;
         }
@@ -234,17 +235,11 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void setContent() {
         mContent = mDataBaseHelper.getCategoryContent(mCategoryId, mContentType);
-        if (mContentType == MyConstants.CONTENT_NOTE) {
-            //mContent = mContentHelper.getAllContent(mContentType);
-        } else {
+        if (mContentType != MyConstants.CONTENT_NOTE) {
             if (mExtended) {
-                //mContent = mContentHelper.getAllContent(mContentType);
-                Log.i("Länge Content ", Integer.toString(mContent.size())+ Integer.toString(mContentType));
                 mPositionHideShow = mContentHelper.getUndoneContentSize(mContent, mContentType);
             } else {
-                //mContent = mContentHelper.getAllUndoneContent(mContentType);
                 mPositionHideShow = mContent.size();
-                Log.i("Länge Content ", Integer.toString(mContent.size()));
             }
         }
     }

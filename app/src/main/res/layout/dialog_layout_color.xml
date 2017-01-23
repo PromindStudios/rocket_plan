@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/linearLayout_dialog"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:text="@string/layout_color"
+        style="@style/text_view_dialog_title"
+        />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rgLayoutColor"
+        android:layout_margin="16dp">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/color_layout_one"
+            android:id="@+id/rbOne"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/color_layout_two"
+            android:id="@+id/rbTwo"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/color_layout_three"
+            android:id="@+id/rbThree"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/color_layout_four"
+            android:id="@+id/rbFour"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/color_layout_five"
+            android:id="@+id/rbFive"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/color_layout_six"
+            android:id="@+id/rbSix"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"/>
+    </RadioGroup>
+
+    <include
+        layout="@layout/divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ibExit"
+            style="@style/image_button_dialog"
+            android:src="@drawable/ic_content_clear"
+            />
+
+        <ImageButton
+            android:id="@+id/ibSave"
+            style="@style/image_button_dialog"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

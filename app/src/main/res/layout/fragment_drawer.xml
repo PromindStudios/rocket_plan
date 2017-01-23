@@ -16,7 +16,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary"
+            android:id="@+id/ivHeader"/>
 
         <!--
 
@@ -36,12 +37,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorTransparent"
+            android:paddingRight="32dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="16dp"
-            android:paddingRight="40dp"
             android:layout_alignParentRight="true"
             android:id="@+id/ibSettings"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_three_dots"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_toLeftOf="@id/ibSettings"
+            android:id="@+id/ibColor"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_color_drop"/>
 
         <LinearLayout
             android:layout_width="match_parent"

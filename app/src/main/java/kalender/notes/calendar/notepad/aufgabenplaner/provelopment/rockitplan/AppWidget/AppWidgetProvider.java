@@ -7,12 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.ChooseCategoryActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
@@ -24,6 +26,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
+    // Constants
     private static final String HOME_CLICKED = "home_clicked";
     private static final String TODAY_CLICKED = "today_clicked";
     private static final String TOMORROW_CLICKED = "tomorrow_clicked";
@@ -32,7 +35,8 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
     private static final String ADD_EVENT_CLICKED = "add_event_clicked";
     private static final String ADD_NOTE_CLICKED = "add_note_clicked";
 
-
+    // Variables
+    DatabaseHelper mDatabaseHelper;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -43,7 +47,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         // Initiate
-        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        mDatabaseHelper = new DatabaseHelper(context);
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
@@ -55,17 +59,17 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
                 context.startActivity(intentHome);
                 break;
             case TODAY_CLICKED:
-                context.getSharedPreferences(MyConstants.SHARED_PREFERENCES,0).edit().putInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_TODAY).commit();
+                context.getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).edit().putInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_TODAY).commit();
                 onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(new ComponentName(context, AppWidgetProvider.class)));
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvContent);
                 break;
             case TOMORROW_CLICKED:
-                context.getSharedPreferences(MyConstants.SHARED_PREFERENCES,0).edit().putInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_TOMORROW).commit();
+                context.getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).edit().putInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_TOMORROW).commit();
                 onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(new ComponentName(context, AppWidgetProvider.class)));
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvContent);
                 break;
             case DONE_CLICKED:
-                context.getSharedPreferences(MyConstants.SHARED_PREFERENCES,0).edit().putInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_DONE).commit();
+                context.getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).edit().putInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_DONE).commit();
                 onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(new ComponentName(context, AppWidgetProvider.class)));
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvContent);
                 break;
@@ -79,11 +83,11 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
                 addContent(context, MyConstants.CONTENT_NOTE);
                 break;
             case MyConstants.APP_WIDGET_LIST_VIEW_EVENT:
-                TaskEvent taskEvent = (TaskEvent)databaseHelper.getContent(intent.getIntExtra(MyConstants.CONTENT_ID, 0), intent.getIntExtra(MyConstants.CONTENT_TYPE, 0));
+                TaskEvent taskEvent = (TaskEvent) mDatabaseHelper.getContent(intent.getIntExtra(MyConstants.CONTENT_ID, 0), intent.getIntExtra(MyConstants.CONTENT_TYPE, 0));
                 if (intent.getStringExtra(MyConstants.APP_WIDGET_ITEM_EVENT).equals(MyConstants.APP_WIDGET_ITEM_CHECK)) {
                     // set taskEvent done
                     if (!taskEvent.isDone()) {
-                        databaseHelper.checkUncheckTaskEvent(taskEvent);
+                        mDatabaseHelper.checkUncheckTaskEvent(taskEvent);
                         onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(new ComponentName(context, AppWidgetProvider.class)));
                         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvContent);
                     }
@@ -107,7 +111,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         super.onReceive(context, intent);
     }
 
-    private void addContent (Context context, int contentType) {
+    private void addContent(Context context, int contentType) {
         Intent intentAddContent = new Intent(context, ChooseCategoryActivity.class);
         intentAddContent.putExtra(MyConstants.CONTENT_TYPE, contentType);
         intentAddContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -120,7 +124,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
-    private void updateWidget (AppWidgetManager appWidgetManager, Context context, int[] appWidgetIds) {
+    private void updateWidget(AppWidgetManager appWidgetManager, Context context, int[] appWidgetIds) {
         final int n = appWidgetIds.length;
         for (int i = 0; i < n; i++) {
             Intent intentService = new Intent(context, AppWidgetService.class);
@@ -151,6 +155,14 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
                     rv.setViewVisibility(R.id.vIndicatorDone, View.INVISIBLE);
                     rv.setTextViewText(R.id.tvNoContent, context.getString(R.string.tab_three_empty));
                     break;
+            }
+
+            // Layout color
+            LayoutColor layoutColor = new LayoutColor(context, mDatabaseHelper.getLayoutColorValue());
+            if (layoutColor.getLayoutColorValue() > 0) {
+                Log.i("ColorValue: ", ""+layoutColor.getLayoutColorValue());
+                rv.setInt(R.id.rlAppWidget, "setBackgroundResource", layoutColor.getLayoutColorId());
+                rv.setInt(R.id.llIndicator, "setBackgroundResource", layoutColor.getLayoutColorId());
             }
 
             // Show ListView

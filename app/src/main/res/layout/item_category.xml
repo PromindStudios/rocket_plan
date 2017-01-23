@@ -24,7 +24,7 @@
             android:id="@+id/tvCategoryTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/ivExpandCollapse"
+            android:layout_marginLeft="56dp"
             android:gravity="center_vertical"
             android:text="Mobile-Box"
             android:textColor="@color/colorPrimaryText"
@@ -32,88 +32,105 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llCategoryContent"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_category_content_total_height"
         android:layout_below="@id/rlCategory"
         android:layout_marginBottom="12dp"
-        android:layout_marginLeft="18dp"
+        android:layout_marginLeft="56dp"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/ivTask"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorTransparent"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:src="@drawable/ic_task_24dp" />
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/llTask">
 
-        <TextView
-            android:id="@+id/tvTask"
-            style="@style/text_view_category_sub"
+            <ImageView
+                android:id="@+id/ivTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_task_24dp" />
+
+            <TextView
+                android:id="@+id/tvTask"
+                style="@style/text_view_category_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="4dp"
+                android:text="6" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="24dp"
-            android:paddingTop="4dp"
-            android:text="6" />
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:id="@+id/llNote"
+            android:layout_marginRight="42dp">
 
-        <View
-            android:layout_width="1px"
-            android:layout_height="24dp"
-            android:background="@color/colorDivider" />
+            <ImageView
+                android:id="@+id/ivNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_note_24dp" />
 
-        <ImageView
-            android:id="@+id/ivEvent"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tvNote"
+                style="@style/text_view_category_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="4dp"
+                android:text="6" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorTransparent"
-            android:paddingBottom="4dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:src="@drawable/ic_flag_24dp" />
+            android:orientation="horizontal"
+            android:id="@+id/llEvent"
+            android:layout_toLeftOf="@id/llNote"
+            android:layout_toRightOf="@id/llTask"
+            android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/tvEvent"
-            style="@style/text_view_category_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:paddingRight="24dp"
-            android:paddingTop="4dp"
-            android:text="6" />
+            <ImageView
+                android:id="@+id/ivEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:paddingBottom="4dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_flag_24dp" />
 
-        <View
-            android:layout_width="1px"
-            android:layout_height="24dp"
-            android:background="@color/colorDivider" />
+            <TextView
+                android:id="@+id/tvEvent"
+                style="@style/text_view_category_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="6" />
 
-        <ImageView
-            android:id="@+id/ivNote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorTransparent"
-            android:paddingBottom="4dp"
-            android:paddingLeft="24dp"
-            android:paddingTop="4dp"
-            android:src="@drawable/ic_note_24dp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvNote"
-            style="@style/text_view_category_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:text="6" />
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <View
         android:id="@+id/vDivider"

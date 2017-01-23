@@ -22,6 +22,10 @@
         <activity
             android:name=".Activities.DetailActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:screenOrientation="portrait"></activity>
         
         <activity android:name=".Activities.ChooseCategoryActivity"
             android:screenOrientation="portrait"

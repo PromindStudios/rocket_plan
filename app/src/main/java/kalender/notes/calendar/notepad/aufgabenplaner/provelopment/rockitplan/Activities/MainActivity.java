@@ -1,5 +1,6 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,76 +27,63 @@ import java.util.List;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.AppWidget.AppWidgetProvider;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.CalendarFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentPagerFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentTimeCalendarFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.TimePagerFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimePagerInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.LayoutColorInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
 
-public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener, ContentTimeCalendarFragment.MainActivityListener {
+public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener, LayoutColorInterface, ContentInterface {
 
     // Layout
     private Toolbar mToolbar;
-    //private NonSwipeableViewPager mViewPager;
-    //private TabLayout mTabLayout;
     private DrawerLayout mDrawerLayout;
-    //private ContentViewPagerAdapter mContentViewPagerAdapter;
-    //private TimeViewPagerAdapter mTimeViewPagerAdapter;
 
-    private DrawerFragment mDrawerFragment;
-    private ActionBarDrawerToggle mDrawerToggle;
+    // Variables
     DatabaseHelper mDatabaseHelper;
-
-    // Fab Buttons
-    //FloatingActionButton fabTask;
-    //FloatingActionButton fabEvent;
-    //FloatingActionButton fabNote;
-    //FloatingActionsMenu fabMenu;
-
-    // Listener
-    ContentTimePagerInterface mContentTimePagerListener;
-
-    boolean isContent;
-    int mCategoryId;
-    String mCategoryName;
-    int mTimeType;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     // Fragment
     FragmentManager mFragmentManager;
+    private DrawerFragment mDrawerFragment;
 
-
-
+    // Color Issues
     private CategoryColor mCategoryColor;
+    private LayoutColor mLayoutColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set up layout
         setContentView(R.layout.activity_main);
+
+        // Set up Database Helper
         mDatabaseHelper = new DatabaseHelper(this);
-        mCategoryId = 0;
+
+        // create user and personal information
+        mDatabaseHelper.createUser();
 
         // Iniatiate layout components
         mToolbar = (Toolbar) findViewById(R.id.toolbarMain);
-        //mViewPager = (NonSwipeableViewPager) findViewById(R.id.viewPagerMain);
-        //mTabLayout = (TabLayout) findViewById(R.id.tabLayoutMain);
         mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.drawerFragment);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        // Category Color
-        mCategoryColor = new CategoryColor(this);
-
         // Set up toolbar
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Category Name");
+
+        // Initiate color objects
+        mCategoryColor = new CategoryColor(this);
+        colorLayout();
 
         // Set up navigation drawer
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.openDrawer, R.string.closeDrawer) {
@@ -117,10 +104,8 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         TimePagerFragment timePagerFragment = new TimePagerFragment();
-        mContentTimePagerListener = (ContentTimePagerInterface)timePagerFragment;
         fragmentTransaction.replace(R.id.flContainer, timePagerFragment);
         fragmentTransaction.commit();
-
 
         // open Drawer in the beginning after a little delay to show the animation
         final Handler handler = new Handler();
@@ -141,12 +126,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
     @Override
     protected void onPostResume() {
-
-        try {
-            super.onPostResume();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        try {super.onPostResume();} catch (Exception e) {e.printStackTrace();}
     }
 
     @Override
@@ -164,89 +144,42 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         sendBroadcast(intentAppWidget);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MyConstants.REQUEST_ACTIVITY_SETTINGS) {
+            if (resultCode == Activity.RESULT_OK) {
+                colorLayout();
+                mDrawerFragment.colorLayout();
+            }
+        }
+    }
+
     // Implemented methods from Interfaces
 
     @Override
     public void ItemCategorySelected(int categoryId, String categoryName, int contentType) {
-        mCategoryId = categoryId;
-        mCategoryName = categoryName;
-
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         ContentPagerFragment contentPagerFragment = new ContentPagerFragment();
-        mContentTimePagerListener = (ContentTimePagerInterface)contentPagerFragment;
         Bundle bundle = new Bundle();
         bundle.putInt(MyConstants.CATEGORY_ID, categoryId);
         bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
         contentPagerFragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.flContainer, contentPagerFragment);
-        fragmentTransaction.commit();
-        closeDrawer();
-
-        // Set Toolbar Title
-        //getSupportActionBar().setTitle(mCategoryName);
-        // close Navigation Drawer here
-        /*
-        if (mContentViewPagerAdapter == null) {
-            setUpContentViewPagerAdapter(categoryId, categoryName, false, contentType);
-        } else {
-            setUpContentViewPagerAdapter(categoryId, categoryName, false, contentType);
-        }
-        */
+        changeFragment(contentPagerFragment);
     }
-
-    /*
-    public void setUpContentViewPagerAdapter(int categoryId, String categoryName, boolean isExpanded, int contentType) {
-
-        mContentViewPagerAdapter = null;
-        Log.i("change", Integer.toString(categoryId));
-        isContent = true;
-
-        // Set up tabs and viewpager to display content
-        mTabLayout.removeAllTabs();
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.title_tabTask)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.title_tabEvent)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.title_tabNote)));
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        mContentViewPagerAdapter = new ContentViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount(), categoryId, categoryName, isExpanded);
-        mViewPager.setAdapter(mContentViewPagerAdapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-        TabLayout.Tab tab = mTabLayout.getTabAt(contentType);
-        tab.select();
-        mDrawerLayout.closeDrawers();
-    }
-    */
 
     @Override
     public void onCreateNewContent(final int categoryId, final String categoryName, final int contentType) {
-        mCategoryId = categoryId;
-        mCategoryName = categoryName;
-        getSupportActionBar().setTitle(mCategoryName);
+        //getSupportActionBar().setTitle(categoryName);
+        mDatabaseHelper.incrementContentCounter();
         startDetailActivity(categoryId, categoryName, contentType);
 
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         ContentPagerFragment contentPagerFragment = new ContentPagerFragment();
-        mContentTimePagerListener = (ContentTimePagerInterface)contentPagerFragment;
         Bundle bundle = new Bundle();
         bundle.putInt(MyConstants.CATEGORY_ID, categoryId);
         bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
         contentPagerFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.flContainer, contentPagerFragment);
         fragmentTransaction.commit();
-        //setUpContentViewPagerAdapter(categoryId, categoryName, false, contentTyp);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -258,58 +191,21 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
     }
 
-    /*
-    public void setUpTimeViewPagerAdapter(int timeType) {
-
-        mContentViewPagerAdapter = null;
-        // Set Toolbar Title
-        getSupportActionBar().setTitle(getString(R.string.overview));
-        mTimeType = timeType;
-        isContent = false;
-        mTabLayout.removeAllTabs();
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_day)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_week)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_month)));
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        mTimeViewPagerAdapter = new TimeViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
-        mViewPager.setAdapter(mTimeViewPagerAdapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-        TabLayout.Tab tab = mTabLayout.getTabAt(timeType);
-        tab.select();
-        mDrawerLayout.closeDrawers();
-    }
-    */
-
-
     @Override
     public void onTimeClicked() {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         TimePagerFragment timePagerFragment = new TimePagerFragment();
-        mContentTimePagerListener = (ContentTimePagerInterface)timePagerFragment;
-        fragmentTransaction.replace(R.id.flContainer, timePagerFragment);
-        fragmentTransaction.commit();
-        closeDrawer();
+        changeFragment(timePagerFragment);
     }
 
     @Override
     public void onCalendarClicked() {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         CalendarFragment calendarFragment = new CalendarFragment();
-        fragmentTransaction.replace(R.id.flContainer, calendarFragment);
+        changeFragment(calendarFragment);
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContainer, fragment);
         fragmentTransaction.commit();
         closeDrawer();
     }
@@ -360,7 +256,55 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         mDrawerFragment.updateDrawer();
     }
 
-    public void letUserSelectCategory(final int contenType) {
+    private void colorLayout() {
+        mLayoutColor = new LayoutColor(this, mDatabaseHelper.getLayoutColorValue());
+        mToolbar.setBackgroundColor(mLayoutColor.getLayoutColor());
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(mLayoutColor.getLayoutColor());
+        }
+    }
+
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    @Override
+    public void refreshActivity() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+     }
+
+    @Override
+    public void createContent(Category category, int contentType, int detailType) {
+        mDatabaseHelper.incrementContentCounter();
+
+        int contentId = 0;
+        switch (contentType) {
+            case MyConstants.CONTENT_TASK:
+                Task task = new Task(category.getId(), category.getTitle());
+                contentId = mDatabaseHelper.createTask(task);
+                break;
+            case MyConstants.CONTENT_EVENT:
+                Event event = new Event(category.getId(), category.getTitle());
+                contentId = mDatabaseHelper.createEvent(event);
+                break;
+            case MyConstants.CONTENT_NOTE:
+                Note note = new Note(category.getId(), category.getTitle());
+                contentId = mDatabaseHelper.createNote(note);
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
+        bundle.putInt(MyConstants.CONTENT_ID, contentId);
+        bundle.putInt(MyConstants.DETAIL_TYPE, detailType);
+        bundle.putInt(MyConstants.CATEGORY_ID, category.getId());
+        startActivity(new Intent(this, DetailActivity.class).putExtras(bundle));
+    }
+
+    @Override
+    public void selectCategory(final int contentType) {
         final ArrayList<Category> categories = mDatabaseHelper.getAllCategories();
         if (categories.size() > 0) {
             List<String> listItems = new ArrayList<>();
@@ -368,62 +312,18 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 listItems.add(category.getTitle());
             }
             CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
                     Category category = categories.get(item);
-                    //startDetailActivity(category.getId(), category.getTitle(), contenType, MyConstants.CONTENT_TIME_TIME, mTabLayout.getSelectedTabPosition());
+                    createContent(category, contentType, MyConstants.DETAIL_GENERAL);
                 }
             });
             builder.create().show();
         } else {
-            // Toast with hint to create Category first + Open Drawer
             Toast.makeText(this, getString(R.string.toast_add_category), Toast.LENGTH_LONG).show();
-            try {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            mDrawerLayout.openDrawer(Gravity.LEFT);
         }
     }
-
-    @Override
-    public void colorHead(int categoryId) {
-
-        if (categoryId == 0) {
-            mCategoryColor.setColor(0);
-        } else {
-            Category category = mDatabaseHelper.getCategory(categoryId);
-            mCategoryColor.setColor(category.getColor());
-        }
-        // Toolbar
-        mToolbar.setBackgroundColor(ContextCompat.getColor(this, mCategoryColor.getCategoryColor()));
-
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            // Status Bar
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, mCategoryColor.getCategoryColor()));
-        }
-
-        // Fab
-        /*
-        fabTask.setColorNormal(ContextCompat.getColor(this, mCategoryColor.getCategoryColor()));
-        fabEvent.setColorNormal(ContextCompat.getColor(this, mCategoryColor.getCategoryColor()));
-        fabNote.setColorNormal(ContextCompat.getColor(this, mCategoryColor.getCategoryColor()));
-
-        // Tabs
-        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, mCategoryColor.getCategoryColor()));
-        */
-    }
-
-    public Toolbar getToolbar () {
-        return mToolbar;
-    }
-
 }

@@ -1,6 +1,6 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,17 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.SettingsActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.LayoutColorDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
@@ -36,9 +37,11 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     private RecyclerView mRecyclerView;
     private CategoryAdapter mCategoryAdapter;
     DatabaseHelper mDatabaseHelper;
-    Context mContext;
     TextView tvHelp;
     ImageButton ibSettings;
+    ImageButton ibColor;
+    ImageView ivHead;
+    LayoutColor mLayoutColor;
     SharedPreferences mSharedPreferences;
     SharedPreferences.Editor mEditor;
     com.getbase.floatingactionbutton.FloatingActionButton myFab;
@@ -51,6 +54,10 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
 
         // Initiate layout components
         tvHelp = (TextView)layout.findViewById(R.id.tvHelpCategory);
+        ivHead = (ImageView) layout.findViewById(R.id.ivHeader);
+        myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
+        ibColor = (ImageButton)layout.findViewById(R.id.ibColor);
+        ibSettings = (ImageButton)layout.findViewById(R.id.ibSettings);
 
         // Initiate SharedPreferences
         mSharedPreferences = getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
@@ -63,8 +70,8 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.rvCategory);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // Handle Click Events
 
-        myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
         myFab.setColorNormal(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
         myFab.setColorPressed(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
         myFab.setOnClickListener(new View.OnClickListener() {
@@ -81,19 +88,23 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         });
         updateDrawer();
 
-        // Button settings
-        ibSettings = (ImageButton)layout.findViewById(R.id.ibSettings);
         ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment dialog = new InformationDialog();
-                Bundle bundle = new Bundle();
-                bundle.putString(MyConstants.DIALOGE_TITLE, getActivity().getString(R.string.title_about));
-                bundle.putString(MyConstants.DIALOGE_CONTENT, getActivity().getString(R.string.dialog_about_text));
-                dialog.setArguments(bundle);
-                dialog.show(getActivity().getSupportFragmentManager(), "dialog_about");
+                getActivity().startActivityForResult(new Intent(getActivity(), SettingsActivity.class), MyConstants.REQUEST_ACTIVITY_SETTINGS);
             }
         });
+
+        ibColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutColorDialog dialog = new LayoutColorDialog();
+                dialog.show(getActivity().getSupportFragmentManager(), "layout_color_dialog");
+            }
+        });
+
+        // Color Layout
+        mLayoutColor = new LayoutColor(getActivity(), mDatabaseHelper.getLayoutColorValue());
 
         return layout;
     }
@@ -101,9 +112,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     @Override
     public void onResume() {
         super.onResume();
-        // Set current date
-        Calendar today = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("cccc', 'dd'.' MMMM yyyy");
+        colorLayout();
     }
 
     public void addCategory() {
@@ -142,8 +151,6 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
             mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
             mRecyclerView.setAdapter(mCategoryAdapter);
         }
-
-
     }
 
     @Override
@@ -154,6 +161,14 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
 
     @Override
     public void onUpdateContent() {
+    }
 
+    public void colorLayout() {
+        mLayoutColor.setColorValue(mDatabaseHelper.getLayoutColorValue());
+        ivHead.setBackgroundColor(mLayoutColor.getLayoutColor());
+        ArrayList<Category> categories = new ArrayList<>();
+        categories = mDatabaseHelper.getAllCategories();
+        mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
+        mRecyclerView.setAdapter(mCategoryAdapter);
     }
 }

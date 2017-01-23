@@ -12,7 +12,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -53,7 +52,6 @@ public class AppWidgetService extends RemoteViewsService{
         CategoryColor mCategoryColor;
 
         public AppWidgetRemoteViewsFactory(Context context, Intent intent) {
-            Log.i("3HEEEEEEEEEEEERE", "WE ARE");
             mContext = context;
             mSharedPreferences = context.getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
             mDatabaseHelper = new DatabaseHelper(context);
@@ -112,26 +110,18 @@ public class AppWidgetService extends RemoteViewsService{
             rv.setViewVisibility(R.id.ivCheckbox, View.VISIBLE);
             Category category = mDatabaseHelper.getCategory(taskEvent.getCategoryId());
             mCategoryColor.setColor(category.getColor());
-            //Drawable coloredCheckbox = mCategoryColor.colorIcon(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_checkbox_24dp, null));
-            //Bitmap bitmap = ((BitmapDrawable)coloredCheckbox).getBitmap();
-            //v.setImageViewBitmap(R.id.ivCheckbox, bitmap);
-            //rv.setInt(R.id.ivCheckbox, "setColorFilter", mCategoryColor.getCategoryColor());
             Bitmap source;
             if (taskEvent.isDone()) {
                 source = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_checkbox_checked_24dp);
             } else {
                 source = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_checkbox_24dp);
             }
-            Bitmap result = changeBitmapColor(source, ResourcesCompat.getColor(mContext.getResources(), mCategoryColor.getCategoryColor(), null));
-
+            int[] priorityColors = new int[]{R.color.colorSecondaryText, R.color.layout_color_light_five, R.color.layout_color_light_one};
+            Bitmap result = changeBitmapColor(source, ResourcesCompat.getColor(mContext.getResources(), priorityColors[taskEvent.getPriority()], null));
             rv.setBitmap(R.id.ivCheckbox, "setImageBitmap", result);
 
-            // Priority
-            if (taskEvent.getPriority() > 0) {
-                rv.setViewVisibility(R.id.vPriority, View.VISIBLE);
-            } else {
-                rv.setViewVisibility(R.id.vPriority, View.INVISIBLE);
-            }
+            // Category Color
+            rv.setInt(R.id.ivCategory, "setBackgroundColor", ResourcesCompat.getColor(mContext.getResources(), mCategoryColor.getCategoryColorLight(), null));
 
             // Subtask
             if (taskEvent instanceof Task) {
@@ -197,7 +187,7 @@ public class AppWidgetService extends RemoteViewsService{
             bundleClickSubtask.putInt(MyConstants.DETAIL_TYPE, MyConstants.DETAIL_SUBTASK);
             Intent intentClickSubtask = new Intent();
             intentClickSubtask.putExtras(bundleClickSubtask);
-            rv.setOnClickFillInIntent(R.id.rlSubtask, intentClickSubtask);
+            rv.setOnClickFillInIntent(R.id.llSubtask, intentClickSubtask);
 
             // Attach information to pending intent - Item Check
 
@@ -233,7 +223,6 @@ public class AppWidgetService extends RemoteViewsService{
         }
 
         private ArrayList<Content> getContent() {
-            Log.i("gettttter", "");
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
             today.set(Calendar.MINUTE, 0);
@@ -264,10 +253,8 @@ public class AppWidgetService extends RemoteViewsService{
             Paint p = new Paint();
             ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
             p.setColorFilter(filter);
-
             Canvas canvas = new Canvas(resultBitmap);
             canvas.drawBitmap(resultBitmap, 0, 0, p);
-
             return resultBitmap;
         }
     }

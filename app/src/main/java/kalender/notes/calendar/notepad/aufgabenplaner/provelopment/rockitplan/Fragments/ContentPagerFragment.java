@@ -1,12 +1,10 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
@@ -33,10 +31,9 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
@@ -44,10 +41,9 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Da
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DatePickerDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.MyTimePickerDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimePagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
@@ -62,11 +58,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     // Layout
     TabLayout mTabLayout;
     NonSwipeableViewPager mViewPager;
-    FloatingActionButton fabTask;
-    FloatingActionButton fabEvent;
-    FloatingActionButton fabNote;
     android.support.design.widget.FloatingActionButton fabAdd;
-    FloatingActionsMenu fabMenu;
     ImageView ivAddDate;
     EditText etAddContent;
     RelativeLayout rlAddContent;
@@ -79,11 +71,14 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     // Varialbes
     DatabaseHelper mDatabaseHelper;
     CategoryColor mCategoryColor;
+    LayoutColor mLayoutColor;
     Category mCategory;
     int mContentType;
-    Calendar mFastDate;
-    Calendar mFastTime;
+    Calendar mFastDate = null;
+    Calendar mFastTime = null;
 
+    // Inferface
+    ContentInterface mContentInterface;
 
     @Nullable
     @Override
@@ -98,11 +93,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         // Set up layout
         mViewPager = (NonSwipeableViewPager) layout.findViewById(R.id.viewPager);
         mTabLayout = (TabLayout) layout.findViewById(R.id.tabLayout);
-        fabTask = (FloatingActionButton) layout.findViewById(R.id.fabTask);
-        fabEvent = (FloatingActionButton) layout.findViewById(R.id.fabEvent);
-        fabNote = (FloatingActionButton) layout.findViewById(R.id.fabNote);
         fabAdd = (android.support.design.widget.FloatingActionButton) layout.findViewById(R.id.fabAdd);
-        fabMenu = (FloatingActionsMenu) layout.findViewById(R.id.fabMenu);
         ivAddDate = (ImageView) layout.findViewById(R.id.ivDateAdd);
         etAddContent = (EditText) layout.findViewById(R.id.etAddContent);
         rlAddContent = (RelativeLayout)layout.findViewById(R.id.rlContentFab);
@@ -112,9 +103,8 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         // Set up variables
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mCategory = mDatabaseHelper.getCategory(categoryId);
-        mCategoryColor = new CategoryColor(getActivity(), mCategory.getColor());
-        mFastDate = null;
-        mFastTime = null;
+        //mFastDate = null;
+        //mFastTime = null;
 
         // Set up tablayout
         mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.title_tabTask)));
@@ -126,61 +116,15 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(mCategory.getTitle());
 
         // Handle clickEvents
-        fabTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDetailActivity(mCategory.getId(), mCategory.getTitle(), MyConstants.CONTENT_TASK);
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_TASK);
-                        tab.select();
-                    }
-                }, 1000);
-                fabMenu.collapse();
-
-            }
-        });
-        fabEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDetailActivity(mCategory.getId(), mCategory.getTitle(), MyConstants.CONTENT_EVENT);
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_EVENT);
-                        tab.select();
-                    }
-                }, 1000);
-                fabMenu.collapse();
-            }
-        });
-        fabNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDetailActivity(mCategory.getId(), mCategory.getTitle(), MyConstants.CONTENT_NOTE);
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        TabLayout.Tab tab = mTabLayout.getTabAt(MyConstants.CONTENT_NOTE);
-                        tab.select();
-                    }
-                }, 1000);
-                fabMenu.collapse();
-            }
-        });
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int contentType = mViewPager.getCurrentItem();
+                int currentContent = mViewPager.getCurrentItem();
                 if (etAddContent.getText().toString().matches("")) {
-                    cleanFastAdd();
-                    startDetailActivity(mCategory.getId(), mCategory.getTitle(), contentType);
+                    mContentInterface.createContent(mCategory, currentContent, MyConstants.DETAIL_GENERAL);
                 } else {
-                    switch (contentType) {
+                    mDatabaseHelper.incrementContentCounter();
+                    switch (currentContent) {
                         case MyConstants.CONTENT_TASK:
                             Task task = new Task(mCategory.getId(), mCategory.getTitle());
                             task.setTitle(etAddContent.getText().toString());
@@ -201,23 +145,20 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
                             mDatabaseHelper.createNote(note);
                             break;
                     }
-                    // update current Tab
-                    mViewPagerAdapter.getFragment(contentType).setAdapterUp();
-                    cleanFastAdd();
-                    closeKeyboard();
+                    mViewPagerAdapter.getFragment(currentContent).setAdapterUp();
+                }
+                resetFastAdd();
 
-                    if (getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).getBoolean(MyConstants.FIRST_CONTENT, true)) {
-                        DialogFragment dialog = new InformationDialog();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(MyConstants.DIALOGE_TITLE, getString(R.string.help_first_content_title));
-                        bundle.putString(MyConstants.DIALOGE_CONTENT, getString(R.string.help_first_content));
-                        dialog.setArguments(bundle);
-                        dialog.show(getActivity().getSupportFragmentManager(), "dialog_about");
-                        getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).edit().putBoolean(MyConstants.FIRST_CONTENT, false).commit();
-                    }
+                if (getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).getBoolean(MyConstants.FIRST_CONTENT, true)) {
+                    DialogFragment dialog = new InformationDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(MyConstants.DIALOGE_TITLE, getString(R.string.help_first_content_title));
+                    bundle.putString(MyConstants.DIALOGE_CONTENT, getString(R.string.help_first_content));
+                    dialog.setArguments(bundle);
+                    dialog.show(getActivity().getSupportFragmentManager(), "dialog_about");
+                    getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).edit().putBoolean(MyConstants.FIRST_CONTENT, false).commit();
                 }
                 mViewPagerAdapter.getFragment(mViewPager.getCurrentItem()).disableHelpText();
-                fabMenu.collapse();
             }
         });
 
@@ -242,28 +183,13 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
             }
         });
 
-
         // Handle Color
-        fabTask.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabEvent.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabNote.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabAdd.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor())));
-        fabMenu.getButton().setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabMenu.getButton().setColorPressed(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-
-        ((MainActivity)getActivity()).getToolbar().setBackgroundColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        mTabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            // Status Bar
-            Window window = getActivity().getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        }
+        colorLayout();
 
         // Handle Add Content Component
         handleQuickAddComponent(mContentType);
 
+        // Set up ViewPager
         setViewPagerUp();
         TabLayout.Tab tab = mTabLayout.getTabAt(mContentType);
         tab.select();
@@ -272,14 +198,10 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         etAddContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 if (etAddContent.getText().toString().matches("")) {
@@ -293,11 +215,16 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
                     // Fab Icon --> Arrow to create fast Content
                     fabAdd.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_quick_add));
                 }
-
             }
         });
 
         return layout;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContentInterface = (ContentInterface)context;
     }
 
     private void handleQuickAddComponent(int contentType) {
@@ -323,19 +250,14 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     @Override
     public void onResume() {
         super.onResume();
-        closeKeyboard();
-        rlAddContent.requestFocus();
-        etAddContent.setText("");
-
-
+        resetFastAdd();
+        colorLayout();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        closeKeyboard();
-        rlAddContent.requestFocus();
-        etAddContent.setText("");
+        resetFastAdd();
     }
 
     @Override
@@ -390,52 +312,20 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         mViewPagerAdapter = new ContentViewPagerAdapter(getActivity().getSupportFragmentManager(), mTabLayout.getTabCount(), mCategory.getId(), mCategory.getTitle());
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
                 handleQuickAddComponent(tab.getPosition());
-                closeKeyboard();
-                cleanFastAdd();
+                resetFastAdd();
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-    }
-
-    // Class methods
-
-    private void startDetailActivity(int categoryId, String categoryName, int contentType) {
-        int contentId = 0;
-        switch (contentType) {
-            case MyConstants.CONTENT_TASK:
-                Task task = new Task(categoryId, categoryName);
-                contentId = mDatabaseHelper.createTask(task);
-                break;
-            case MyConstants.CONTENT_EVENT:
-                Event event = new Event(categoryId, categoryName);
-                contentId = mDatabaseHelper.createEvent(event);
-                break;
-            case MyConstants.CONTENT_NOTE:
-                Note note = new Note(categoryId, categoryName);
-                contentId = mDatabaseHelper.createNote(note);
-        }
-
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
-        bundle.putInt(MyConstants.CONTENT_ID, contentId);
-        bundle.putInt(MyConstants.DETAIL_TYPE, MyConstants.DETAIL_GENERAL);
-        bundle.putInt(MyConstants.CATEGORY_ID, categoryId);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     @Override
@@ -458,13 +348,18 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         ivAddDate.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_text_24dp, null));
     }
 
+    private void resetFastAdd() {
+        closeKeyboard();
+        cleanFastAdd();
+    }
+
     @Override
     public void onDateSelected(Calendar date) {
         mFastDate = date;
         tvAddDate.setVisibility(View.VISIBLE);
         tvAddDate.setText(Integer.toString(mFastDate.get(Calendar.DAY_OF_MONTH)));
         Drawable icEventSolid = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_solid, null);
-        icEventSolid.mutate().setColorFilter(ResourcesCompat.getColor(getResources(), mCategoryColor.getCategoryColor(), null), PorterDuff.Mode.MULTIPLY);
+        icEventSolid.mutate().setColorFilter(mLayoutColor.getLayoutColor(), PorterDuff.Mode.MULTIPLY);
         ivAddDate.setImageDrawable(icEventSolid);
     }
 
@@ -489,5 +384,18 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     @Override
     public void onTimeSelected(Calendar time) {
         mFastTime = time;
+    }
+
+    public void colorLayout() {
+        mLayoutColor = new LayoutColor(getActivity(), mDatabaseHelper.getLayoutColorValue());
+        fabAdd.setBackgroundTintList(ColorStateList.valueOf(mLayoutColor.getLayoutColor()));
+
+        mTabLayout.setBackgroundColor(mLayoutColor.getLayoutColor());
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = getActivity().getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(mLayoutColor.getLayoutColor());
+        }
     }
 }

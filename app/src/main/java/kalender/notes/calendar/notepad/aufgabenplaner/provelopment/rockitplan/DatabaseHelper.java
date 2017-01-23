@@ -34,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION_3 = 3; // 19.10.16 - updating Category Table --> CATEGORY_EXPANDED
     private static final int DATABASE_VERSION_4 = 4; // 23.11.16 - updating Category Table & Subtask Table --> POSITION
     private static final int DATABASE_VERSION_5 = 5; // 24.11.16 - updating Note Tabble --> POSITION & updating Category Table --> TASK_SORTET_BY_PRIORITY, EVENT_SORTET_BY_PRIORITY, NOTE_SORTET_BY_PRIORITY
+    private static final int DATABASE_VERSION_6 = 6; // 15.01.17 - creating Personal Tabble
 
     // Database & Table Names
     private static final String DATABASE_NAME = "database_rocketplan";
@@ -43,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NOTE = "table_note";
     private static final String TABLE_SUBTASK = "table_subtask";
     private static final String TABLE_REMINDER = "table_reminder";
+    private static final String TABLE_PERSONAL = "table_personal";
 
     // Common column names
     private static final String ID = "id";
@@ -85,6 +87,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TYPE_REMINDER = "type_reminder";
     private static final String VALUE_REMINDER = "value_reminder";
 
+    // Personal column names
+    private static final String USER_ID = "user_id";
+    private static final String USER_NAME = "user_name";
+    private static final String USER_MAIL = "user_mail";
+    private static final String USER_PASSWORD = "user_password";
+    private static final String LAYOUT_COLOR = "layout_color";
+    private static final String CONTENT_COUNTER = "content_counter";
+
     Context mContext;
 
 
@@ -123,9 +133,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_REMINDER = "CREATE TABLE " + TABLE_REMINDER +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TYPE_CONTENT + " INTEGER," + TYPE_REMINDER + " INTEGER," + VALUE_REMINDER + " INTEGER" + ")";
 
+    private static final String CREATE_TABLE_PERSONAL = "CREATE TABLE " + TABLE_PERSONAL +
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + USER_ID + " INTEGER," + USER_NAME + " TEXT," + USER_MAIL + " TEXT," + USER_PASSWORD + " TEXT," + LAYOUT_COLOR + " INTEGER," + CONTENT_COUNTER + " INTEGER" + ")";
+
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION_5);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_6);
         mContext = context;
     }
 
@@ -159,6 +172,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(upgradeQuery2);
         }
 
+        if (oldVersion < 6) {
+            db.execSQL(CREATE_TABLE_PERSONAL);
+        }
     }
 
     private void createTables(SQLiteDatabase db) {
@@ -168,6 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_NOTE);
         db.execSQL(CREATE_TABLE_SUBTASK);
         db.execSQL(CREATE_TABLE_REMINDER);
+        db.execSQL(CREATE_TABLE_PERSONAL);
     }
 
     private void deleteAllTables(SQLiteDatabase db) {
@@ -177,6 +194,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBTASK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONAL);
+    }
+
+    public void createUser() {
+        // check if TABLE_USER has already one row
+        String countQuery = "SELECT * FROM " + TABLE_PERSONAL;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        if (count > 0) {
+
+        } else {
+            SQLiteDatabase dbWrite = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(USER_ID, 0);
+            values.put(LAYOUT_COLOR, 0);
+            values.put(CONTENT_COUNTER, 0);
+            dbWrite.insert(TABLE_PERSONAL, null, values);
+            dbWrite.close();
+        }
+
+
+
     }
 
     // Category methods
@@ -205,21 +246,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
-
         Category category = new Category();
-        category.setId(c.getInt(c.getColumnIndex(ID)));
-        category.setTitle(c.getString(c.getColumnIndex(TITLE)));
-        category.setColor(c.getInt(c.getColumnIndex(CATEGORY_COLOR)));
-        category.setShowTaskDone(c.getInt(c.getColumnIndex(SHOW_TASK_DONE)) == 1);
-        category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
-        category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
-        category.setPosition(c.getInt(c.getColumnIndex(POSITION)));
-        category.setTaskSortedByPriority(c.getInt(c.getColumnIndex(TASK_SORTED_BY_PRIORITY)) == 1);
-        category.setEventSortedByPriority(c.getInt(c.getColumnIndex(EVENT_SORTED_BY_PRIORITY)) == 1);
-        category.setNoteSortedByPriority(c.getInt(c.getColumnIndex(NOTE_SORTED_BY_PRIORITY)) == 1);
+        if (c != null) {
+            if (c.moveToFirst()) {
 
+                category.setId(c.getInt(c.getColumnIndex(ID)));
+                category.setTitle(c.getString(c.getColumnIndex(TITLE)));
+                category.setColor(c.getInt(c.getColumnIndex(CATEGORY_COLOR)));
+                category.setShowTaskDone(c.getInt(c.getColumnIndex(SHOW_TASK_DONE)) == 1);
+                category.setShowEventDone(c.getInt(c.getColumnIndex(SHOW_EVENT_DONE)) == 1);
+                category.setExpanded(c.getInt(c.getColumnIndex(CATEGORY_EXPANDED)) == 1);
+                category.setPosition(c.getInt(c.getColumnIndex(POSITION)));
+                category.setTaskSortedByPriority(c.getInt(c.getColumnIndex(TASK_SORTED_BY_PRIORITY)) == 1);
+                category.setEventSortedByPriority(c.getInt(c.getColumnIndex(EVENT_SORTED_BY_PRIORITY)) == 1);
+                category.setNoteSortedByPriority(c.getInt(c.getColumnIndex(NOTE_SORTED_BY_PRIORITY)) == 1);
+            }
+        }
         return category;
     }
 
@@ -976,7 +1018,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (contentType == MyConstants.CONTENT_EVENT || contentType == MyConstants.CONTENT_TASK) {
             TaskEvent taskEvent = (TaskEvent) content;
             if (taskEvent.getDate() == null) {
-                Log.i(MyConstants.DATABASE_HELPER, "create, Task ist null");
                 values.put(TASK_EVENT_DATE, 0);
             } else {
                 Calendar calendar = taskEvent.getDate();
@@ -990,8 +1031,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 values.put(TASK_EVENT_TIME, 0);
             } else {
                 values.put(TASK_EVENT_TIME, taskEvent.getTime().getTimeInMillis());
-                Log.i("CRAAZY", DateTimeTexter.getNormal(taskEvent));
-                Log.i("WIEEE", "" + taskEvent.getTime().get(Calendar.HOUR_OF_DAY));
             }
             values.put(CONTENT_DONE, taskEvent.isDone() ? 1 : 0);
             values.put(TASK_EVENT_REPETITION_TYPE, taskEvent.getRepetitionType());
@@ -1041,7 +1080,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return contentList;
     }
-
 
     // TaskEvent Methods
 
@@ -1397,6 +1435,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    // Personal Methods
+
+    public int getLayoutColorValue() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT "+LAYOUT_COLOR+" FROM "+TABLE_PERSONAL+" WHERE "+ ID + " = 1";
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            return c.getInt(c.getColumnIndex(LAYOUT_COLOR));
+        } else {
+            return 3;
+        }
+    }
+
+    public void setLayoutColorValue(int layoutColorValue) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(LAYOUT_COLOR, layoutColorValue);
+        db.update(TABLE_PERSONAL, values, ID + " =?", new String[]{String.valueOf(1)});
+    }
+
+    public void incrementContentCounter() {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.execSQL("UPDATE " + TABLE_PERSONAL + " SET " + CONTENT_COUNTER + "=" + CONTENT_COUNTER + "+1" + " WHERE " + ID + " = 1");
+    }
+
+    public int getContentCounterValue() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT "+CONTENT_COUNTER+" FROM "+TABLE_PERSONAL+" WHERE "+ ID + " = 1";
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            return c.getInt(c.getColumnIndex(CONTENT_COUNTER));
+        } else {
+            return -1;
+        }
+    }
+
     // Others
 
     public void deletePictures(int id, int contentType) {
@@ -1503,6 +1582,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return i;
         }
     }
-
-
 }

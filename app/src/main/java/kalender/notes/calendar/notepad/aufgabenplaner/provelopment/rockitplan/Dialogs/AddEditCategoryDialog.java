@@ -63,7 +63,7 @@ public class AddEditCategoryDialog extends DialogFragment {
         rlColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence[] items = {getActivity().getString(R.string.color_one), getActivity().getString(R.string.color_two), getActivity().getString(R.string.color_three), getActivity().getString(R.string.color_four), getActivity().getString(R.string.color_five), getActivity().getString(R.string.color_six)};
+                CharSequence[] items = {getActivity().getString(R.string.color_category_one), getActivity().getString(R.string.color_category_two), getActivity().getString(R.string.color_category_three), getActivity().getString(R.string.color_category_four), getActivity().getString(R.string.color_category_five), getActivity().getString(R.string.color_category_six)};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override

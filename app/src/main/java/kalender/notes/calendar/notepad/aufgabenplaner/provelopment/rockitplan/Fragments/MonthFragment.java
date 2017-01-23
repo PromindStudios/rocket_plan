@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
@@ -35,6 +36,7 @@ public class MonthFragment extends Fragment {
     DatabaseHelper mDatabaseHelper;
     CalendarFragment mCalendarFragment;
     int mCalendarPage;
+    LayoutColor mLayoutColor;
 
     // Array Lists
     ArrayList<Calendar> mCalendarObjectList;
@@ -42,6 +44,7 @@ public class MonthFragment extends Fragment {
     ArrayList<TextView> tvDayList;
     ArrayList<View> vCircleSmallList;
     ArrayList<View> vCircleBigList;
+    int[] circleBigIds;
 
 
     // RelativeLayout - Days
@@ -84,6 +87,10 @@ public class MonthFragment extends Fragment {
 
         // Set up variables
         mDatabaseHelper = new DatabaseHelper(getActivity());
+        mLayoutColor = new LayoutColor(getActivity(), mDatabaseHelper.getLayoutColorValue());
+
+        // Set up array for circle big ids
+        circleBigIds = new int[]{R.drawable.circle_month_one, R.drawable.circle_month_two, R.drawable.circle_month_three, R.drawable.circle_month_four, R.drawable.circle_month_three, R.drawable.circle_month_six};
 
         // Handle arguments
         Bundle bundle = getArguments();
@@ -103,7 +110,6 @@ public class MonthFragment extends Fragment {
             firstWeekDay = firstWeekDay-1;
         }
         mStartPosition = firstWeekDay-1;
-        Log.i("CALENDAR INFORMATION", "Year: "+ mCalendarReference.get(Calendar.YEAR)+", Month: "+ mCalendarReference.get(Calendar.MONTH)+", DAY OF WEEK: "+firstWeekDay+", Day of Week in Month: "+ mCalendarReference.get(Calendar.DAY_OF_WEEK_IN_MONTH));
 
         mCalendarReference.add(Calendar.MONTH, -1);
         mCalendarReference.set(Calendar.DAY_OF_MONTH, mCalendarReference.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -170,19 +176,11 @@ public class MonthFragment extends Fragment {
                 selectDay(rlDayList.indexOf((RelativeLayout)view));
             }
         };
+
         // Set up onClickListener
         for (int i = 0; i < 42; i++) {
             RelativeLayout rl = rlDayList.get(i);
             rl.setOnClickListener(onClickListener);
-            /*
-            final int finalI = i;
-            rl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectDay(finalI);
-                }
-            });
-            */
         }
 
         // Select Position
@@ -264,7 +262,7 @@ public class MonthFragment extends Fragment {
         TextView oldTextView = tvDayList.get(mSelectedPosition);
         if (mSelectedPosition >= mStartPosition && mSelectedPosition <= mEndPosition) {
             if (mSelectedPosition == mTodayPosition) {
-                oldTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                oldTextView.setTextColor(mLayoutColor.getLayoutColor());
             } else {
                 oldTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryText));
             }
@@ -277,7 +275,7 @@ public class MonthFragment extends Fragment {
         View circleBig = vCircleBigList.get(selectedPosition);
         circleBig.setVisibility(View.VISIBLE);
         if (selectedPosition >= mStartPosition && selectedPosition <= mEndPosition) {
-            circleBig.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.circle_solid_primary_color));
+            circleBig.setBackground(ContextCompat.getDrawable(getActivity(), circleBigIds[mDatabaseHelper.getLayoutColorValue()]));
         } else {
             circleBig.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.circle_solid_divider_color));
         }
@@ -310,7 +308,7 @@ public class MonthFragment extends Fragment {
             if (mDatabaseHelper.checkIfDayHasAnyContent(calendar)) {
                 circleSmall.setVisibility(View.VISIBLE);
                 if (isThisMonth(i)) {
-                    circleSmall.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.circle_solid_primary_color));
+                    circleSmall.setBackground(ContextCompat.getDrawable(getActivity(), circleBigIds[mDatabaseHelper.getLayoutColorValue()]));
                 } else {
                     circleSmall.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.circle_solid_divider_color));
                 }

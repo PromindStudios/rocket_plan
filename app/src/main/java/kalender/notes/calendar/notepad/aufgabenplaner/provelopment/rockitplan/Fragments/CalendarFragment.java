@@ -1,13 +1,9 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,25 +15,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.CalendarChooseDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.CalendarFragmentInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.CalendarFragmentInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CalendarAdapter;
@@ -61,9 +50,13 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
     ArrayList<Calendar> mCalendarList;
     int positionToday;
     Calendar mCurrentCalendar;
+    LayoutColor mLayoutColor;
 
     // Adapter
     CalendarViewPagerAdapter mViePagerAdapter;
+
+    // Inferface
+    ContentInterface mContentInterface;
 
     @Nullable
     @Override
@@ -84,6 +77,7 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
 
         // Set up variables
         mDatabaseHelper = new DatabaseHelper(getActivity());
+        mLayoutColor = new LayoutColor(getActivity(), mDatabaseHelper.getLayoutColorValue());
 
         // Set up arrayList with calendar objects
         mCalendarList = new ArrayList<>();
@@ -92,15 +86,10 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
         calendarReference.set(Calendar.DAY_OF_MONTH, 1);
         calendarReference.add(Calendar.YEAR, -1);
         for (int i1 = 0; i1 < 12; i1++) {
-            //calendarReference.set(Calendar.MONTH, i1);
             Calendar calendarObject = Calendar.getInstance();
             calendarObject.set(Calendar.DAY_OF_MONTH, 1);
             calendarObject.set(Calendar.YEAR, calendarReference.get(Calendar.YEAR));
             calendarObject.set(Calendar.MONTH, i1);
-            //calendarObject.set(Calendar.HOUR_OF_DAY, 0);
-            //calendarObject.set(Calendar.MINUTE, 0);
-            //calendarObject.set(Calendar.SECOND, 0);
-            //calendarObject.set(Calendar.MILLISECOND, 0);
             mCalendarList.add(calendarObject);
         }
         for (int i = 0; i < 2; i++) {
@@ -111,10 +100,6 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
                 calendarObject.set(Calendar.DAY_OF_MONTH, 1);
                 calendarObject.set(Calendar.YEAR, calendarReference.get(Calendar.YEAR));
                 calendarObject.set(Calendar.MONTH, calendarReference.get(Calendar.MONTH));
-                //calendarObject.set(Calendar.HOUR_OF_DAY, 0);
-                //calendarObject.set(Calendar.MINUTE, 0);
-                //calendarObject.set(Calendar.SECOND, 0);
-                //calendarObject.set(Calendar.MILLISECOND, 0);
                 if (i == 0 && calendarObject.get(Calendar.MONTH) == calendarToday.get(Calendar.MONTH))
                     positionToday = mCalendarList.size();
                 mCalendarList.add(calendarObject);
@@ -125,41 +110,33 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
         fabTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                letUserSelectCategory(MyConstants.CONTENT_TASK);
+                mContentInterface.selectCategory(MyConstants.CONTENT_TASK);
                 fabMenu.collapse();
             }
         });
         fabEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                letUserSelectCategory(MyConstants.CONTENT_EVENT);
+                mContentInterface.selectCategory(MyConstants.CONTENT_EVENT);
                 fabMenu.collapse();
             }
         });
         fabNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                letUserSelectCategory(MyConstants.CONTENT_NOTE);
+                mContentInterface.selectCategory(MyConstants.CONTENT_NOTE);
                 fabMenu.collapse();
             }
         });
 
-
         // Handle Color
-        CategoryColor mCategoryColor = new CategoryColor(getActivity(), 0);
-        fabTask.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabEvent.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabNote.setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabMenu.getButton().setColorNormal(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
-        fabMenu.getButton().setColorPressed(ContextCompat.getColor(getActivity(), mCategoryColor.getCategoryColor()));
+        colorLayout();
 
         // Set up Adapter
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 // Set toolbar title
@@ -169,22 +146,18 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
                 if (monthFragment != null) {
                     updateContentList(monthFragment.getInformationForCalendar());
                 }
-
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
         mViePagerAdapter = new CalendarViewPagerAdapter(getActivity().getSupportFragmentManager(), mCalendarList, CalendarFragment.this);
         mViewPager.setAdapter(mViePagerAdapter);
         mViewPager.setCurrentItem(positionToday);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(MyMethods.formatDateForCalendarTitle(calendarToday));
 
-        // Set up color
-        mainActivityListener.colorHead(0);
+        // Toolbar title
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(MyMethods.formatDateForCalendarTitle(calendarToday));
 
         return layout;
     }
@@ -198,7 +171,6 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
     @Override
     public void onStop() {
         super.onStop();
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("");
     }
 
     @Override
@@ -208,77 +180,18 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
         if (mCurrentCalendar != null) {
             setAdapterUp();
         }
+        colorLayout();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mMainActivity = (MainActivity) context;
-        mainActivityListener = (ContentTimeCalendarFragment.MainActivityListener) context;
+        mContentInterface = (ContentInterface)context;
     }
 
     protected void setAdapterUp() {
         updateContentList(mCurrentCalendar);
         updateViewPager();
-    }
-
-    private void letUserSelectCategory(final int contenType) {
-        final ArrayList<Category> categories = mDatabaseHelper.getAllCategories();
-        if (categories.size() > 0) {
-            List<String> listItems = new ArrayList<>();
-            for (Category category : categories) {
-                listItems.add(category.getTitle());
-            }
-            CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int item) {
-                    Category category = categories.get(item);
-                    startDetailActivity(category.getId(), category.getTitle(), contenType);
-                }
-            });
-            builder.create().show();
-        } else {
-            // Toast with hint to create Category first + Open Drawer
-            Toast.makeText(getActivity(), getString(R.string.toast_add_category), Toast.LENGTH_LONG).show();
-            try {
-                // open Drawer here
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    private void startDetailActivity(int categoryId, String categoryName, int contentType) {
-        int contentId = 0;
-        mCurrentCalendar = getSelectedDate(mViewPager.getCurrentItem());
-        switch (contentType) {
-            case MyConstants.CONTENT_TASK:
-                Task task = new Task(categoryId, categoryName);
-                task.setDate(mCurrentCalendar);
-                contentId = mDatabaseHelper.createTask(task);
-                break;
-            case MyConstants.CONTENT_EVENT:
-                Event event = new Event(categoryId, categoryName);
-                event.setDate(mCurrentCalendar);
-                contentId = mDatabaseHelper.createEvent(event);
-                break;
-            case MyConstants.CONTENT_NOTE:
-                Note note = new Note(categoryId, categoryName);
-                contentId = mDatabaseHelper.createNote(note);
-        }
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
-        bundle.putInt(MyConstants.CONTENT_ID, contentId);
-        bundle.putInt(MyConstants.DETAIL_TYPE, MyConstants.DETAIL_GENERAL);
-        bundle.putInt(MyConstants.CATEGORY_ID, categoryId);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     public void updateContentList(Calendar calendar, int calendarPage) {
@@ -301,6 +214,7 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
         mRecyclerView.setAdapter(adapter);
     }
 
+    /*
     private Calendar getSelectedDate(int position) {
         MonthFragment monthFragment = mViePagerAdapter.getFragment(position);
         if (monthFragment != null) {
@@ -309,6 +223,7 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
             return null;
         }
     }
+    */
 
     private void updateViewPager() {
         final int pagerPosition = mViewPager.getCurrentItem();
@@ -320,27 +235,6 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
                 int selectedDay = monthFragment.getSelectedPosition();
                 monthFragment.setUpCalendarContent();
                 monthFragment.selectDay(selectedDay);
-            /*
-            final int selectedDay = monthFragment.getSelectedPosition();
-            mViePagerAdapter = new CalendarViewPagerAdapter(getActivity().getSupportFragmentManager(), mCalendarList, CalendarFragment.this);
-            mViewPager.setAdapter(mViePagerAdapter);
-            mViewPager.setCurrentItem(pagerPosition);
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    final MonthFragment monthFragment2;
-                    monthFragment2 = mViePagerAdapter.getFragment(pagerPosition);
-                    if (monthFragment2 != null) {
-                        Log.i("HAALLOO", "Eric");
-                        monthFragment2.getInformationForCalendar();
-                        monthFragment2.selectDay(selectedDay);
-                    }
-                }
-            }, 1);
-            */
-
-
             }
             if (monthFragment2 != null) {
                 monthFragment2.setUpCalendarContent();
@@ -349,7 +243,6 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
                 monthFragment3.setUpCalendarContent();
             }
         }
-
     }
 
     @Override
@@ -385,5 +278,14 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
             return true;
         }
         return false;
+    }
+
+    public void colorLayout() {
+        mLayoutColor.setColorValue(mDatabaseHelper.getLayoutColorValue());
+        fabTask.setColorNormal(mLayoutColor.getLayoutColor());
+        fabEvent.setColorNormal(mLayoutColor.getLayoutColor());
+        fabNote.setColorNormal(mLayoutColor.getLayoutColor());
+        fabMenu.getButton().setColorNormal(mLayoutColor.getLayoutColor());
+        fabMenu.getButton().setColorPressed(mLayoutColor.getLayoutColor());
     }
 }

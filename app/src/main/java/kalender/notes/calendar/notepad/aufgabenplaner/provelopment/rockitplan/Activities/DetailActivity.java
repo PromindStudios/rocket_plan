@@ -40,31 +40,27 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Vi
  */
 public class DetailActivity extends AppCompatActivity implements GeneralFragment.DetailActivityListener {
 
+    // Layout
     private Toolbar mToolbar;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private DetailViewPagerAdapter mAdapterViewPager;
     FloatingActionButton fabDone;
 
+    // Content
     int mContentId;
     int mContentType;
     int mDetailType;
-
     Task mTask;
     Event mEvent;
     Note mNote;
     Content mContent;
     Category mCategory;
-
-    int mCategoryId;
-    String mCategoryName;
-
     String mPicturePath;
 
+    // Other variables
     DatabaseHelper mDatabaseHelper;
-
     FilesFragment mFilesFragment;
-
     boolean tabSelectedFirst = false;
     boolean tabTwoSelectedFirst = false;
     boolean mFromReminder = false;
@@ -77,7 +73,11 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
 
         mDatabaseHelper = new DatabaseHelper(this);
 
+        // Initialize layout
         fabDone = (FloatingActionButton)findViewById(R.id.fabDone);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar_detail);
+        mViewPager = (ViewPager)findViewById(R.id.view_pager_detail);
+        mTabLayout = (TabLayout)findViewById(R.id.tab_layout_detail);
 
         // Get Extras
         Bundle extras = getIntent().getExtras();
@@ -86,73 +86,45 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
         mDetailType = extras.getInt(MyConstants.DETAIL_TYPE);
         mFromReminder = extras.getBoolean(MyConstants.REMINDER_FROM);
 
-
-        Log.i("Detail Type", Integer.toString(mDetailType));
-
-        // Initiate layout components
-        mToolbar = (Toolbar)findViewById(R.id.toolbar_detail);
-        mViewPager = (ViewPager)findViewById(R.id.view_pager_detail);
-        mTabLayout = (TabLayout)findViewById(R.id.tab_layout_detail);
-
         // Set up toolbar
         setSupportActionBar(mToolbar);
 
+        // Set up content & category
+        mContent = mDatabaseHelper.getContent(mContentId, mContentType);
+        mCategory = mDatabaseHelper.getCategory(mContent.getCategoryId());
+        getSupportActionBar().setTitle(mContent.getTitle());
 
+        // TabLayout & ViewPager
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_general)));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_files)));
         if (mContentType == MyConstants.CONTENT_TASK) {
             getSupportActionBar().setSubtitle(getString(R.string.task));
-            mTask = (Task)mDatabaseHelper.getTask(mContentId);
-            mContent = mTask;
             mTabLayout.addTab(mTabLayout.newTab().setIcon(ContextCompat.getDrawable(this, R.drawable.ic_subtask)));
         }
         if (mContentType == MyConstants.CONTENT_EVENT) {
             getSupportActionBar().setSubtitle(getString(R.string.event));
-            mEvent = (Event)mDatabaseHelper.getEvent(mContentId);
-            mContent = mEvent;
-            Log.i("Sau: ", Integer.toString(mEvent.getCategoryId()));
         }
         if (mContentType == MyConstants.CONTENT_NOTE) {
             getSupportActionBar().setSubtitle(getString(R.string.note));
-            mNote = (Note)mDatabaseHelper.getNote(mContentId);
-            mContent = mNote;
         }
-
-        mCategoryName = mContent.getCategory();
-        mCategory = mDatabaseHelper.getCategory(mContent.getCategoryId());
-
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         mAdapterViewPager = new DetailViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount(), mContentType);
         mViewPager.setAdapter(mAdapterViewPager);
-
-        getSupportActionBar().setTitle(mContent.getTitle());
-
-        // Set up Fab Button
-        fabDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endActivity(false);
-            }
-        });
 
         // Default Tab Settings
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 Log.i("Tab selected: ", Integer.toString(position));
                 mAdapterViewPager.handleFocus(position);
-                TabLayout.Tab tab = mTabLayout.getTabAt(position);
-                tab.select();
+                //TabLayout.Tab tab = mTabLayout.getTabAt(position);
+                //tab.select();
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -169,15 +141,18 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
             }
         });
 
-        // Handle Color
+        // Set up Fab Button
+        fabDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endActivity(false);
+            }
+        });
 
+        // Handle Color
         Category category = mDatabaseHelper.getCategory(mContent.getCategoryId());
         CategoryColor categoryColor = new CategoryColor(this, category.getColor());
-        Log.i("CaaaategoryId", " "+mContent.getCategoryId());
-
-        // Toolbar
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, categoryColor.getCategoryColor()));
-
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             // Status Bar
             Window window = getWindow();
@@ -185,39 +160,18 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(this, categoryColor.getCategoryColor()));
         }
-
-        // Fab
         fabDone.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, categoryColor.getCategoryColor())));
-
-        // Tabs
         mTabLayout.setBackgroundColor(ContextCompat.getColor(this, categoryColor.getCategoryColor()));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        switch (mContentType) {
-            case 0:
-                mDatabaseHelper.updateTask(mTask);
-                break;
-            case 1:
-                mDatabaseHelper.updateEvent(mEvent);
-                break;
-
-            case 2:
-                mDatabaseHelper.updateNote(mNote);
-                break;
-
-            default:
-                break;
-        }
+        mDatabaseHelper.updateContent(mContent);
         Intent intentAppWidget = new Intent(this, AppWidgetProvider.class);
         intentAppWidget.setAction(MyConstants.UPDATE);
         sendBroadcast(intentAppWidget);
-
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -232,23 +186,13 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
     }
 
     @Override
-    public Task getTask() {
-        return mTask;
-    }
-
-    @Override
-    public Event getEvent() {
-        return mEvent;
-    }
-
-    @Override
-    public Note getNote() {
-        return mNote;
-    }
-
-    @Override
     public Category getCategory() {
         return mCategory;
+    }
+
+    @Override
+    public Content getContent() {
+        return mContent;
     }
 
     @Override
@@ -286,6 +230,11 @@ public class DetailActivity extends AppCompatActivity implements GeneralFragment
     @Override
     public void setToolbarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    @Override
+    public int getCurrentTab() {
+        return mViewPager.getCurrentItem();
     }
 
     private void endActivity(boolean delete) {

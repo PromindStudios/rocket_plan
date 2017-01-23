@@ -68,13 +68,13 @@ public class FilesFragment extends Fragment {
 
         switch (mContentType) {
             case 0:
-                mContent = mListener.getTask();
+                mContent = mListener.getContent();
                 break;
             case 1:
-                mContent = mListener.getEvent();
+                mContent = mListener.getContent();
                 break;
             case 2:
-                mContent = mListener.getNote();
+                mContent = mListener.getContent();
                 break;
         }
 
@@ -195,8 +195,11 @@ public class FilesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mListener.selectTabTwo();
-        handleFocus();
+        if (mListener.getCurrentTab() == 1) {
+            //mListener.selectTabTwo();
+            handleFocus();
+        }
+
     }
 
 

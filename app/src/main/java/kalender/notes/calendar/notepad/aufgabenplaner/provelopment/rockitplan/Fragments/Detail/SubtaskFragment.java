@@ -46,7 +46,7 @@ public class SubtaskFragment extends Fragment implements AddEditSubtaskDialog.Ad
 
         View layout = inflater.inflate(R.layout.tab_subtasks, container, false);
 
-        mTask = mListener.getTask();
+        mTask = (Task)mListener.getContent();
 
         rlSubtaskAdd = (RelativeLayout)layout.findViewById(R.id.rlSubtaskAdd);
         rlSubtaskAdd.setOnClickListener(new View.OnClickListener() {

@@ -35,7 +35,6 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Reminder;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
@@ -55,6 +54,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Re
  */
 public class GeneralFragment extends Fragment implements DatePickerDialog.DatePickerDialogListener, MyTimePickerDialog.TimePickerDialogListener, ReminderDialog.ReminderDialogListener, RepeatDialog.RepeatDialogListener {
 
+    // Layout
     EditText etTitle;
     AppCompatImageView ivAddDate;
     AppCompatImageView ivAddTime;
@@ -62,36 +62,33 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     AppCompatImageView ivRemoveDate;
     AppCompatImageView ivRemoveTime;
     AppCompatImageView ivRemoveRepeat;
-    //TextView tvTitleDeadline;
     TextView tvDate;
     TextView tvTime;
     TextView tvRepeat;
-    //TextView tvReminderTitle;
     View vDividerReminder;
     RadioGroup rgPriority;
     RadioButton rbPriorityNone;
     RadioButton rbPriorityHigh;
     RadioButton rbPriorityVeryHigh;
-
     LinearLayout llDateReminder;
     RelativeLayout rlTime;
     RelativeLayout rlRepeat;
     RelativeLayout rlDate;
-
     RecyclerView rvReminder;
+    View vDummy;
+    View vDividerTime;
 
-    Task mTask;
+    // Content
     Event mEvent;
     Note mNote;
     Content mContent;
     TaskEvent mTaskEvent;
-    View vDummy;
-    View vDividerTime;
-
     int mContentType;
 
+    // Variables
     DatabaseHelper mDatabaseHelper;
 
+    // Interface
     DetailActivityListener mListener;
 
     @Nullable
@@ -108,11 +105,9 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         ivRemoveDate = (AppCompatImageView) layout.findViewById(R.id.ivRemoveDate);
         ivRemoveTime = (AppCompatImageView) layout.findViewById(R.id.ivRemoveTime);
         ivRemoveRepeat = (AppCompatImageView) layout.findViewById(R.id.ivRemoveRepeat);
-        //tvTitleDeadline = (TextView) layout.findViewById(R.id.tvTitleDeadline);
         tvDate = (TextView) layout.findViewById(R.id.tvDate);
         tvTime = (TextView) layout.findViewById(R.id.tvTime);
         tvRepeat = (TextView) layout.findViewById(R.id.tvRepeat);
-        //tvReminderTitle = (TextView) layout.findViewById(R.id.tvTitleReminder);
         vDividerReminder = layout.findViewById(R.id.dividerReminder);
         llDateReminder = (LinearLayout) layout.findViewById(R.id.llDateReminder);
         vDummy = layout.findViewById(R.id.vDummyGeneral);
@@ -126,24 +121,22 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         rbPriorityHigh = (RadioButton)layout.findViewById(R.id.rbHighPriority);
         rbPriorityVeryHigh = (RadioButton)layout.findViewById(R.id.rbVeryHighPriority);
 
+        // Set up Variables
         mDatabaseHelper = new DatabaseHelper(getActivity());
-
         mContentType = getArguments().getInt(MyConstants.CONTENT_TYPE);
 
         switch (mContentType) {
             case MyConstants.CONTENT_TASK:
-                mContent = mListener.getTask();
-                mTask = mListener.getTask();
-                mTaskEvent = mListener.getTask();
+                mContent = mListener.getContent();
+                mTaskEvent = (TaskEvent)mContent;
                 break;
             case MyConstants.CONTENT_EVENT:
-                mContent = mListener.getEvent();
-                mEvent = mListener.getEvent();
-                mTaskEvent = mListener.getEvent();
+                mContent = mListener.getContent();
+                mTaskEvent = (TaskEvent)mContent;
                 break;
             case MyConstants.CONTENT_NOTE:
-                mContent = mListener.getNote();
-                mNote = mListener.getNote();
+                mContent = mListener.getContent();
+                mNote = (Note)mContent;
         }
 
         // Title
@@ -151,14 +144,11 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         etTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mListener.setToolbarTitle(s.toString());
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 mContent.setTitle(s.toString());
@@ -167,11 +157,9 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
 
         if (mContent.getTitle().equals("") || mContent.getTitle().matches("")) {
             etTitle.requestFocus();
-            Log.i("Title", "ist leer");
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
         } else {
-            Log.i("Sooollte hier", "sein");
             closeKeyboard();
             vDummy.requestFocus();
         }
@@ -183,11 +171,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             if (mTaskEvent.isDone()) {
                 setDateComponentsVisible(false);
             } else {
-                // Reminder
-
                 // Get Reminders
                 ArrayList<Reminder> reminders = new ArrayList<>();
-                Log.i("Infoo Content: ", mContent.getTitle() + " Id: " + mContent.getId());
                 reminders = mDatabaseHelper.getAllContentReminders(mContent.getId(), mContentType);
 
                 // Set up RecyclerView
@@ -398,7 +383,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     @Override
     public void onResume() {
         super.onResume();
-        mListener.selectTab();
+        //mListener.selectTab();
         handleFocus();
     }
 
@@ -421,8 +406,6 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             rlTime.setVisibility(View.GONE);
         }
     }
-
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -447,14 +430,6 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     @Override
     public void onDateSelected(Calendar date) {
         mTaskEvent.setDate(date);
-        /*
-        if (mContentType == MyConstants.CONTENT_TASK) {
-            mTask.setDate(date);
-        }
-        if (mContentType == MyConstants.CONTENT_EVENT) {
-            mEvent.setDate(date);
-        }
-        */
         tvDate.setText(MyMethods.formatDate(date));
         ivAddDate.setVisibility(View.GONE);
         ivRemoveDate.setVisibility(View.VISIBLE);
@@ -484,14 +459,6 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     @Override
     public void onTimeSelected(Calendar time) {
         mTaskEvent.setTime(time);
-        /*
-        if (mContentType == MyConstants.CONTENT_TASK) {
-            mTask.setTime(time);
-        }
-        if (mContentType == MyConstants.CONTENT_EVENT) {
-            mEvent.setTime(time);
-        }
-        */
         tvTime.setText(MyMethods.formatTime(time));
         ivAddTime.setVisibility(View.GONE);
         ivRemoveTime.setVisibility(View.VISIBLE);
@@ -520,11 +487,9 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         mDatabaseHelper.updateReminder(reminder, getActivity());
         setAlarmForReminder(reminder);
 
-        // Get all reminders
         // Get Reminders
         ArrayList<Reminder> reminders = new ArrayList<>();
         reminders = mDatabaseHelper.getAllContentReminders(mContent.getId(), mContentType);
-        Log.i("MyReminderSize", "" + reminders.size());
 
         // update RecyclerView
         ReminderAdapter adapter = new ReminderAdapter(getActivity(), reminders, mContent.getId(), mContentType, getFragmentManager(), this, mContent.getCategoryId());
@@ -532,20 +497,14 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     }
 
     public interface DetailActivityListener {
-        public Task getTask();
-
-        public Event getEvent();
-
-        public Note getNote();
 
         public Category getCategory();
-
+        public Content getContent();
         public void takePicture(FilesFragment filesFragment);
-
         public void selectTab();
         public void selectTabTwo();
-
         public void setToolbarTitle(String title);
+        public int getCurrentTab();
     }
 
     public TaskEvent getTaskEvent() {
@@ -615,7 +574,6 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             vDividerTime.setVisibility(View.VISIBLE);
         } else {
             rlDate.setVisibility(View.GONE);
-            //tvTitleDeadline.setVisibility(View.GONE);
             vDividerTime.setVisibility(View.GONE);
         }
     }
@@ -628,7 +586,6 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         }
     }
 
-
     private void setDateComponentsVisible(boolean visible) {
         setDateVisible(visible);
         setTimeVisible(visible);
@@ -636,12 +593,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         setReminderVisible(visible);
     }
 
-
     private void closeKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
     }
-
-
-
 }

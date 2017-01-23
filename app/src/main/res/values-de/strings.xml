@@ -193,13 +193,21 @@ Eric
     <string name="show_done">Erledigte</string>
     <string name="hide_done">Erledigte</string>
 
-    <!-- Colors -->
-    <string name="color_one">Rot</string>
-    <string name="color_two">Blau</string>
-    <string name="color_three">Teal</string>
-    <string name="color_four">Grün</string>
-    <string name="color_five">Orange</string>
-    <string name="color_six">Rosa</string>
+    <!-- Colors Category-->
+    <string name="color_category_one">Rot</string>
+    <string name="color_category_two">Blau</string>
+    <string name="color_category_three">Teal</string>
+    <string name="color_category_four">Grün</string>
+    <string name="color_category_five">Orange</string>
+    <string name="color_category_six">Rosa</string>
+
+    <!-- Colors Layout-->
+    <string name="color_layout_one">Rot</string>
+    <string name="color_layout_two">Blau</string>
+    <string name="color_layout_three">Teal</string>
+    <string name="color_layout_four">Grün</string>
+    <string name="color_layout_five">Orange</string>
+    <string name="color_layout_six">Rosa</string>
 
     <!-- Reminder -->
     <string name="add_reminder">Erinnerung hinzufügen</string>
@@ -250,5 +258,12 @@ Eric
     <string name="sorted_by_due_date">Sortiert nach Fälligkeit</string>
     <string name="sorted_by_priority">Sortiert nach Priorität</string>
     <string name="sorted_by_time_of_creation">Sortiert nach dem Zeitpunkt der Erstellung</string>
+
+    <!-- Settings -->
+    <string name="settings">Einstellungen</string>
+    <string name="layout_color">Layout Farbe</string>
+    <string name="about_rocket_plan">Über Rocket-Plan</string>
+    <string name="rate_app">Rocket-Plan bewerten</string>
+    <string name="contact_mail">promindstudios@gmail.com</string>
 
 </resources>

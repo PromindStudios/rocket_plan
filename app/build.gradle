@@ -8,8 +8,8 @@ android {
         applicationId "kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 12
-        versionName "1.9"
+        versionCode 13
+        versionName "1.9.2"
     }
     buildTypes {
         release {

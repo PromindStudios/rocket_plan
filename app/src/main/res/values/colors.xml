@@ -7,7 +7,7 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="colorDividerLight2">#b9b6b6b6</color>
-    <color name="colorDividerLight">#51b6b6b6</color>
+    <color name="colorDividerLight">#68b6b6b6</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#FF000000</color>
     <color name="colorTransparent">#00000000</color>
@@ -22,41 +22,70 @@
     <color name="white">#fafafa</color>
     <color name="white_pressed">#f1f1f1</color>
 
-    <!-- Color Set: Default -->
+    <!-- Category Color Set: Default -->
     <color name="colorPrimary">#e74c3c</color>
     <color name="colorPrimaryDark">#c62828</color>
-    <color name="colorPrimaryLight">#7af44336</color>
+    <color name="colorPrimaryLight">#c8f44336</color>
 
-    <!-- Color Set: One -->
+    <!-- Category Color Set: One -->
     <color name="category_one">#e74c3c</color>
-    <color name="category_light_one">#b4f44336</color>
+    <color name="category_light_one">#c8f44336</color>
     <color name="category_dark_one">#b71c1c</color>
 
-    <!-- Color Set: Two -->
+    <!-- Category Color Set: Two -->
     <color name="category_two">#3F51B5</color>
-    <color name="category_light_two">#b43f51b5</color>
+    <color name="category_light_two">#c83f51b5</color>
     <color name="category_dark_two">#1A237E</color>
 
-    <!-- Color Set: Three -->
+    <!-- Category Color Set: Three -->
     <color name="category_three">#009688</color>
-    <color name="category_light_three">#b4009688</color>
+    <color name="category_light_three">#c8009688</color>
     <color name="category_dark_three">#006064</color>
 
-    <!-- Color Set: Four -->
+    <!-- Category Color Set: Four -->
     <color name="category_four">#4CAF50</color>
-    <color name="category_light_four">#b44caf50</color>
+    <color name="category_light_four">#c84caf50</color>
     <color name="category_dark_four">#1B5E20</color>
 
-    <!-- Color Set: Five -->
+    <!-- Category Color Set: Five -->
     <color name="category_five">#FF9800</color>
-    <color name="category_light_five">#b4ff9800</color>
+    <color name="category_light_five">#c8ff9800</color>
     <color name="category_dark_five">#E65100</color>
 
-    <!-- Color Set: Five -->
+    <!-- Category Color Set: Five -->
     <color name="category_six">#E91E63</color>
-    <color name="category_light_six">#b4e91e63</color>
+    <color name="category_light_six">#c8e91e63</color>
     <color name="category_dark_six">#C2185B</color>
 
+    <!-- Category Color Set: One -->
+    <color name="layout_color_one">#e74c3c</color>
+    <color name="layout_color_light_one">#b4f44336</color>
+    <color name="layout_color_dark_one">#b71c1c</color>
+
+    <!-- Category Color Set: Two -->
+    <color name="layout_color_two">#3F51B5</color>
+    <color name="layout_color_light_two">#b43f51b5</color>
+    <color name="layout_color_dark_two">#1A237E</color>
+
+    <!-- Category Color Set: Three -->
+    <color name="layout_color_three">#009688</color>
+    <color name="layout_color_light_three">#b4009688</color>
+    <color name="layout_color_dark_three">#006064</color>
+
+    <!-- Category Color Set: Four -->
+    <color name="layout_color_four">#4CAF50</color>
+    <color name="layout_color_light_four">#b44caf50</color>
+    <color name="layout_color_dark_four">#1B5E20</color>
+
+    <!-- Category Color Set: Five -->
+    <color name="layout_color_five">#FF9800</color>
+    <color name="layout_color_light_five">#b4ff9800</color>
+    <color name="layout_color_dark_five">#E65100</color>
+
+    <!-- Category Color Set: Five -->
+    <color name="layout_color_six">#E91E63</color>
+    <color name="layout_color_light_six">#b4e91e63</color>
+    <color name="layout_color_dark_six">#C2185B</color>
     <!-- test -->
 
 

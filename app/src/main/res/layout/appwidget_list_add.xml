@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_widget_rounded_corner"
+    android:id="@+id/rlAppWidget"
+    android:background="@drawable/app_widget_layout_one"
     android:layout_margin="8dp">
 
     <LinearLayout

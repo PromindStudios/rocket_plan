@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.ContentHelper;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
@@ -55,6 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     DatabaseHelper mDatabaseHelper;
     DrawerFragment mDrawerFragment;
     FragmentManager mFragmentManager;
+    LayoutColor mLayoutColor;
 
     CategoryAdapterListener mCategoryAdapterListener;
 
@@ -63,6 +64,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mLayoutInflater = LayoutInflater.from(mContext);
         mCategories = categories;
         mDatabaseHelper = databaseHelper;
+        mLayoutColor = new LayoutColor(mContext, mDatabaseHelper.getLayoutColorValue());
         mDrawerFragment = drawerFragment;
         mFragmentManager = fragmentManager;
         mCategoryAdapterListener = (MainActivity) mContext;
@@ -122,7 +124,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
 
                     @Override
-                    public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryTitle, LinearLayout llCategoryContent, int position) {
+                    public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryTitle, RelativeLayout llCategoryContent, int position) {
                         RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) rlMain.getLayoutParams();
                         Category category = getCorrectCategory(position);
                         CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
@@ -246,12 +248,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             timeCalendarViewHolder timeholder = (timeCalendarViewHolder) vholder;
             timeholder.tvTitle.setText(mContext.getString(R.string.overview));
             timeholder.ivTimeCalendar.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_three_lines_vertical));
+            timeholder.ivTimeCalendar.setColorFilter(mLayoutColor.getLayoutColor());
             timeholder.vDivider.setVisibility(View.GONE);
         } else {
             if (position == 1) {
                 timeCalendarViewHolder calendarholder = (timeCalendarViewHolder) vholder;
                 calendarholder.tvTitle.setText(mContext.getString(calendar));
                 calendarholder .ivTimeCalendar.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_two_lines_horizontal));
+                calendarholder .ivTimeCalendar.setColorFilter(mLayoutColor.getLayoutColor());
             } else {
                 if (position == mCategories.size()+2) {
 
@@ -362,7 +366,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         View vDivider;
 
-        LinearLayout llCategoryContent;
+        RelativeLayout llCategoryContent;
         RelativeLayout rlMain;
         RelativeLayout rlCategoryTitle;
 
@@ -379,7 +383,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ivTask = (ImageView) itemView.findViewById(R.id.ivTask);
             ivEvent = (ImageView) itemView.findViewById(R.id.ivEvent);
             ivNote = (ImageView) itemView.findViewById(R.id.ivNote);
-            llCategoryContent = (LinearLayout) itemView.findViewById(R.id.llCategoryContent);
+            llCategoryContent = (RelativeLayout) itemView.findViewById(R.id.llCategoryContent);
             rlMain = (RelativeLayout) itemView.findViewById(R.id.rlMain);
             rlCategoryTitle = (RelativeLayout) itemView.findViewById(R.id.rlCategory);
             vDivider = itemView.findViewById(R.id.vDivider);
@@ -457,7 +461,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             public void onContentAdd(int position, int contentType);
 
-            public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryTitle, LinearLayout llCategoryContent, int position);
+            public void onCategoryExpandCollapse(RelativeLayout rlMain, ImageView ivExpandCollapse, RelativeLayout rlCategoryTitle, RelativeLayout llCategoryContent, int position);
 
             public void onCategoryLongClick(int position);
         }
