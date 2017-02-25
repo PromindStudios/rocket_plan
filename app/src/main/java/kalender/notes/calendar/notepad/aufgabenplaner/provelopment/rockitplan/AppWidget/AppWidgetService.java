@@ -116,7 +116,7 @@ public class AppWidgetService extends RemoteViewsService{
             } else {
                 source = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_checkbox_24dp);
             }
-            int[] priorityColors = new int[]{R.color.colorSecondaryText, R.color.layout_color_light_five, R.color.layout_color_light_one};
+            int[] priorityColors = new int[]{R.color.colorSecondaryText, R.color.colorSecondaryText, R.color.layout_color_light_five, R.color.layout_color_light_one};
             Bitmap result = changeBitmapColor(source, ResourcesCompat.getColor(mContext.getResources(), priorityColors[taskEvent.getPriority()], null));
             rv.setBitmap(R.id.ivCheckbox, "setImageBitmap", result);
 

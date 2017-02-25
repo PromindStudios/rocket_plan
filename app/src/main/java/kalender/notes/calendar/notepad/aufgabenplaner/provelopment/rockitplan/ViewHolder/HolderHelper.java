@@ -51,7 +51,7 @@ public class HolderHelper {
         if (mContentType == MyConstants.CONTENT_EVENT) {
             event = (Event) content;
             taskEvent = (TaskEvent) content;
-            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_event, null);
+            contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_event_text_16dp, null);
         }
         if (mContentType == MyConstants.CONTENT_NOTE) {
             contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);
@@ -69,6 +69,9 @@ public class HolderHelper {
             case MyConstants.PRIORITY_NONE:
                 contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorSecondaryText, null), PorterDuff.Mode.MULTIPLY);
                 break;
+            case MyConstants.PRIORITY_NORMAL:
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorSecondaryText, null), PorterDuff.Mode.MULTIPLY);
+                break;
             case MyConstants.PRIORITY_HIGH:
                 contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.layout_color_light_five, null), PorterDuff.Mode.MULTIPLY);
                 break;
@@ -83,14 +86,13 @@ public class HolderHelper {
 
 
         // Files
-        if (content.getPicturePath() != null || !content.getDescription().equals("")) {
+        if (content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals("")) {
             vhContent.llFiles.setVisibility(View.VISIBLE);
             Log.i("Zeige File", "doch" + content.getDescription());
         } else {
             vhContent.llFiles.setVisibility(View.GONE);
             Log.i("Zeige File", "nicht");
         }
-
 
         // Subtitle
         if (content.getSubtitle() != null) {

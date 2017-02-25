@@ -2,9 +2,12 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,9 +21,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Reminder;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.ReminderDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.GeneralFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
@@ -44,8 +49,15 @@ public class ReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     int mContentType;
     int mCategoryId;
 
+    //Interface
+    PremiumInterface mPremiumInterface;
+
+    // Variables
+    CategoryColor mCategoryColor;
+
     public ReminderAdapter(Context context, ArrayList<Reminder> reminders, int contentId, int contentType, FragmentManager fragmentManager, GeneralFragment fragment, int categoryId) {
         mContext = context;
+        mPremiumInterface = (PremiumInterface)context;
         mReminders = reminders;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDatabaseHelper = new DatabaseHelper(mContext);
@@ -54,6 +66,8 @@ public class ReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mFragmentManager = fragmentManager;
         mGeneralFragment = fragment;
         mCategoryId = categoryId;
+        mCategoryColor = new CategoryColor(mContext);
+        mCategoryColor.setColor(mDatabaseHelper.getCategory(mCategoryId).getColor());
     }
 
     @Override
@@ -95,7 +109,13 @@ public class ReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             addReminderHolder holder = new addReminderHolder(view, new addReminderHolder.addReminderHolderClickListener() {
                 @Override
                 public void onAdd(int position) {
-                    addReminder();
+                    if (mPremiumInterface.isPremium()) {
+                        addReminder();
+                    } else {
+                        addReminder();
+                        //mPremiumInterface.openDialogPremiumFunction(mContext.getString(R.string.premium_function), mContext.getString(R.string.premium_silver_reminder), mContext.getString(R.string.premium_expired));
+                    }
+
                 }
             });
             return holder;
@@ -157,6 +177,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 holder.tvReminder.setText(mContext.getString(R.string.reminde_me) + " " + reminder.getReminderValue() + " " + reminder.getReminderTypeString(mContext) + " " + mContext.getString(R.string.before));
             }
+                Drawable icon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_reminder_18dp, null);
+                icon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorSecondaryText, null), PorterDuff.Mode.MULTIPLY);
+                holder.ivReminder.setImageDrawable(icon);
         }
     }
 
@@ -186,6 +209,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         TextView tvReminder;
         ImageView ivRemoveReminder;
+        ImageView ivReminder;
 
         reminderHolderClickListener mListener;
 
@@ -193,6 +217,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             tvReminder = (TextView) itemView.findViewById(R.id.tvReminder);
             ivRemoveReminder = (ImageView) itemView.findViewById(R.id.ivRemoveReminder);
+            ivReminder = (ImageView) itemView.findViewById(R.id.ivReminder);
             mListener = listener;
             tvReminder.setOnClickListener(this);
             ivRemoveReminder.setOnClickListener(this);

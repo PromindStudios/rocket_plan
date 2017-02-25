@@ -1,67 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:fillViewport="true">
+
     <LinearLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_margin="16dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTitleDescription"
-            style="@style/text_detail_title"
-            android:layout_width="385dp"
-            android:text="@string/detail_description_title"/>
-
-        <EditText
-            android:id="@+id/etDescription"
-            style="@style/edit_text_description"
-            android:layout_marginBottom="@dimen/detail_margin_bottom"
-            android:textCursorDrawable="@null"
-            android:inputType="textCapSentences|textMultiLine"/>
-
-        <View
-            style="@style/divider_detail"/>
-
-        <TextView
-            android:id="@+id/tvTitlePicture"
-            style="@style/text_detail_title"
-            android:paddingTop="32dp"
-            android:text="@string/detail_title_picture"/>
-
-        <ImageView
-            android:id="@+id/ivPicture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
         <RelativeLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/detail_margin_bottom"
+            android:layout_height="wrap_content"
+            android:focusable="true"
             android:focusableInTouchMode="true">
 
             <View
+                android:id="@+id/vDummy"
                 android:layout_width="1px"
                 android:layout_height="1px"
-                android:id="@+id/vDummy"
                 android:background="@color/colorTransparent"
-                android:focusableInTouchMode="true"/>
+                android:focusableInTouchMode="true" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/ivAddPicture"
-                style="@style/image_view_detail_add"/>
+            <ImageView
+                android:id="@+id/ivDescriptionIconAdd"
+                style="@style/activity_detail_image_view_add" />
+
+            <ImageView
+                android:id="@+id/ivDescriptionIcon"
+                style="@style/activity_detail_image_view_add"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_description_18dp"
+                android:tint="@color/colorSecondaryText"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                style="@style/activity_detail_text_choose"
+                android:layout_toRightOf="@id/ivDescriptionIconAdd"
+                android:inputType="textCapSentences|textMultiLine"
+                android:hint="@string/detail_description"
+                android:textColorHint="@color/colorDivider"
+                android:textColor="@color/colorSecondaryText"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:textCursorDrawable="@null" />
+
+        </RelativeLayout>
+
+        <View style="@style/activity_detail_divider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivImageIconAdd"
+                style="@style/activity_detail_image_view_add" />
+
+            <View
+                android:id="@+id/vImageMeasure"
+                android:layout_width="match_parent"
+                android:layout_height="20px"
+                android:visibility="gone"
+                android:layout_toRightOf="@id/ivImageIconAdd"
+                android:background="@color/colorPrimary"/>
+
+            <ImageView
+                android:id="@+id/ivImageIcon"
+                style="@style/activity_detail_image_view_add"
+                android:src="@drawable/ic_image_18dp"
+                android:tint="@color/colorSecondaryText"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivImage"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="@dimen/activity_detail_margin_horizontal_default"
+                android:layout_toRightOf="@id/ivImageIcon"
+                android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tvAddPicture"
-                style="@style/text_detail_choose"
-                android:layout_toRightOf="@id/ivAddPicture"
-                android:text="@string/detail_subtext_picture"/>
+                android:id="@+id/tvImage"
+                style="@style/activity_detail_text_choose"
+                android:layout_toRightOf="@id/ivImageIconAdd"
+                android:text="@string/detail_image" />
+
+        </RelativeLayout>
+
+        <View style="@style/activity_detail_divider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivAudioIconAdd"
+                style="@style/activity_detail_image_view_add" />
+
+            <!--
+            <ImageView
+                android:id="@+id/ivAudioIcon"
+                style="@style/activity_detail_image_view_add"
+                android:layout_centerVertical="false"
+                android:src="@drawable/ic_audio_18dp"
+                android:tint="@color/colorSecondaryText"
+                android:visibility="gone" />
+                -->
+
+            <ImageView
+                android:id="@+id/ivRemoveAudio"
+                style="@style/activity_detail_image_view_remove" />
+
+            <TextView
+                android:id="@+id/tvAudio"
+                style="@style/activity_detail_text_choose"
+                android:layout_toRightOf="@id/ivAudioIconAdd"
+                android:layout_toLeftOf="@id/ivRemoveAudio"
+                android:text="@string/detail_audio" />
+
+        </RelativeLayout>
+
+        <View style="@style/activity_detail_divider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivVideoIconAdd"
+                style="@style/activity_detail_image_view_add" />
+
+            <ImageView
+                android:id="@+id/ivRemoveVideo"
+                style="@style/activity_detail_image_view_remove" />
+
+            <TextView
+                android:id="@+id/tvVideo"
+                style="@style/activity_detail_text_choose"
+                android:layout_toRightOf="@id/ivVideoIconAdd"
+                android:layout_toLeftOf="@id/ivRemoveVideo"
+                android:text="@string/detail_video" />
+
         </RelativeLayout>
 
     </LinearLayout>

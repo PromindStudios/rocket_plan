@@ -12,11 +12,8 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import java.util.Calendar;
-
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Reminder;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
@@ -45,7 +42,7 @@ public class ReminderSetter {
             subtext = MyMethods.formatDate(taskEvent.getDate());
         }
         inboxStyle.setSummaryText(subtext);
-        Intent resultIntent = new Intent(context, DetailActivity.class);
+        Intent resultIntent = new Intent(context, TaskEventActivity.class);
         resultIntent.putExtra(MyConstants.INTENT_REMINDER, true);
         resultIntent.putExtra(MyConstants.CONTENT_ID, taskEvent.getId());
         resultIntent.putExtra(MyConstants.CONTENT_TYPE, r.getContentType());

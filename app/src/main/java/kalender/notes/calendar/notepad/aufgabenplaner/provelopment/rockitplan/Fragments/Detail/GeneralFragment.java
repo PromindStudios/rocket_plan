@@ -2,6 +2,8 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.F
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,24 +14,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
@@ -42,6 +39,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Di
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.MyTimePickerDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.ReminderDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.RepeatDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
@@ -55,28 +53,27 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Re
 public class GeneralFragment extends Fragment implements DatePickerDialog.DatePickerDialogListener, MyTimePickerDialog.TimePickerDialogListener, ReminderDialog.ReminderDialogListener, RepeatDialog.RepeatDialogListener {
 
     // Layout
-    EditText etTitle;
+
+    ImageView ivAddPriority;
     AppCompatImageView ivAddDate;
     AppCompatImageView ivAddTime;
     AppCompatImageView ivAddRepeat;
     AppCompatImageView ivRemoveDate;
     AppCompatImageView ivRemoveTime;
     AppCompatImageView ivRemoveRepeat;
+    TextView tvPriority;
     TextView tvDate;
     TextView tvTime;
     TextView tvRepeat;
     View vDividerReminder;
-    RadioGroup rgPriority;
-    RadioButton rbPriorityNone;
-    RadioButton rbPriorityHigh;
-    RadioButton rbPriorityVeryHigh;
     LinearLayout llDateReminder;
+    RelativeLayout rlPriority;
     RelativeLayout rlTime;
     RelativeLayout rlRepeat;
     RelativeLayout rlDate;
     RecyclerView rvReminder;
-    View vDummy;
     View vDividerTime;
+    View vDummy;
 
     // Content
     Event mEvent;
@@ -90,6 +87,10 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
 
     // Interface
     DetailActivityListener mListener;
+    PremiumInterface mPremiumInterface;
+
+    // Variables
+    CategoryColor mCategoryColor;
 
     @Nullable
     @Override
@@ -98,28 +99,26 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         View layout = inflater.inflate(R.layout.tab_general, container, false);
 
         // Initiate layout components
-        etTitle = (EditText) layout.findViewById(R.id.etTitle);
+        ivAddPriority =(ImageView)layout.findViewById(R.id.ivPriority);
         ivAddDate = (AppCompatImageView) layout.findViewById(R.id.ivAddDate);
         ivAddTime = (AppCompatImageView) layout.findViewById(R.id.ivAddTime);
         ivAddRepeat = (AppCompatImageView) layout.findViewById(R.id.ivAddRepeat);
         ivRemoveDate = (AppCompatImageView) layout.findViewById(R.id.ivRemoveDate);
         ivRemoveTime = (AppCompatImageView) layout.findViewById(R.id.ivRemoveTime);
         ivRemoveRepeat = (AppCompatImageView) layout.findViewById(R.id.ivRemoveRepeat);
+        tvPriority = (TextView)layout.findViewById(R.id.tvPriority);
         tvDate = (TextView) layout.findViewById(R.id.tvDate);
         tvTime = (TextView) layout.findViewById(R.id.tvTime);
         tvRepeat = (TextView) layout.findViewById(R.id.tvRepeat);
         vDividerReminder = layout.findViewById(R.id.dividerReminder);
+        //vDummy = layout.findViewById(R.id.vDummy);
         llDateReminder = (LinearLayout) layout.findViewById(R.id.llDateReminder);
-        vDummy = layout.findViewById(R.id.vDummyGeneral);
         vDividerTime = layout.findViewById(R.id.vDividerTime);
         rvReminder = (RecyclerView) layout.findViewById(R.id.rvReminder);
+        rlPriority = (RelativeLayout)layout.findViewById(R.id.rlPriority);
+        rlDate = (RelativeLayout)layout.findViewById(R.id.rlDate);
         rlTime = (RelativeLayout) layout.findViewById(R.id.rlTime);
         rlRepeat = (RelativeLayout) layout.findViewById(R.id.rlRepeat);
-        rlDate = (RelativeLayout) layout.findViewById(R.id.rlDate);
-        rgPriority = (RadioGroup)layout.findViewById(R.id.rgPriority);
-        rbPriorityNone = (RadioButton)layout.findViewById(R.id.rbNoPriority);
-        rbPriorityHigh = (RadioButton)layout.findViewById(R.id.rbHighPriority);
-        rbPriorityVeryHigh = (RadioButton)layout.findViewById(R.id.rbVeryHighPriority);
 
         // Set up Variables
         mDatabaseHelper = new DatabaseHelper(getActivity());
@@ -139,196 +138,169 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
                 mNote = (Note)mContent;
         }
 
-        // Title
-        etTitle.setText(mContent.getTitle());
-        etTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mListener.setToolbarTitle(s.toString());
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                mContent.setTitle(s.toString());
-            }
-        });
-
-        if (mContent.getTitle().equals("") || mContent.getTitle().matches("")) {
-            etTitle.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
-        } else {
-            closeKeyboard();
-            vDummy.requestFocus();
-        }
+        mCategoryColor = new CategoryColor(getActivity(), mDatabaseHelper.getCategory(mContent.getCategoryId()).getColor());
 
 
         if (mContentType == MyConstants.CONTENT_TASK || mContentType == MyConstants.CONTENT_EVENT) {
+            // Get Reminders
+            ArrayList<Reminder> reminders = new ArrayList<>();
+            reminders = mDatabaseHelper.getAllContentReminders(mContent.getId(), mContentType);
 
-            // Check if taskEvent isDone
-            if (mTaskEvent.isDone()) {
-                setDateComponentsVisible(false);
+            // Set up RecyclerView
+            rvReminder.setLayoutManager(new LinearLayoutManager(getActivity()));
+            ReminderAdapter adapter = new ReminderAdapter(getActivity(), reminders, mContent.getId(), mContentType, getFragmentManager(), this, mContent.getCategoryId());
+            rvReminder.setAdapter(adapter);
+
+            // Date
+            Calendar date = mTaskEvent.getDate();
+            if (date != null) {
+                tvDate.setText(MyMethods.formatDate(date));
+                tvDate.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
+                setImageView(ivAddDate, R.drawable.ic_date_18dp, R.color.colorSecondaryText);
+                ivRemoveDate.setVisibility(View.VISIBLE);
+                setRepeatVisible(true);
+                setReminderVisible(true);
+                setTimeVisible(true);
             } else {
-                // Get Reminders
-                ArrayList<Reminder> reminders = new ArrayList<>();
-                reminders = mDatabaseHelper.getAllContentReminders(mContent.getId(), mContentType);
-
-                // Set up RecyclerView
-                rvReminder.setLayoutManager(new LinearLayoutManager(getActivity()));
-                ReminderAdapter adapter = new ReminderAdapter(getActivity(), reminders, mContent.getId(), mContentType, getFragmentManager(), this, mContent.getCategoryId());
-                rvReminder.setAdapter(adapter);
-
-                // Date
-                Calendar date = mTaskEvent.getDate();
-                if (date != null) {
-                    tvDate.setText(MyMethods.formatDate(date));
-                    tvDate.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
-                    ivAddDate.setVisibility(View.GONE);
-                    ivRemoveDate.setVisibility(View.VISIBLE);
-                    setRepeatVisible(true);
-                    setReminderVisible(true);
-                    setTimeVisible(true);
-                } else {
+                tvDate.setText(getActivity().getString(R.string.detail_subtext_date));
+                setImageView(ivAddDate, R.drawable.ic_add_18dp, R.color.colorDivider);
+                ivRemoveDate.setVisibility(View.GONE);
+                setRepeatVisible(false);
+                setReminderVisible(false);
+                setTimeVisible(false);
+            }
+            View.OnClickListener dateOnClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Calendar date = mTaskEvent.getDate();
+                    if (date == null) {
+                        date = Calendar.getInstance();
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(MyConstants.TASK_DATE, date);
+                    DialogFragment dialogFragment = new DatePickerDialog();
+                    dialogFragment.setTargetFragment(GeneralFragment.this, 0);
+                    dialogFragment.setArguments(bundle);
+                    dialogFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                }
+            };
+            tvDate.setOnClickListener(dateOnClickListener);
+            ivAddDate.setOnClickListener(dateOnClickListener);
+            ivRemoveDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTaskEvent.setDate(null);
                     tvDate.setText(getActivity().getString(R.string.detail_subtext_date));
-                    ivAddDate.setVisibility(View.VISIBLE);
+                    tvDate.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
+                    setImageView(ivAddDate, R.drawable.ic_add_18dp, R.color.colorDivider);
                     ivRemoveDate.setVisibility(View.GONE);
                     setRepeatVisible(false);
                     setReminderVisible(false);
                     setTimeVisible(false);
-                }
-                View.OnClickListener dateOnClickListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        closeKeyboard();
-                        Calendar date = mTaskEvent.getDate();
-                        if (date == null) {
-                            date = Calendar.getInstance();
-                        }
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(MyConstants.TASK_DATE, date);
-                        DialogFragment dialogFragment = new DatePickerDialog();
-                        dialogFragment.setTargetFragment(GeneralFragment.this, 0);
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-                    }
-                };
-                tvDate.setOnClickListener(dateOnClickListener);
-                ivAddDate.setOnClickListener(dateOnClickListener);
-                ivRemoveDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mTaskEvent.setDate(null);
-                        tvDate.setText(getActivity().getString(R.string.detail_subtext_date));
-                        tvDate.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
-                        ivAddDate.setVisibility(View.VISIBLE);
-                        ivRemoveDate.setVisibility(View.GONE);
-                        setRepeatVisible(false);
-                        setReminderVisible(false);
-                        setTimeVisible(false);
 
-                        // also remove Time
-                        mTaskEvent.setTime(null);
-                        tvTime.setText(getActivity().getString(R.string.detail_subtext_time));
-                        tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
-                        ivAddTime.setVisibility(View.VISIBLE);
-                        ivRemoveTime.setVisibility(View.GONE);
-                    }
-                });
-
-                // Time
-                // Work right here and solve time date issue
-                Calendar time = mTaskEvent.getTime();
-                if (time != null) {
-                    tvTime.setText(MyMethods.formatTime(time));
-                    tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
-                    ivAddTime.setVisibility(View.GONE);
-                    ivRemoveTime.setVisibility(View.VISIBLE);
-                } else {
+                    // also remove Time
+                    mTaskEvent.setTime(null);
                     tvTime.setText(getActivity().getString(R.string.detail_subtext_time));
-                    ivAddTime.setVisibility(View.VISIBLE);
+                    tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
                     ivRemoveTime.setVisibility(View.GONE);
                 }
-                View.OnClickListener timeOnClickListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openTimeDialog();
-                    }
-                };
-                tvTime.setOnClickListener(timeOnClickListener);
-                ivAddTime.setOnClickListener(timeOnClickListener);
-                ivRemoveTime.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mTaskEvent.setTime(null);
-                        tvTime.setText(getActivity().getString(R.string.detail_subtext_time));
-                        tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
-                        ivAddTime.setVisibility(View.VISIBLE);
-                        ivRemoveTime.setVisibility(View.GONE);
-                    }
-                });
+            });
 
-                // Repetition
+            // Time
+            // Work right here and solve time date issue
+            Calendar time = mTaskEvent.getTime();
+            if (time != null) {
+                tvTime.setText(MyMethods.formatTime(time));
+                tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
+                setImageView(ivAddTime, R.drawable.ic_time_18dp, R.color.colorSecondaryText);
+                ivRemoveTime.setVisibility(View.VISIBLE);
+            } else {
+                tvTime.setText(getActivity().getString(R.string.detail_subtext_time));
+                setImageView(ivAddTime, R.drawable.ic_add_18dp, R.color.colorDivider);
+                ivRemoveTime.setVisibility(View.GONE);
+            }
+            View.OnClickListener timeOnClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openTimeDialog();
+                }
+            };
+            tvTime.setOnClickListener(timeOnClickListener);
+            ivAddTime.setOnClickListener(timeOnClickListener);
+            ivRemoveTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTaskEvent.setTime(null);
+                    tvTime.setText(getActivity().getString(R.string.detail_subtext_time));
+                    tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
+                    setImageView(ivAddTime, R.drawable.ic_add_18dp, R.color.colorDivider);
+                    ivRemoveTime.setVisibility(View.GONE);
+                }
+            });
 
-                updateRepeat();
+            // Repetition
 
-                View.OnClickListener repeatOnClickListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (mTaskEvent.getRepetitionType() == MyConstants.REPETITION_TYPE_NONE) {
-                            CharSequence[] items = {getActivity().getString(R.string.repetition_daily), getActivity().getString(R.string.repetition_weekly), getActivity().getString(R.string.repetition_monthly), getActivity().getString(R.string.custom)};
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setItems(items, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int item) {
-                                    switch (item) {
-                                        case 0:
-                                            mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_DAY);
-                                            mTaskEvent.setRepetitionValue(1);
-                                            updateRepeat();
-                                            break;
-                                        case 1:
-                                            mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_WEEK);
-                                            mTaskEvent.setRepetitionValue(1);
-                                            updateRepeat();
-                                            break;
-                                        case 2:
-                                            mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_MONTH);
-                                            mTaskEvent.setRepetitionValue(1);
-                                            updateRepeat();
-                                            break;
-                                        case 3:
-                                            DialogFragment dialog_repeat = new RepeatDialog();
-                                            Bundle bundle = new Bundle();
-                                            dialog_repeat.setTargetFragment(GeneralFragment.this, 0);
-                                            dialog_repeat.show(getActivity().getSupportFragmentManager(), "Reminder_Dialog");
-                                            break;
-                                        default:
-                                            break;
-                                    }
+            updateRepeat();
+
+            View.OnClickListener repeatOnClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mTaskEvent.getRepetitionType() == MyConstants.REPETITION_TYPE_NONE) {
+                        CharSequence[] items = {getActivity().getString(R.string.repetition_daily), getActivity().getString(R.string.repetition_weekly), getActivity().getString(R.string.repetition_monthly), getActivity().getString(R.string.custom)};
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                switch (item) {
+                                    case 0:
+                                        mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_DAY);
+                                        mTaskEvent.setRepetitionValue(1);
+                                        updateRepeat();
+                                        break;
+                                    case 1:
+                                        mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_WEEK);
+                                        mTaskEvent.setRepetitionValue(1);
+                                        updateRepeat();
+                                        break;
+                                    case 2:
+                                        mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_MONTH);
+                                        mTaskEvent.setRepetitionValue(1);
+                                        updateRepeat();
+                                        break;
+                                    case 3:
+                                        DialogFragment dialog_repeat = new RepeatDialog();
+                                        Bundle bundle = new Bundle();
+                                        dialog_repeat.setTargetFragment(GeneralFragment.this, 0);
+                                        dialog_repeat.show(getActivity().getSupportFragmentManager(), "Reminder_Dialog");
+                                        break;
+                                    default:
+                                        break;
                                 }
-                            });
-                            builder.create().show();
-                        } else {
-                            DialogFragment dialog_repeat = new RepeatDialog();
-                            Bundle bundle = new Bundle();
-                            dialog_repeat.setTargetFragment(GeneralFragment.this, 0);
-                            dialog_repeat.show(getActivity().getSupportFragmentManager(), "Reminder_Dialog");
-                        }
+                            }
+                        });
+                        builder.create().show();
+                    } else {
+                        DialogFragment dialog_repeat = new RepeatDialog();
+                        Bundle bundle = new Bundle();
+                        dialog_repeat.setTargetFragment(GeneralFragment.this, 0);
+                        dialog_repeat.show(getActivity().getSupportFragmentManager(), "Reminder_Dialog");
                     }
-                };
-                ivAddRepeat.setOnClickListener(repeatOnClickListener);
-                tvRepeat.setOnClickListener(repeatOnClickListener);
-                ivRemoveRepeat.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        handleRepeatComponents(false);
-                        mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_NONE);
-                        mTaskEvent.setRepetitionValue(0);
-                    }
-                });
-                vDividerTime.setVisibility(View.VISIBLE);
+                }
+            };
+            ivAddRepeat.setOnClickListener(repeatOnClickListener);
+            tvRepeat.setOnClickListener(repeatOnClickListener);
+            ivRemoveRepeat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    handleRepeatComponents(false);
+                    mTaskEvent.setRepetitionType(MyConstants.REPETITION_TYPE_NONE);
+                    mTaskEvent.setRepetitionValue(0);
+                }
+            });
+            vDividerTime.setVisibility(View.VISIBLE);
+            // Check if taskEvent isDone
+            if (mTaskEvent.isDone()) {
+                setDateComponentsVisible(false);
             }
 
         } else {
@@ -343,37 +315,21 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
 
         // Priority
 
-        rbPriorityNone.setText("   "+getActivity().getString(R.string.priority_none));
-        rbPriorityHigh.setText("   "+getActivity().getString(R.string.priority_high));
-        rbPriorityVeryHigh.setText("   "+getActivity().getString(R.string.priority_very_high));
+        handlePriority(mContent.getPriority());
 
-        switch (mContent.getPriority()) {
-            case MyConstants.PRIORITY_NONE:
-                rgPriority.check(R.id.rbNoPriority);
-                break;
-            case MyConstants.PRIORITY_HIGH:
-                rgPriority.check(R.id.rbHighPriority);
-                break;
-            case MyConstants.PRIORITY_VERY_HIGH:
-                rgPriority.check(R.id.rbVeryHighPriority);
-                break;
-        }
-
-        rgPriority.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        rlPriority.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                closeKeyboard();
-                switch (i) {
-                    case R.id.rbNoPriority:
-                        mContent.setPriority(MyConstants.PRIORITY_NONE);
-                        break;
-                    case R.id.rbHighPriority:
-                        mContent.setPriority(MyConstants.PRIORITY_HIGH);
-                        break;
-                    case R.id.rbVeryHighPriority:
-                        mContent.setPriority(MyConstants.PRIORITY_VERY_HIGH);
-                        break;
-                }
+            public void onClick(View view) {
+                CharSequence[] items = {getActivity().getString(R.string.priority_none), getActivity().getString(R.string.priority_normal), getActivity().getString(R.string.priority_high), getActivity().getString(R.string.priority_very_high)};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        mContent.setPriority(item);
+                        handlePriority(item);
+                    }
+                });
+                builder.create().show();
             }
         });
 
@@ -416,7 +372,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListener = (DetailActivity) context;
+        mListener = (TaskEventActivity) context;
+        mPremiumInterface = (TaskEventActivity) context;
     }
 
 
@@ -431,7 +388,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     public void onDateSelected(Calendar date) {
         mTaskEvent.setDate(date);
         tvDate.setText(MyMethods.formatDate(date));
-        ivAddDate.setVisibility(View.GONE);
+        //ivAddDate.setVisibility(View.GONE);
+        setImageView(ivAddDate, R.drawable.ic_date_16dp, R.color.colorSecondaryText);
         ivRemoveDate.setVisibility(View.VISIBLE);
         tvDate.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
         setRepeatVisible(true);
@@ -460,7 +418,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     public void onTimeSelected(Calendar time) {
         mTaskEvent.setTime(time);
         tvTime.setText(MyMethods.formatTime(time));
-        ivAddTime.setVisibility(View.GONE);
+        setImageView(ivAddTime, R.drawable.ic_time_18dp, R.color.colorSecondaryText);
         ivRemoveTime.setVisibility(View.VISIBLE);
         tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
     }
@@ -496,6 +454,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         rvReminder.setAdapter(adapter);
     }
 
+
+
     public interface DetailActivityListener {
 
         public Category getCategory();
@@ -523,6 +483,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     }
 
     public void handleFocus() {
+        /*
         if (mContent.getTitle() == null || mContent.getTitle().equals("") || mContent.getTitle().matches("")) {
             etTitle.requestFocus();
             Log.i("Title ist", "ist leer");
@@ -532,6 +493,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             vDummy.requestFocus();
             closeKeyboard();
         }
+        */
+        closeKeyboard();
     }
 
     public void createReminder(int reminderType, int reminderValue) {
@@ -556,12 +519,12 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
 
     private void handleRepeatComponents(boolean hasValue) {
         if (hasValue) {
-            ivAddRepeat.setVisibility(View.GONE);
+            setImageView(ivAddRepeat, R.drawable.ic_repeat_18dp, R.color.colorSecondaryText);
             tvRepeat.setText(RepeatTexter.getStandardText(getActivity(), mTaskEvent));
             tvRepeat.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorSecondaryText));
             ivRemoveRepeat.setVisibility(View.VISIBLE);
         } else {
-            ivAddRepeat.setVisibility(View.VISIBLE);
+            setImageView(ivAddRepeat, R.drawable.ic_add_18dp, R.color.colorDivider);
             tvRepeat.setText(getActivity().getString(R.string.add_repeat));
             tvRepeat.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorDivider));
             ivRemoveRepeat.setVisibility(View.GONE);
@@ -586,15 +549,59 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         }
     }
 
-    private void setDateComponentsVisible(boolean visible) {
+    public void setDateComponentsVisible(boolean visible) {
         setDateVisible(visible);
-        setTimeVisible(visible);
-        setRepeatVisible(visible);
-        setReminderVisible(visible);
+        if (visible) {
+            if (mTaskEvent.getDate() != null) {
+                setTimeVisible(visible);
+                setRepeatVisible(visible);
+                setReminderVisible(visible);
+            }
+        } else {
+            setTimeVisible(visible);
+            setRepeatVisible(visible);
+            setReminderVisible(visible);
+        }
+
     }
 
-    private void closeKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+    private void setImageView(ImageView iv, int drawableId, int colorId) {
+        Drawable icon = ResourcesCompat.getDrawable(getActivity().getResources(), drawableId, null);
+        icon.mutate().setColorFilter(ResourcesCompat.getColor(getActivity().getResources(), colorId, null), PorterDuff.Mode.MULTIPLY);
+        iv.setImageDrawable(icon);
+    }
+
+    private void handlePriority(int priority) {
+        switch (priority) {
+            case 0:
+                setImageView(ivAddPriority, R.drawable.ic_add_18dp, R.color.colorDivider);
+                tvPriority.setText(getString(R.string.priority));
+                tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
+                break;
+            case 1:
+                setImageView(ivAddPriority, R.drawable.ic_priority_18dp, R.color.colorSecondaryText);
+                tvPriority.setText(getString(R.string.priority_normal));
+                tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
+                break;
+            case 2:
+                setImageView(ivAddPriority, R.drawable.ic_priority_18dp, R.color.color_priority_high);
+                tvPriority.setText(getString(R.string.priority_high));
+                tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
+                break;
+            case 3:
+                setImageView(ivAddPriority, R.drawable.ic_priority_18dp, R.color.color_priority_very_high);
+                tvPriority.setText(getString(R.string.priority_very_high));
+                tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    public void closeKeyboard() {
+        ((TaskEventActivity)getActivity()).closeKeyboard();
+        //InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
 }

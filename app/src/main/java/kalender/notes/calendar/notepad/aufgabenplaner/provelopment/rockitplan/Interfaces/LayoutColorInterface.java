@@ -5,5 +5,5 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.I
  */
 
 public interface LayoutColorInterface {
-    public void refreshActivity();
+    public void refreshLayoutColor();
 }

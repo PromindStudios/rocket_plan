@@ -1,5 +1,9 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses;
 
+import android.content.Context;
+
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
+
 /**
  * Created by Admin on 03.07.2016.
  */
@@ -21,7 +25,7 @@ public class Content {
     String mDescription;
     String mPicturePath;
     String mVideoPath;
-    String mVoicePath;
+    String mAudioPath;
 
     public Content() {
 
@@ -91,12 +95,16 @@ public class Content {
         this.mPicturePath = mPicturePath;
     }
 
-    public String getVoicePath() {
-        return mVoicePath;
+    public String getAudioPath() {
+        return mAudioPath;
     }
 
-    public void setVoicePath(String mVoicePath) {
-        this.mVoicePath = mVoicePath;
+    public void setAudioPath(String mVoicePath) {
+        this.mAudioPath = mVoicePath;
+    }
+
+    public boolean hasAudio() {
+        return mAudioPath !=null;
     }
 
     public String getVideoPath() {
@@ -107,8 +115,25 @@ public class Content {
         this.mVideoPath = mVideoPath;
     }
 
+    public boolean hasVideo() {
+        return mVideoPath !=null;
+    }
+
     public int getContentType() {
         return mContentType;
+    }
+
+    public String getContentName(Context context) {
+        switch (mContentType) {
+            case 0:
+                return context.getString(R.string.task);
+            case 1:
+                return context.getString(R.string.event);
+            case 2:
+                return context.getString(R.string.note);
+            default:
+                return null;
+        }
     }
 
     public void setContentType(int contentType) {

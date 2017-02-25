@@ -15,6 +15,11 @@
     <color name="colorOrange">#fff5a525</color>
     <color name="red_delete">#d50000</color>
 
+    <!-- Priority -->
+    <color name="color_priority_normal">#727272</color>
+    <color name="color_priority_high">#fff5a525</color>
+    <color name="color_priority_very_high">#d50000</color>
+
     <!-- Fab Colors -->
     <color name="black_semi_transparent">#B2000000</color>
     <color name="background">#e5e5e5</color>
@@ -45,7 +50,7 @@
     <!-- Category Color Set: Four -->
     <color name="category_four">#4CAF50</color>
     <color name="category_light_four">#c84caf50</color>
-    <color name="category_dark_four">#1B5E20</color>
+    <color name="category_dark_four">#388E3C</color>
 
     <!-- Category Color Set: Five -->
     <color name="category_five">#FF9800</color>

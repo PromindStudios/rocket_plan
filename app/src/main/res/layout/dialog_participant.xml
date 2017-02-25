@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/linearLayout_dialog"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/text_view_dialog_title"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/ivName"
+            style="@style/activity_detail_image_view_add"
+            android:tint="@color/colorDivider"/>
+
+        <EditText
+            android:id="@+id/etName"
+            style="@style/activity_detail_text_choose"
+            android:layout_toRightOf="@id/ivName"
+            android:inputType="textCapSentences"
+            android:maxLength="30"
+            android:hint="@string/name"
+            android:textColorHint="@color/colorDivider"
+            android:textColor="@color/colorSecondaryText"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@null" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/ivInformation"
+            style="@style/activity_detail_image_view_add"
+            android:tint="@color/colorDivider"/>
+
+        <EditText
+            android:id="@+id/etInformation"
+            style="@style/activity_detail_text_choose"
+            android:layout_toRightOf="@id/ivInformation"
+            android:inputType="textCapSentences|textMultiLine"
+            android:hint="@string/information"
+            android:textColorHint="@color/colorDivider"
+            android:textColor="@color/colorSecondaryText"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@null" />
+
+    </RelativeLayout>
+
+    <View style="@style/activity_detail_divider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/ivPhone"
+            style="@style/activity_detail_image_view_add"
+            android:tint="@color/colorDivider"/>
+
+        <EditText
+            android:id="@+id/etPhone"
+            style="@style/activity_detail_text_choose"
+            android:layout_toRightOf="@id/ivPhone"
+            android:inputType="number"
+            android:hint="@string/phone"
+            android:textColorHint="@color/colorDivider"
+            android:textColor="@color/colorSecondaryText"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@null" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/ivEmail"
+            style="@style/activity_detail_image_view_add"
+            android:tint="@color/colorDivider"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            style="@style/activity_detail_text_choose"
+            android:layout_toRightOf="@id/ivEmail"
+            android:hint="@string/e_mail"
+            android:textColorHint="@color/colorDivider"
+            android:textColor="@color/colorSecondaryText"
+            android:focusable="true"
+            android:maxLength="30"
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@null" />
+
+    </RelativeLayout>
+
+    <View style="@style/activity_detail_divider"
+        android:layout_marginBottom="0dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/ibSave"
+            style="@style/image_button_dialog"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

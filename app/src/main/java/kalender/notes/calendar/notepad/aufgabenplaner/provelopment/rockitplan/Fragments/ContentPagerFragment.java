@@ -32,10 +32,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DatePickerDialog;
@@ -43,6 +40,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Di
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.MyTimePickerDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimePagerInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
@@ -79,6 +77,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
 
     // Inferface
     ContentInterface mContentInterface;
+    PremiumInterface mPremiumInterface;
 
     @Nullable
     @Override
@@ -121,30 +120,9 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
             public void onClick(View v) {
                 int currentContent = mViewPager.getCurrentItem();
                 if (etAddContent.getText().toString().matches("")) {
-                    mContentInterface.createContent(mCategory, currentContent, MyConstants.DETAIL_GENERAL);
+                    mContentInterface.createContent(mCategory, currentContent, MyConstants.DETAIL_GENERAL, "", null, null, true);
                 } else {
-                    mDatabaseHelper.incrementContentCounter();
-                    switch (currentContent) {
-                        case MyConstants.CONTENT_TASK:
-                            Task task = new Task(mCategory.getId(), mCategory.getTitle());
-                            task.setTitle(etAddContent.getText().toString());
-                            task.setDate(mFastDate);
-                            task.setTime(mFastTime);
-                            mDatabaseHelper.createTask(task);
-                            break;
-                        case MyConstants.CONTENT_EVENT:
-                            Event event = new Event(mCategory.getId(), mCategory.getTitle());
-                            event.setTitle(etAddContent.getText().toString());
-                            event.setDate(mFastDate);
-                            event.setTime(mFastTime);
-                            mDatabaseHelper.createEvent(event);
-                            break;
-                        case MyConstants.CONTENT_NOTE:
-                            Note note = new Note(mCategory.getId(), mCategory.getTitle());
-                            note.setTitle(etAddContent.getText().toString());
-                            mDatabaseHelper.createNote(note);
-                            break;
-                    }
+                    mContentInterface.createContent(mCategory, currentContent, MyConstants.DETAIL_GENERAL, etAddContent.getText().toString(), mFastDate, mFastTime, false);
                     mViewPagerAdapter.getFragment(currentContent).setAdapterUp();
                 }
                 resetFastAdd();
@@ -225,6 +203,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     public void onAttach(Context context) {
         super.onAttach(context);
         mContentInterface = (ContentInterface)context;
+        mPremiumInterface = (PremiumInterface) context;
     }
 
     private void handleQuickAddComponent(int contentType) {
@@ -274,35 +253,40 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_sort) {
-            String notSortedByPriority = "";
-            final int currentItem = mViewPager.getCurrentItem();
-            boolean sortedByPriority = false;
-            switch (mViewPager.getCurrentItem()) {
-                case MyConstants.CONTENT_TASK:
-                    sortedByPriority = mCategory.isTaskSortedByPriority();
-                    mCategory.setTaskSortedByPriority(!sortedByPriority);
-                    mDatabaseHelper.updateCategory(mCategory);
-                    notSortedByPriority = getString(R.string.sorted_by_due_date);
-                    break;
-                case MyConstants.CONTENT_EVENT:
-                    sortedByPriority = mCategory.isEventSortedByPriority();
-                    mCategory.setEventSortedByPriority(!sortedByPriority);
-                    mDatabaseHelper.updateCategory(mCategory);
-                    notSortedByPriority = getString(R.string.sorted_by_due_date);
-                    break;
-                case MyConstants.CONTENT_NOTE:
-                    sortedByPriority = mCategory.isNoteSortedByPriority();
-                    mCategory.setNoteSortedByPriority(!sortedByPriority);
-                    mDatabaseHelper.updateCategory(mCategory);
-                    notSortedByPriority = getString(R.string.sorted_by_time_of_creation);
-                    break;
-            }
-            mViewPagerAdapter.getFragment(currentItem).setAdapterUp();
-            if (!sortedByPriority) {
-                Toast.makeText(getActivity(), getString(R.string.sorted_by_priority), Toast.LENGTH_LONG).show();
+            if (mPremiumInterface.isPremium()) {
+                String notSortedByPriority = "";
+                final int currentItem = mViewPager.getCurrentItem();
+                boolean sortedByPriority = false;
+                switch (mViewPager.getCurrentItem()) {
+                    case MyConstants.CONTENT_TASK:
+                        sortedByPriority = mCategory.isTaskSortedByPriority();
+                        mCategory.setTaskSortedByPriority(!sortedByPriority);
+                        mDatabaseHelper.updateCategory(mCategory);
+                        notSortedByPriority = getString(R.string.sorted_by_due_date);
+                        break;
+                    case MyConstants.CONTENT_EVENT:
+                        sortedByPriority = mCategory.isEventSortedByPriority();
+                        mCategory.setEventSortedByPriority(!sortedByPriority);
+                        mDatabaseHelper.updateCategory(mCategory);
+                        notSortedByPriority = getString(R.string.sorted_by_due_date);
+                        break;
+                    case MyConstants.CONTENT_NOTE:
+                        sortedByPriority = mCategory.isNoteSortedByPriority();
+                        mCategory.setNoteSortedByPriority(!sortedByPriority);
+                        mDatabaseHelper.updateCategory(mCategory);
+                        notSortedByPriority = getString(R.string.sorted_by_time_of_creation);
+                        break;
+                }
+                mViewPagerAdapter.getFragment(currentItem).setAdapterUp();
+                if (!sortedByPriority) {
+                    Toast.makeText(getActivity(), getString(R.string.sorted_by_priority), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), notSortedByPriority, Toast.LENGTH_LONG).show();
+                }
             } else {
-                Toast.makeText(getActivity(), notSortedByPriority, Toast.LENGTH_LONG).show();
+                mPremiumInterface.openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_sort), getString(R.string.premium_expired));;
             }
+
             return true;
         }
         return false;

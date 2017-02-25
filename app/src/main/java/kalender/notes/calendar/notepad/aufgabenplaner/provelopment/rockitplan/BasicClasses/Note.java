@@ -13,6 +13,8 @@ public class Note extends Content{
         mPriority = 0;
         mDescription = "";
         mPicturePath = null;
+        mVideoPath = null;
+        mAudioPath = null;
     }
 
     public Note () {

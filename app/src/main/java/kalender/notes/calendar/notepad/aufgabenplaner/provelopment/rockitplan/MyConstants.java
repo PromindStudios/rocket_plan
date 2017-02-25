@@ -7,6 +7,10 @@ public class MyConstants {
 
     // General
     public static final String UPDATE = "Update__";
+    public static final String TITLE = "title";
+    public static final String SUBTITLE = "subtitle";
+    public static final String TEXT = "text";
+
 
     // Classes
     public static final String DATABASE_HELPER = "Database Helper: ";
@@ -59,8 +63,9 @@ public class MyConstants {
 
     // Detail
     public static final int DETAIL_GENERAL = 0;
-    public static final int DETAIL_FILES = 1;
-    public static final int DETAIL_SUBTASK = 2;
+    public static final int DETAIL_FILES = 2;
+    public static final int DETAIL_SUBTASK = 1;
+    public static final int DETAIL_DETAILS = 1;
     public static final String DETAIL_TYPE = "detail_type";
 
     // Time
@@ -129,8 +134,9 @@ public class MyConstants {
 
     // Priority
     public static final int PRIORITY_NONE = 0;
-    public static final int PRIORITY_HIGH = 1;
-    public static final int PRIORITY_VERY_HIGH = 2;
+    public static final int PRIORITY_NORMAL = 1;
+    public static final int PRIORITY_HIGH = 2;
+    public static final int PRIORITY_VERY_HIGH = 3;
 
     // Dialog
     public static final String DIALOGE_TITLE = "dialoge_title";
@@ -138,5 +144,21 @@ public class MyConstants {
 
     // Requests
     public static final int REQUEST_ACTIVITY_SETTINGS = 1;
+    public static final int REQUEST_PURCHASE = 1001;
+    public static final int REQUEST_ACTIVITY_DETAIL = 2;
+    public static final int REQUEST_VIDEO_RECORD = 3;
+
+    // PREMIUM
+    public static final String PREMIUM_SILVER = "rocket_plan_premium_silber";
+    public static final String PREMIUM_GOLD = "rocket_plan_premium_gold";
+    public static final boolean DEVELOPER_PREMIUM_MODE = false;
+    public static final int RESULT_PREMIUM_UPDATE = 8;
+
+    // Image
+    public static final String IMAGE_PATH = "image_path";
+
+    // Video
+    public static final String VIDEO_PATH = "video_path";
+
 
 }

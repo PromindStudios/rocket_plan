@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
@@ -534,7 +534,7 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     private void startDetailActivity(Content content, int type) {
-        Intent intent = new Intent(mContext, DetailActivity.class);
+        Intent intent = new Intent(mContext, TaskEventActivity.class);
         Bundle bundle = new Bundle();
         if (content instanceof Task) {
             bundle.putInt(MyConstants.CONTENT_TYPE, MyConstants.CONTENT_TASK);

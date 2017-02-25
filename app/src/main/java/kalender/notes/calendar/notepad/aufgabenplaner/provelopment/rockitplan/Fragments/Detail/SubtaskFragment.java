@@ -21,6 +21,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditSubtaskDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.SubtaskAdapter;
@@ -40,6 +41,9 @@ public class SubtaskFragment extends Fragment implements AddEditSubtaskDialog.Ad
     ArrayList<Subtask> mSubtasks;
     SubtaskAdapter mAdapter;
 
+    // Interface
+    PremiumInterface mPremiumInterface;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,7 +56,12 @@ public class SubtaskFragment extends Fragment implements AddEditSubtaskDialog.Ad
         rlSubtaskAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openSubtaskDialog();
+                if (mPremiumInterface.isPremium()) {
+                    openSubtaskDialog();
+                } else {
+                    mPremiumInterface.openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_subtasks), getString(R.string.premium_expired));
+                }
+
             }
         });
 
@@ -76,6 +85,7 @@ public class SubtaskFragment extends Fragment implements AddEditSubtaskDialog.Ad
     public void onAttach(Context context) {
         super.onAttach(context);
         mListener = (GeneralFragment.DetailActivityListener)context;
+        mPremiumInterface = (PremiumInterface)context;
     }
 
     @Override
@@ -103,8 +113,12 @@ public class SubtaskFragment extends Fragment implements AddEditSubtaskDialog.Ad
     }
 
     public void closeKeyboard() {
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mRecyclerView.getWindowToken(), 0);
+        try {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mRecyclerView.getWindowToken(), 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {

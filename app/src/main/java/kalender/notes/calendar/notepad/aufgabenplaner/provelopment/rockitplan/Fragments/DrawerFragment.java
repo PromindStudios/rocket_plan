@@ -25,6 +25,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Da
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.LayoutColorDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
@@ -32,7 +33,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Re
 /**
  * Created by eric on 04.04.2016.
  */
-public class DrawerFragment extends Fragment implements AddEditCategoryDialog.AddEditDialogCategoryListener, DeleteContentDialog.DeleteContentDialogListener{
+public class DrawerFragment extends Fragment implements AddEditCategoryDialog.AddEditDialogCategoryListener, DeleteContentDialog.DeleteContentDialogListener {
 
     private RecyclerView mRecyclerView;
     private CategoryAdapter mCategoryAdapter;
@@ -46,6 +47,8 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     SharedPreferences.Editor mEditor;
     com.getbase.floatingactionbutton.FloatingActionButton myFab;
 
+    PremiumInterface mPremiumInterface;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,6 +61,9 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
         ibColor = (ImageButton)layout.findViewById(R.id.ibColor);
         ibSettings = (ImageButton)layout.findViewById(R.id.ibSettings);
+
+        // Initiate Interface
+        mPremiumInterface = (PremiumInterface)getActivity();
 
         // Initiate SharedPreferences
         mSharedPreferences = getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
@@ -98,8 +104,12 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         ibColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutColorDialog dialog = new LayoutColorDialog();
-                dialog.show(getActivity().getSupportFragmentManager(), "layout_color_dialog");
+                if (mPremiumInterface.isPremium()) {
+                    LayoutColorDialog dialog = new LayoutColorDialog();
+                    dialog.show(getActivity().getSupportFragmentManager(), "layout_color_dialog");
+                } else {
+                    mPremiumInterface.openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_colors), getString(R.string.premium_expired));;
+                }
             }
         });
 

@@ -1,6 +1,9 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -12,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.LayoutColorDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
@@ -30,13 +35,15 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     String[] mItemNames;
     int[] mIconIds;
 
-
+    // Interface
+    PremiumInterface mPremiumInterface;
 
     public SettingsAdapter(Context context, FragmentManager fm) {
         mContext = context;
+        mPremiumInterface = (PremiumInterface)context;
         mFragmentManager = fm;
-        mItemNames = new String[]{mContext.getString(R.string.layout_color), mContext.getString(R.string.about_rocket_plan), mContext.getString(R.string.contact_mail), mContext.getString(R.string.rate_app)};
-        mIconIds = new int[]{R.drawable.ic_layout_color, R.drawable.ic_info_24dp, R.drawable.ic_mail, R.drawable.ic_action_star_rate};
+        mItemNames = new String[]{mContext.getString(R.string.layout_color), mContext.getString(R.string.about_rocket_plan), mContext.getString(R.string.contact_mail), mContext.getString(R.string.rate_app), mContext.getString(R.string.rocket_plan_premium)};
+        mIconIds = new int[]{R.drawable.ic_layout_color, R.drawable.ic_info_24dp, R.drawable.ic_mail, R.drawable.ic_thumb_up, R.drawable.ic_action_star_rate};
 
     }
 
@@ -61,7 +68,25 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         dialog.show(mFragmentManager, "dialog_about");
                         break;
                     case 3:
-                        // open Play Store
+                        if (mPremiumInterface.isPremium()) {
+                            Uri uri = Uri.parse("market://details?id=" + mContext.getPackageName());
+                            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                            try {
+                                mContext.startActivity(goToMarket);
+                            } catch (ActivityNotFoundException e) {
+                                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + mContext.getPackageName())));
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (mPremiumInterface.isPremium()) {
+                            Toast.makeText(mContext, mContext.getString(R.string.status_premium), Toast.LENGTH_LONG).show();
+                        } else {
+                            mPremiumInterface.openDialogPremiumFunction(mContext.getString(R.string.rocket_plan_premium), mContext.getString(R.string.premium_running_out_subtitle), mContext.getString(R.string.premium_expired));
+                        }
                         break;
                     default:
                         break;

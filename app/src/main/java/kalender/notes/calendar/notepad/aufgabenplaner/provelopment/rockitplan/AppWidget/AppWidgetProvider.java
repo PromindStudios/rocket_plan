@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.ChooseCategoryActivity;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
@@ -93,7 +93,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
                     }
                 } else {
                     // open taskEvent
-                    Intent intentDetail = new Intent(context, DetailActivity.class);
+                    Intent intentDetail = new Intent(context, TaskEventActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt(MyConstants.CONTENT_TYPE, taskEvent.getContentType());
                     bundle.putInt(MyConstants.CONTENT_ID, taskEvent.getId());

@@ -24,6 +24,11 @@
     <string name="overdue">Overdue</string>
     <string name="time">Time</string>
     <string name="drawer_footer">Developed with passion - promindstudios@gmail.com</string>
+    <string name="coming_soon">Coming soon!</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="information">Information</string>
 
 
     <!-- Week names -->
@@ -36,8 +41,9 @@
     <string name="sunday_short">SU</string>
 
     <!-- Priority -->
-
+    <string name="priority">Priority</string>
     <string name="priority_none">No priority</string>
+    <string name="priority_normal">Normal priority</string>
     <string name="priority_high">High priority</string>
     <string name="priority_very_high">Very high priority</string>
 
@@ -45,6 +51,9 @@
     <string name="title_tabTask">Tasks</string>
     <string name="title_tabEvent">Events</string>
     <string name="title_tabNote">Notes</string>
+    <string name="tab_notes">Notes</string>
+    <string name="tab_details">Details</string>
+    <string name="tab_key_data">General</string>
 
     <!-- Help -->
     <string name="help_add_category_and_welcome">
@@ -102,10 +111,10 @@
     <string name="detail_title_deadline">Deadline</string>
     <string name="detail_title_reminder">Reminder</string>
     <string name="detail_title_priority">Priority</string>
-    <string name="detail_subtext_date">Choose a date</string>
-    <string name="detail_subtext_time">Choose a time</string>
-    <string name="detail_subtext_repetition">Choose a repetition</string>
-    <string name="detail_subtext_reminder">Choose a reminder</string>
+    <string name="detail_subtext_date">Date</string>
+    <string name="detail_subtext_time">Time</string>
+    <string name="detail_subtext_repetition">Repetition</string>
+    <string name="detail_subtext_reminder">Choose a eminder</string>
     <string name="detail_subtext_priority">High priority</string>
     <string name="task_due_today">This task is due today</string>
     <string name="task_due_tomorrow">This task is due tomorrow</string>
@@ -114,8 +123,9 @@
 
     <!-- Tasks - Files -->
     <string name="detail_description_empty">Add a description</string>
-    <string name="detail_description_title">Description</string>
-    <string name="detail_description_hint">Enter a description...</string>
+    <string name="detail_description">Description</string>
+    <string name="detail_description_hint">Description</string>
+    <string name="detail_image">Image</string>
     <string name="picture_edit">Take a new picture</string>
 
     <!-- Tasks - Subtasks -->
@@ -212,7 +222,7 @@ Eric
     <string name="color_layout_six">Pink</string>
 
     <!-- Reminder -->
-    <string name="add_reminder">Add a reminder</string>
+    <string name="add_reminder">Reminder</string>
     <string name="before">before</string>
     <string name="reminder_minute">Minute</string>
     <string name="reminder_hour">Hour</string>
@@ -267,5 +277,52 @@ Eric
     <string name="about_rocket_plan">About Rocket-Plan</string>
     <string name="rate_app">Rate Rocket-Plan</string>
     <string name="contact_mail">promindstudios@gmail.com</string>
+
+    <!-- Premium -->
+    <string name="rocket_plan_premium">Rocket-Plan | Premium</string>
+    <string name="premium_running_out_subtitle">Thank you for your support</string>
+    <string name="premium_purchase_successful">Your premium purchase was successful!</string>
+    <string name="premium_function">Premium function</string>
+    <string name="premium_expired">Your free premium version has expired. You are now using Rocket-Plan with limited functionality.
+        Subscribe to the monthly annullable premium version and enjoy full functionality again!</string>
+    <string name="premium_support_subtitle">Your support has an impact!</string>
+    <string name="premium_support_text">Through subscribing to Rocket-Plan - Premium you are supporting the development of this app. At the end it all comes down to the old fashioned trade.
+        Let me prove you that it is worth it through constantly improving Rocket-Plan for you! Your creative input is always welcome!\n\n
+
+        Cheers,\n\n
+
+        Eric - Promind Studios
+    </string>
+    <string name="premium_running_out">Your free premium version of Rocket-Plan is running out. After that you cannot use all of the
+    functionality Rocket-Plan has to offer for you. \n\n However you have the chance to subscribe to the monthly annullable premium version of Rocket-Plan and enjoy full functionality! </string>
+    <string name="premium_later">Later</string>
+    <string name="premium_now">Premium</string>
+    <string name="status_premium">You are currently using the premium version of Rocket-Plan</string>
+
+
+    <!-- Premium Silver functions -->
+    <string name="premium_silver_colors">Layout Colors</string>
+    <string name="premium_silver_overview">Overview</string>
+    <string name="premium_silver_calendar">Calendar</string>
+    <string name="premium_silver_sort">Sort</string>
+    <string name="premium_silver_priority">Priority</string>
+    <string name="premium_silver_reminder">Reminder</string>
+    <string name="premium_silver_subtasks">Subtasks</string>
+
+    <!-- Audio -->
+    <string name="detail_audio">Voice record</string>
+    <string name="detail_audio_running">Voice record is recording...</string>
+    <string name="detail_audio_play">Play voice record</string>
+    <string name="detail_audio_playing">Voice record is playing...</string>
+
+    <!-- Video -->
+    <string name="detail_video">Video</string>
+    <string name="detail_video_play">Play video</string>
+
+    <!-- Participant -->
+    <string name="detail_participant">Participant</string>
+
+    <!-- Location -->
+    <string name="detail_location">Location</string>
 
 </resources>

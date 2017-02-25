@@ -19,7 +19,7 @@ import android.view.View;
 
 import java.util.Calendar;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
@@ -161,7 +161,7 @@ public class ContentTimeCalendarFragment extends Fragment implements DeleteConte
     }
 
     private void startDetailActivity(Content content, int contentId) {
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        Intent intent = new Intent(getActivity(), TaskEventActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(MyConstants.CONTENT_TYPE, content.getContentType());
         bundle.putInt(MyConstants.CONTENT_ID, contentId);

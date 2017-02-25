@@ -92,7 +92,7 @@ public class ChooseCategoryActivity extends AppCompatActivity {
                 Note note = new Note(categoryId, categoryName);
                 contentId = mDatabaseHelper.createNote(note);
         }
-        Intent intent = new Intent(this, DetailActivity.class);
+        Intent intent = new Intent(this, TaskEventActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
         bundle.putInt(MyConstants.CONTENT_ID, contentId);

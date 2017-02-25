@@ -34,7 +34,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 /**
  * Created by eric on 26.05.2016.
  */
-public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SubtaskFragment.ItemTouchHelperAdapter{
+public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SubtaskFragment.ItemTouchHelperAdapter {
 
     private final int TYPE_ADD = 0;
     private final int TYPE_SUBTASK = 1;
@@ -49,7 +49,6 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     FragmentManager mFragmentManager;
     Category mCategory;
 
-
     public SubtaskAdapter(Context context, ArrayList<Subtask> subtasks, DatabaseHelper databaseHelper, SubtaskFragment subtaskTaskFragment, int taskId, FragmentManager fragmentManager, Category category) {
         mContext = context;
         mDatabaseHelper = databaseHelper;
@@ -57,7 +56,7 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mCategoryColor = new CategoryColor(context, category.getColor());
         mSubtasks = subtasks;
         mLayoutInflater = LayoutInflater.from(mContext);
-        mFragment = (Fragment)subtaskTaskFragment;
+        mFragment = (Fragment) subtaskTaskFragment;
         mTaskId = taskId;
         mFragmentManager = fragmentManager;
     }
@@ -111,23 +110,22 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-            SubtaskAdapter.myViewHolder myHolder = (SubtaskAdapter.myViewHolder)holder;
-            Subtask subtask = mSubtasks.get(position);
-            myHolder.tvTitle.setText(subtask.getTitle());
-            myHolder.cbSubtask.setChecked(subtask.isDone());
+        SubtaskAdapter.myViewHolder myHolder = (SubtaskAdapter.myViewHolder) holder;
+        Subtask subtask = mSubtasks.get(position);
+        myHolder.tvTitle.setText(subtask.getTitle());
+        myHolder.cbSubtask.setChecked(subtask.isDone());
 
-            if (subtask.isDone()) {
-                myHolder.tvTitle.setPaintFlags(myHolder.tvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
-                myHolder.tvTitle.setPaintFlags(myHolder.tvTitle.getPaintFlags() & ( ~ Paint.STRIKE_THRU_TEXT_FLAG));
-            }
+        if (subtask.isDone()) {
+            myHolder.tvTitle.setPaintFlags(myHolder.tvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            myHolder.tvTitle.setPaintFlags(myHolder.tvTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
 
-            if (android.os.Build.VERSION.SDK_INT >= 21) {
-                myHolder.cbSubtask.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(mContext, mCategoryColor.getCategoryColor())));
-            } else {
-                int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
-                myHolder.cbSubtask.setButtonDrawable(id);
-
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            myHolder.cbSubtask.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(mContext, mCategoryColor.getCategoryColor())));
+        } else {
+            int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
+            myHolder.cbSubtask.setButtonDrawable(id);
         }
     }
 
@@ -138,7 +136,7 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-            return TYPE_SUBTASK;
+        return TYPE_SUBTASK;
     }
 
     public void updateData() {
@@ -164,7 +162,7 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         */
 
-        Log.i("EEY"+fromPosition, ""+toPosition);
+        Log.i("EEY" + fromPosition, "" + toPosition);
         Collections.swap(mSubtasks, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         for (Subtask subtask : mSubtasks) {
@@ -179,7 +177,7 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    static class myViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+    static class myViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
         TextView tvTitle;
         AppCompatCheckBox cbSubtask;
@@ -189,9 +187,9 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public myViewHolder(View itemView, myViewHolderClickListener listener) {
             super(itemView);
             mListener = listener;
-            tvTitle = (TextView)itemView.findViewById(R.id.tvTitleSubtask);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitleSubtask);
             cbSubtask = (AppCompatCheckBox) itemView.findViewById(R.id.cbSubtask);
-            ivRemoveSubtask = (AppCompatImageView)itemView.findViewById(R.id.ivRemoveSubtask);
+            ivRemoveSubtask = (AppCompatImageView) itemView.findViewById(R.id.ivRemoveSubtask);
             tvTitle.setOnClickListener(this);
             cbSubtask.setOnCheckedChangeListener(this);
             ivRemoveSubtask.setOnClickListener(this);
@@ -222,11 +220,13 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public static interface myViewHolderClickListener {
             public void editSubtask(int position);
-            public void removeSubtask (int position);
-            public void checkSubtask (int position, boolean isChecked);
+
+            public void removeSubtask(int position);
+
+            public void checkSubtask(int position, boolean isChecked);
         }
     }
-    }
+}
 
 
 

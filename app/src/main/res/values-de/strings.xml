@@ -25,6 +25,11 @@
     <string name="overdue">Überfällig</string>
     <string name="time">Uhrzeit</string>
     <string name="drawer_footer">Developed with passion - promindstudios@gmail.com</string>
+    <string name="coming_soon">In der aktiven Entwicklung und bald verfügbar!</string>
+    <string name="name">Name</string>
+    <string name="phone">Telefon</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="information">Informationen</string>
 
     <!-- Week names -->
     <string name="monday_short">MO</string>
@@ -37,7 +42,9 @@
 
     <!-- Priority -->
 
+    <string name="priority">Priorität</string>
     <string name="priority_none">Keine Priorität</string>
+    <string name="priority_normal">Normale Priorität</string>
     <string name="priority_high">Hohe Priorität</string>
     <string name="priority_very_high">Sehr hohe Priorität</string>
 
@@ -45,6 +52,9 @@
     <string name="title_tabTask">Aufgaben</string>
     <string name="title_tabEvent">Termine</string>
     <string name="title_tabNote">Notizen</string>
+    <string name="tab_notes">Notizen</string>
+    <string name="tab_details">Details</string>
+    <string name="tab_key_data">Allgemein</string>
 
     <!-- Help -->
     <string name="help_add_category_and_welcome">
@@ -101,9 +111,9 @@
     <string name="detail_title_deadline">Deadline</string>
     <string name="detail_title_reminder">Erinnerung</string>
     <string name="detail_title_priority">Priorität</string>
-    <string name="detail_subtext_date">Wähle ein Datum</string>
-    <string name="detail_subtext_time">Wähle eine Uhrzeit</string>
-    <string name="detail_subtext_repetition">Wähle eine Wiederholung</string>
+    <string name="detail_subtext_date">Datum</string>
+    <string name="detail_subtext_time">Uhrzeit</string>
+    <string name="detail_subtext_repetition">Wiederholung</string>
     <string name="detail_subtext_reminder">Wähle eine Erinnerung</string>
     <string name="detail_subtext_priority">Hohe Priorität</string>
     <string name="task_due_today">Diese Aufgabe ist heute fällig</string>
@@ -112,8 +122,9 @@
 
     <!-- Tasks - Files -->
     <string name="detail_description_empty">Erstelle eine Beschreibung</string>
-    <string name="detail_description_title">Beschreibung</string>
-    <string name="detail_description_hint">Erstelle eine Beschreibung...</string>
+    <string name="detail_description">Beschreibung</string>
+    <string name="detail_description_hint">Description</string>
+    <string name="detail_image">Bild</string>
     <string name="picture_edit">Erstelle ein neues Bild</string>
 
     <!-- Tasks - Subtasks -->
@@ -210,7 +221,7 @@ Eric
     <string name="color_layout_six">Rosa</string>
 
     <!-- Reminder -->
-    <string name="add_reminder">Erinnerung hinzufügen</string>
+    <string name="add_reminder">Erinnerung</string>
     <string name="before">vorher</string>
     <string name="reminder_minute">Minute</string>
     <string name="reminder_hour">Stunde</string>
@@ -225,7 +236,7 @@ Eric
 
     <!-- Repeat -->
     <string name="repetition">Wiederholung</string>
-    <string name="add_repeat">Wiederholung hinzufügen</string>
+    <string name="add_repeat">Wiederholung</string>
     <string name="repetition_hourly">Stündlich</string>
     <string name="repetition_daily">Tägliche Wiederholung</string>
     <string name="repetition_weekly">Wöchentliche Wiederholung</string>
@@ -265,5 +276,54 @@ Eric
     <string name="about_rocket_plan">Über Rocket-Plan</string>
     <string name="rate_app">Rocket-Plan bewerten</string>
     <string name="contact_mail">promindstudios@gmail.com</string>
+
+    <!-- Premium -->
+    <string name="rocket_plan_premium">Rocket-Plan | Premium</string>
+    <string name="premium_running_out_subtitle">Danke für Deine Unterstützung</string>
+    <string name="premium_purchase_successful">Ab sofort nutzt du wieder Rocket-Plan | Premium!</string>
+    <string name="premium_function">Premium Funktion</string>
+    <string name="premium_expired">Deine kostenlose Premium Version ist abgelaufen. Aktuell nutzt du Rocket-Plan mit eingeschränkter Funktionalität.
+        Abonniere die monatlich kündbare Premium Version und arbeite wieder mit dem vollen Funktionsumfang von Rocket-Plan!
+        </string>
+    <string name="premium_support_subtitle">Deine Unterstützung zählt!</string>
+    <string name="premium_support_text">Durch das Abonnieren von Rocket-Plan unterstützt Du die Entwicklung dieser App nachhaltig. Am Ende führt alles zurück auf den klassischen Handel.
+        Gib mir die Chance Dir zu beweisen, dass es das Geld wert ist, indem ich Rocket-Plan für Dich kontinuierlich verbessere! Deine kreativen Ideen sind jederzeit willkommen! \n\n
+
+        Cheers,\n\n
+
+        Eric - Promind Studios
+    </string>
+    <string name="premium_running_out">Deine kostenlose Premium Version von Rocket-Plan läuft bald aus. Danach kannst du nicht mehr mit dem vollen Funktionsumfang von Rocket-Plan arbeiten.
+        Du hast jedoch die Möglichkeit die monatlich kündbare Premium Version zu abonnieren, um wieder alle Funktionen uneingeschränkt nutzen zu können. </string>
+    <string name="premium_later">Später</string>
+    <string name="premium_now">Premium</string>
+    <string name="status_premium">Du nutzt aktuell die Premium Version von Rocket-Plan</string>
+
+
+    <!-- Premium Silver functions -->
+    <string name="premium_silver_colors">Layout Farben</string>
+    <string name="premium_silver_overview">Übersicht</string>
+    <string name="premium_silver_calendar">Kalender</string>
+    <string name="premium_silver_sort">Sortieren</string>
+    <string name="premium_silver_priority">Priorität</string>
+    <string name="premium_silver_reminder">Erinnerungen</string>
+    <string name="premium_silver_subtasks">Teilaufgaben</string>
+
+    <!-- Audio -->
+    <string name="detail_audio">Sprachaufnahme</string>
+    <string name="detail_audio_running">Sprachaufnahme wird aufgenommen</string>
+    <string name="detail_audio_play">Sprachaufnahme abspielen</string>
+    <string name="detail_audio_playing">Sprachaufnahme wird abgespielt...</string>
+
+    <!-- Video -->
+    <string name="detail_video">Video</string>
+    <string name="detail_video_play">Video abspielen</string>
+
+    <!-- Participant -->
+    <string name="detail_participant">Teilnehemer</string>
+
+    <!-- Location -->
+    <string name="detail_location">Standort</string>
+
 
 </resources>

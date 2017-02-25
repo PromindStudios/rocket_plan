@@ -119,7 +119,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/edit_text_title"
+            style="@style/activity_detail_text"
             android:id="@+id/etAddContent"
             android:layout_toRightOf="@id/rlAddDate"
             android:layout_toLeftOf="@id/fabAdd"

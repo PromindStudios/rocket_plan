@@ -9,8 +9,6 @@ import java.util.Calendar;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 
-import static android.media.CamcorderProfile.get;
-
 /**
  * Created by Admin on 11.07.2016.
  */
@@ -36,6 +34,8 @@ public class TaskEvent extends Content {
         mPriority = 0;
         mDescription = "";
         mPicturePath = null;
+        mVideoPath = null;
+        mAudioPath = null;
         mDone = false;
     }
 

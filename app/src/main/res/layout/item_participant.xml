@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivParticipantIcon"
+        style="@style/activity_detail_image_view_add"
+        android:src="@drawable/ic_person_18dp"
+        android:tint="@color/colorSecondaryText" />
+
+    <ImageView
+        android:id="@+id/ivParticipantRemove"
+        style="@style/activity_detail_image_view_remove"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tvParticipant"
+        style="@style/activity_detail_text"
+        android:layout_toRightOf="@id/ivParticipantIcon"
+        android:layout_toLeftOf="@id/ivParticipantRemove"
+        android:text="Eric Schumacher" />
+
+</RelativeLayout>

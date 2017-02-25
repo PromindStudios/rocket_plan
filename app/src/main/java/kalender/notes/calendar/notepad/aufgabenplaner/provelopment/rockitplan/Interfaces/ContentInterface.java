@@ -1,5 +1,7 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces;
 
+import java.util.Calendar;
+
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 
 /**
@@ -7,6 +9,6 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
  */
 
 public interface ContentInterface {
-    public void createContent(Category category, int contentType, int detailType);
+    public void createContent(Category category, int contentType, int detailType, String title, Calendar date, Calendar time, boolean startDetailActivity);
     public void selectCategory(int contentType);
 }

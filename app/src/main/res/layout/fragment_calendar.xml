@@ -119,7 +119,7 @@
             app:backgroundTint="@color/colorPrimary"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_icon="@drawable/ic_event_24dp"
+            fab:fab_icon="@drawable/ic_event_text_24dp"
             fab:fab_title="@string/event" />
 
         <kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton

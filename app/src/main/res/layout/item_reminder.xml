@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlReminder"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/item_reminder_height"
-    android:id="@+id/rlReminder">
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_remove_18dp"
-        android:tint="@color/colorDivider"
-        android:layout_alignParentRight="true"
         android:id="@+id/ivRemoveReminder"
-        android:layout_centerVertical="true"/>
+        style="@style/activity_detail_image_view_remove" />
+
+    <ImageView
+        android:id="@+id/ivReminder"
+        style="@style/activity_detail_image_view_add"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_reminder_18dp" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@id/ivRemoveReminder"
-        android:gravity="center_vertical"
-        android:text="8 Tage vorher"
-        android:textSize="@dimen/text_size_detail_subtitle"
         android:id="@+id/tvReminder"
-        android:textColor="@color/colorSecondaryText"/>
+        style="@style/activity_detail_text"
+        android:layout_toLeftOf="@id/ivRemoveReminder"
+        android:layout_toRightOf="@id/ivReminder"
+        android:text="8 Tage vorher" />
 
 </RelativeLayout>

@@ -46,5 +46,19 @@
     <dimen name="text_view_size_calendar_day">12sp</dimen>
     <dimen name="calendar_dialog_item_height">48dp</dimen>
 
+    <!-- Dialog text sizes -->
+    <dimen name="dialog_title">18sp</dimen>
+    <dimen name="dialog_text">14sp</dimen>
+
+    <!-- Activity Detail -->
+    <dimen name="item_detail_height">72dp</dimen>
+    <dimen name="activity_detail_margin_vertical_default">14dp</dimen>
+    <dimen name="activity_detail_margin_horizontal_default">16dp</dimen>
+    <dimen name="activity_detail_vertical_padding_header">24dp</dimen>
+
+    <!-- Navigation Drawer -->
+    <dimen name="navigation_drawer_margin_vertical_default">16dp</dimen>
+
+
 
 </resources>

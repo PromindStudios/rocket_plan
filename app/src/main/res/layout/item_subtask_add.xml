@@ -2,17 +2,22 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height_subtask"
-    android:padding="16dp"
     android:id="@+id/rlSubtaskAdd"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/ivAddSubtask"
-        style="@style/image_view_detail_add"/>
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_add_18dp"
+        android:tint="@color/colorDivider"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/tvSubtasksAdd"
         style="@style/text_detail_subtasks_add"
+        android:paddingLeft="16dp"
         android:layout_toRightOf="@id/ivAddSubtask"/>
 
 </RelativeLayout>

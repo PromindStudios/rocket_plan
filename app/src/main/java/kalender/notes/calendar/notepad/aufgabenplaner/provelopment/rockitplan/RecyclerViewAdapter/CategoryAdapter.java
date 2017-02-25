@@ -30,6 +30,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Da
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
@@ -58,6 +59,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     LayoutColor mLayoutColor;
 
     CategoryAdapterListener mCategoryAdapterListener;
+    ContentInterface mContentInterface;
 
     public CategoryAdapter(Context context, ArrayList<Category> categories, DatabaseHelper databaseHelper, DrawerFragment drawerFragment, FragmentManager fragmentManager) {
         mContext = context;
@@ -68,6 +70,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mDrawerFragment = drawerFragment;
         mFragmentManager = fragmentManager;
         mCategoryAdapterListener = (MainActivity) mContext;
+        mContentInterface =  (MainActivity) mContext;
     }
 
     @Override
@@ -111,7 +114,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         }
 
                         if (contentSize == 0) {
-                            mCategoryAdapterListener.onCreateNewContent(category.getId(), category.getTitle(), contentType);
+                            mContentInterface.createContent(category, contentType, MyConstants.DETAIL_GENERAL, "", null, null, true);
                         } else {
                             mCategoryAdapterListener.ItemCategorySelected(category.getId(), category.getTitle(), contentType);
                         }
@@ -120,7 +123,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onContentAdd(int position, int contentType) {
                         Category category = getCorrectCategory(position);
-                        mCategoryAdapterListener.onCreateNewContent(category.getId(), category.getTitle(), contentType);
+                        mContentInterface.createContent(category, contentType, MyConstants.DETAIL_GENERAL, "", null, null, true);
                     }
 
                     @Override
@@ -537,8 +540,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public interface CategoryAdapterListener {
         public void ItemCategorySelected(int categoryId, String categoryName, int contentType);
-
-        public void onCreateNewContent(int categoryId, String categoryName, int contentTyp);
 
         public void onTimeClicked();
 

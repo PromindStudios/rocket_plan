@@ -109,6 +109,7 @@
 
     <!-- Edit Texts -->
 
+    <!--
     <style name="edit_text_title">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -118,6 +119,7 @@
         <item name="android:layout_marginBottom">@dimen/detail_margin_bottom</item>
         <item name="android:background">@color/colorTransparent</item>
     </style>
+    -->
 
     <style name="edit_text_description">
         <item name="android:layout_width">match_parent</item>
@@ -150,21 +152,7 @@
 
     <!-- Image Views | Detail -->
 
-    <style name="image_view_detail_add" parent="image_view">
-        <item name="android:src">@drawable/ic_add_18dp</item>
-        <item name="android:layout_marginRight">@dimen/detail_view_left_margin_right</item>
-        <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:tint">@color/colorDivider</item>
-    </style>
 
-    <style name="image_view_detail_remove" parent="image_view">
-        <item name="android:src">@drawable/ic_remove_18dp</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:tint">@color/colorDivider</item>
-    </style>
 
     <style name="image_view_detail_picture" parent="image_view">
         <item name="android:layout_width">match_parent</item>
@@ -409,5 +397,72 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
     </style>
+
+    <!-- Activity Detail -->
+
+    <style name="activity_detail_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColorHint">@color/colorDivider</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@color/colorTransparent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingTop">@dimen/activity_detail_margin_vertical_default</item>
+        <item name="android:paddingBottom">@dimen/activity_detail_margin_vertical_default</item>
+    </style>
+
+    <style name="activity_detail_text_choose" parent="activity_detail_text">
+        <item name="android:textColor">@color/colorDivider</item>
+
+    </style>
+
+    <style name="activity_detail_image_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorTransparent</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingTop">@dimen/activity_detail_margin_vertical_default</item>
+        <item name="android:paddingBottom">@dimen/activity_detail_margin_vertical_default</item>
+        <item name="android:layout_centerVertical">true</item>
+
+    </style>
+
+    <style name="activity_detail_image_view_add" parent="activity_detail_image_view">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:src">@drawable/ic_add_18dp</item>
+    </style>
+
+    <style name="activity_detail_image_view_icon" parent="activity_detail_image_view">
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+    <style name="activity_detail_image_view_remove" parent="activity_detail_image_view">
+        <item name="android:src">@drawable/ic_remove_18dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:tint">@color/colorDivider</item>
+    </style>
+
+    <style name="activity_detail_divider">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/colorDivider</item>
+        <item name="android:layout_marginBottom">@dimen/activity_detail_margin_vertical_default</item>
+        <item name="android:layout_marginTop">@dimen/activity_detail_margin_vertical_default</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+    </style>
+
+    <!-- CheckBox -->
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+
+
 
 </resources>

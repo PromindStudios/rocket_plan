@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.ArrayList;
+
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.DetailsFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.FilesFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.GeneralFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.SubtaskFragment;
@@ -21,10 +24,13 @@ public class DetailViewPagerAdapter extends FragmentStatePagerAdapter{
     FilesFragment mFilesFragment;
     GeneralFragment mGeneralFragment;
     SubtaskFragment mSubtaskFragment;
+    DetailsFragment mDetailFragment;
+    ArrayList<Fragment> mFragmentList;
 
 
     public DetailViewPagerAdapter(FragmentManager fm, int tabNumber, int contentType) {
         super(fm);
+        mFragmentList = new ArrayList<>();
         mTabNumber = tabNumber;
         mContentType = contentType;
     }
@@ -37,30 +43,47 @@ public class DetailViewPagerAdapter extends FragmentStatePagerAdapter{
             case 0:
                 mGeneralFragment = new GeneralFragment();
                 mGeneralFragment.setArguments(bundle);
+                mFragmentList.add(position, mGeneralFragment);
                 return mGeneralFragment;
             case 1:
-                mFilesFragment = new FilesFragment();
-                mFilesFragment.setArguments(bundle);
-                return mFilesFragment;
+                if (mContentType == MyConstants.CONTENT_TASK) {
+                    mSubtaskFragment = new SubtaskFragment();
+                    mSubtaskFragment.setArguments(bundle);
+                    mFragmentList.add(position, mSubtaskFragment);
+                    return mSubtaskFragment;
+                } else {
+                    mDetailFragment = new DetailsFragment();
+                    mDetailFragment.setArguments(bundle);
+                    mFragmentList.add(position, mDetailFragment);
+                    return mDetailFragment;
+                }
             case 2:
-                mSubtaskFragment = new SubtaskFragment();
-                mSubtaskFragment.setArguments(bundle);
-                return mSubtaskFragment;
+                mFilesFragment = new FilesFragment();
+                mFragmentList.add(position, mFilesFragment);
+                return mFilesFragment;
+
             default:
                 return null;
         }
     }
 
+    public Fragment getInstance(int position) {
+        return mFragmentList.get(position);
+    }
+
     public void handleFocus(int position) {
         if (position == MyConstants.DETAIL_GENERAL) {
-            mGeneralFragment.handleFocus();
+            if (mGeneralFragment != null) mGeneralFragment.handleFocus();
         }
         if (position == MyConstants.DETAIL_FILES) {
-            mFilesFragment.handleFocus();
+            if (mFilesFragment != null) mFilesFragment.handleFocus();
         }
         if (position == MyConstants.DETAIL_SUBTASK) {
             if (mSubtaskFragment != null) {
                 mSubtaskFragment.closeKeyboard();
+            }
+            if (mDetailFragment != null) {
+                mDetailFragment.closeKeyboard();
             }
 
         }

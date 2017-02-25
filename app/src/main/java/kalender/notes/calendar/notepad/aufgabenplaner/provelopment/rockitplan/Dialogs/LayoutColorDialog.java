@@ -151,7 +151,7 @@ public class LayoutColorDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 databaseHelper.setLayoutColorValue(layoutColor[0]);
-                mSettingsActivityListener.refreshActivity();
+                mSettingsActivityListener.refreshLayoutColor();
                 LayoutColorDialog.this.getDialog().cancel();
             }
         });

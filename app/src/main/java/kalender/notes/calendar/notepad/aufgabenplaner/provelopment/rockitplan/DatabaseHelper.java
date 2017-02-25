@@ -17,6 +17,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Participant;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Reminder;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Subtask;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
@@ -35,6 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION_4 = 4; // 23.11.16 - updating Category Table & Subtask Table --> POSITION
     private static final int DATABASE_VERSION_5 = 5; // 24.11.16 - updating Note Tabble --> POSITION & updating Category Table --> TASK_SORTET_BY_PRIORITY, EVENT_SORTET_BY_PRIORITY, NOTE_SORTET_BY_PRIORITY
     private static final int DATABASE_VERSION_6 = 6; // 15.01.17 - creating Personal Tabble
+    private static final int DATABASE_VERSION_7 = 7; // 30.01.17 - updating Personal Tabble --> PREMIUM_SILVER, PREMIUM_GOLD
+    private static final int DATABASE_VERSION_8 = 8; // 24.02.17 - adding Participant Table
 
     // Database & Table Names
     private static final String DATABASE_NAME = "database_rocketplan";
@@ -45,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_SUBTASK = "table_subtask";
     private static final String TABLE_REMINDER = "table_reminder";
     private static final String TABLE_PERSONAL = "table_personal";
+    private static final String TABLE_PARTICIPANT = "table_participant";
 
     // Common column names
     private static final String ID = "id";
@@ -94,6 +98,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String USER_PASSWORD = "user_password";
     private static final String LAYOUT_COLOR = "layout_color";
     private static final String CONTENT_COUNTER = "content_counter";
+    private static final String PREMIUM_SILVER = "premium_silver";
+    private static final String PREMIUM_GOLD = "premium_gold";
+
+    // Table participant names
+    private static final String PARTICIPANT_NAME = "participant_name";
+    private static final String PARTICIPANT_PHONE = "participant_phone";
+    private static final String PARTICIPANT_EMAIL = "participant_email";
+    private static final String PARTICIPANT_INFORMATION = "participant_information";
+
 
     Context mContext;
 
@@ -125,7 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_NOTE = "CREATE TABLE " + TABLE_NOTE +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER," + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," +
-            PRIORITY + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT," + POSITION + " INTEGER"+")";
+            PRIORITY + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT," + POSITION + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_SUBTASK = "CREATE TABLE " + TABLE_SUBTASK +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TITLE + " TEXT," + SUBTASK_DONE + " INTEGER," + POSITION + " INTEGER" + ")";
@@ -134,11 +147,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TYPE_CONTENT + " INTEGER," + TYPE_REMINDER + " INTEGER," + VALUE_REMINDER + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_PERSONAL = "CREATE TABLE " + TABLE_PERSONAL +
-            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + USER_ID + " INTEGER," + USER_NAME + " TEXT," + USER_MAIL + " TEXT," + USER_PASSWORD + " TEXT," + LAYOUT_COLOR + " INTEGER," + CONTENT_COUNTER + " INTEGER" + ")";
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + USER_ID + " INTEGER," + USER_NAME + " TEXT," + USER_MAIL + " TEXT," + USER_PASSWORD + " TEXT," + LAYOUT_COLOR + " INTEGER," + CONTENT_COUNTER + " INTEGER," + PREMIUM_SILVER + " INTEGER," + PREMIUM_GOLD + " INTEGER" + ")";
+
+    private static final String CREATE_TABLE_PARTICIPANT = "CREATE TABLE " + TABLE_PARTICIPANT +
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + PARTICIPANT_NAME + " TEXT," + PARTICIPANT_PHONE + " INTEGER," + PARTICIPANT_INFORMATION + " TEXT," + PARTICIPANT_EMAIL + " TEXT" + ")";
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION_6);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_7);
         mContext = context;
     }
 
@@ -173,7 +189,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         if (oldVersion < 6) {
-            db.execSQL(CREATE_TABLE_PERSONAL);
+            try {
+                db.execSQL(CREATE_TABLE_PERSONAL);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (oldVersion < 7) {
+            try {
+                String upgradeQuery = "ALTER TABLE " + TABLE_PERSONAL + " ADD " + PREMIUM_SILVER + " INTEGER";
+                db.execSQL(upgradeQuery);
+                String upgradeQuery2 = "ALTER TABLE " + TABLE_PERSONAL + " ADD " + PREMIUM_GOLD + " INTEGER";
+                db.execSQL(upgradeQuery2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (oldVersion < 8) {
+            db.execSQL(CREATE_TABLE_PARTICIPANT);
         }
     }
 
@@ -185,6 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SUBTASK);
         db.execSQL(CREATE_TABLE_REMINDER);
         db.execSQL(CREATE_TABLE_PERSONAL);
+        db.execSQL(CREATE_TABLE_PARTICIPANT);
     }
 
     private void deleteAllTables(SQLiteDatabase db) {
@@ -217,7 +251,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
 
-
     }
 
     // Category methods
@@ -235,7 +268,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(EVENT_SORTED_BY_PRIORITY, category.isEventSortedByPriority() ? 1 : 0);
         values.put(NOTE_SORTED_BY_PRIORITY, category.isNoteSortedByPriority() ? 1 : 0);
         long id = db.insert(TABLE_CATEGORY, null, values);
-        Log.i("Kategorie erstellen..", ""+id);
+        Log.i("Kategorie erstellen..", "" + id);
 
     }
 
@@ -383,6 +416,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PRIORITY, task.getPriority());
         values.put(DESCRIPTION, task.getDescription());
         values.put(FILE_PICTURE, task.getPicturePath());
+        values.put(FILE_VIDEO, task.getVideoPath());
+        values.put(FILE_VOICE, task.getAudioPath());
         values.put(CONTENT_DONE, task.isDone() ? 1 : 0);
         values.put(TASK_EVENT_REPETITION_TYPE, task.getRepetitionType());
         values.put(TASK_EVENT_REPETITION_VALUE, task.getRepetitionValue());
@@ -425,6 +460,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         task.setPriority(c.getInt(c.getColumnIndex(PRIORITY)));
         task.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
         task.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
+        task.setVideoPath(c.getString(c.getColumnIndex(FILE_VIDEO)));
+        task.setAudioPath(c.getString(c.getColumnIndex(FILE_VOICE)));
         task.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
         task.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
         task.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
@@ -468,7 +505,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             });
         }
 
-        return  tasks;
+        return tasks;
     }
 
     public ArrayList<Content> getAllDoneTasks(int category_id, boolean isSortedByPriority) {
@@ -488,7 +525,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             });
         }
 
-        return  tasks;
+        return tasks;
     }
 
 
@@ -519,6 +556,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 task.setPriority(c.getInt(c.getColumnIndex(PRIORITY)));
                 task.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
                 task.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
+                task.setVideoPath(c.getString(c.getColumnIndex(FILE_VIDEO)));
+                task.setAudioPath(c.getString(c.getColumnIndex(FILE_VOICE)));
                 task.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
                 task.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
                 task.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
@@ -556,6 +595,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PRIORITY, task.getPriority());
         values.put(DESCRIPTION, task.getDescription());
         values.put(FILE_PICTURE, task.getPicturePath());
+        values.put(FILE_VIDEO, task.getVideoPath());
+        values.put(FILE_VOICE, task.getAudioPath());
         values.put(CONTENT_DONE, task.isDone() ? 1 : 0);
         values.put(TASK_EVENT_REPETITION_TYPE, task.getRepetitionType());
         values.put(TASK_EVENT_REPETITION_VALUE, task.getRepetitionValue());
@@ -608,6 +649,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PRIORITY, event.getPriority());
         values.put(DESCRIPTION, event.getDescription());
         values.put(FILE_PICTURE, event.getPicturePath());
+        values.put(FILE_VIDEO, event.getVideoPath());
+        values.put(FILE_VOICE, event.getAudioPath());
         values.put(CONTENT_DONE, event.isDone() ? 1 : 0);
         values.put(TASK_EVENT_REPETITION_TYPE, event.getRepetitionType());
         values.put(TASK_EVENT_REPETITION_VALUE, event.getRepetitionValue());
@@ -650,6 +693,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         event.setPriority(c.getInt(c.getColumnIndex(PRIORITY)));
         event.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
         event.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
+        event.setVideoPath(c.getString(c.getColumnIndex(FILE_VIDEO)));
+        event.setAudioPath(c.getString(c.getColumnIndex(FILE_VOICE)));
         event.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
         event.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
         event.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
@@ -745,6 +790,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 event.setPriority(c.getInt(c.getColumnIndex(PRIORITY)));
                 event.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
                 event.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
+                event.setVideoPath(c.getString(c.getColumnIndex(FILE_VIDEO)));
+                event.setAudioPath(c.getString(c.getColumnIndex(FILE_VOICE)));
                 event.setDone(c.getInt(c.getColumnIndex(CONTENT_DONE)) == 1);
                 event.setRepetitionType(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_TYPE)));
                 event.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
@@ -785,6 +832,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PRIORITY, event.getPriority());
         values.put(DESCRIPTION, event.getDescription());
         values.put(FILE_PICTURE, event.getPicturePath());
+        values.put(FILE_VIDEO, event.getVideoPath());
+        values.put(FILE_VOICE, event.getAudioPath());
         values.put(CONTENT_DONE, event.isDone() ? 1 : 0);
         values.put(TASK_EVENT_REPETITION_TYPE, event.getRepetitionType());
         values.put(TASK_EVENT_REPETITION_VALUE, event.getRepetitionValue());
@@ -826,6 +875,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PRIORITY, note.getPriority());
         values.put(DESCRIPTION, note.getDescription());
         values.put(FILE_PICTURE, note.getPicturePath());
+        values.put(FILE_VIDEO, note.getVideoPath());
+        values.put(FILE_VOICE, note.getAudioPath());
         long note_id = db.insert(TABLE_NOTE, null, values);
         return (int) note_id;
     }
@@ -850,6 +901,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         note.setPriority(c.getInt(c.getColumnIndex(PRIORITY)));
         note.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
         note.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
+        note.setVideoPath(c.getString(c.getColumnIndex(FILE_VIDEO)));
+        note.setAudioPath(c.getString(c.getColumnIndex(FILE_VOICE)));
         note.setContentType(MyConstants.CONTENT_NOTE);
         note.setTable(TABLE_NOTE);
 
@@ -875,6 +928,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 note.setPriority(c.getInt(c.getColumnIndex(PRIORITY)));
                 note.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
                 note.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
+                note.setVideoPath(c.getString(c.getColumnIndex(FILE_VIDEO)));
+                note.setAudioPath(c.getString(c.getColumnIndex(FILE_VOICE)));
                 note.setContentType(MyConstants.CONTENT_NOTE);
                 note.setTable(TABLE_NOTE);
                 notes.add(note);
@@ -902,6 +957,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 note.setPriority(c.getInt(c.getColumnIndex(PRIORITY)));
                 note.setDescription(c.getString(c.getColumnIndex(DESCRIPTION)));
                 note.setPicturePath(c.getString(c.getColumnIndex(FILE_PICTURE)));
+                note.setVideoPath(c.getString(c.getColumnIndex(FILE_VIDEO)));
+                note.setAudioPath(c.getString(c.getColumnIndex(FILE_VOICE)));
                 note.setContentType(MyConstants.CONTENT_NOTE);
                 note.setTable(TABLE_NOTE);
                 notes.add(note);
@@ -932,6 +989,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PRIORITY, note.getPriority());
         values.put(DESCRIPTION, note.getDescription());
         values.put(FILE_PICTURE, note.getPicturePath());
+        values.put(FILE_VIDEO, note.getVideoPath());
+        values.put(FILE_VOICE, note.getAudioPath());
         db.update(TABLE_NOTE, values, ID + " =?", new String[]{String.valueOf(note.getId())});
     }
 
@@ -987,7 +1046,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteContent(int id, int contentType) {
         SQLiteDatabase db = getWritableDatabase();
-        deletePictures(id, contentType);
+        deleteMedia(id, contentType);
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
                 db.delete(TABLE_TASK, ID + " = ?", new String[]{String.valueOf(id)});
@@ -1015,6 +1074,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PRIORITY, content.getPriority());
         values.put(DESCRIPTION, content.getDescription());
         values.put(FILE_PICTURE, content.getPicturePath());
+        values.put(FILE_VIDEO, content.getVideoPath());
+        values.put(FILE_VOICE, content.getAudioPath());
         if (contentType == MyConstants.CONTENT_EVENT || contentType == MyConstants.CONTENT_TASK) {
             TaskEvent taskEvent = (TaskEvent) content;
             if (taskEvent.getDate() == null) {
@@ -1441,7 +1502,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getLayoutColorValue() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT "+LAYOUT_COLOR+" FROM "+TABLE_PERSONAL+" WHERE "+ ID + " = 1";
+        String selectQuery = "SELECT " + LAYOUT_COLOR + " FROM " + TABLE_PERSONAL + " WHERE " + ID + " = 1";
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.getCount() > 0) {
             c.moveToFirst();
@@ -1460,13 +1521,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void incrementContentCounter() {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
         db.execSQL("UPDATE " + TABLE_PERSONAL + " SET " + CONTENT_COUNTER + "=" + CONTENT_COUNTER + "+1" + " WHERE " + ID + " = 1");
     }
 
     public int getContentCounterValue() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT "+CONTENT_COUNTER+" FROM "+TABLE_PERSONAL+" WHERE "+ ID + " = 1";
+        String selectQuery = "SELECT " + CONTENT_COUNTER + " FROM " + TABLE_PERSONAL + " WHERE " + ID + " = 1";
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.getCount() > 0) {
             c.moveToFirst();
@@ -1476,9 +1536,113 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean hasPremiumSilver() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT " + PREMIUM_SILVER + " FROM " + TABLE_PERSONAL + " WHERE " + ID + " = 1";
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            return c.getInt(c.getColumnIndex(PREMIUM_SILVER)) == 1;
+        } else {
+            return false;
+        }
+    }
+
+    public void setPremiumSilver(boolean hasPremium) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PREMIUM_SILVER, hasPremium ? 1 : 0);
+        db.update(TABLE_PERSONAL, values, ID + "=?", new String[]{String.valueOf(1)});
+    }
+
+    // Participant methods
+
+    public int createParticipant(Participant participant) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ID_CONTENT, participant.getContentId());
+        values.put(PARTICIPANT_NAME, participant.getName());
+        values.put(PARTICIPANT_PHONE, participant.getPhone());
+        values.put(PARTICIPANT_EMAIL, participant.getEmail());
+        values.put(PARTICIPANT_INFORMATION, participant.getInformation());
+
+        long participant_id = db.insert(TABLE_PARTICIPANT, null, values);
+
+        return (int)participant_id;
+    }
+
+    public Participant getParticipant(int participant_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_PARTICIPANT + " WHERE " + ID + " = " + participant_id;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Participant participant = new Participant();
+        participant.setId(c.getInt(c.getColumnIndex(ID)));
+        participant.setContentId(c.getInt(c.getColumnIndex(ID_CONTENT)));
+        participant.setName(c.getString(c.getColumnIndex(PARTICIPANT_NAME)));
+        participant.setEmail(c.getString(c.getColumnIndex(PARTICIPANT_EMAIL)));
+        participant.setInformation(c.getString(c.getColumnIndex(PARTICIPANT_INFORMATION)));
+        participant.setPhone(c.getInt(c.getColumnIndex(PARTICIPANT_PHONE)));
+
+        return participant;
+    }
+
+    public ArrayList<Participant> getAllContentParticipants(int content_id) {
+        ArrayList<Participant> participants = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_PARTICIPANT + " WHERE " + ID_CONTENT + " = " + content_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Participant participant = new Participant();
+                participant.setId(c.getInt(c.getColumnIndex(ID)));
+                participant.setContentId(c.getInt(c.getColumnIndex(ID_CONTENT)));
+                participant.setName(c.getString(c.getColumnIndex(PARTICIPANT_NAME)));
+                participant.setEmail(c.getString(c.getColumnIndex(PARTICIPANT_EMAIL)));
+                participant.setInformation(c.getString(c.getColumnIndex(PARTICIPANT_INFORMATION)));
+                participant.setPhone(c.getInt(c.getColumnIndex(PARTICIPANT_PHONE)));
+                participants.add(participant);
+            } while (c.moveToNext());
+        }
+        return participants;
+    }
+
+    public void updateParticipant(Participant participant) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ID_CONTENT, participant.getContentId());
+        values.put(PARTICIPANT_NAME, participant.getName());
+        values.put(PARTICIPANT_PHONE, participant.getPhone());
+        values.put(PARTICIPANT_EMAIL, participant.getEmail());
+        values.put(PARTICIPANT_INFORMATION, participant.getInformation());
+
+        db.update(TABLE_PARTICIPANT, values, ID + " =?", new String[]{String.valueOf(participant.getId())});
+
+    }
+
+    public void deleteParticipant(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_PARTICIPANT, ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void deleteContentParticipant(int contentId) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_PARTICIPANT, ID_CONTENT + " = ?", new String[]{String.valueOf(contentId)});
+    }
+
+
+
     // Others
 
-    public void deletePictures(int id, int contentType) {
+    public void deleteMedia(int id, int contentType) {
         Content content = null;
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
@@ -1495,12 +1659,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             File file = new File(content.getPicturePath());
             file.delete();
         }
+        if (content.getVideoPath() != null) {
+            File file = new File(content.getVideoPath());
+            file.delete();
+        }
+        if (content.getAudioPath() != null) {
+            File file = new File(content.getAudioPath());
+            file.delete();
+        }
     }
 
     public boolean checkIfDayHasAnyContent(Calendar calendar) {
         SQLiteDatabase db = this.getReadableDatabase();
         Log.i("Calendar in Millis: ", Long.toString(calendar.getTimeInMillis()));
-        String selectQueryTask = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis()+" AND "+CONTENT_DONE +" = 0";
+        String selectQueryTask = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis() + " AND " + CONTENT_DONE + " = 0";
         Cursor c = db.rawQuery(selectQueryTask, null);
 
         /*
@@ -1519,7 +1691,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
 
-        String selectQueryEvent = "SELECT * FROM " + TABLE_EVENT + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis()+" AND "+CONTENT_DONE +" = 0";
+        String selectQueryEvent = "SELECT * FROM " + TABLE_EVENT + " WHERE " + TASK_EVENT_DATE + " = " + calendar.getTimeInMillis() + " AND " + CONTENT_DONE + " = 0";
         Cursor c2 = db.rawQuery(selectQueryEvent, null);
         if (c2.getCount() > 0) {
             Log.i("Wir haben", "einen Termin hier!");

@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.DetailActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.NoteActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.ContentHelper;
@@ -261,13 +262,16 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     private void startDetailActivity (Content content, int type) {
-        Intent intent = new Intent(mContext, DetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt(MyConstants.CONTENT_TYPE, mContentType);
         bundle.putInt(MyConstants.CONTENT_ID, content.getId());
-        bundle.putInt(MyConstants.DETAIL_TYPE, type);
-        intent.putExtras(bundle);
-        mMainActivity.startActivity(intent);
+        bundle.putInt(MyConstants.CONTENT_TYPE, mContentType);
+
+        if (mContentType == MyConstants.CONTENT_NOTE) {
+            mMainActivity.startActivity(new Intent(mContext, NoteActivity.class).putExtras(bundle));
+        } else {
+            bundle.putInt(MyConstants.DETAIL_TYPE, type);
+            mMainActivity.startActivity(new Intent(mContext, TaskEventActivity.class).putExtras(bundle));
+        }
     }
 
 }
