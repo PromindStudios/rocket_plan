@@ -29,6 +29,8 @@
 
     <!-- Fab -->
     <dimen name="fab_icon_size">24dp</dimen>
+    <dimen name="design_fab_size_normal">50dp</dimen>
+    <dimen name="design_fab_size_mini">30dp</dimen>
 
     <!-- Reminder -->
     <dimen name="item_reminder_height">48dp</dimen>
@@ -57,7 +59,8 @@
     <dimen name="activity_detail_vertical_padding_header">24dp</dimen>
 
     <!-- Navigation Drawer -->
-    <dimen name="navigation_drawer_margin_vertical_default">16dp</dimen>
+    <dimen name="navigation_drawer_margin_vertical_default">14dp</dimen>
+    <dimen name="navigation_drawer_margin_vertical_small">10dp</dimen>
 
 
 

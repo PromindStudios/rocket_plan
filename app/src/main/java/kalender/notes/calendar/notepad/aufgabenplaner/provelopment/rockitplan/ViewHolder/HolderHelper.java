@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Subtask;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
@@ -43,6 +44,15 @@ public class HolderHelper {
         mContentType = content.getContentType();
         Drawable contentIcon = null;
 
+        boolean detailsVisible;
+        // Visibility
+        if (isTime) {
+            detailsVisible = mContext.getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).getBoolean(MyConstants.VISIBILITY_DETAILS_TIME_PAGER, true);
+        } else {
+            detailsVisible = mContext.getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).getBoolean(MyConstants.VISIBILITY_DETAILS_CONTENT_PAGER, true);
+        }
+
+
         if (mContentType == MyConstants.CONTENT_TASK) {
             task = (Task) content;
             taskEvent = (TaskEvent) content;
@@ -58,25 +68,31 @@ public class HolderHelper {
         }
 
         // Category
-        vhContent.ivCategory.setVisibility(View.VISIBLE);
-        Category category = mDatabaseHelper.getCategory(content.getCategoryId());
-        CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
-        vhContent.ivCategory.setBackgroundColor(ResourcesCompat.getColor(mContext.getResources(), categoryColor.getCategoryColorLight(), null));
+        if (isTime && detailsVisible) {
+            vhContent.ivCategory.setVisibility(View.VISIBLE);
+            Category category = mDatabaseHelper.getCategory(content.getCategoryId());
+            CategoryColor categoryColor = new CategoryColor(mContext, category.getColor());
+            vhContent.ivCategory.setBackgroundColor(ResourcesCompat.getColor(mContext.getResources(), categoryColor.getCategoryColorLight(), null));
+        }
+
+
+        // Layout Color
+        LayoutColor layoutColor = new LayoutColor(mContext, mDatabaseHelper.getLayoutColorValue());
 
         // Priority
         vhContent.ivContent.setVisibility(View.VISIBLE);
         switch (content.getPriority()) {
-            case MyConstants.PRIORITY_NONE:
-                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorSecondaryText, null), PorterDuff.Mode.MULTIPLY);
+            case 2:
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), layoutColor.getLayoutColorId(), null), PorterDuff.Mode.MULTIPLY);
                 break;
             case MyConstants.PRIORITY_NORMAL:
                 contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.colorSecondaryText, null), PorterDuff.Mode.MULTIPLY);
                 break;
             case MyConstants.PRIORITY_HIGH:
-                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.layout_color_light_five, null), PorterDuff.Mode.MULTIPLY);
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), layoutColor.getLayoutColorId(), null), PorterDuff.Mode.MULTIPLY);
                 break;
-            case MyConstants.PRIORITY_VERY_HIGH:
-                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), R.color.layout_color_light_one, null), PorterDuff.Mode.MULTIPLY);
+            case 3:
+                contentIcon.mutate().setColorFilter(ResourcesCompat.getColor(mContext.getResources(), layoutColor.getLayoutColorId(), null), PorterDuff.Mode.MULTIPLY);
                 break;
         }
         vhContent.ivContent.setImageDrawable(contentIcon);
@@ -86,7 +102,7 @@ public class HolderHelper {
 
 
         // Files
-        if (content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals("")) {
+        if ((content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals("")) && detailsVisible) {
             vhContent.llFiles.setVisibility(View.VISIBLE);
             Log.i("Zeige File", "doch" + content.getDescription());
         } else {
@@ -153,14 +169,15 @@ public class HolderHelper {
         }
 
         // Subtasks
-        if (mContentType == MyConstants.CONTENT_TASK) {
+        if (mContentType == MyConstants.CONTENT_TASK && detailsVisible) {
             ArrayList<Subtask> subtasks = new ArrayList<>();
             subtasks = mDatabaseHelper.getAllContentSubtasks(task.getId());
 
             if (subtasks.size() > 0) {
                 vhContent.tvSubtask.setVisibility(View.VISIBLE);
-                vhContent.ivSubtask.setVisibility(View.VISIBLE);
-                vhContent.llSubtask.setPadding(0,0, MyMethods.dpToPx(mContext, 16), 0);
+                vhContent.ivSubtaskDetails.setVisibility(View.VISIBLE);
+                vhContent.ivSubtaskDetails.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_subtask_16dp, null));
+                vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 16), 0);
                 ArrayList<Subtask> doneSubtasks = new ArrayList<>();
                 for (Subtask subtask : subtasks) {
                     if (subtask.isDone()) {
@@ -172,13 +189,26 @@ public class HolderHelper {
                 vhContent.tvSubtask.setText(dSubtasks + " / " + aSubtasks);
             } else {
                 vhContent.tvSubtask.setVisibility(View.GONE);
-                vhContent.ivSubtask.setVisibility(View.GONE);
-                vhContent.llSubtask.setPadding(0,0,0,0);
+                vhContent.ivSubtaskDetails.setVisibility(View.GONE);
+                vhContent.llSubtaskDetails.setPadding(0,0,0,0);
             }
         } else {
             vhContent.tvSubtask.setVisibility(View.GONE);
-            vhContent.ivSubtask.setVisibility(View.GONE);
-            vhContent.llSubtask.setPadding(0,0,0,0);
+            vhContent.ivSubtaskDetails.setVisibility(View.GONE);
+            vhContent.llSubtaskDetails.setPadding(0,0,0,0);
+        }
+
+        // Details
+        if (mContentType == MyConstants.CONTENT_EVENT && detailsVisible) {
+            if ((event.getLocation() != null && !event.getLocation().equals("")) || mDatabaseHelper.getAllContentParticipants(event.getId()).size() > 0) {
+                vhContent.ivSubtaskDetails.setVisibility(View.VISIBLE);
+                vhContent.ivSubtaskDetails.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_details_16dp, null));
+                vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 16), 0);
+            } else {
+                vhContent.tvSubtask.setVisibility(View.GONE);
+                vhContent.llSubtaskDetails.setPadding(0,0,0,0);
+            }
+
         }
     }
 }

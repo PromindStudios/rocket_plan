@@ -5,9 +5,17 @@
 
     <item
         android:title="CHOOSE"
-        android:icon="@drawable/ic_sort_24dp"
-        android:id="@+id/menu_item_sort"
+        android:icon="@drawable/ic_visibility_24dp"
+        android:id="@+id/menu_item_visibility"
         app:showAsAction="ifRoom">
     </item>
+
+    <item
+    android:title="CHOOSE"
+    android:icon="@drawable/ic_sort_24dp"
+    android:id="@+id/menu_item_sort"
+    app:showAsAction="ifRoom">
+</item>
+
 
 </menu>

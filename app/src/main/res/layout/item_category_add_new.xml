@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/rlCategoryAdd"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        style="@style/navigation_drawer_image_view_icon"
+        android:src="@drawable/ic_add_24dp"
+        android:tint="@color/colorDivider"
+        android:id="@+id/ivCategoryAddIcon"/>
+
+    <TextView
+        style="@style/navigation_drawer_text_view"
+        android:id="@+id/tvCategory"
+        android:textColor="@color/colorDivider"
+        android:layout_toRightOf="@id/ivCategoryAddIcon"
+        android:text="@string/add_category"/>
+
+</RelativeLayout>

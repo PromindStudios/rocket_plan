@@ -29,7 +29,9 @@
     <string name="name">Name</string>
     <string name="phone">Telefon</string>
     <string name="e_mail">E-Mail</string>
+    <string name="sms">SMS</string>
     <string name="information">Informationen</string>
+    <string name="home">Home</string>
 
     <!-- Week names -->
     <string name="monday_short">MO</string>

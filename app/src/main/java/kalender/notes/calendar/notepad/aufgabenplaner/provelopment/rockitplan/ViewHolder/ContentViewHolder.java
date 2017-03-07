@@ -21,7 +21,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
     public TextView tvSubtitle;
     public TextView tvSubtask;
 
-    public ImageView ivSubtask;
+    public ImageView ivSubtaskDetails;
     public ImageView ivFiles;
     public ImageView ivContent;
     public ImageView ivRepeat;
@@ -30,7 +30,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
     public LinearLayout llSubtitleDate;
     public LinearLayout llContent;
     public LinearLayout llFiles;
-    public LinearLayout llSubtask;
+    public LinearLayout llSubtaskDetails;
 
     public View vSubtitleDateDivider;
     public View vDivider;
@@ -45,7 +45,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
         tvSubtitle = (TextView) itemView.findViewById(R.id.tvSubtitle);
         tvSubtask = (TextView) itemView.findViewById(R.id.tvSubtask);
 
-        ivSubtask = (ImageView) itemView.findViewById(R.id.ivSubtask);
+        ivSubtaskDetails = (ImageView) itemView.findViewById(R.id.ivSubtaskDetails);
         ivFiles = (ImageView) itemView.findViewById(R.id.ivFiles);
         ivContent = (ImageView) itemView.findViewById(R.id.ivContent);
         ivRepeat = (ImageView) itemView.findViewById(R.id.ivRepeat);
@@ -54,13 +54,13 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
         llSubtitleDate = (LinearLayout) itemView.findViewById(R.id.llSubtitleDate);
         llContent = (LinearLayout) itemView.findViewById(R.id.llContent);
         llFiles = (LinearLayout) itemView.findViewById(R.id.llFiles);
-        llSubtask = (LinearLayout) itemView.findViewById(R.id.llSubtask);
+        llSubtaskDetails = (LinearLayout) itemView.findViewById(R.id.llSubtaskDetails);
         vSubtitleDateDivider = itemView.findViewById(R.id.vSubtitleDateDivider);
         vDivider = itemView.findViewById(R.id.divider);
 
         llContent.setOnClickListener(this);
         llFiles.setOnClickListener(this);
-        llSubtask.setOnClickListener(this);
+        llSubtaskDetails.setOnClickListener(this);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
         if (v.getId() == R.id.llFiles) {
             mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_FILES);
         }
-        if (v.getId() == R.id.llSubtask) {
+        if (v.getId() == R.id.llSubtaskDetails) {
             mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_SUBTASK);
         }
     }

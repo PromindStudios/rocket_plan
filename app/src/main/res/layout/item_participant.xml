@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginRight="8dp">
 
     <ImageView
         android:id="@+id/ivParticipantIcon"
@@ -11,15 +12,34 @@
         android:tint="@color/colorSecondaryText" />
 
     <ImageView
-        android:id="@+id/ivParticipantRemove"
-        style="@style/activity_detail_image_view_remove"
+        android:id="@+id/ivParticipantMail"
+        android:src="@drawable/ic_mail_18dp"
+        android:tint="@color/colorSecondaryText"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="24dp"
         android:layout_alignParentRight="true" />
+
+    <ImageView
+        android:id="@+id/ivParticipantPhone"
+        android:layout_toLeftOf="@id/ivParticipantMail"
+        android:src="@drawable/ic_phone_18dp"
+        android:tint="@color/colorSecondaryText"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"/>
 
     <TextView
         android:id="@+id/tvParticipant"
         style="@style/activity_detail_text"
         android:layout_toRightOf="@id/ivParticipantIcon"
-        android:layout_toLeftOf="@id/ivParticipantRemove"
+        android:layout_toLeftOf="@id/ivParticipantPhone"
         android:text="Eric Schumacher" />
 
 </RelativeLayout>

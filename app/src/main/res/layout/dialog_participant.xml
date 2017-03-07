@@ -2,113 +2,121 @@
 <LinearLayout style="@style/linearLayout_dialog"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        style="@style/text_view_dialog_title"
-        />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:id="@+id/rlTitle">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person_18dp"
+            android:tint="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:id="@+id/ivPerson"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_medium"
+            android:layout_toRightOf="@id/ivPerson"
+            android:text="@string/detail_participant"
+            />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ivName"
-            style="@style/activity_detail_image_view_add"
-            android:tint="@color/colorDivider"/>
 
-        <EditText
-            android:id="@+id/etName"
-            style="@style/activity_detail_text_choose"
-            android:layout_toRightOf="@id/ivName"
-            android:inputType="textCapSentences"
-            android:maxLength="30"
-            android:hint="@string/name"
-            android:textColorHint="@color/colorDivider"
-            android:textColor="@color/colorSecondaryText"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:textCursorDrawable="@null" />
+            android:id="@+id/rlName"
+            android:layout_marginTop="16dp"
+            android:focusableInTouchMode="true">
+
+            <ImageView
+                android:id="@+id/ivName"
+                style="@style/activity_detail_image_view_add"
+                android:tint="@color/colorDivider"/>
+
+            <EditText
+                android:id="@+id/etName"
+                style="@style/activity_detail_text_choose"
+                android:layout_toRightOf="@id/ivName"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionDone"
+                android:maxLength="30"
+                android:hint="@string/name"
+                android:textColorHint="@color/colorDivider"
+                android:textColor="@color/colorSecondaryText"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:textCursorDrawable="@null" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:layout_below="@id/rlName"
+            android:visibility="gone"
+            android:id="@+id/rvParticipantDialog"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlName"
+            android:id="@+id/rlMetaData">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+
+                android:id="@+id/rlInformation"
+                android:focusableInTouchMode="true">
+
+                <ImageView
+                    android:id="@+id/ivInformation"
+                    style="@style/activity_detail_image_view_add"
+                    android:tint="@color/colorDivider"/>
+
+                <EditText
+                    android:id="@+id/etInformation"
+                    style="@style/activity_detail_text_choose"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:layout_toRightOf="@id/ivInformation"
+                    android:hint="@string/information"
+                    android:textColorHint="@color/colorDivider"
+                    android:textColor="@color/colorSecondaryText"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:textCursorDrawable="@null"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <ImageView
-            android:id="@+id/ivInformation"
-            style="@style/activity_detail_image_view_add"
-            android:tint="@color/colorDivider"/>
-
-        <EditText
-            android:id="@+id/etInformation"
-            style="@style/activity_detail_text_choose"
-            android:layout_toRightOf="@id/ivInformation"
-            android:inputType="textCapSentences|textMultiLine"
-            android:hint="@string/information"
-            android:textColorHint="@color/colorDivider"
-            android:textColor="@color/colorSecondaryText"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:textCursorDrawable="@null" />
-
-    </RelativeLayout>
-
-    <View style="@style/activity_detail_divider" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <ImageView
-            android:id="@+id/ivPhone"
-            style="@style/activity_detail_image_view_add"
-            android:tint="@color/colorDivider"/>
-
-        <EditText
-            android:id="@+id/etPhone"
-            style="@style/activity_detail_text_choose"
-            android:layout_toRightOf="@id/ivPhone"
-            android:inputType="number"
-            android:hint="@string/phone"
-            android:textColorHint="@color/colorDivider"
-            android:textColor="@color/colorSecondaryText"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:textCursorDrawable="@null" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <ImageView
-            android:id="@+id/ivEmail"
-            style="@style/activity_detail_image_view_add"
-            android:tint="@color/colorDivider"/>
-
-        <EditText
-            android:id="@+id/etEmail"
-            style="@style/activity_detail_text_choose"
-            android:layout_toRightOf="@id/ivEmail"
-            android:hint="@string/e_mail"
-            android:textColorHint="@color/colorDivider"
-            android:textColor="@color/colorSecondaryText"
-            android:focusable="true"
-            android:maxLength="30"
-            android:focusableInTouchMode="true"
-            android:textCursorDrawable="@null" />
-
-    </RelativeLayout>
 
     <View style="@style/activity_detail_divider"
         android:layout_marginBottom="0dp"/>
@@ -121,9 +129,18 @@
         android:gravity="center_vertical">
 
         <ImageButton
+            android:id="@+id/ibDelete"
+            style="@style/image_button_dialog"
+            android:src="@drawable/ic_delete_18dp"
+            android:tint="@color/red_delete"
+            />
+
+        <ImageButton
             android:id="@+id/ibSave"
             style="@style/image_button_dialog"
             />
+
+
 
     </LinearLayout>
 

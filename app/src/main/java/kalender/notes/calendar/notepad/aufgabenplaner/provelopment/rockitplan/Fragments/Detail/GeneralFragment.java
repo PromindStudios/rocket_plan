@@ -320,7 +320,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         rlPriority.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CharSequence[] items = {getActivity().getString(R.string.priority_none), getActivity().getString(R.string.priority_normal), getActivity().getString(R.string.priority_high), getActivity().getString(R.string.priority_very_high)};
+                CharSequence[] items = {getActivity().getString(R.string.priority_normal), getActivity().getString(R.string.priority_high)};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -574,13 +574,13 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     private void handlePriority(int priority) {
         switch (priority) {
             case 0:
-                setImageView(ivAddPriority, R.drawable.ic_add_18dp, R.color.colorDivider);
-                tvPriority.setText(getString(R.string.priority));
-                tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
-                break;
-            case 1:
                 setImageView(ivAddPriority, R.drawable.ic_priority_18dp, R.color.colorSecondaryText);
                 tvPriority.setText(getString(R.string.priority_normal));
+                tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
+                break;
+            case 1:
+                setImageView(ivAddPriority, R.drawable.ic_priority_18dp, R.color.color_priority_high);
+                tvPriority.setText(getString(R.string.priority_high));
                 tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
                 break;
             case 2:
@@ -589,8 +589,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
                 tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
                 break;
             case 3:
-                setImageView(ivAddPriority, R.drawable.ic_priority_18dp, R.color.color_priority_very_high);
-                tvPriority.setText(getString(R.string.priority_very_high));
+                setImageView(ivAddPriority, R.drawable.ic_priority_18dp, R.color.color_priority_high);
+                tvPriority.setText(getString(R.string.priority_high));
                 tvPriority.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
                 break;
             default:

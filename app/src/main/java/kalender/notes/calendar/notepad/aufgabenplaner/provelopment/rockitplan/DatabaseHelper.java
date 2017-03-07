@@ -38,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION_6 = 6; // 15.01.17 - creating Personal Tabble
     private static final int DATABASE_VERSION_7 = 7; // 30.01.17 - updating Personal Tabble --> PREMIUM_SILVER, PREMIUM_GOLD
     private static final int DATABASE_VERSION_8 = 8; // 24.02.17 - adding Participant Table
+    private static final int DATABASE_VERSION_9 = 9; // 01.03.17 - adding Location to Event Table
 
     // Database & Table Names
     private static final String DATABASE_NAME = "database_rocketplan";
@@ -87,6 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TASK_EVENT_LOCATION_LONGITUDE = "task_event_location_longitude";
     private static final String TASK_EVENT_LOCATION_LATITUDE = "task_event_location_latitude";
 
+
     // Reminder column names
     private static final String TYPE_REMINDER = "type_reminder";
     private static final String VALUE_REMINDER = "value_reminder";
@@ -103,18 +105,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table participant names
     private static final String PARTICIPANT_NAME = "participant_name";
-    private static final String PARTICIPANT_PHONE = "participant_phone";
-    private static final String PARTICIPANT_EMAIL = "participant_email";
+    private static final String PARTICIPANT_CONTACT_ID = "participant_contact_id";
     private static final String PARTICIPANT_INFORMATION = "participant_information";
 
 
     Context mContext;
 
-
     // Task column names
 
     // Event column names
-
     private static final String EVENT_DATETIME_END = "event_datetime_end";
     private static final String EVENT_LOCATION = "event_location";
 
@@ -133,7 +132,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_EVENT = "CREATE TABLE " + TABLE_EVENT +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CATEGORY + " INTEGER," + CATEGORY + " TEXT," + TITLE + " TEXT," + SUBTITLE + " TEXT," + TASK_EVENT_DATE + " INTEGER," + TASK_EVENT_TIME + " INTEGER," +
-            TASK_EVENT_DATE_END + " INTEGER," + TASK_EVENT_TIME_END + " INTEGER," + TASK_EVENT_REPETITION_TYPE + " INTEGER," + TASK_EVENT_REPETITION_VALUE + " INTEGER," + PRIORITY + " INTEGER," +
+            TASK_EVENT_DATE_END + " INTEGER," + TASK_EVENT_TIME_END + " INTEGER," + TASK_EVENT_REPETITION_TYPE + " INTEGER," + TASK_EVENT_REPETITION_VALUE + " INTEGER," + PRIORITY + " INTEGER," + EVENT_LOCATION + " TEXT,"+
             TASK_EVENT_LOCATION_LONGITUDE + " INTEGER," + TASK_EVENT_LOCATION_LATITUDE + " INTEGER," + DESCRIPTION + " TEXT," + FILE_PICTURE + " TEXT," + FILE_VIDEO + " TEXT," + FILE_VOICE + " TEXT," + CONTENT_DONE + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_NOTE = "CREATE TABLE " + TABLE_NOTE +
@@ -150,11 +149,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + USER_ID + " INTEGER," + USER_NAME + " TEXT," + USER_MAIL + " TEXT," + USER_PASSWORD + " TEXT," + LAYOUT_COLOR + " INTEGER," + CONTENT_COUNTER + " INTEGER," + PREMIUM_SILVER + " INTEGER," + PREMIUM_GOLD + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_PARTICIPANT = "CREATE TABLE " + TABLE_PARTICIPANT +
-            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + PARTICIPANT_NAME + " TEXT," + PARTICIPANT_PHONE + " INTEGER," + PARTICIPANT_INFORMATION + " TEXT," + PARTICIPANT_EMAIL + " TEXT" + ")";
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + PARTICIPANT_NAME + " TEXT," + PARTICIPANT_CONTACT_ID + " TEXT," + PARTICIPANT_INFORMATION + " TEXT" + ")";
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION_7);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_9);
         mContext = context;
     }
 
@@ -208,6 +207,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 8) {
             db.execSQL(CREATE_TABLE_PARTICIPANT);
         }
+        if (oldVersion < 9) {
+            String upgradeQuery = "ALTER TABLE " + TABLE_EVENT + " ADD " + EVENT_LOCATION + " TEXT";
+            db.execSQL(upgradeQuery);
+        }
+    }
+
+    public void onlyOnce() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PARTICIPANT);
+        db.execSQL(CREATE_TABLE_PARTICIPANT);
     }
 
     private void createTables(SQLiteDatabase db) {
@@ -229,6 +238,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBTASK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONAL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PARTICIPANT);
     }
 
     public void createUser() {
@@ -378,12 +388,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         int id = category.getId();
         db.delete(TABLE_CATEGORY, ID + " = ?", new String[]{String.valueOf(id)});
-        db.delete(TABLE_EVENT, ID_CATEGORY + " = ?", new String[]{String.valueOf(id)});
-        db.delete(TABLE_NOTE, ID_CATEGORY + " = ?", new String[]{String.valueOf(id)});
         ArrayList<Content> tasks = new ArrayList<>();
         tasks = getAllCategoryTasks(id);
         for (Content task : tasks) {
             deleteContent(task.getId(), MyConstants.CONTENT_TASK);
+        }
+        ArrayList<Content> events = new ArrayList<>();
+        events = getAllCategoryEvents(id);
+        for (Content event : events) {
+            deleteContent(event.getId(), MyConstants.CONTENT_EVENT);
+        }
+        ArrayList<Content> notes = new ArrayList<>();
+        notes = getAllCategoryNotes(id, false);
+        for (Content note : notes) {
+            deleteContent(note.getId(), MyConstants.CONTENT_NOTE);
         }
     }
 
@@ -615,10 +633,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteTask(int id) {
         SQLiteDatabase db = getWritableDatabase();
+        deleteMedia(id, MyConstants.CONTENT_TASK);
         db.delete(TABLE_TASK, ID + " = ?", new String[]{String.valueOf(id)});
 
         // delete all connected reminders
-        deleteContentReminder(id, MyConstants.CONTENT_EVENT);
+        deleteContentReminder(id, MyConstants.CONTENT_TASK);
+        deleteContentSubtask(id);
+
     }
 
     public void deleteAllTasks() {
@@ -654,6 +675,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CONTENT_DONE, event.isDone() ? 1 : 0);
         values.put(TASK_EVENT_REPETITION_TYPE, event.getRepetitionType());
         values.put(TASK_EVENT_REPETITION_VALUE, event.getRepetitionValue());
+        values.put(EVENT_LOCATION, event.getLocation());
 
         long event_id = db.insert(TABLE_EVENT, null, values);
 
@@ -700,6 +722,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         event.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
         event.setContentType(MyConstants.CONTENT_EVENT);
         event.setTable(TABLE_EVENT);
+        event.setLocation(c.getString(c.getColumnIndex(EVENT_LOCATION)));
 
         return event;
     }
@@ -797,6 +820,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 event.setRepetitionValue(c.getInt(c.getColumnIndex(TASK_EVENT_REPETITION_VALUE)));
                 event.setContentType(MyConstants.CONTENT_EVENT);
                 event.setTable(TABLE_EVENT);
+                event.setLocation(c.getString(c.getColumnIndex(EVENT_LOCATION)));
                 events.add(event);
             } while (c.moveToNext());
         }
@@ -837,6 +861,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CONTENT_DONE, event.isDone() ? 1 : 0);
         values.put(TASK_EVENT_REPETITION_TYPE, event.getRepetitionType());
         values.put(TASK_EVENT_REPETITION_VALUE, event.getRepetitionValue());
+        values.put(EVENT_LOCATION, event.getLocation());
 
         db.update(TABLE_EVENT, values, ID + " =?", new String[]{String.valueOf(event.getId())});
     }
@@ -852,10 +877,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteEvent(int id) {
         SQLiteDatabase db = getWritableDatabase();
+        deleteMedia(id, MyConstants.CONTENT_EVENT);
         db.delete(TABLE_EVENT, ID + " = ?", new String[]{String.valueOf(id)});
 
         // delete all connected reminders
         deleteContentReminder(id, MyConstants.CONTENT_EVENT);
+
+        // delete all participants
+        deleteContentParticipant(id);
+
     }
 
     public void deleteAllEvents() {
@@ -1005,6 +1035,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteNote(int id) {
         SQLiteDatabase db = getWritableDatabase();
+        deleteMedia(id, MyConstants.CONTENT_NOTE);
         db.delete(TABLE_NOTE, ID + " = ?", new String[]{String.valueOf(id)});
     }
 
@@ -1017,17 +1048,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int createContent(Content content) {
         int contentId = -2;
-        switch (content.getContentType()) {
-            case MyConstants.CONTENT_TASK:
-                contentId = createTask((Task) content);
-                break;
-            case MyConstants.CONTENT_EVENT:
-                contentId = createEvent((Event) content);
-                break;
-            case MyConstants.CONTENT_NOTE:
-                contentId = createNote((Note) content);
-                break;
+
+        if (content instanceof Task) {
+            contentId = createTask((Task)content);
         }
+        if (content instanceof Event) {
+            contentId = createEvent((Event) content);
+        }
+        if (content instanceof Note) {
+            contentId = createNote((Note) content);;
+        }
+
         return contentId;
     }
 
@@ -1046,21 +1077,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteContent(int id, int contentType) {
         SQLiteDatabase db = getWritableDatabase();
-        deleteMedia(id, contentType);
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
-                db.delete(TABLE_TASK, ID + " = ?", new String[]{String.valueOf(id)});
-                deleteContentReminder(id, MyConstants.CONTENT_TASK);
-                deleteContentSubtask(id);
+                deleteTask(id);
                 break;
             case MyConstants.CONTENT_EVENT:
-                db.delete(TABLE_EVENT, ID + " = ?", new String[]{String.valueOf(id)});
-                deleteContentReminder(id, MyConstants.CONTENT_EVENT);
+                deleteEvent(id);
                 break;
             case MyConstants.CONTENT_NOTE:
-                db.delete(TABLE_NOTE, ID + " = ?", new String[]{String.valueOf(id)});
+                deleteNote(id);
         }
-
     }
 
     public void updateContent(Content content) {
@@ -1096,6 +1122,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(CONTENT_DONE, taskEvent.isDone() ? 1 : 0);
             values.put(TASK_EVENT_REPETITION_TYPE, taskEvent.getRepetitionType());
             values.put(TASK_EVENT_REPETITION_VALUE, taskEvent.getRepetitionValue());
+        }
+        if (contentType == MyConstants.CONTENT_EVENT) {
+            Event event = (Event)content;
+            values.put(EVENT_LOCATION, event.getLocation());
         }
         db.update(content.getTable(), values, ID + " =?", new String[]{String.valueOf(content.getId())});
     }
@@ -1562,8 +1592,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ID_CONTENT, participant.getContentId());
         values.put(PARTICIPANT_NAME, participant.getName());
-        values.put(PARTICIPANT_PHONE, participant.getPhone());
-        values.put(PARTICIPANT_EMAIL, participant.getEmail());
+        values.put(PARTICIPANT_CONTACT_ID, participant.getContactId());
         values.put(PARTICIPANT_INFORMATION, participant.getInformation());
 
         long participant_id = db.insert(TABLE_PARTICIPANT, null, values);
@@ -1585,9 +1614,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         participant.setId(c.getInt(c.getColumnIndex(ID)));
         participant.setContentId(c.getInt(c.getColumnIndex(ID_CONTENT)));
         participant.setName(c.getString(c.getColumnIndex(PARTICIPANT_NAME)));
-        participant.setEmail(c.getString(c.getColumnIndex(PARTICIPANT_EMAIL)));
         participant.setInformation(c.getString(c.getColumnIndex(PARTICIPANT_INFORMATION)));
-        participant.setPhone(c.getInt(c.getColumnIndex(PARTICIPANT_PHONE)));
+        participant.setContactId(c.getString(c.getColumnIndex(PARTICIPANT_CONTACT_ID)));
 
         return participant;
     }
@@ -1605,9 +1633,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 participant.setId(c.getInt(c.getColumnIndex(ID)));
                 participant.setContentId(c.getInt(c.getColumnIndex(ID_CONTENT)));
                 participant.setName(c.getString(c.getColumnIndex(PARTICIPANT_NAME)));
-                participant.setEmail(c.getString(c.getColumnIndex(PARTICIPANT_EMAIL)));
                 participant.setInformation(c.getString(c.getColumnIndex(PARTICIPANT_INFORMATION)));
-                participant.setPhone(c.getInt(c.getColumnIndex(PARTICIPANT_PHONE)));
+                participant.setContactId(c.getString(c.getColumnIndex(PARTICIPANT_CONTACT_ID)));
                 participants.add(participant);
             } while (c.moveToNext());
         }
@@ -1620,8 +1647,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ID_CONTENT, participant.getContentId());
         values.put(PARTICIPANT_NAME, participant.getName());
-        values.put(PARTICIPANT_PHONE, participant.getPhone());
-        values.put(PARTICIPANT_EMAIL, participant.getEmail());
+        values.put(PARTICIPANT_CONTACT_ID, participant.getContactId());
         values.put(PARTICIPANT_INFORMATION, participant.getInformation());
 
         db.update(TABLE_PARTICIPANT, values, ID + " =?", new String[]{String.valueOf(participant.getId())});

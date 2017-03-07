@@ -61,7 +61,7 @@
 
 
         <LinearLayout
-            android:id="@+id/llSubtask"
+            android:id="@+id/llSubtaskDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -71,11 +71,11 @@
             android:layout_alignParentRight="true">
 
             <ImageView
-                android:id="@+id/ivSubtask"
+                android:id="@+id/ivSubtaskDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorTransparent"
-                android:src="@drawable/ic_subtask"
+                android:src="@drawable/ic_subtask_16dp"
                 android:layout_centerHorizontal="true"
                 android:tint="@color/colorSecondaryText"
                 android:visibility="visible" />
@@ -84,14 +84,14 @@
                 android:id="@+id/tvSubtask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/ivSubtask"
-                android:layout_alignRight="@id/ivSubtask"
-                android:layout_below="@id/ivSubtask"
+                android:layout_alignLeft="@id/ivSubtaskDetails"
+                android:layout_alignRight="@id/ivSubtaskDetails"
+                android:layout_below="@id/ivSubtaskDetails"
                 android:gravity="center_horizontal"
-                android:paddingTop="2dp"
+                android:paddingTop="1dp"
                 android:text="3 / 4"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 android:visibility="visible" />
 
         </LinearLayout>
@@ -100,7 +100,7 @@
             android:id="@+id/llFiles"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/llSubtask"
+            android:layout_toLeftOf="@id/llSubtaskDetails"
             android:paddingLeft="8dp"
             android:paddingRight="16dp">
 
@@ -110,13 +110,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@color/colorTransparent"
-                android:src="@drawable/ic_files"
+                android:src="@drawable/ic_notes_16dp"
                 android:tint="@color/colorSecondaryText" />
 
         </LinearLayout>
-
-
-
 
     <LinearLayout
         android:id="@+id/llContent"

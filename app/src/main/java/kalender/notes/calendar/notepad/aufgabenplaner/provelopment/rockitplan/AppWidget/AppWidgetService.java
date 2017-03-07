@@ -129,7 +129,7 @@ public class AppWidgetService extends RemoteViewsService{
                 subtasks = mDatabaseHelper.getAllContentSubtasks(taskEvent.getId());
 
                 if (subtasks.size() > 0) {
-                    rv.setViewVisibility(R.id.ivSubtask, View.VISIBLE);
+                    rv.setViewVisibility(R.id.ivSubtaskDetails, View.VISIBLE);
                     rv.setViewVisibility(R.id.tvSubtask, View.VISIBLE);
                     ArrayList<Subtask> doneSubtasks = new ArrayList<>();
                     for (Subtask subtask : subtasks) {
@@ -141,11 +141,11 @@ public class AppWidgetService extends RemoteViewsService{
                     String aSubtasks = Integer.toString(subtasks.size());
                     rv.setTextViewText(R.id.tvSubtask,dSubtasks + " / " + aSubtasks);
                 } else {
-                    rv.setViewVisibility(R.id.ivSubtask, View.GONE);
+                    rv.setViewVisibility(R.id.ivSubtaskDetails, View.GONE);
                     rv.setViewVisibility(R.id.tvSubtask, View.GONE);
                 }
             } else {
-                rv.setViewVisibility(R.id.ivSubtask, View.GONE);
+                rv.setViewVisibility(R.id.ivSubtaskDetails, View.GONE);
                 rv.setViewVisibility(R.id.tvSubtask, View.GONE);
             }
 
@@ -187,7 +187,7 @@ public class AppWidgetService extends RemoteViewsService{
             bundleClickSubtask.putInt(MyConstants.DETAIL_TYPE, MyConstants.DETAIL_SUBTASK);
             Intent intentClickSubtask = new Intent();
             intentClickSubtask.putExtras(bundleClickSubtask);
-            rv.setOnClickFillInIntent(R.id.llSubtask, intentClickSubtask);
+            rv.setOnClickFillInIntent(R.id.llSubtaskDetails, intentClickSubtask);
 
             // Attach information to pending intent - Item Check
 

@@ -18,7 +18,7 @@ import android.widget.TextView;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.UpdateInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
@@ -27,7 +27,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
  */
 public class AddEditCategoryDialog extends DialogFragment {
 
-    AddEditDialogCategoryListener mListener;
+    UpdateInterface mUpdateInterface;
     int category_id;
     int color = 0;
 
@@ -103,7 +103,7 @@ public class AddEditCategoryDialog extends DialogFragment {
 
         switch (dialog_type) {
             case MyConstants.DIALOGE_CATEGORY_ADD:
-                mListener = (DrawerFragment) getTargetFragment();
+                mUpdateInterface = (UpdateInterface)getTargetFragment();
                 tvTitle.setText(getActivity().getString(R.string.title_add_category));
                 etEingabe.setHint(getActivity().getString(R.string.hint_dialog_add));
                 tvColor.setText(categoryColor.getCategoryColorName());
@@ -118,7 +118,7 @@ public class AddEditCategoryDialog extends DialogFragment {
                             Category category = new Category(eingabe, color);
                             databaseHelper.createCategory(category);
                             Log.i("CategoryAddDialog: ", "Save");
-                            mListener.onUpdateData();
+                            mUpdateInterface.updateCompleteList();
                             AddEditCategoryDialog.this.getDialog().cancel();
                         } else {
                             Log.i("CategoryAddDialog: ", "EditText empty");
@@ -130,7 +130,7 @@ public class AddEditCategoryDialog extends DialogFragment {
                 break;
 
             case MyConstants.DIALOGE_CATEGORY_EDIT:
-                mListener = (DrawerFragment) getTargetFragment();
+                mUpdateInterface = (UpdateInterface)getTargetFragment();
                 tvTitle.setText(getActivity().getString(R.string.title_edit_category));
                 category_id = arguments.getInt(MyConstants.CATEGORY_ID);
                 final Category category = databaseHelper.getCategory(category_id);
@@ -150,7 +150,7 @@ public class AddEditCategoryDialog extends DialogFragment {
                             category.setColor(color);
                             databaseHelper.updateCategory(category);
                             Log.i("CategoryAddDialog: ", "Save");
-                            mListener.onUpdateData();
+                            mUpdateInterface.updateCompleteList();
                             AddEditCategoryDialog.this.getDialog().cancel();
                         } else {
                             Log.i("CategoryAddDialog: ", "EditText empty");

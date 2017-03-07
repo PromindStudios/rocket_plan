@@ -19,20 +19,6 @@
             android:background="@color/colorPrimary"
             android:id="@+id/ivHeader"/>
 
-        <!--
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ivRocket"
-            android:src="@drawable/ic_rocket_24"
-            android:background="@color/colorTransparent"
-            android:layout_centerVertical="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"/>
-
-            -->
-
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

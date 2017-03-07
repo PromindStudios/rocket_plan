@@ -133,10 +133,10 @@ public class MyConstants {
     public static final String APP_WIDGET_ITEM_EVENT = "app_widget_item_event";
 
     // Priority
-    public static final int PRIORITY_NONE = 0;
-    public static final int PRIORITY_NORMAL = 1;
-    public static final int PRIORITY_HIGH = 2;
-    public static final int PRIORITY_VERY_HIGH = 3;
+    public static final int PRIORITY_NONE = -1;
+    public static final int PRIORITY_NORMAL = 0;
+    public static final int PRIORITY_HIGH = 1;
+    public static final int PRIORITY_VERY_HIGH = 2;
 
     // Dialog
     public static final String DIALOGE_TITLE = "dialoge_title";
@@ -151,7 +151,7 @@ public class MyConstants {
     // PREMIUM
     public static final String PREMIUM_SILVER = "rocket_plan_premium_silber";
     public static final String PREMIUM_GOLD = "rocket_plan_premium_gold";
-    public static final boolean DEVELOPER_PREMIUM_MODE = false;
+    public static final boolean DEVELOPER_PREMIUM_MODE = true;
     public static final int RESULT_PREMIUM_UPDATE = 8;
 
     // Image
@@ -160,5 +160,10 @@ public class MyConstants {
     // Video
     public static final String VIDEO_PATH = "video_path";
 
+    // Participant
+    public static final String PARTICIPANT_ID = "participant_id";
 
+    // Visibility
+    public static final String VISIBILITY_DETAILS_CONTENT_PAGER = "visibility_details_content_pager";
+    public static final String VISIBILITY_DETAILS_TIME_PAGER = "visibility_details_time_pager";
 }

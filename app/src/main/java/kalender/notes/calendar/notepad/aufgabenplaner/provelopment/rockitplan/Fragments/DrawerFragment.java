@@ -1,66 +1,85 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.SettingsActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.LayoutColorDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.NavigationDrawerViewPagerAdapter;
 
 /**
  * Created by eric on 04.04.2016.
  */
 public class DrawerFragment extends Fragment implements AddEditCategoryDialog.AddEditDialogCategoryListener, DeleteContentDialog.DeleteContentDialogListener {
 
-    private RecyclerView mRecyclerView;
-    private CategoryAdapter mCategoryAdapter;
-    DatabaseHelper mDatabaseHelper;
-    TextView tvHelp;
-    ImageButton ibSettings;
-    ImageButton ibColor;
-    ImageView ivHead;
+    // Layout
+    RelativeLayout rlToolbar;
+    ImageView ivSearch;
+    TabLayout mTabLayout;
+    NonSwipeableViewPager mViewPager;
+
+    // Variables
+    PremiumInterface mPremiumInterface;
     LayoutColor mLayoutColor;
+    DatabaseHelper mDatabaseHelper;
+    NavigationDrawerViewPagerAdapter mNavigationDrawerViewPagerAdapter;
+
+    // Shared Preferences
     SharedPreferences mSharedPreferences;
     SharedPreferences.Editor mEditor;
-    com.getbase.floatingactionbutton.FloatingActionButton myFab;
-
-    PremiumInterface mPremiumInterface;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View layout = inflater.inflate(R.layout.fragment_drawer, container, false);
+        View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
         // Initiate layout components
-        tvHelp = (TextView)layout.findViewById(R.id.tvHelpCategory);
-        ivHead = (ImageView) layout.findViewById(R.id.ivHeader);
-        myFab = (com.getbase.floatingactionbutton.FloatingActionButton) layout.findViewById(R.id.myFab);
-        ibColor = (ImageButton)layout.findViewById(R.id.ibColor);
-        ibSettings = (ImageButton)layout.findViewById(R.id.ibSettings);
+        rlToolbar = (RelativeLayout) layout.findViewById(R.id.rlToolbar);
+        ivSearch = (ImageView)layout.findViewById(R.id.ivSearch);
+        mTabLayout = (TabLayout)layout.findViewById(R.id.tlNavDrawer);
+        mViewPager = (NonSwipeableViewPager) layout.findViewById(R.id.vpNavDrawer);
+
+        // Initiate TabLayout
+        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.home)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.settings)));
+
+        // Set up ViewPager
+        mNavigationDrawerViewPagerAdapter = new NavigationDrawerViewPagerAdapter(getActivity().getSupportFragmentManager(), mTabLayout.getTabCount());
+        mViewPager.setAdapter(mNavigationDrawerViewPagerAdapter);
+
+        // Set up TabLayout
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+
 
         // Initiate Interface
         mPremiumInterface = (PremiumInterface)getActivity();
@@ -72,35 +91,8 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         // Initiate database helper and get categories
         mDatabaseHelper = new DatabaseHelper(getActivity());
 
-        // Set up recycler view
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.rvCategory);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         // Handle Click Events
-
-        myFab.setColorNormal(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
-        myFab.setColorPressed(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
-        myFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEditor.putBoolean(MyConstants.IS_START_CATEGORY, false).commit();
-                DialogFragment dialog = new AddEditCategoryDialog();
-                Bundle bundle = new Bundle();
-                bundle.putInt(MyConstants.DIALOGE_TYPE, MyConstants.DIALOGE_CATEGORY_ADD);
-                dialog.setArguments(bundle);
-                dialog.setTargetFragment(DrawerFragment.this, 0);
-                dialog.show(getActivity().getSupportFragmentManager(), "Add_Category");
-            }
-        });
-        updateDrawer();
-
-        ibSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().startActivityForResult(new Intent(getActivity(), SettingsActivity.class), MyConstants.REQUEST_ACTIVITY_SETTINGS);
-            }
-        });
-
+        /*
         ibColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +104,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
                 }
             }
         });
+        */
 
         // Color Layout
         mLayoutColor = new LayoutColor(getActivity(), mDatabaseHelper.getLayoutColorValue());
@@ -125,16 +118,6 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         colorLayout();
     }
 
-    public void addCategory() {
-        mEditor.putBoolean(MyConstants.IS_START_CATEGORY, false).commit();
-        DialogFragment dialog = new AddEditCategoryDialog();
-        Bundle bundle = new Bundle();
-        bundle.putInt(MyConstants.DIALOGE_TYPE, MyConstants.DIALOGE_CATEGORY_ADD);
-        dialog.setArguments(bundle);
-        dialog.setTargetFragment(DrawerFragment.this, 0);
-        dialog.show(getActivity().getSupportFragmentManager(), "Add_Category");
-    }
-
     @Override
     public void onUpdateData() {
         updateDrawer();
@@ -144,6 +127,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         ArrayList<Category> categories = new ArrayList<>();
         categories = mDatabaseHelper.getAllCategories();
 
+        /*
         if (categories.size() == 0) {
             mRecyclerView.setVisibility(View.GONE);
             myFab.setVisibility(View.VISIBLE);
@@ -161,6 +145,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
             mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
             mRecyclerView.setAdapter(mCategoryAdapter);
         }
+        */
     }
 
     @Override
@@ -175,10 +160,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
 
     public void colorLayout() {
         mLayoutColor.setColorValue(mDatabaseHelper.getLayoutColorValue());
-        ivHead.setBackgroundColor(mLayoutColor.getLayoutColor());
-        ArrayList<Category> categories = new ArrayList<>();
-        categories = mDatabaseHelper.getAllCategories();
-        mCategoryAdapter = new CategoryAdapter(getActivity(), categories, mDatabaseHelper, DrawerFragment.this, getActivity().getSupportFragmentManager());
-        mRecyclerView.setAdapter(mCategoryAdapter);
+        rlToolbar.setBackgroundColor(mLayoutColor.getLayoutColor());
+        mTabLayout.setBackgroundColor(mLayoutColor.getLayoutColor());
     }
 }

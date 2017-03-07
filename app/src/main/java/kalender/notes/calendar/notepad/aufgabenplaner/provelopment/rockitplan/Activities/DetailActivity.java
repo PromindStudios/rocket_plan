@@ -291,4 +291,12 @@ public class DetailActivity extends AppCompatActivity {
         return null;
     }
 
+    public void setFabVisible(boolean visible) {
+        if(visible) {
+            fabDone.setVisibility(View.VISIBLE);
+        } else {
+            fabDone.setVisibility(View.GONE);
+        }
+    }
+
 }

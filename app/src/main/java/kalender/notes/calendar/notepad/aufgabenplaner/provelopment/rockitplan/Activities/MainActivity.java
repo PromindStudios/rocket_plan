@@ -40,26 +40,29 @@ import java.util.UUID;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.AppWidget.AppWidgetProvider;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.PremiumDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.CalendarFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentPagerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.TimePagerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.LayoutColorInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.StarterInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.CategoryAdapter;
 
-public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener, LayoutColorInterface, ContentInterface, PremiumInterface {
-
+public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface {
+//
     // Layout
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -252,40 +255,6 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
     // Implemented methods from Interfaces
 
-    @Override
-    public void ItemCategorySelected(int categoryId, String categoryName, int contentType) {
-        ContentPagerFragment contentPagerFragment = new ContentPagerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(MyConstants.CATEGORY_ID, categoryId);
-        bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
-        contentPagerFragment.setArguments(bundle);
-        changeFragment(contentPagerFragment);
-    }
-
-    @Override
-    public void onTimeClicked() {
-        if (isPremium()) {
-            TimePagerFragment timePagerFragment = new TimePagerFragment();
-            changeFragment(timePagerFragment);
-        } else {
-            TimePagerFragment timePagerFragment = new TimePagerFragment();
-            changeFragment(timePagerFragment);
-            //openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_overview), getString(R.string.premium_expired));
-        }
-
-    }
-
-    @Override
-    public void onCalendarClicked() {
-        if (isPremium()) {
-            CalendarFragment calendarFragment = new CalendarFragment();
-            changeFragment(calendarFragment);
-        } else {
-            openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_calendar), getString(R.string.premium_expired));
-        }
-
-    }
-
     private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flContainer, fragment);
@@ -448,6 +417,114 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void startOverviewPagerFragment() {
+        if (isPremium()) {
+            TimePagerFragment timePagerFragment = new TimePagerFragment();
+            changeFragment(timePagerFragment);
+        } else {
+            TimePagerFragment timePagerFragment = new TimePagerFragment();
+            changeFragment(timePagerFragment);
+            //openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_overview), getString(R.string.premium_expired));
+        }
+    }
+
+    @Override
+    public void startCalendarFragment() {
+        if (isPremium()) {
+            CalendarFragment calendarFragment = new CalendarFragment();
+            changeFragment(calendarFragment);
+        } else {
+            openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_calendar), getString(R.string.premium_expired));
+        }
+    }
+
+    @Override
+    public void startContentPagerFragment(Category category, int contentType) {
+        ContentPagerFragment contentPagerFragment = new ContentPagerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyConstants.CATEGORY_ID, category.getId());
+        bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
+        contentPagerFragment.setArguments(bundle);
+        changeFragment(contentPagerFragment);
+    }
+
+    @Override
+    public void startDetailActivity(Category category, int contentType, int contentId, int detailType) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyConstants.CONTENT_ID, contentId);
+        bundle.putInt(MyConstants.CATEGORY_ID, category.getId());
+        bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
+        if (contentType == MyConstants.CONTENT_NOTE) {
+            startActivityForResult(new Intent(this, NoteActivity.class).putExtras(bundle), MyConstants.REQUEST_ACTIVITY_DETAIL);
+        } else {
+            bundle.putInt(MyConstants.DETAIL_TYPE, detailType);
+            startActivityForResult(new Intent(this, TaskEventActivity.class).putExtras(bundle), MyConstants.REQUEST_ACTIVITY_DETAIL);
+        }
+    }
+
+    @Override
+    public void addCategory() {
+        // Let editor know that this is first content
+        DialogFragment dialog = new AddEditCategoryDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyConstants.DIALOGE_TYPE, MyConstants.DIALOGE_CATEGORY_ADD);
+        dialog.setArguments(bundle);
+        dialog.show(getSupportFragmentManager(), "Add_Category");
+    }
+
+    @Override
+    public void addContent(Category category, int contentType, int detailType) {
+        mDatabaseHelper.incrementContentCounter();
+        updatePremiumFree();
+
+        int contentId = 0;
+        Content newContent = null;
+        switch (contentType) {
+            case MyConstants.CONTENT_TASK:
+                newContent = new Task(category.getId(), category.getTitle());
+                break;
+            case MyConstants.CONTENT_EVENT:
+                newContent = new Event(category.getId(), category.getTitle());
+                break;
+            case MyConstants.CONTENT_NOTE:
+                newContent = new Note(category.getId(), category.getTitle());
+        }
+        contentId = mDatabaseHelper.createContent(newContent);
+        startDetailActivity(category, contentType, contentId, detailType);
+
+    }
+
+    @Override
+    public void addContent(Category category, int contentType, int detailType, String title, Calendar date, Calendar time) {
+        mDatabaseHelper.incrementContentCounter();
+        updatePremiumFree();
+        // Show Dialog for information about premium if user gets closer to end of free premium version
+
+        int contentId = 0;
+        switch (contentType) {
+            case MyConstants.CONTENT_TASK:
+                Task task = new Task(category.getId(), category.getTitle());
+                task.setTitle(title);
+                task.setDate(date);
+                task.setTime(time);
+                contentId = mDatabaseHelper.createTask(task);
+                break;
+            case MyConstants.CONTENT_EVENT:
+                Event event = new Event(category.getId(), category.getTitle());
+                event.setTitle(title);
+                event.setDate(date);
+                event.setTime(time);
+                contentId = mDatabaseHelper.createEvent(event);
+                break;
+            case MyConstants.CONTENT_NOTE:
+                Note note = new Note(category.getId(), category.getTitle());
+                note.setTitle(title);
+                contentId = mDatabaseHelper.createNote(note);
+        }
+        startDetailActivity(category, contentType, contentId, detailType);
     }
 
 }

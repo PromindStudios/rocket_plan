@@ -1,12 +1,17 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -47,10 +52,18 @@ public class TimePagerFragment extends Fragment implements ContentTimePagerInter
     // Inferface
     ContentInterface mContentInterface;
 
+    // SharedPreferences
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_time_pager, container, false);
+
+        // Set up SharedPreferences
+        mSharedPreferences = getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
+        mEditor = mSharedPreferences.edit();
 
         // Set up layout
         mViewPager = (NonSwipeableViewPager) layout.findViewById(R.id.viewPager);
@@ -107,6 +120,12 @@ public class TimePagerFragment extends Fragment implements ContentTimePagerInter
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         colorLayout();
@@ -122,6 +141,37 @@ public class TimePagerFragment extends Fragment implements ContentTimePagerInter
     public void onAttach(Context context) {
         super.onAttach(context);
         mContentInterface = (ContentInterface)context;
+    }
+
+    // Menu
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_fragment_time_pager, menu);
+        boolean visible = mSharedPreferences.getBoolean(MyConstants.VISIBILITY_DETAILS_TIME_PAGER, true);
+        if (visible) {
+            menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_24dp, null));
+        } else {
+            menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_gone_24dp, null));
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int currentItem = mViewPager.getCurrentItem();
+        if (item.getItemId() == R.id.menu_item_visibility) {
+            boolean visible = mSharedPreferences.getBoolean(MyConstants.VISIBILITY_DETAILS_TIME_PAGER, true);
+            mEditor.putBoolean(MyConstants.VISIBILITY_DETAILS_TIME_PAGER, !visible);
+            if (!visible) {
+                item.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_24dp, null));
+            } else {
+                item.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_gone_24dp, null));
+            }
+            mEditor.commit();
+
+            mViewPagerAdapter.getFragment(currentItem).setAdapterUp();
+        }
+        return false;
     }
 
     // Class Methods

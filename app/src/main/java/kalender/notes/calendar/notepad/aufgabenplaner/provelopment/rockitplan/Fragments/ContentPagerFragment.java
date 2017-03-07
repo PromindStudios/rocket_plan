@@ -1,6 +1,7 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -9,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -79,6 +79,10 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     ContentInterface mContentInterface;
     PremiumInterface mPremiumInterface;
 
+    // SharedPreferences
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,6 +92,10 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         Bundle bundle = getArguments();
         int categoryId = bundle.getInt(MyConstants.CATEGORY_ID);
         mContentType = bundle.getInt(MyConstants.CONTENT_TYPE);
+
+        // Set up SharedPreferences
+        mSharedPreferences = getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
+        mEditor = mSharedPreferences.edit();
 
         // Set up layout
         mViewPager = (NonSwipeableViewPager) layout.findViewById(R.id.viewPager);
@@ -127,14 +135,14 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
                 }
                 resetFastAdd();
 
-                if (getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).getBoolean(MyConstants.FIRST_CONTENT, true)) {
+                if (mSharedPreferences.getBoolean(MyConstants.FIRST_CONTENT, true)) {
                     DialogFragment dialog = new InformationDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString(MyConstants.DIALOGE_TITLE, getString(R.string.help_first_content_title));
                     bundle.putString(MyConstants.DIALOGE_CONTENT, getString(R.string.help_first_content));
                     dialog.setArguments(bundle);
                     dialog.show(getActivity().getSupportFragmentManager(), "dialog_about");
-                    getActivity().getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0).edit().putBoolean(MyConstants.FIRST_CONTENT, false).commit();
+                    mEditor.putBoolean(MyConstants.FIRST_CONTENT, false).commit();
                 }
                 mViewPagerAdapter.getFragment(mViewPager.getCurrentItem()).disableHelpText();
             }
@@ -184,14 +192,25 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
             public void afterTextChanged(Editable editable) {
                 if (etAddContent.getText().toString().matches("")) {
                     // Fab Icon --> Plus
-                    fabAdd.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_add_24dp));
+                    Drawable fabIcon = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_add_24dp, null);
+                    fabIcon.mutate().setColorFilter(ResourcesCompat.getColor(getResources(), mLayoutColor.getLayoutColorId(), null), PorterDuff.Mode.MULTIPLY);
+                    fabAdd.setImageDrawable(fabIcon);
                     mFastDate = null;
                     mFastTime = null;
                     tvAddDate.setVisibility(View.INVISIBLE);
-                    ivAddDate.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_text_24dp, null));
+                    ivAddDate.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_date_none_24dp, null));
+                    rlAddDate.setVisibility(View.GONE);
+                    etAddContent.setPadding(MyMethods.pxToDp(getActivity(), 16), 0, 0, 0);
                 } else {
                     // Fab Icon --> Arrow to create fast Content
-                    fabAdd.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_quick_add));
+                    Drawable quickAddIcon = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.ic_quick_add, null);
+                    quickAddIcon.mutate().setColorFilter(ResourcesCompat.getColor(getResources(), mLayoutColor.getLayoutColorId(), null), PorterDuff.Mode.MULTIPLY);
+                    fabAdd.setImageDrawable(quickAddIcon);
+                    if (mContentType!= MyConstants.CONTENT_NOTE) {
+                        rlAddDate.setVisibility(View.VISIBLE);
+                        etAddContent.setPadding(0, 0, 0, 0);
+                    }
+
                 }
             }
         });
@@ -210,13 +229,11 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
                 etAddContent.setHint(getActivity().getString(R.string.add_task));
-                rlAddDate.setVisibility(View.VISIBLE);
-                etAddContent.setPadding(0, 0, 0, 0);
+                etAddContent.setPadding(MyMethods.pxToDp(getActivity(), 16), 0, 0, 0);
                 break;
             case MyConstants.CONTENT_EVENT:
                 etAddContent.setHint(getActivity().getString(R.string.add_event));
-                rlAddDate.setVisibility(View.VISIBLE);
-                etAddContent.setPadding(0, 0, 0, 0);
+                etAddContent.setPadding(MyMethods.pxToDp(getActivity(), 16), 0, 0, 0);
                 break;
             case MyConstants.CONTENT_NOTE:
                 etAddContent.setHint(getActivity().getString(R.string.add_note));
@@ -248,14 +265,20 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.menu_fragment_content, menu);
+        boolean visible = mSharedPreferences.getBoolean(MyConstants.VISIBILITY_DETAILS_CONTENT_PAGER, true);
+        if (visible) {
+            menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_24dp, null));
+        } else {
+            menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_gone_24dp, null));
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final int currentItem = mViewPager.getCurrentItem();
         if (item.getItemId() == R.id.menu_item_sort) {
             if (mPremiumInterface.isPremium()) {
                 String notSortedByPriority = "";
-                final int currentItem = mViewPager.getCurrentItem();
                 boolean sortedByPriority = false;
                 switch (mViewPager.getCurrentItem()) {
                     case MyConstants.CONTENT_TASK:
@@ -288,6 +311,18 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
             }
 
             return true;
+        }
+        if (item.getItemId() == R.id.menu_item_visibility) {
+            boolean visible = mSharedPreferences.getBoolean(MyConstants.VISIBILITY_DETAILS_CONTENT_PAGER, true);
+            mEditor.putBoolean(MyConstants.VISIBILITY_DETAILS_CONTENT_PAGER, !visible);
+            if (!visible) {
+                item.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_24dp, null));
+            } else {
+                item.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_visibility_gone_24dp, null));
+            }
+            mEditor.commit();
+
+            mViewPagerAdapter.getFragment(currentItem).setAdapterUp();
         }
         return false;
     }
@@ -329,7 +364,9 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         mFastTime = null;
         tvAddDate.setVisibility(View.INVISIBLE);
         rlAddContent.requestFocus();
-        ivAddDate.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_text_24dp, null));
+        ivAddDate.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_date_none_24dp, null));
+        rlAddDate.setVisibility(View.GONE);
+        etAddContent.setPadding(MyMethods.pxToDp(getActivity(), 16), 0, 0, 0);
     }
 
     private void resetFastAdd() {
@@ -343,7 +380,7 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
         tvAddDate.setVisibility(View.VISIBLE);
         tvAddDate.setText(Integer.toString(mFastDate.get(Calendar.DAY_OF_MONTH)));
         Drawable icEventSolid = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_solid, null);
-        icEventSolid.mutate().setColorFilter(mLayoutColor.getLayoutColor(), PorterDuff.Mode.MULTIPLY);
+        icEventSolid.mutate().setColorFilter(ResourcesCompat.getColor(getResources(), R.color.white, null), PorterDuff.Mode.MULTIPLY);
         ivAddDate.setImageDrawable(icEventSolid);
     }
 
@@ -372,7 +409,9 @@ public class ContentPagerFragment extends Fragment implements ContentTimePagerIn
 
     public void colorLayout() {
         mLayoutColor = new LayoutColor(getActivity(), mDatabaseHelper.getLayoutColorValue());
-        fabAdd.setBackgroundTintList(ColorStateList.valueOf(mLayoutColor.getLayoutColor()));
+        //fabAdd.setBackgroundTintList(ColorStateList.valueOf(mLayoutColor.getLayoutColor()));
+        fabAdd.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.colorWhite, null)));
+        tvAddDate.setTextColor(mLayoutColor.getLayoutColor());
 
         mTabLayout.setBackgroundColor(mLayoutColor.getLayoutColor());
         if (android.os.Build.VERSION.SDK_INT >= 21) {

@@ -463,6 +463,45 @@
         <item name="colorControlActivated">@color/white</item>
     </style>
 
+    <!-- Navigation Drawer -->
+
+    <style name="navigation_drawer_image_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorTransparent</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingTop">@dimen/navigation_drawer_margin_vertical_default</item>
+        <item name="android:paddingBottom">@dimen/navigation_drawer_margin_vertical_default</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="navigation_drawer_image_view_icon" parent="navigation_drawer_image_view">
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+    <style name="navigation_drawer_image_view_right" parent="navigation_drawer_image_view">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
+    <style name="navigation_drawer_text_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingTop">@dimen/navigation_drawer_margin_vertical_default</item>
+        <item name="android:paddingBottom">@dimen/navigation_drawer_margin_vertical_default</item>
+    </style>
+
+    <style name="navigation_drawer_text_view_subtext" parent="navigation_drawer_text_view">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
 
 
 </resources>

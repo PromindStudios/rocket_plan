@@ -9,13 +9,12 @@ public class Participant {
     int mId;
     int mContentId;
     String mName;
-    int mPhone;
-    String mEmail;
+    String mContactId;
     String mInformation;
 
     public Participant () {
         mName = "";
-        mEmail = "";
+        mContactId = "";
         mInformation = "";
     }
 
@@ -43,20 +42,12 @@ public class Participant {
         this.mName = mName;
     }
 
-    public int getPhone() {
-        return mPhone;
+    public String getContactId() {
+        return mContactId;
     }
 
-    public void setPhone(int mPhone) {
-        this.mPhone = mPhone;
-    }
-
-    public String getEmail() {
-        return mEmail;
-    }
-
-    public void setEmail(String mEmail) {
-        this.mEmail = mEmail;
+    public void setContactId(String contactId) {
+        this.mContactId = contactId;
     }
 
     public String getInformation() {

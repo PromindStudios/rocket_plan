@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
 
 <RelativeLayout
     android:orientation="vertical"
@@ -15,7 +23,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentLeft="true"
-    android:src="@drawable/ic_category"
+    android:src="@drawable/ic_category_18dp"
     android:padding="16dp"
     android:tint="@color/colorPrimary"
     android:id="@+id/l"/>
@@ -173,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_category"
+            android:src="@drawable/ic_category_18dp"
             android:padding="16dp"
             android:tint="@color/category_four"
             android:id="@+id/l5"/>
@@ -209,5 +217,75 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"/>
 
+    </LinearLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlContentFab"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fabAdd"
+            android:layout_alignParentRight="true"
+            fab:fab_icon="@drawable/ic_add_red_24dp"
+            app:backgroundTint="@color/colorWhite"
+            app:borderWidth="0dp"
+            app:useCompatPadding="false"
+            android:visibility="visible"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="16dp"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            app:fabSize="mini"
+            />
+        <RelativeLayout
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlAddDate"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivDateAdd"
+                android:layout_centerInParent="true"
+                android:background="@color/colorTransparent"
+                android:src="@drawable/ic_event_text_24dp"
+                android:tint="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDateAddNumber"
+                android:text="5"
+                android:visibility="invisible"
+                android:layout_centerInParent="true"
+                android:textSize="9sp"
+                android:textColor="@color/colorWhite"
+                />
+
+
+        </RelativeLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/activity_detail_text"
+            android:id="@+id/etAddContent"
+            android:layout_toRightOf="@id/rlAddDate"
+            android:layout_toLeftOf="@id/fabAdd"
+            android:layout_centerVertical="true"
+            android:hint="Add a task..."
+            android:inputType="textCapSentences"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_item_title"/>
+
+    </RelativeLayout>
+</RelativeLayout>
