@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.HomeFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.SettingsFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.HomeFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.SettingsFragment;
 
 /**
  * Created by Eric on 05.03.2017.

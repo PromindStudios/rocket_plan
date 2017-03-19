@@ -11,8 +11,6 @@
     <ImageView
         android:id="@+id/ivReminder"
         style="@style/activity_detail_image_view_add"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
         android:src="@drawable/ic_reminder_18dp" />
 
     <TextView

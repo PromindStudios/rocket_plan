@@ -29,7 +29,7 @@
 
     <!-- Category Color Set: Default -->
     <color name="colorPrimary">#e74c3c</color>
-    <color name="colorPrimaryDark">#c62828</color>
+    <color name="colorPrimaryDark">#e53935</color>
     <color name="colorPrimaryLight">#c8f44336</color>
 
     <!-- Category Color Set: One -->

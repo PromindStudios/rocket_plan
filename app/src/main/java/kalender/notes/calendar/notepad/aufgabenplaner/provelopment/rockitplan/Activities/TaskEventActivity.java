@@ -5,28 +5,23 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CompoundButton;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.FilesFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.GeneralFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Element_Fragments.GeneralFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Element_Fragments.NotesFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.DetailViewPagerAdapter;
 
 /**
  * Created by eric on 04.05.2016.
  */
-public class TaskEventActivity extends DetailActivity implements GeneralFragment.DetailActivityListener, PremiumInterface {
+public class TaskEventActivity extends ContentActivity implements GeneralFragment.DetailActivityListener {
 
     // Layout
     private ViewPager mViewPager;
@@ -85,20 +80,24 @@ public class TaskEventActivity extends DetailActivity implements GeneralFragment
         // TabLayout & ViewPager
 
         // Add Tabs
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_key_data)));
+        //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_key_data)));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_general_16dp, null)));
 
         if (mContentType == MyConstants.CONTENT_TASK) {
             ivContent.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_task_24dp, null));
             tvContent.setText(getString(R.string.task));
-            mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.premium_silver_subtasks)));
+            //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.premium_silver_subtasks)));
+            mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_subtask, null)));
         }
         if (mContentType == MyConstants.CONTENT_EVENT) {
             ivContent.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_text_24dp, null));
             tvContent.setText(getString(R.string.event));
-            mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_details)));
+            //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_details)));
+            mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_details_16dp, null)));
         }
 
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_notes)));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_files, null)));
+        //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_notes)));
 
         // Set up ViewPager and TabLayout
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -139,8 +138,8 @@ public class TaskEventActivity extends DetailActivity implements GeneralFragment
         });
 
         // Handle Color
-        Category category = mDatabaseHelper.getCategory(mContent.getCategoryId());
-        CategoryColor categoryColor = new CategoryColor(this, category.getColor());
+        LayoutColor layoutColor = new LayoutColor(this, mDatabaseHelper.getLayoutColorValue());
+        /*
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             // Status Bar
             Window window = getWindow();
@@ -148,7 +147,8 @@ public class TaskEventActivity extends DetailActivity implements GeneralFragment
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(this, categoryColor.getCategoryColorDark()));
         }
-        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, categoryColor.getCategoryColor()));
+        */
+        mTabLayout.setBackgroundColor(layoutColor.getLayoutColor());
     }
 
     @Override
@@ -193,6 +193,7 @@ public class TaskEventActivity extends DetailActivity implements GeneralFragment
     }
 
     private void handleTabIconText(int selectedTab) {
+        /*
         if (mContentType == MyConstants.CONTENT_TASK) {
             mTabLayout.getTabAt(1).setText(getString(R.string.premium_silver_subtasks));
         } else {
@@ -216,11 +217,12 @@ public class TaskEventActivity extends DetailActivity implements GeneralFragment
                 tab.setText("");
                 break;
         }
+        */
     }
 
     @Override
-    public FilesFragment getFilesFragment() {
-        return (FilesFragment)mAdapterViewPager.getInstance(MyConstants.DETAIL_FILES);
+    public NotesFragment getFilesFragment() {
+        return (NotesFragment)mAdapterViewPager.getInstance(MyConstants.DETAIL_FILES);
     }
 
 }

@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 
 /**
  * Created by Admin on 24.06.2016.

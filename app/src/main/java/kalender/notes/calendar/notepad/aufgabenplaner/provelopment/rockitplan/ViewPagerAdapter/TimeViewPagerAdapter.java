@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.Map;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.TimeFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.OverviewFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 
 /**
  * Created by Admin on 15.07.2016.
@@ -20,12 +20,12 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.My
 public class TimeViewPagerAdapter extends FragmentStatePagerAdapter {
 
     int mTabNumber;
-    Map<Integer, TimeFragment> mFragmentList;
+    Map<Integer, OverviewFragment> mFragmentList;
 
     public TimeViewPagerAdapter(FragmentManager fm, int tabNumber) {
         super(fm);
         mTabNumber = tabNumber;
-        mFragmentList = new HashMap<Integer, TimeFragment>();
+        mFragmentList = new HashMap<Integer, OverviewFragment>();
     }
 
     @Override
@@ -34,17 +34,17 @@ public class TimeViewPagerAdapter extends FragmentStatePagerAdapter {
         bundle.putInt(MyConstants.TIME_TYPE, position);
         switch (position) {
             case MyConstants.TIME_DAY:
-                TimeFragment fragmentOne = new TimeFragment();
+                OverviewFragment fragmentOne = new OverviewFragment();
                 fragmentOne.setArguments(bundle);
                 mFragmentList.put(position, fragmentOne);
                 return fragmentOne;
             case MyConstants.TIME_WEEK:
-                TimeFragment fragmentTwo = new TimeFragment();
+                OverviewFragment fragmentTwo = new OverviewFragment();
                 fragmentTwo.setArguments(bundle);
                 mFragmentList.put(position, fragmentTwo);
                 return fragmentTwo;
             case MyConstants.TIME_MONTH:
-                TimeFragment fragmentThree = new TimeFragment();
+                OverviewFragment fragmentThree = new OverviewFragment();
                 fragmentThree.setArguments(bundle);
                 mFragmentList.put(position, fragmentThree);
                 return fragmentThree;
@@ -63,7 +63,7 @@ public class TimeViewPagerAdapter extends FragmentStatePagerAdapter {
         mFragmentList.remove(position);
     }
 
-    public TimeFragment getFragment(int key) {
+    public OverviewFragment getFragment(int key) {
         return mFragmentList.get(key);
     }
 }

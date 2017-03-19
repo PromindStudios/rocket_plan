@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/item_content_height"
-    android:background="@color/white">
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/llContentLeft">
-
-        <ImageView
-            android:id="@+id/ivContent"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@color/colorTransparent"
-            android:paddingLeft="16dp"
-            android:visibility="gone"
-            android:src="@drawable/ic_task"
-            />
-
-        <ImageView
-            android:id="@+id/ivCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@color/colorTransparent"
-            android:paddingLeft="16dp"
-            android:visibility="gone"
-            android:src="@drawable/ic_checkbox_24dp" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="3dp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentRight="true"
-        android:id="@+id/ivCategory"
-        android:visibility="visible"/>
-
-    <ImageView
-        android:id="@+id/divider"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginRight="16dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorDividerLight2" />
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
-    <ImageView
-        android:layout_width="16dp"
-        android:layout_height="1px"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@color/white" />
+        <LinearLayout
+            android:id="@+id/llContentLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
 
+            <ImageView
+                android:id="@+id/ivContent"
+                style="@style/content_item_image_view_left"
+                android:src="@drawable/ic_task"
+                android:visibility="gone"
+                android:tint="@color/colorSecondaryText" />
 
+            <ImageView
+                android:id="@+id/ivCheckbox"
+                style="@style/content_item_image_view_left"
+                android:src="@drawable/ic_checkbox_24dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivCategory"
+            android:layout_width="3dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorSecondaryText"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llFiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/ivFiles"
+                style="@style/content_item_image_view_detail"
+                android:paddingLeft="8dp"
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_notes_16dp"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llSubtaskDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/llFiles"
             android:layout_centerVertical="true"
             android:gravity="center_horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:orientation="vertical"
-            android:paddingRight="16dp"
-            android:layout_alignParentRight="true">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/ivSubtaskDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_subtask_16dp"
                 android:layout_centerHorizontal="true"
+                android:background="@color/colorTransparent"
+
+                android:src="@drawable/ic_subtask_16dp"
                 android:tint="@color/colorSecondaryText"
                 android:visibility="visible" />
 
@@ -97,93 +97,85 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llFiles"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/llContent"
+            android:paddingTop="@dimen/content_item_margin_vertical_default"
+            android:paddingBottom="@dimen/content_item_margin_vertical_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/llSubtaskDetails"
-            android:paddingLeft="8dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@+id/ivFiles"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_notes_16dp"
-                android:tint="@color/colorSecondaryText" />
-
-        </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@id/llFiles"
-        android:layout_toRightOf="@id/llContentLeft"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="16dp">
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clean the BMW M4"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/text_size_item_title" />
-
-        <LinearLayout
-            android:id="@+id/llSubtitleDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/llContentLeft"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <ImageView
-                android:id="@+id/ivRepeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
-                android:paddingRight="8dp"
-                android:paddingTop="2dp"
-                android:src="@drawable/ic_repeat_12dp"
-                android:tint="@color/colorSecondaryText" />
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
 
             <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Due at 4. Juli"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_size_item_subtitle"
-                android:visibility="visible" />
+                android:text="Clean the BMW M4"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_size_item_title" />
 
-            <ImageView
-                android:id="@+id/vSubtitleDateDivider"
-                android:layout_width="1px"
-                android:layout_height="12dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/colorDivider"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tvSubtitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llSubtitleDate"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="At Mr. Wash"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_size_item_subtitle"
-                android:visibility="gone"/>
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/ivRepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransparent"
+                    android:paddingRight="8dp"
+                    android:paddingTop="2dp"
+                    android:src="@drawable/ic_repeat_12dp"
+                    android:tint="@color/colorSecondaryText" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Due at 4. Juli"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_size_item_subtitle"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/vSubtitleDateDivider"
+                    android:layout_width="1px"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/colorDivider"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="At Mr. Wash"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_size_item_subtitle"
+                    android:visibility="gone" />
 
 
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 
+    </RelativeLayout>
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/colorDividerLight2" />
+
+</LinearLayout>

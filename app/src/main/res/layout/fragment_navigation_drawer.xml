@@ -14,6 +14,7 @@
             android:id="@+id/rlToolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:visibility="visible"
             android:background="@color/colorPrimary">
 
             <ImageView
@@ -21,9 +22,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:src="@drawable/ic_rocket" />
+                android:paddingLeft="13dp"
+                android:visibility="visible"
+                android:paddingRight="13dp"
+                android:src="@drawable/ic_rocket_24" />
 
             <ImageView
                 android:id="@+id/ivSearch"
@@ -31,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:visibility="gone"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:src="@drawable/ic_search_24dp" />
@@ -39,11 +42,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:paddingLeft="16dp"
                 android:layout_toLeftOf="@id/ivSearch"
                 android:layout_toRightOf="@id/ivRocket"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
 
         </RelativeLayout>

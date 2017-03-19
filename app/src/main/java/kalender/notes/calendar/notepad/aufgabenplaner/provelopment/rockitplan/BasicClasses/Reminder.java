@@ -2,7 +2,7 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.B
 
 import android.content.Context;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**

@@ -1,7 +1,7 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -20,8 +20,10 @@ import android.widget.TextView;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.AnalyticsInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RepeatTexter;
 
@@ -59,6 +61,13 @@ public class RepeatDialog extends android.support.v4.app.DialogFragment{
     CategoryColor mCategoryColor;
 
     RepeatDialogListener mListener;
+    AnalyticsInterface mAnalyticsInterface;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mAnalyticsInterface = (AnalyticsInterface)context;
+    }
 
     @NonNull
     @Override
@@ -170,6 +179,7 @@ public class RepeatDialog extends android.support.v4.app.DialogFragment{
         ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAnalyticsInterface.track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_REPETITION);
                 taskEvent.setRepetitionType(mRepeatType);
                 taskEvent.setRepetitionValue(mRepeatValue);
                 mListener.updateRepeat();

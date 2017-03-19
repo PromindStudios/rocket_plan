@@ -114,11 +114,9 @@
     <fragment
         android:layout_width="320dp"
         android:layout_height="match_parent"
-        android:name="kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment"
+        android:name="kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.DrawerFragment"
         android:id="@+id/drawerFragment"
         android:layout_gravity="start"
-        app:layout="@layout/fragment_drawer"
-        tools:layout="@layout/fragment_drawer"
         />
 
 </android.support.v4.widget.DrawerLayout>

@@ -7,7 +7,7 @@ import org.joda.time.Days;
 
 import java.util.Calendar;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 
 /**
  * Created by Admin on 11.07.2016.
@@ -21,7 +21,7 @@ public class TaskEvent extends Content {
     private int mReminder;
     private boolean mDone;
 
-    public TaskEvent(int categoryId, String categoryName) {
+    public TaskEvent(int categoryId, String categoryName, int drawableId) {
         mCategoryId = categoryId;
         mCategory = categoryName;
         mTitle = "";
@@ -37,6 +37,7 @@ public class TaskEvent extends Content {
         mVideoPath = null;
         mAudioPath = null;
         mDone = false;
+        mDrawableId = drawableId;
     }
 
     public TaskEvent() {

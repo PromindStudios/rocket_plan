@@ -5,6 +5,7 @@
     android:background="@color/white">
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/navigation_drawer_margin_vertical_default"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rvSettings"/>

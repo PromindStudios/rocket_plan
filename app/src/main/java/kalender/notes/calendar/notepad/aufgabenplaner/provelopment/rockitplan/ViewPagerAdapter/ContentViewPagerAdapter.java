@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.Map;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.ContentListFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 
 /**
  * Created by eric on 02.05.2016.
@@ -19,19 +19,19 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.My
 public class ContentViewPagerAdapter extends FragmentStatePagerAdapter{
 
     private int mTabNumber;
-    ContentFragment tabTask;
-    ContentFragment tabEvent;
-    ContentFragment tabNote;
+    ContentListFragment tabTask;
+    ContentListFragment tabEvent;
+    ContentListFragment tabNote;
     int mCategoryId;
     String mCategoryName;
-    Map<Integer, ContentFragment> mFragmentList;
+    Map<Integer, ContentListFragment> mFragmentList;
 
     public ContentViewPagerAdapter(FragmentManager fm, int tabNumber, int categoryId, String categoryName) {
         super(fm);
         mTabNumber = tabNumber;
         mCategoryId = categoryId;
         mCategoryName = categoryName;
-        mFragmentList = new HashMap<Integer, ContentFragment>();
+        mFragmentList = new HashMap<Integer, ContentListFragment>();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ContentViewPagerAdapter extends FragmentStatePagerAdapter{
 
         switch (position) {
             case 0:
-                tabTask = new ContentFragment();
+                tabTask = new ContentListFragment();
                 bundle.putInt(MyConstants.CONTENT_TYPE, MyConstants.CONTENT_TASK);
                 bundle.putInt(MyConstants.CATEGORY_ID, mCategoryId);
                 bundle.putString(MyConstants.CATEGORY_NAME, mCategoryName);
@@ -49,7 +49,7 @@ public class ContentViewPagerAdapter extends FragmentStatePagerAdapter{
                 mFragmentList.put(position, tabTask);
                 return tabTask;
             case 1:
-                tabEvent = new ContentFragment();
+                tabEvent = new ContentListFragment();
                 bundle.putInt(MyConstants.CONTENT_TYPE, MyConstants.CONTENT_EVENT);
                 bundle.putInt(MyConstants.CATEGORY_ID, mCategoryId);
                 bundle.putString(MyConstants.CATEGORY_NAME, mCategoryName);
@@ -57,7 +57,7 @@ public class ContentViewPagerAdapter extends FragmentStatePagerAdapter{
                 mFragmentList.put(position, tabEvent);
                 return tabEvent;
             case 2:
-                tabNote = new ContentFragment();
+                tabNote = new ContentListFragment();
                 bundle.putInt(MyConstants.CONTENT_TYPE, MyConstants.CONTENT_NOTE);
                 bundle.putInt(MyConstants.CATEGORY_ID, mCategoryId);
                 bundle.putString(MyConstants.CATEGORY_NAME, mCategoryName);
@@ -85,7 +85,7 @@ public class ContentViewPagerAdapter extends FragmentStatePagerAdapter{
         mFragmentList.remove(position);
     }
 
-    public ContentFragment getFragment(int key) {
+    public ContentListFragment getFragment(int key) {
         return mFragmentList.get(key);
     }
 

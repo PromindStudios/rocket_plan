@@ -12,13 +12,41 @@
         android:focusable="true"
         android:orientation="vertical">
 
-        <!--
-        <View
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:id="@+id/vDummy"
-            android:focusableInTouchMode="true"/>
-            -->
+        <RelativeLayout
+            android:id="@+id/rlCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivCategory"
+                style="@style/activity_detail_image_view"
+                android:src="@drawable/ic_category_18dp"
+                android:tint="@color/colorSecondaryText"/>
+
+            <TextView
+                android:id="@+id/tvCategory"
+                style="@style/activity_detail_text"
+                android:layout_toRightOf="@id/ivCategory"
+                android:text="Privat" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivContent"
+                style="@style/activity_detail_image_view"
+                android:src="@drawable/ic_task"
+                android:tint="@color/colorSecondaryText"/>
+
+            <TextView
+                android:id="@+id/tvContent"
+                style="@style/activity_detail_text"
+                android:layout_toRightOf="@id/ivContent"
+                android:text="Aufgabe" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rlPriority"
@@ -45,6 +73,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
             android:background="@color/colorDivider" />
+
 
         <LinearLayout
             android:id="@+id/llDateReminder"
@@ -121,6 +150,7 @@
                 android:id="@+id/vDividerTime"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/activity_detail_margin_vertical_default"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -145,51 +175,18 @@
                 android:visibility="gone" />
 
         </LinearLayout>
-
-        <!--
-
-            <RadioGroup
-                android:id="@+id/rgPriority"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="@dimen/item_detail_padding_default"
-                android:layout_marginBottom="@dimen/detail_margin_bottom">
-
-                <RadioButton
-                    android:id="@+id/rbNoPriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:buttonTint="@color/colorSecondaryText"
-                    android:text="@string/priority_none"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/rbHighPriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
-                    android:buttonTint="@color/colorOrange"
-                    android:text="@string/priority_high"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/rbVeryHighPriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:buttonTint="@color/colorPrimary"
-                    android:text="@string/priority_very_high"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="16sp" />
-
-            </RadioGroup>
-
+<!--
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="@dimen/activity_detail_margin_vertical_default"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
+            android:background="@color/colorDivider" />
             -->
+
+
 
     </LinearLayout>
 

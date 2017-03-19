@@ -284,8 +284,7 @@ Eric
     <string name="premium_running_out_subtitle">Danke für Deine Unterstützung</string>
     <string name="premium_purchase_successful">Ab sofort nutzt du wieder Rocket-Plan | Premium!</string>
     <string name="premium_function">Premium Funktion</string>
-    <string name="premium_expired">Deine kostenlose Premium Version ist abgelaufen. Aktuell nutzt du Rocket-Plan mit eingeschränkter Funktionalität.
-        Abonniere die monatlich kündbare Premium Version und arbeite wieder mit dem vollen Funktionsumfang von Rocket-Plan!
+    <string name="premium_expired">Deine kostenlose Premium Version ist abgelaufen. Abonniere die monatlich kündbare Premium Version und arbeite wieder mit dem vollen Funktionsumfang von Rocket-Plan!
         </string>
     <string name="premium_support_subtitle">Deine Unterstützung zählt!</string>
     <string name="premium_support_text">Durch das Abonnieren von Rocket-Plan unterstützt Du die Entwicklung dieser App nachhaltig. Am Ende führt alles zurück auf den klassischen Handel.
@@ -297,7 +296,7 @@ Eric
     </string>
     <string name="premium_running_out">Deine kostenlose Premium Version von Rocket-Plan läuft bald aus. Danach kannst du nicht mehr mit dem vollen Funktionsumfang von Rocket-Plan arbeiten.
         Du hast jedoch die Möglichkeit die monatlich kündbare Premium Version zu abonnieren, um wieder alle Funktionen uneingeschränkt nutzen zu können. </string>
-    <string name="premium_later">Später</string>
+    <string name="premium_later">NICHT JETZT</string>
     <string name="premium_now">Premium</string>
     <string name="status_premium">Du nutzt aktuell die Premium Version von Rocket-Plan</string>
 
@@ -310,6 +309,11 @@ Eric
     <string name="premium_silver_priority">Priorität</string>
     <string name="premium_silver_reminder">Erinnerungen</string>
     <string name="premium_silver_subtasks">Teilaufgaben</string>
+    <string name="premium_silver_participant">Teilnehmer</string>
+    <string name="premium_silver_location">Standort</string>
+    <string name="premium_silver_image">Bild</string>
+    <string name="premium_silver_audio">Audio</string>
+    <string name="premium_silver_video">Video</string>
 
     <!-- Audio -->
     <string name="detail_audio">Sprachaufnahme</string>

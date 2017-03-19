@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +11,19 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.UpdateInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
- * Created by Admin on 17.09.2016.
+ * Created by Eric on 08.03.2017.
  */
+
 public class DeleteContentDialog extends DialogFragment {
 
-    DeleteContentDialogListener mListener;
+    UpdateInterface mListener;
 
     @NonNull
     @Override
@@ -31,11 +31,11 @@ public class DeleteContentDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        mListener = (DeleteContentDialogListener)getTargetFragment();
+        mListener = (UpdateInterface)getTargetFragment();
+        final DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         Bundle arguments = getArguments();
-        final int contentId = arguments.getInt(MyConstants.CONTENT_ID);
         final int contentType = arguments.getInt(MyConstants.CONTENT_TYPE);
-        int categoryId = arguments.getInt(MyConstants.CATEGORY_ID);
+        final int contentId = arguments.getInt(MyConstants.CONTENT_ID);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_delete_content, null);
@@ -48,21 +48,20 @@ public class DeleteContentDialog extends DialogFragment {
 
         // handle Color
         DatabaseHelper dh = new DatabaseHelper(getActivity());
-        Category category = dh.getCategory(categoryId);
-        final CategoryColor categoryColor = new CategoryColor(getActivity(), category.getColor());
-        tvTitle.setBackgroundColor(ContextCompat.getColor(getActivity(), categoryColor.getCategoryColor()));
+        LayoutColor layoutColor = new LayoutColor(getActivity(), databaseHelper.getLayoutColorValue());
+        tvTitle.setBackgroundColor(layoutColor.getLayoutColor());
 
         ibExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onUpdateContent();
                 DeleteContentDialog.this.getDialog().cancel();
             }
         });
         ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onDeleteContent(contentId, contentType);
+                databaseHelper.deleteContent(contentId, contentType);
+                mListener.updateList();
                 DeleteContentDialog.this.getDialog().cancel();
             }
         });
@@ -75,12 +74,5 @@ public class DeleteContentDialog extends DialogFragment {
 
         return dialog;
 
-    }
-
-
-
-    public interface DeleteContentDialogListener {
-        public void onDeleteContent(int contentId, int contentType);
-        public void onUpdateContent();
     }
 }

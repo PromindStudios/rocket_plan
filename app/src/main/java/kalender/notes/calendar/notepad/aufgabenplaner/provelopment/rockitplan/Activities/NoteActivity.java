@@ -8,19 +8,19 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.FilesFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.GeneralFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Element_Fragments.NotesFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Element_Fragments.GeneralFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
  * Created by Eric on 19.02.2017.
  */
 
-public class NoteActivity extends DetailActivity implements GeneralFragment.DetailActivityListener {
+public class NoteActivity extends ContentActivity implements GeneralFragment.DetailActivityListener {
 
     FrameLayout flContainer;
-    FilesFragment mFilesFragment;
+    NotesFragment mNotesFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,8 +31,8 @@ public class NoteActivity extends DetailActivity implements GeneralFragment.Deta
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        mFilesFragment = new FilesFragment();
-        fragmentTransaction.add(R.id.flNote, mFilesFragment);
+        mNotesFragment = new NotesFragment();
+        fragmentTransaction.add(R.id.flNote, mNotesFragment);
         fragmentTransaction.commit();
 
         ivContent.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_note_24dp, null));
@@ -74,7 +74,7 @@ public class NoteActivity extends DetailActivity implements GeneralFragment.Deta
     }
 
     @Override
-    public FilesFragment getFilesFragment() {
-        return mFilesFragment;
+    public NotesFragment getFilesFragment() {
+        return mNotesFragment;
     }
 }

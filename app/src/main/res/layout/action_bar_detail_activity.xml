@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rlActionBar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
     android:focusableInTouchMode="true">
 
@@ -21,10 +21,10 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:src="@drawable/ic_navigation_down_24dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,9 +36,12 @@
             android:id="@+id/cbTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:layout_marginRight="9dp"
             android:buttonTint="@color/colorWhite"
-            android:theme="@style/MyCheckBox"/>
+            android:theme="@style/MyCheckBox"
+            android:layout_centerVertical="true"/>
 
         <EditText
             android:id="@+id/etTitle"
@@ -48,22 +51,22 @@
             android:imeActionLabel="@string/done"
             android:imeOptions="actionDone"
             android:inputType="textCapSentences"
-            android:maxLength="35"
             android:maxLines="1"
-            android:paddingBottom="@dimen/activity_detail_vertical_padding_header"
-            android:paddingLeft="9dp"
-            android:paddingTop="@dimen/activity_detail_vertical_padding_header"
+            android:maxLength="35"
+            android:layout_toLeftOf="@id/cbTitle"
+            android:paddingRight="9dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textCursorDrawable="@null"
-            android:textSize="18sp" />
+            android:textSize="21sp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/llTitle"
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/activity_detail_vertical_padding_header"
         android:layout_toLeftOf="@id/ivSelectContentType"
         android:gravity="center_vertical"
@@ -86,5 +89,7 @@
             android:textSize="15sp" />
 
     </LinearLayout>
+
+
 
 </RelativeLayout>

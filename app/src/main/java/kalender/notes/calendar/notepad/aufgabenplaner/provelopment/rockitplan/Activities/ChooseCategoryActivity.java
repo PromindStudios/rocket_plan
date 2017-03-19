@@ -17,7 +17,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
@@ -92,14 +92,16 @@ public class ChooseCategoryActivity extends AppCompatActivity {
                 Note note = new Note(categoryId, categoryName);
                 contentId = mDatabaseHelper.createNote(note);
         }
-        Intent intent = new Intent(this, TaskEventActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
         bundle.putInt(MyConstants.CONTENT_ID, contentId);
-        bundle.putInt(MyConstants.DETAIL_TYPE, MyConstants.DETAIL_GENERAL);
         bundle.putInt(MyConstants.CATEGORY_ID, categoryId);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        if (contentType == MyConstants.CONTENT_NOTE) {
+            startActivity(new Intent(this, NoteActivity.class).putExtras(bundle));
+        } else {
+            bundle.putInt(MyConstants.DETAIL_TYPE, MyConstants.DETAIL_GENERAL);
+            startActivity(new Intent(this, TaskEventActivity.class).putExtras(bundle));
+        }
         finish();
     }
 }

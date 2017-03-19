@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:layout_marginLeft="16dp"
-    android:id="@+id/rlSettings">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/llSettings">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivIcon"
-        android:src="@drawable/ic_task_24dp"
-        android:tint="@color/colorPrimaryText"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@id/ivIcon"
-        android:id="@+id/tvSettings"
-        android:text="Standard text"
-        android:textColor="@color/colorPrimaryText"
-        android:gravity="center_vertical"
-        android:textSize="@dimen/text_size_item_title"
-        android:layout_marginLeft="16dp"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/navigation_drawer_image_view_icon"
+            android:id="@+id/ivIcon"
+            android:src="@drawable/ic_task_24dp"
+            android:tint="@color/colorSecondaryText"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            style="@style/navigation_drawer_text_view"
+            android:layout_toRightOf="@id/ivIcon"
+            android:id="@+id/tvSettings"
+            android:text="Standard text"/>
+
+    </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorDivider"
-        android:layout_alignParentBottom="true"/>
+        style="@style/navigation_drawer_view_divider_short"/>
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -20,6 +20,7 @@ public class Content {
     int mPriority;
     int mContentType;
     String mTable;
+    int mDrawableId;
 
     // Files
     String mDescription;
@@ -146,5 +147,13 @@ public class Content {
 
     public void setTable(String table) {
         mTable = table;
+    }
+
+    public int getDrawableId() {
+        return mDrawableId;
+    }
+
+    public void setDrawableId(int mDrawableId) {
+        this.mDrawableId = mDrawableId;
     }
 }

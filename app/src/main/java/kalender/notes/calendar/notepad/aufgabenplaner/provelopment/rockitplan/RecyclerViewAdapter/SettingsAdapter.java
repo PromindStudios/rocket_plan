@@ -13,14 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.LayoutColorDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -55,8 +56,12 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onSettingClicked(int position) {
                 switch (position) {
                     case 0:
-                        DialogFragment dialogLayoutColor = new LayoutColorDialog();
-                        dialogLayoutColor.show(mFragmentManager, "dialog_layout_color");
+                        if (!Functions.PREMIUM_FUNCTION_LAYOUT_COLOR || mPremiumInterface.hasPremium()) {
+                            DialogFragment dialogLayoutColor = new LayoutColorDialog();
+                            dialogLayoutColor.show(mFragmentManager, "dialog_layout_color");
+                        } else {
+                            mPremiumInterface.openDialogPremiumFunction(mContext.getString(R.string.premium_function), mContext.getString(R.string.premium_silver_colors), mContext.getString(R.string.premium_expired));
+                        }
                         break;
                     case 1:
                         // open Dialog with information about Rocket-Plan
@@ -68,7 +73,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         dialog.show(mFragmentManager, "dialog_about");
                         break;
                     case 3:
-                        if (mPremiumInterface.isPremium()) {
+                        if (mPremiumInterface.hasPremium()) {
                             Uri uri = Uri.parse("market://details?id=" + mContext.getPackageName());
                             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                             goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
@@ -82,7 +87,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         }
                         break;
                     case 4:
-                        if (mPremiumInterface.isPremium()) {
+                        if (mPremiumInterface.hasPremium()) {
                             Toast.makeText(mContext, mContext.getString(R.string.status_premium), Toast.LENGTH_LONG).show();
                         } else {
                             mPremiumInterface.openDialogPremiumFunction(mContext.getString(R.string.rocket_plan_premium), mContext.getString(R.string.premium_running_out_subtitle), mContext.getString(R.string.premium_expired));
@@ -113,7 +118,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     static class settingsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        RelativeLayout rlSettings;
+        LinearLayout llSettings;
         ImageView ivSettings;
         TextView tvSettings;
 
@@ -122,17 +127,17 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public settingsHolder(View itemView, interfaceSettings i) {
             super(itemView);
 
-            rlSettings = (RelativeLayout) itemView.findViewById(R.id.rlSettings);
+            llSettings = (LinearLayout) itemView.findViewById(R.id.llSettings);
             ivSettings = (ImageView)itemView.findViewById(R.id.ivIcon);
             tvSettings = (TextView)itemView.findViewById(R.id.tvSettings);
 
-            rlSettings.setOnClickListener(this);
+            llSettings.setOnClickListener(this);
             iSettings = i;
         }
 
         @Override
         public void onClick(View view) {
-            if (view.getId() == R.id.rlSettings) {
+            if (view.getId() == R.id.llSettings) {
                 iSettings.onSettingClicked(getAdapterPosition());
             }
         }

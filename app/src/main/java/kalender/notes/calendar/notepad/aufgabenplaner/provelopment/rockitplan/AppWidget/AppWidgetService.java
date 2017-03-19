@@ -27,7 +27,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DateTimeTexter;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 import static kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R.string.task;
@@ -98,7 +98,7 @@ public class AppWidgetService extends RemoteViewsService{
             }
 
             // Time
-            if (taskEvent.getTime() != null) {
+            if (taskEvent.getDate() != null) {
                 rv.setTextViewText(R.id.tvDate, DateTimeTexter.getTimeDay(taskEvent, mContext));
                 rv.setViewVisibility(R.id.vSubtitleDateDivider, View.VISIBLE);
             } else {
@@ -229,9 +229,25 @@ public class AppWidgetService extends RemoteViewsService{
             today.set(Calendar.SECOND, 0);
             today.set(Calendar.MILLISECOND, 0);
 
+            ArrayList<Content> taskEvents = new ArrayList<>();
+            taskEvents = mDatabaseHelper.getAllTaskEvents();
+            ArrayList<Content> taskEventsToday = new ArrayList<>();
+
             switch (mSharedPreferences.getInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_TODAY)) {
                 case MyConstants.APP_WIDGET_TAB_TODAY:
-                    return mDatabaseHelper.getAllTaskEventsAtDateAndDoneCheck(today, false);
+                    for (Content content : taskEvents) {
+                        TaskEvent taskEvent = (TaskEvent)content;
+                        if (taskEvent.getDate() != null) {
+                            int daysTillDueDate = taskEvent.getDaysTillDueDate();
+                            if (!taskEvent.isDone()) {
+                                if (daysTillDueDate <= 0) {
+                                    taskEventsToday.add(taskEvent);
+                                }
+                            }
+                        }
+                    }
+                    //return mDatabaseHelper.getAllTaskEventsAtDateAndDoneCheck(today, false);
+                    return taskEventsToday;
                 case MyConstants.APP_WIDGET_TAB_DONE:
                     return mDatabaseHelper.getAllTaskEventsAtDateAndDoneCheck(today, true);
                 case MyConstants.APP_WIDGET_TAB_TOMORROW:

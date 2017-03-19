@@ -18,7 +18,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
@@ -67,6 +67,8 @@ public class HolderHelper {
             contentIcon = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);
         }
 
+
+
         // Category
         if (isTime && detailsVisible) {
             vhContent.ivCategory.setVisibility(View.VISIBLE);
@@ -101,14 +103,17 @@ public class HolderHelper {
         vhContent.tvTitle.setText(content.getTitle());
 
 
+
+
         // Files
         if ((content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals("")) && detailsVisible) {
-            vhContent.llFiles.setVisibility(View.VISIBLE);
+            vhContent.ivFiles.setVisibility(View.VISIBLE);
             Log.i("Zeige File", "doch" + content.getDescription());
         } else {
-            vhContent.llFiles.setVisibility(View.GONE);
+            vhContent.ivFiles.setVisibility(View.GONE);
             Log.i("Zeige File", "nicht");
         }
+
 
         // Subtitle
         if (content.getSubtitle() != null) {
@@ -121,44 +126,6 @@ public class HolderHelper {
 
         // Date & Time
 
-        /*
-        if (mContentType == MyConstants.CONTENT_TASK || mContentType == MyConstants.CONTENT_EVENT) {
-            if (taskEvent.getDate() == null && taskEvent.getSubtitle() == null) {
-                vhContent.llSubtitleDate.setVisibility(View.GONE);
-            } else {
-                Calendar date = taskEvent.getDate();
-                Calendar time = taskEvent.getTime();
-                vhContent.llSubtitleDate.setVisibility(View.VISIBLE);
-                if (taskEvent.getSubtitle() != null) {
-                    vhContent.tvSubtitle.setVisibility(View.VISIBLE);
-                } else {
-                    vhContent.tvSubtitle.setVisibility(View.GONE);
-                }
-
-                if (date != null) {
-                    vhContent.tvDate.setVisibility(View.VISIBLE);
-                    if (taskEvent.isDone()) {
-                        vhContent.tvDate.setText(mContext.getString(R.string.date_done_at) + " " + MyMethods.formatDate(date) + "  |  " + MyMethods.formatTime(time));
-                    } else {
-                        if (time != null) {
-                            vhContent.tvDate.setText(MyMethods.formatDate(date) + "  |  " + MyMethods.formatTime(time));
-                        } else {
-                            vhContent.tvDate.setText(MyMethods.formatDate(date));
-                        }
-
-                    }
-                } else {
-                    vhContent.tvDate.setVisibility(View.GONE);
-                }
-                if (taskEvent.getDate() != null && taskEvent.getSubtitle() != null) {
-                    vhContent.vSubtitleDateDivider.setVisibility(View.VISIBLE);
-                } else {
-                    vhContent.vSubtitleDateDivider.setVisibility(View.GONE);
-                }
-            }
-        }
-        */
-
         // Repetition
         if (mContentType == MyConstants.CONTENT_TASK || mContentType == MyConstants.CONTENT_EVENT) {
             if (taskEvent.getRepetitionType() != MyConstants.REPETITION_TYPE_NONE) {
@@ -167,6 +134,9 @@ public class HolderHelper {
                 vhContent.ivRepeat.setVisibility(View.GONE);
             }
         }
+
+
+
 
         // Subtasks
         if (mContentType == MyConstants.CONTENT_TASK && detailsVisible) {
@@ -177,7 +147,12 @@ public class HolderHelper {
                 vhContent.tvSubtask.setVisibility(View.VISIBLE);
                 vhContent.ivSubtaskDetails.setVisibility(View.VISIBLE);
                 vhContent.ivSubtaskDetails.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_subtask_16dp, null));
-                vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 16), 0);
+                if ((content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals(""))) {
+                    vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 8), 0);
+                } else {
+                    vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 17), 0);
+                }
+
                 ArrayList<Subtask> doneSubtasks = new ArrayList<>();
                 for (Subtask subtask : subtasks) {
                     if (subtask.isDone()) {
@@ -198,17 +173,25 @@ public class HolderHelper {
             vhContent.llSubtaskDetails.setPadding(0,0,0,0);
         }
 
+
+
         // Details
         if (mContentType == MyConstants.CONTENT_EVENT && detailsVisible) {
             if ((event.getLocation() != null && !event.getLocation().equals("")) || mDatabaseHelper.getAllContentParticipants(event.getId()).size() > 0) {
                 vhContent.ivSubtaskDetails.setVisibility(View.VISIBLE);
                 vhContent.ivSubtaskDetails.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_details_16dp, null));
-                vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 16), 0);
+                if ((content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals(""))) {
+                    vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 8), 0);
+                } else {
+                    vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 17), 0);
+                }
             } else {
                 vhContent.tvSubtask.setVisibility(View.GONE);
                 vhContent.llSubtaskDetails.setPadding(0,0,0,0);
             }
 
         }
+
+
     }
 }

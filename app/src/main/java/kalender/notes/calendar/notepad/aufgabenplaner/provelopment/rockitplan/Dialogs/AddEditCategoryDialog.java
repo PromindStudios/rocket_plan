@@ -19,7 +19,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.UpdateInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -118,7 +118,7 @@ public class AddEditCategoryDialog extends DialogFragment {
                             Category category = new Category(eingabe, color);
                             databaseHelper.createCategory(category);
                             Log.i("CategoryAddDialog: ", "Save");
-                            mUpdateInterface.updateCompleteList();
+                            mUpdateInterface.updateList();
                             AddEditCategoryDialog.this.getDialog().cancel();
                         } else {
                             Log.i("CategoryAddDialog: ", "EditText empty");
@@ -150,7 +150,7 @@ public class AddEditCategoryDialog extends DialogFragment {
                             category.setColor(color);
                             databaseHelper.updateCategory(category);
                             Log.i("CategoryAddDialog: ", "Save");
-                            mUpdateInterface.updateCompleteList();
+                            mUpdateInterface.updateList();
                             AddEditCategoryDialog.this.getDialog().cancel();
                         } else {
                             Log.i("CategoryAddDialog: ", "EditText empty");

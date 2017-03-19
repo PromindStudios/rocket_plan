@@ -28,11 +28,10 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.HomeFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.HomeFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.StarterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -77,7 +76,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         View view;
         switch (viewType) {
             case TYPE_CATEGORY:
-                view = mLayoutInflater.inflate(R.layout.item_category_new, parent, false);
+                view = mLayoutInflater.inflate(R.layout.item_category, parent, false);
                 categoryHolder holder = new categoryHolder(view, new categoryHolder.myViewHolderClickListener() {
                     @Override
                     public void onCategoryClick(int position) {
@@ -159,14 +158,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                         break;
                                     case 1:
                                         // Delete
-                                        DeleteContentDialog d = new DeleteContentDialog();
-                                        Bundle b = new Bundle();
-                                        b.putInt(MyConstants.CONTENT_ID, category.getId());
-                                        b.putInt(MyConstants.CATEGORY_ID, category.getId());
-                                        b.putInt(MyConstants.CONTENT_TYPE, 0);
-                                        d.setArguments(b);
-                                        d.setTargetFragment(mHomeFragment, 0);
-                                        d.show(mFragmentManager, "..");
+                                        mBodyManagerInterface.deleteCategory(category, mHomeFragment);
                                         break;
                                     case 2:
                                         // Move up
@@ -207,11 +199,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
                 return holder;
             case TYPE_ADD_CATEGORY:
-                view = mLayoutInflater.inflate(R.layout.item_category_add_new, parent, false);
+                view = mLayoutInflater.inflate(R.layout.item_category_add, parent, false);
                 categoryAddViewHolder categoryAddHolder = new categoryAddViewHolder(view, new categoryAddViewHolder.addCategoryHolderListener() {
                     @Override
                     public void onAddCategoryClicked() {
-                        mBodyManagerInterface.addCategory();
+                        mBodyManagerInterface.addCategory(mHomeFragment);
                     }
                 });
                 return categoryAddHolder;
@@ -367,13 +359,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (v.getId() == R.id.tvCategory || v.getId() == R.id.ivCategoryIcon) {
                 mListener.onCategoryClick(getAdapterPosition());
             }
-            if (v.getId() == R.id.ivTask || v.getId() == R.id.tvTask) {
+            if (v.getId() == R.id.ivTaskIcon || v.getId() == R.id.tvTask) {
                 mListener.onContentClick(getAdapterPosition(), MyConstants.CONTENT_TASK);
             }
-            if (v.getId() == R.id.ivEvent || v.getId() == R.id.tvEvent) {
+            if (v.getId() == R.id.ivEventIcon || v.getId() == R.id.tvEvent) {
                 mListener.onContentClick(getAdapterPosition(), MyConstants.CONTENT_EVENT);
             }
-            if (v.getId() == R.id.ivNote || v.getId() == R.id.tvNote) {
+            if (v.getId() == R.id.ivNoteIcon || v.getId() == R.id.tvNote) {
                 mListener.onContentClick(getAdapterPosition(), MyConstants.CONTENT_NOTE);
             }
             if (v.getId() == R.id.ivExpandCollapse) {

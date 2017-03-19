@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
@@ -23,18 +22,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Subtask;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditSubtaskDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Detail.SubtaskFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Element_Fragments.SubtasksFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
  * Created by eric on 26.05.2016.
  */
-public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SubtaskFragment.ItemTouchHelperAdapter {
+public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SubtasksFragment.ItemTouchHelperAdapter {
 
     private final int TYPE_ADD = 0;
     private final int TYPE_SUBTASK = 1;
@@ -48,12 +48,14 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     CategoryColor mCategoryColor;
     FragmentManager mFragmentManager;
     Category mCategory;
+    LayoutColor mLayoutColor;
 
-    public SubtaskAdapter(Context context, ArrayList<Subtask> subtasks, DatabaseHelper databaseHelper, SubtaskFragment subtaskTaskFragment, int taskId, FragmentManager fragmentManager, Category category) {
+    public SubtaskAdapter(Context context, ArrayList<Subtask> subtasks, DatabaseHelper databaseHelper, SubtasksFragment subtaskTaskFragment, int taskId, FragmentManager fragmentManager, Category category) {
         mContext = context;
         mDatabaseHelper = databaseHelper;
         mCategory = category;
         mCategoryColor = new CategoryColor(context, category.getColor());
+        mLayoutColor = new LayoutColor(context, mDatabaseHelper.getLayoutColorValue());
         mSubtasks = subtasks;
         mLayoutInflater = LayoutInflater.from(mContext);
         mFragment = (Fragment) subtaskTaskFragment;
@@ -122,7 +124,7 @@ public class SubtaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            myHolder.cbSubtask.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(mContext, mCategoryColor.getCategoryColor())));
+            myHolder.cbSubtask.setButtonTintList(ColorStateList.valueOf(mLayoutColor.getLayoutColor()));
         } else {
             int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
             myHolder.cbSubtask.setButtonDrawable(id);

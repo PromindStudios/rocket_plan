@@ -29,6 +29,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +40,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.AnalyticsApplication;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.AppWidget.AppWidgetProvider;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
@@ -48,21 +51,24 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.PremiumDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.CalendarFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.ContentPagerFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.DrawerFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.TimePagerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.CalendarFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.ContentListPagerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.DrawerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.OverviewPagerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.AnalyticsInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.LayoutColorInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.StarterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
-public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface {
-//
+public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface, AnalyticsInterface {
+    //
     // Layout
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -87,9 +93,20 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     boolean mPremiumFree = false;
     String mDeveloperPayload;
 
+    // Google Analytics
+    Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set up tracker
+        AnalyticsApplication application = (AnalyticsApplication)getApplication();
+        mTracker = application.getDefaultTracker();
+
+        // Track onCreate mehtod
+        mTracker.setScreenName("Activity-Main");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         // Set up Database Helper
         mDatabaseHelper = new DatabaseHelper(this);
@@ -100,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
             public void onServiceDisconnected(ComponentName name) {
                 mPurchaseService = null;
             }
+
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mPurchaseService = IInAppBillingService.Stub.asInterface(service);
@@ -110,8 +128,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
                     int response = ownedItems.getInt("RESPONSE_CODE");
                     if (response == 0) {
                         ArrayList<String> ownedSkus = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-                        ArrayList<String>  purchaseDataList = ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
-                        ArrayList<String>  signatureList = ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE_LIST");
+                        ArrayList<String> purchaseDataList = ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
                         for (int i = 0; i < purchaseDataList.size(); ++i) {
                             Log.i("SKU owned by user", ownedSkus.get(i));
                             if (ownedSkus.get(i).equals(MyConstants.PREMIUM_SILVER)) {
@@ -125,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-            }};
+            }
+        };
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
         bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
@@ -156,34 +174,32 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                mDrawerFragment.updateDrawer();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                mDrawerFragment.updateDrawer();
             }
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         // Add Fragment
         mFragmentManager = getSupportFragmentManager();
-        if (isPremium()) {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            TimePagerFragment timePagerFragment = new TimePagerFragment();
-            fragmentTransaction.replace(R.id.flContainer, timePagerFragment);
-            fragmentTransaction.commit();
-        }
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        OverviewPagerFragment overviewPagerFragment = new OverviewPagerFragment();
+        fragmentTransaction.replace(R.id.flContainer, overviewPagerFragment);
+        fragmentTransaction.commit();
 
 
         // open Drawer in the beginning after a little delay to show the animation
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mDrawerLayout.openDrawer(Gravity.LEFT);
-                }
-            }, 500);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        }, 500);
     }
 
     @Override
@@ -248,7 +264,8 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
                 }
                 break;
             case MyConstants.REQUEST_ACTIVITY_DETAIL:
-                if (resultCode == MyConstants.RESULT_PREMIUM_UPDATE) mPremiumCharged = mDatabaseHelper.hasPremiumSilver();
+                if (resultCode == MyConstants.RESULT_PREMIUM_UPDATE)
+                    mPremiumCharged = mDatabaseHelper.hasPremiumSilver();
         }
     }
 
@@ -290,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(mLayoutColor.getLayoutColor());
+            window.setStatusBarColor(mLayoutColor.getLayoutColorDark());
         }
     }
 
@@ -302,59 +319,6 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     public void refreshLayoutColor() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
-    }
-
-    @Override
-    public void createContent(Category category, int contentType, int detailType, String title, Calendar date, Calendar time, boolean startDetailActivity) {
-        mDatabaseHelper.incrementContentCounter();
-        updatePremiumFree();
-        // Show Dialog for information about premium if user gets closer to end of free premium version
-
-        int contentId = 0;
-        switch (contentType) {
-            case MyConstants.CONTENT_TASK:
-                Task task = new Task(category.getId(), category.getTitle());
-                task.setTitle(title);
-                task.setDate(date);
-                task.setTime(time);
-                contentId = mDatabaseHelper.createTask(task);
-                break;
-            case MyConstants.CONTENT_EVENT:
-                Event event = new Event(category.getId(), category.getTitle());
-                event.setTitle(title);
-                event.setDate(date);
-                event.setTime(time);
-                contentId = mDatabaseHelper.createEvent(event);
-                break;
-            case MyConstants.CONTENT_NOTE:
-                Note note = new Note(category.getId(), category.getTitle());
-                note.setTitle(title);
-                contentId = mDatabaseHelper.createNote(note);
-        }
-        if (startDetailActivity) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(MyConstants.CONTENT_ID, contentId);
-            bundle.putInt(MyConstants.CATEGORY_ID, category.getId());
-            bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
-            if (contentType == MyConstants.CONTENT_NOTE) {
-                bundle.putInt(MyConstants.DETAIL_TYPE, detailType);
-                startActivityForResult(new Intent(this, NoteActivity.class).putExtras(bundle), MyConstants.REQUEST_ACTIVITY_DETAIL);
-            } else {
-                startActivityForResult(new Intent(this, TaskEventActivity.class).putExtras(bundle), MyConstants.REQUEST_ACTIVITY_DETAIL);
-            }
-
-        }
-        Log.i("Counter Value", ""+mDatabaseHelper.getContentCounterValue());
-
-        if (!mPremiumCharged && mDatabaseHelper.getContentCounterValue() == getResources().getInteger(R.integer.free_premium_silver_content_number_first)) {
-            openDialogPremiumFunction(getString(R.string.rocket_plan_premium), getString(R.string.premium_running_out_subtitle), getString(R.string.premium_running_out));
-        }
-        if (!mPremiumCharged && mDatabaseHelper.getContentCounterValue() == getResources().getInteger(R.integer.free_premium_silver_content_number_second)) {
-            openDialogPremiumFunction(getString(R.string.rocket_plan_premium), getString(R.string.premium_running_out_subtitle), getString(R.string.premium_running_out));
-        }
-        if (!mPremiumCharged && mDatabaseHelper.getContentCounterValue() == getResources().getInteger(R.integer.free_premium_silver_content_number_final)+1) {
-            openDialogPremiumFunction(getString(R.string.rocket_plan_premium), getString(R.string.premium_running_out_subtitle), getString(R.string.premium_expired));
-        }
     }
 
     @Override
@@ -371,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
                     Category category = categories.get(item);
-                    createContent(category, contentType, MyConstants.DETAIL_GENERAL, "", null, null, true);
+                    addContent(category, contentType, MyConstants.DETAIL_GENERAL);
                 }
             });
             builder.create().show();
@@ -382,12 +346,12 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     }
 
     public void updatePremiumFree() {
-            mPremiumFree = mDatabaseHelper.getContentCounterValue() <= getResources().getInteger(R.integer.free_premium_silver_content_number_final);
+        mPremiumFree = mDatabaseHelper.getContentCounterValue() <= getResources().getInteger(R.integer.free_premium_silver_content_number_final);
     }
 
 
     @Override
-    public boolean isPremium() {
+    public boolean hasPremium() {
         if (mPremiumFree || mPremiumCharged || MyConstants.DEVELOPER_PREMIUM_MODE) {
             return true;
         } else {
@@ -409,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     @Override
     public void startPurchase() {
         String uuid = UUID.randomUUID().toString();
-        mDeveloperPayload = uuid.replaceAll("-","");
+        mDeveloperPayload = uuid.replaceAll("-", "");
         try {
             Bundle buyIntentBundle = mPurchaseService.getBuyIntent(3, getPackageName(), MyConstants.PREMIUM_SILVER, "subs", mDeveloperPayload);
             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
@@ -421,19 +385,19 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
 
     @Override
     public void startOverviewPagerFragment() {
-        if (isPremium()) {
-            TimePagerFragment timePagerFragment = new TimePagerFragment();
-            changeFragment(timePagerFragment);
+        track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_OVERVIEW);
+        if (!Functions.PREMIUM_FUNCTION_OVERVIEW || hasPremium()) {
+            OverviewPagerFragment overviewPagerFragment = new OverviewPagerFragment();
+            changeFragment(overviewPagerFragment);
         } else {
-            TimePagerFragment timePagerFragment = new TimePagerFragment();
-            changeFragment(timePagerFragment);
-            //openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_overview), getString(R.string.premium_expired));
+            openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_overview), getString(R.string.premium_expired));
         }
     }
 
     @Override
     public void startCalendarFragment() {
-        if (isPremium()) {
+        track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_CALENDAR);
+        if (!Functions.PREMIUM_FUNCTION_CALENDAR || hasPremium()) {
             CalendarFragment calendarFragment = new CalendarFragment();
             changeFragment(calendarFragment);
         } else {
@@ -443,12 +407,12 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
 
     @Override
     public void startContentPagerFragment(Category category, int contentType) {
-        ContentPagerFragment contentPagerFragment = new ContentPagerFragment();
+        ContentListPagerFragment contentListPagerFragment = new ContentListPagerFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(MyConstants.CATEGORY_ID, category.getId());
         bundle.putInt(MyConstants.CONTENT_TYPE, contentType);
-        contentPagerFragment.setArguments(bundle);
-        changeFragment(contentPagerFragment);
+        contentListPagerFragment.setArguments(bundle);
+        changeFragment(contentListPagerFragment);
     }
 
     @Override
@@ -466,13 +430,24 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     }
 
     @Override
-    public void addCategory() {
+    public void addCategory(Fragment targetFragment) {
         // Let editor know that this is first content
         DialogFragment dialog = new AddEditCategoryDialog();
         Bundle bundle = new Bundle();
         bundle.putInt(MyConstants.DIALOGE_TYPE, MyConstants.DIALOGE_CATEGORY_ADD);
         dialog.setArguments(bundle);
+        dialog.setTargetFragment(targetFragment, 0);
         dialog.show(getSupportFragmentManager(), "Add_Category");
+    }
+
+    @Override
+    public void deleteCategory(Category category, Fragment targetFragment) {
+        DeleteCategoryDialog d = new DeleteCategoryDialog();
+        Bundle b = new Bundle();
+        b.putInt(MyConstants.CATEGORY_ID, category.getId());
+        d.setArguments(b);
+        d.setTargetFragment(targetFragment, 0);
+        d.show(mFragmentManager, "..");
     }
 
     @Override
@@ -485,12 +460,15 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
                 newContent = new Task(category.getId(), category.getTitle());
+                track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_ADD_TASK);
                 break;
             case MyConstants.CONTENT_EVENT:
                 newContent = new Event(category.getId(), category.getTitle());
+                track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_ADD_EVENT);
                 break;
             case MyConstants.CONTENT_NOTE:
                 newContent = new Note(category.getId(), category.getTitle());
+                track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_ADD_NOTE);
         }
         contentId = mDatabaseHelper.createContent(newContent);
         startDetailActivity(category, contentType, contentId, detailType);
@@ -501,30 +479,34 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     public void addContent(Category category, int contentType, int detailType, String title, Calendar date, Calendar time) {
         mDatabaseHelper.incrementContentCounter();
         updatePremiumFree();
-        // Show Dialog for information about premium if user gets closer to end of free premium version
 
-        int contentId = 0;
         switch (contentType) {
             case MyConstants.CONTENT_TASK:
+                track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_QUICK_ADD_TASK);
                 Task task = new Task(category.getId(), category.getTitle());
                 task.setTitle(title);
                 task.setDate(date);
                 task.setTime(time);
-                contentId = mDatabaseHelper.createTask(task);
+                mDatabaseHelper.createContent(task);
                 break;
             case MyConstants.CONTENT_EVENT:
+                track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_QUICK_ADD_EVENT);
                 Event event = new Event(category.getId(), category.getTitle());
                 event.setTitle(title);
                 event.setDate(date);
                 event.setTime(time);
-                contentId = mDatabaseHelper.createEvent(event);
+                mDatabaseHelper.createContent(event);
                 break;
             case MyConstants.CONTENT_NOTE:
+                track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_QUICK_ADD_NOTE);
                 Note note = new Note(category.getId(), category.getTitle());
                 note.setTitle(title);
-                contentId = mDatabaseHelper.createNote(note);
+                mDatabaseHelper.createContent(note);
         }
-        startDetailActivity(category, contentType, contentId, detailType);
     }
 
+    @Override
+    public void track(String category, String action) {
+        mTracker.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).build());
+    }
 }

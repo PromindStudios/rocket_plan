@@ -1,9 +1,6 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses;
 
-import android.os.Parcelable;
-
-import java.util.Calendar;
-import java.lang.Object;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
  * Created by eric on 05.05.2016.
@@ -11,10 +8,11 @@ import java.lang.Object;
 public class Task extends TaskEvent {
 
     public Task (int categoryId, String categoryName) {
-        super(categoryId, categoryName);
+        super(categoryId, categoryName, R.drawable.ic_task);
     }
 
     public Task() {
+        mDrawableId = R.drawable.ic_task;
     }
 
 }

@@ -5,5 +5,5 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.I
  */
 
 public interface UpdateInterface {
-    void updateCompleteList();
+    void updateList();
 }
