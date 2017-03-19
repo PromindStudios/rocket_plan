@@ -68,9 +68,9 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Co
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface, AnalyticsInterface {
-    // g
+
     // Layout
-    private Toolbar mToolbar;
+    public Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
 
     // Variables
