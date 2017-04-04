@@ -127,6 +127,7 @@
             android:layout_toLeftOf="@id/fabAdd"
             android:layout_toRightOf="@id/rlAddDate"
             android:hint="Add a task"
+            android:textCursorDrawable="@null"
             android:inputType="textCapSentences"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite"

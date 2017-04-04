@@ -19,6 +19,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ActionModeInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
@@ -37,7 +38,7 @@ public class HolderHelper {
         mDatabaseHelper = new DatabaseHelper(mContext);
     }
 
-    public void setUpContentHolder(ContentViewHolder vhContent, Content content, boolean isTime) {
+    public void setUpContentHolder(ContentViewHolder vhContent, Content content, boolean isTime, ActionModeInterface mActionModeInterface, ArrayList<Content> mContentListDelete) {
         Task task = null;
         Event event = null;
         TaskEvent taskEvent = null;
@@ -102,9 +103,6 @@ public class HolderHelper {
         // Title
         vhContent.tvTitle.setText(content.getTitle());
 
-
-
-
         // Files
         if ((content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals("")) && detailsVisible) {
             vhContent.ivFiles.setVisibility(View.VISIBLE);
@@ -134,9 +132,6 @@ public class HolderHelper {
                 vhContent.ivRepeat.setVisibility(View.GONE);
             }
         }
-
-
-
 
         // Subtasks
         if (mContentType == MyConstants.CONTENT_TASK && detailsVisible) {
@@ -173,8 +168,6 @@ public class HolderHelper {
             vhContent.llSubtaskDetails.setPadding(0,0,0,0);
         }
 
-
-
         // Details
         if (mContentType == MyConstants.CONTENT_EVENT && detailsVisible) {
             if ((event.getLocation() != null && !event.getLocation().equals("")) || mDatabaseHelper.getAllContentParticipants(event.getId()).size() > 0) {
@@ -190,6 +183,17 @@ public class HolderHelper {
                 vhContent.llSubtaskDetails.setPadding(0,0,0,0);
             }
 
+        }
+
+        // ActionMode
+        if (mActionModeInterface.isActionModeActive()) {
+            vhContent.rbActionMode.setVisibility(View.VISIBLE);
+            vhContent.ivContent.setVisibility(View.GONE);
+            vhContent.rbActionMode.setChecked(mContentListDelete.contains(content));
+
+        } else {
+            vhContent.rbActionMode.setVisibility(View.GONE);
+            vhContent.ivContent.setVisibility(View.VISIBLE);
         }
 
 

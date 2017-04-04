@@ -90,6 +90,7 @@
     </string>
 
     <!-- Category -->
+    <string name="category">Kategorie</string>
     <string name="toast_add_category">Bevor du einen Inhalt hinzufügen kannst, musst du zuerst eine Kategorie erstellen</string>
     <string name="alert_dialog_category_title">Kategorie für diese(n)</string>
     <string name="category_up">Nach oben verschieben</string>
@@ -330,6 +331,35 @@ Eric
 
     <!-- Location -->
     <string name="detail_location">Standort</string>
+
+    <!-- Introduction Dialoge -->
+    <string name="introduction_help">Einführung &amp; Tipps </string>
+    <string name="introduction_category_add_title">Kategorie hinzufügen</string>
+    <string name="introduction_category_add_text">Klicken um eine Kategorie wie \"Privat\" oder \"Arbeit\" hinzufügen.</string>
+    <string name="introduction_category_edit_delete_title">Bearbeiten und Löschen</string>
+    <string name="introduction_category_edit_delete_text">Halte eine Kategorie gedrückt, um sie zu bearbeiten oder zu löschen.</string>
+    <string name="introduction_category_dropdown_title">Ausklappbares Menü</string>
+    <string name="introduction_category_dropdown_text">Hier klicken, um das Menü ein- oder auszuklappen.</string>
+    <string name="introduction_category_open_title">Öffnen</string>
+    <string name="introduction_category_open_text">Klicke auf eine Kategorie, um diese zu öffnen. Erstelle danach Aufgaben, Termine oder Notizen.</string>
+
+    <string name="introduction_content_list_subtitle">Aufgaben, Termine &amp; Notizen</string>
+    <string name="introduction_content_list_structure">Liste auswählen</string>
+    <string name="introduction_content_list_structure_text">Hier klicken um die jeweilige Liste mit deinen Aufgaben, Terminen oder Notizen zu öffnen.</string>
+    <string name="introduction_content_list_add">Inhalt hinzufügen</string>
+    <string name="introduction_content_list_add_text">Klicken um Aufgaben, Termine oder Notizen zu erstellen, abhängig von der aktuell ausgewählten Liste.</string>
+    <string name="introduction_content_list_delete">Löschen</string>
+    <string name="introduction_content_list_delete_text">Einfach den Inhalt nach links wischen, während du diesen gedrückt hältst.</string>
+    <string name="introduction_content_list_check">Inhalt abhaken</string>
+    <string name="introduction_content_list_check_text">Einfach nach rechts wischen. Abgehakte Aufgaben und Termine werden unter \"Erledigt\" gespeichert.</string>
+    <string name="introduction_content_list_quick_add">Schnelles Hinzufügen</string>
+    <string name="introduction_content_list_quick_add_text">Hier klicken um den Namen für einen neuen Inhalt einzugeben und anschließend zum Erstellen rechts auf den Pfeil drücken.
+        Bei Aufgaben und Terminen kannst du durch Klicken auf den durchgestrichenen Kalender ein Datum hinzufügen.</string>
+
+    <!-- Welcome Dialog -->
+    <string name="welcome">Willkommen bei Rocket-Plan!</string>
+    <string name="welcome_text">Bevor du loslegst musst du zuerst eine Kategorie erstellen. Jede Kategorie beinhaltet ihre eigenen Aufgaben, Termine und Notizen.
+        Klick bitte auf den orangenen Pfeil und ich zeig Dir wie es geht!</string>
 
 
 </resources>

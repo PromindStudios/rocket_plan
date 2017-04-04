@@ -40,6 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION_7 = 7; // 30.01.17 - updating Personal Tabble --> PREMIUM_SILVER, PREMIUM_GOLD
     private static final int DATABASE_VERSION_8 = 8; // 24.02.17 - adding Participant Table
     private static final int DATABASE_VERSION_9 = 9; // 01.03.17 - adding Location to Event Table
+    private static final int DATABASE_VERSION_10 = 10; // 25.03.17 - adding Introduction to Table Personal
 
     // Database & Table Names
     private static final String DATABASE_NAME = "database_rocketplan";
@@ -103,6 +104,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CONTENT_COUNTER = "content_counter";
     private static final String PREMIUM_SILVER = "premium_silver";
     private static final String PREMIUM_GOLD = "premium_gold";
+    private static final String INTRODUCTION_CATEORY_SHOWN = "introduction_category_shown";
+    private static final String INTRODUCTION_CONTENT_LIST_SHOWN = "introduction_content_list_shown";
 
     // Table participant names
     private static final String PARTICIPANT_NAME = "participant_name";
@@ -147,14 +150,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + TYPE_CONTENT + " INTEGER," + TYPE_REMINDER + " INTEGER," + VALUE_REMINDER + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_PERSONAL = "CREATE TABLE " + TABLE_PERSONAL +
-            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + USER_ID + " INTEGER," + USER_NAME + " TEXT," + USER_MAIL + " TEXT," + USER_PASSWORD + " TEXT," + LAYOUT_COLOR + " INTEGER," + CONTENT_COUNTER + " INTEGER," + PREMIUM_SILVER + " INTEGER," + PREMIUM_GOLD + " INTEGER" + ")";
+            "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + USER_ID + " INTEGER," + USER_NAME + " TEXT," + USER_MAIL + " TEXT," + USER_PASSWORD + " TEXT," + LAYOUT_COLOR + " INTEGER," + CONTENT_COUNTER + " INTEGER," + PREMIUM_SILVER + " INTEGER," + PREMIUM_GOLD + " INTEGER,"
+            + INTRODUCTION_CATEORY_SHOWN + " INTEGER," + INTRODUCTION_CONTENT_LIST_SHOWN + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_PARTICIPANT = "CREATE TABLE " + TABLE_PARTICIPANT +
             "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ID_CONTENT + " INTEGER," + PARTICIPANT_NAME + " TEXT," + PARTICIPANT_CONTACT_ID + " TEXT," + PARTICIPANT_INFORMATION + " TEXT" + ")";
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION_9);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_10);
         mContext = context;
     }
 
@@ -212,6 +216,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String upgradeQuery = "ALTER TABLE " + TABLE_EVENT + " ADD " + EVENT_LOCATION + " TEXT";
             db.execSQL(upgradeQuery);
         }
+        if (oldVersion < 10) {
+            try {
+                String upgradeQuery = "ALTER TABLE " + TABLE_PERSONAL + " ADD " + INTRODUCTION_CATEORY_SHOWN + " INTEGER";
+                db.execSQL(upgradeQuery);
+                String upgradeQuery2 = "ALTER TABLE " + TABLE_PERSONAL + " ADD " + INTRODUCTION_CONTENT_LIST_SHOWN + " INTEGER";
+                db.execSQL(upgradeQuery2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public void onlyOnce() {
@@ -257,6 +272,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(USER_ID, 0);
             values.put(LAYOUT_COLOR, 0);
             values.put(CONTENT_COUNTER, 0);
+            values.put(INTRODUCTION_CATEORY_SHOWN, 0);
+            values.put(INTRODUCTION_CONTENT_LIST_SHOWN, 0);
             dbWrite.insert(TABLE_PERSONAL, null, values);
             dbWrite.close();
         }
@@ -424,8 +441,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.i(MyConstants.DATABASE_HELPER, "create, Task ist null");
             values.put(TASK_EVENT_DATE, 0);
         } else {
-            Log.i(MyConstants.DATABASE_HELPER, "create, Task ist nicht null");
-            values.put(TASK_EVENT_DATE, task.getDate().getTimeInMillis());
+            Calendar calendar = task.getDate();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            values.put(TASK_EVENT_DATE, calendar.getTimeInMillis());
         }
         if (task.getTime() == null) {
             values.put(TASK_EVENT_TIME, 0);
@@ -661,7 +682,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (event.getDate() == null) {
             values.put(TASK_EVENT_DATE, 0);
         } else {
-            values.put(TASK_EVENT_DATE, event.getDate().getTimeInMillis());
+            Calendar calendar = event.getDate();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            values.put(TASK_EVENT_DATE, calendar.getTimeInMillis());
         }
         if (event.getTime() == null) {
             values.put(TASK_EVENT_TIME, 0);
@@ -1585,6 +1611,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PREMIUM_SILVER, hasPremium ? 1 : 0);
         db.update(TABLE_PERSONAL, values, ID + "=?", new String[]{String.valueOf(1)});
     }
+
+    public boolean hasShownIntroductionCategory() {
+        Log.i("CAAALLL", "urdig");
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT " + INTRODUCTION_CATEORY_SHOWN + " FROM " + TABLE_PERSONAL + " WHERE " + ID + " = 1";
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            if (c.getInt(c.getColumnIndex(INTRODUCTION_CATEORY_SHOWN)) == 1) {
+                Log.i("MERKUR", "urdig");
+                return true;
+            } else {
+                SQLiteDatabase dbWrite = this.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(INTRODUCTION_CATEORY_SHOWN, 1);
+                dbWrite.update(TABLE_PERSONAL, values, ID + "=?", new String[]{String.valueOf(1)});
+                return false;
+            }
+        } else {
+            Log.i("EEERRROR", "");
+            return true;
+        }
+    }
+
+    public boolean hasShownIntroductionContentList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT " + INTRODUCTION_CONTENT_LIST_SHOWN + " FROM " + TABLE_PERSONAL + " WHERE " + ID + " = 1";
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            if (c.getInt(c.getColumnIndex(INTRODUCTION_CONTENT_LIST_SHOWN)) == 1) {
+                return true;
+            } else {
+                SQLiteDatabase dbWrite = this.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(INTRODUCTION_CONTENT_LIST_SHOWN, 1);
+                dbWrite.update(TABLE_PERSONAL, values, ID + "=?", new String[]{String.valueOf(1)});
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
 
     // Participant methods
 

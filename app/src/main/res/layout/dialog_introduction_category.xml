@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rlTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/introduction_dialoge_layout_margin_default">
+
+        <ImageView
+            android:id="@+id/ivTitle"
+            style="@style/introduction_dialoge_image_view_title" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/introduction_dialoge_text_view_title"
+            android:layout_toRightOf="@id/ivTitle" />
+
+        <TextView
+            android:id="@+id/tvSubTitle"
+            style="@style/introduction_dialoge_text_view_subtitle"
+            android:layout_below="@id/tvTitle"
+            android:layout_toRightOf="@id/ivTitle"
+            android:text="@string/category" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/introduction_dialoge_scroll_view_height"
+        android:id="@+id/svIntroductionCategory"
+        android:layout_below="@id/rlTitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/introduction_dialoge_layout_margin_default">
+
+                <ImageView
+                    android:id="@+id/ivScreenshotOne"
+                    style="@style/introduction_dialoge_image_view_screenshot"
+                    android:src="@drawable/introduction_create_category"/>
+
+                <TextView
+                    android:id="@+id/tvContentTitleOne"
+                    style="@style/introduction_dialoge_text_view_content_title"
+                    android:layout_toRightOf="@id/ivScreenshotOne"
+                    android:text="@string/introduction_category_add_title" />
+
+                <TextView
+                    style="@style/introduction_dialoge_text_view_content"
+                    android:layout_below="@id/tvContentTitleOne"
+                    android:layout_toRightOf="@id/ivScreenshotOne"
+                    android:text="@string/introduction_category_add_text" />
+
+            </RelativeLayout>
+
+            <View style="@style/view_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/introduction_dialoge_layout_margin_default">
+
+                <ImageView
+                    android:id="@+id/ivScreenshotFour"
+                    style="@style/introduction_dialoge_image_view_screenshot"
+                    android:src="@drawable/introduction_open_category"/>
+
+                <TextView
+                    android:id="@+id/tvContentTitleFour"
+                    style="@style/introduction_dialoge_text_view_content_title"
+                    android:layout_toRightOf="@id/ivScreenshotFour"
+                    android:text="@string/introduction_category_open_title" />
+
+                <TextView
+                    style="@style/introduction_dialoge_text_view_content"
+                    android:layout_below="@id/tvContentTitleFour"
+                    android:layout_toRightOf="@id/ivScreenshotFour"
+                    android:text="@string/introduction_category_open_text" />
+
+            </RelativeLayout>
+
+            <View style="@style/view_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/introduction_dialoge_layout_margin_default">
+
+                <ImageView
+                    android:id="@+id/ivScreenshotTwo"
+                    style="@style/introduction_dialoge_image_view_screenshot"
+                    android:src="@drawable/introduction_edit_delete_category"/>
+
+                <TextView
+                    android:id="@+id/tvContentTitleTwo"
+                    style="@style/introduction_dialoge_text_view_content_title"
+                    android:layout_toRightOf="@id/ivScreenshotTwo"
+                    android:text="@string/introduction_category_edit_delete_title" />
+
+                <TextView
+                    style="@style/introduction_dialoge_text_view_content"
+                    android:layout_below="@id/tvContentTitleTwo"
+                    android:layout_toRightOf="@id/ivScreenshotTwo"
+                    android:text="@string/introduction_category_edit_delete_text" />
+
+            </RelativeLayout>
+
+            <View style="@style/view_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/introduction_dialoge_layout_margin_default">
+
+                <ImageView
+                    android:id="@+id/ivScreenshotThree"
+                    style="@style/introduction_dialoge_image_view_screenshot"
+                    android:src="@drawable/introduction_dropdown_category"/>
+
+                <TextView
+                    android:id="@+id/tvContentTitleThree"
+                    style="@style/introduction_dialoge_text_view_content_title"
+                    android:layout_toRightOf="@id/ivScreenshotThree"
+                    android:text="@string/introduction_category_dropdown_title" />
+
+                <TextView
+                    style="@style/introduction_dialoge_text_view_content"
+                    android:layout_below="@id/tvContentTitleThree"
+                    android:layout_toRightOf="@id/ivScreenshotThree"
+                    android:text="@string/introduction_category_dropdown_text" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <View style="@style/view_divider"
+        android:id="@+id/vDivider"
+        android:layout_below="@id/svIntroductionCategory"
+        android:layout_marginTop="@dimen/introduction_dialoge_layout_margin_default"/>
+
+    <ImageButton
+        android:id="@+id/ibAction"
+        style="@style/introduction_dialoge_image_view_action"
+        android:layout_below="@id/vDivider" />
+
+</RelativeLayout>

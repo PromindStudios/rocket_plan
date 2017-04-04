@@ -2,8 +2,11 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.F
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -14,10 +17,18 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,6 +46,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DatePickerDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.MyTimePickerDialog;
@@ -42,7 +54,6 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Di
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.RepeatDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.AnalyticsInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.ReminderAdapter;
@@ -70,15 +81,17 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     TextView tvDate;
     TextView tvTime;
     TextView tvRepeat;
-    View vDividerReminder;
+    //View vDividerReminder;
     LinearLayout llDateReminder;
     RelativeLayout rlPriority;
     RelativeLayout rlTime;
     RelativeLayout rlRepeat;
     RelativeLayout rlDate;
     RecyclerView rvReminder;
-    View vDividerTime;
+    //View vDividerTime;
     View vDummy;
+    CheckBox cbTitle;
+    EditText etTitle;
 
     // Content
     Event mEvent;
@@ -121,15 +134,17 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         tvDate = (TextView) layout.findViewById(R.id.tvDate);
         tvTime = (TextView) layout.findViewById(R.id.tvTime);
         tvRepeat = (TextView) layout.findViewById(R.id.tvRepeat);
-        vDividerReminder = layout.findViewById(R.id.dividerReminder);
-        //vDummy = layout.findViewById(R.id.vDummy);
+        //vDividerReminder = layout.findViewById(R.id.dividerReminder);
+        vDummy = layout.findViewById(R.id.vDummy);
         llDateReminder = (LinearLayout) layout.findViewById(R.id.llDateReminder);
-        vDividerTime = layout.findViewById(R.id.vDividerTime);
+        //vDividerTime = layout.findViewById(vDividerTime);
         rvReminder = (RecyclerView) layout.findViewById(R.id.rvReminder);
         rlPriority = (RelativeLayout)layout.findViewById(R.id.rlPriority);
         rlDate = (RelativeLayout)layout.findViewById(R.id.rlDate);
         rlTime = (RelativeLayout) layout.findViewById(R.id.rlTime);
         rlRepeat = (RelativeLayout) layout.findViewById(R.id.rlRepeat);
+        cbTitle = (CheckBox)layout.findViewById(R.id.cbTitle);
+        etTitle = (EditText)layout.findViewById(R.id.etTitle);
 
         // Set up Variables
         mDatabaseHelper = new DatabaseHelper(getActivity());
@@ -157,6 +172,60 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
         tvCategory.setText(mCategory.getTitle());
         tvContent.setText(mContent.getContentName(getActivity()));
         ivContent.setImageDrawable(ResourcesCompat.getDrawable(getResources(), mContent.getDrawableId(), null));
+
+        // Title
+        if (Build.VERSION.SDK_INT < 21) {
+            int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
+            cbTitle.setButtonDrawable(id);
+        }
+        etTitle.setText(mContent.getTitle());
+        if (!mContent.getTitle().equals("")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cbTitle.setButtonTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null)));
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cbTitle.setButtonTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null)));
+            }
+        }
+
+        etTitle.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void afterTextChanged(Editable editable) {
+                mContent.setTitle(editable.toString());
+                if (!mContent.getTitle().equals("")) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        cbTitle.setButtonTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null)));
+                    }
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        cbTitle.setButtonTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null)));
+                    }
+                }
+            }
+        });
+
+        etTitle.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    closeKeyboard();
+                    vDummy.requestFocus();
+                }
+                return false;
+            }
+        });
+
+        // CheckBox
+
+        cbTitle.setChecked(mTaskEvent.isDone());
+        cbTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mTaskEvent.setDone(b);
+            }
+        });
 
 
         if (mContentType == MyConstants.CONTENT_TASK || mContentType == MyConstants.CONTENT_EVENT) {
@@ -319,15 +388,15 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
                     mTaskEvent.setRepetitionValue(0);
                 }
             });
-            vDividerTime.setVisibility(View.VISIBLE);
+            //vDividerTime.setVisibility(View.VISIBLE);
             // Check if taskEvent isDone
             if (mTaskEvent.isDone()) {
-                setDateComponentsVisible(false);
+                //setDateComponentsVisible(false);
             }
 
         } else {
-            vDividerTime.setVisibility(View.GONE);
-            vDividerReminder.setVisibility(View.GONE);
+            //vDividerTime.setVisibility(View.GONE);
+            //vDividerReminder.setVisibility(View.GONE);
             llDateReminder.setVisibility(View.GONE);
         }
 
@@ -369,11 +438,11 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     private void setReminderVisible(boolean visible) {
         if (visible) {
             //tvReminderTitle.setVisibility(View.VISIBLE);
-            vDividerReminder.setVisibility(View.VISIBLE);
+            //vDividerReminder.setVisibility(View.VISIBLE);
             rvReminder.setVisibility(View.VISIBLE);
         } else {
             //tvReminderTitle.setVisibility(View.GONE);
-            vDividerReminder.setVisibility(View.GONE);
+            //vDividerReminder.setVisibility(View.GONE);
             rvReminder.setVisibility(View.GONE);
         }
     }
@@ -509,7 +578,6 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     }
 
     public void handleFocus() {
-        /*
         if (mContent.getTitle() == null || mContent.getTitle().equals("") || mContent.getTitle().matches("")) {
             etTitle.requestFocus();
             Log.i("Title ist", "ist leer");
@@ -519,8 +587,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
             vDummy.requestFocus();
             closeKeyboard();
         }
-        */
-        closeKeyboard();
+        //closeKeyboard();
     }
 
     public void createReminder(int reminderType, int reminderValue) {
@@ -561,10 +628,10 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     private void setDateVisible(boolean visible) {
         if (visible) {
             rlDate.setVisibility(View.VISIBLE);
-            vDividerTime.setVisibility(View.VISIBLE);
+            //vDividerTime.setVisibility(View.VISIBLE);
         } else {
             rlDate.setVisibility(View.GONE);
-            vDividerTime.setVisibility(View.GONE);
+            //vDividerTime.setVisibility(View.GONE);
         }
     }
 
@@ -627,8 +694,8 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     }
 
     public void closeKeyboard() {
-        ((TaskEventActivity)getActivity()).closeKeyboard();
-        //InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        //((TaskEventActivity)getActivity()).closeKeyboard();
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
     }
 }

@@ -3,10 +3,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rlActionBar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
+    android:gravity="center_vertical"
     android:focusableInTouchMode="true">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_task_24dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:id="@+id/ivContenT"
+        android:layout_centerVertical="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:layout_toRightOf="@id/ivContenT">
+
+        <TextView
+            android:id="@+id/tvContenT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Aufgabe"
+            android:textSize="21sp"/>
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:textColor="@color/white"
+            android:text="Kategorie: Privat"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+
+
+    <!--
     <View
         android:id="@+id/vDummy"
         android:layout_width="1px"
@@ -30,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/ivSelectContentType"
         android:gravity="center_vertical"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <CheckBox
@@ -89,6 +131,8 @@
             android:textSize="15sp" />
 
     </LinearLayout>
+
+    -->
 
 
 

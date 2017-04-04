@@ -1,10 +1,12 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.NavigationDrawerViewPagerAdapter;
@@ -54,8 +56,11 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         mViewPager = (NonSwipeableViewPager) layout.findViewById(R.id.vpNavDrawer);
 
         // Initiate TabLayout
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.home)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.settings)));
+        //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.home)));
+        //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.settings)));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_home_18dp, null)));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_18dp, null)));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_heart_18dp, null)));
 
         // Set up ViewPager
         mNavigationDrawerViewPagerAdapter = new NavigationDrawerViewPagerAdapter(getActivity().getSupportFragmentManager(), mTabLayout.getTabCount());
@@ -109,9 +114,26 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         colorLayout();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override

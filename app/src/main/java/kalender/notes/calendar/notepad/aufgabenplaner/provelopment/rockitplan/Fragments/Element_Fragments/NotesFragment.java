@@ -98,9 +98,9 @@ public class NotesFragment extends Fragment {
     PremiumInterface mPremiumInterface;
     AnalyticsInterface mAnalyticsInterface;
 
-
-    private final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 100;
+    private final int PERMISSION_REQUEST_IMAGE = 100;
     private final int PERMISSION_REQUEST_RECORD_AUDIO = 200;
+    private final int PERMISSION_REQUEST_VIDEO = 300;
 
     GeneralFragment.DetailActivityListener mListener;
 
@@ -156,7 +156,8 @@ public class NotesFragment extends Fragment {
         etDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b) mAnalyticsInterface.track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_DESCRIPTION);
+                if (b)
+                    mAnalyticsInterface.track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_DESCRIPTION);
             }
         });
 
@@ -174,7 +175,7 @@ public class NotesFragment extends Fragment {
                 if (!Functions.PREMIUM_FUNCTION_NOTES_IMAGE || mPremiumInterface.hasPremium()) {
                     // Check for permission
                     if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
+                        requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_IMAGE);
                     } else {
                         mListener.takePicture(NotesFragment.this);
                     }
@@ -246,9 +247,13 @@ public class NotesFragment extends Fragment {
                         // play video in extra activity
                         getActivity().startActivity(new Intent(getActivity(), VideoActivity.class).putExtra(MyConstants.VIDEO_PATH, mContent.getVideoPath()));
                     } else {
-                        // record video
                         mAnalyticsInterface.track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_VIDEO);
-                        getActivity().startActivityForResult(new Intent(MediaStore.ACTION_VIDEO_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, createVideoPath()), MyConstants.REQUEST_VIDEO_RECORD);
+                        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_VIDEO);
+                        } else {
+                            getActivity().startActivityForResult(new Intent(MediaStore.ACTION_VIDEO_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, createVideoPath()), MyConstants.REQUEST_VIDEO_RECORD);
+                        }
+
                     }
                 } else {
                     mPremiumInterface.openDialogPremiumFunction(getString(R.string.premium_function), getString(R.string.premium_silver_video), getString(R.string.premium_expired));
@@ -342,8 +347,8 @@ public class NotesFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mListener = (GeneralFragment.DetailActivityListener) context;
-        mPremiumInterface = (PremiumInterface)context;
-        mAnalyticsInterface = (AnalyticsInterface)context;
+        mPremiumInterface = (PremiumInterface) context;
+        mAnalyticsInterface = (AnalyticsInterface) context;
     }
 
     public void onSetPicture(String filename) {
@@ -425,16 +430,21 @@ public class NotesFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.i("Permission", "Grantedt");
         switch (requestCode) {
-            case PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE:
+            case PERMISSION_REQUEST_IMAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mListener.takePicture(NotesFragment.this);
                 }
                 break;
             case PERMISSION_REQUEST_RECORD_AUDIO:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     startRecording();
                 }
                 break;
+            case PERMISSION_REQUEST_VIDEO:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getActivity().startActivityForResult(new Intent(MediaStore.ACTION_VIDEO_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, createVideoPath()), MyConstants.REQUEST_VIDEO_RECORD);
+                }
+
         }
         return;
     }
@@ -471,7 +481,7 @@ public class NotesFragment extends Fragment {
     }
 
     private String createAudioPath() {
-        String path = "rocket_plan_audio"+ Long.toString(System.nanoTime());
+        String path = "rocket_plan_audio" + Long.toString(System.nanoTime());
         File directory = new File(Environment.getExternalStorageDirectory(), "RockitPlan");
         if (!directory.exists()) {
             directory.mkdirs();
@@ -481,7 +491,7 @@ public class NotesFragment extends Fragment {
     }
 
     private Uri createVideoPath() {
-        String path = "rocket_plan_video"+ Long.toString(System.nanoTime());
+        String path = "rocket_plan_video" + Long.toString(System.nanoTime());
         File directory = new File(Environment.getExternalStorageDirectory(), "RockitPlan");
         if (!directory.exists()) {
             directory.mkdirs();
@@ -536,14 +546,20 @@ public class NotesFragment extends Fragment {
 
     private void onRecordAudio() {
         if (!mAudioRecording) {
-            if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_RECORD_AUDIO);
+            if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                String[] missingPermissions = null;
+                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_RECORD_AUDIO);
+
             } else {
                 startRecording();
             }
-        } else {
+        } else
+
+        {
             stopRecording();
         }
+
     }
 
     private void handleAudioViews() {

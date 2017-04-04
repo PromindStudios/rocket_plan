@@ -22,16 +22,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.ContentHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.HomeFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.StarterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -87,27 +86,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onContentClick(int position, int contentType) {
                         Category category = mCategories.get(position);
-                        ContentHelper contentHelper = new ContentHelper(mContext, category.getId());
+                        mStarterInterface.startContentPagerFragment(category, contentType);
 
-                        int contentSize = 0;
-                        Content content;
-                        switch (contentType) {
-                            case MyConstants.CONTENT_TASK:
-                                contentSize = contentHelper.getUndoneContentSize(mDatabaseHelper.getAllCategoryTasks(category.getId()), contentType);
-                                break;
-                            case MyConstants.CONTENT_EVENT:
-                                contentSize = contentHelper.getUndoneContentSize(mDatabaseHelper.getAllCategoryEvents(category.getId()), contentType);
-                                break;
-                            case MyConstants.CONTENT_NOTE:
-                                contentSize = mDatabaseHelper.getAllCategoryNotes(category.getId(), category.isNoteSortedByPriority()).size();
-                                break;
-                        }
-
-                        if (contentSize == 0) {
-                            mBodyManagerInterface.addContent(category, contentType, MyConstants.DETAIL_GENERAL);
-                        } else {
-                            mStarterInterface.startContentPagerFragment(category, contentType);
-                        }
                     }
 
                     @Override
@@ -163,7 +143,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                     case 2:
                                         // Move up
                                         int p = mCategories.indexOf(category);
-                                        if (p>0) {
+                                        if (p > 0) {
                                             mCategories.remove(p);
                                             mCategories.add((p - 1), category);
                                             for (Category c : mCategories) {
@@ -237,19 +217,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             int noteSize = mDatabaseHelper.getAllCategoryNotes(category.getId(), category.isNoteSortedByPriority()).size();
 
             if (taskSize == 1) {
-                holder.tvTask.setText(""+taskSize+" "+mContext.getString(R.string.task));
+                holder.tvTask.setText("" + taskSize + " " + mContext.getString(R.string.task));
             } else {
-                holder.tvTask.setText(""+taskSize+" "+mContext.getString(R.string.tasks));
+                holder.tvTask.setText("" + taskSize + " " + mContext.getString(R.string.tasks));
             }
             if (eventSize == 1) {
-                holder.tvEvent.setText(""+eventSize+" "+mContext.getString(R.string.event));
+                holder.tvEvent.setText("" + eventSize + " " + mContext.getString(R.string.event));
             } else {
-                holder.tvEvent.setText(""+eventSize+" "+mContext.getString(R.string.events));
+                holder.tvEvent.setText("" + eventSize + " " + mContext.getString(R.string.events));
             }
             if (noteSize == 1) {
-                holder.tvNote.setText(""+noteSize+" "+mContext.getString(R.string.note));
+                holder.tvNote.setText("" + noteSize + " " + mContext.getString(R.string.note));
             } else {
-                holder.tvNote.setText(""+noteSize+" "+mContext.getString(R.string.notes));
+                holder.tvNote.setText("" + noteSize + " " + mContext.getString(R.string.notes));
             }
 
             // Handle Category Color
@@ -270,7 +250,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mCategories.size()+1;
+        return mCategories.size() + 1;
     }
 
     @Override

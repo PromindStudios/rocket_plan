@@ -54,6 +54,7 @@ public class DeleteContentDialog extends DialogFragment {
         ibExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mListener.updateList();
                 DeleteContentDialog.this.getDialog().cancel();
             }
         });

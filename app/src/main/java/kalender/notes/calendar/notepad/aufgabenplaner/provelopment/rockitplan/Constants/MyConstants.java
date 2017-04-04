@@ -151,7 +151,7 @@ public class MyConstants {
     // PREMIUM
     public static final String PREMIUM_SILVER = "rocket_plan_premium_silber";
     public static final String PREMIUM_GOLD = "rocket_plan_premium_gold";
-    public static final boolean DEVELOPER_PREMIUM_MODE = true;
+    public static final boolean DEVELOPER_PREMIUM_MODE = false;
     public static final int RESULT_PREMIUM_UPDATE = 8;
 
     // Image
@@ -166,4 +166,7 @@ public class MyConstants {
     // Visibility
     public static final String VISIBILITY_DETAILS_CONTENT_PAGER = "visibility_details_content_pager";
     public static final String VISIBILITY_DETAILS_TIME_PAGER = "visibility_details_time_pager";
+
+    // Dialog Introduction
+    public static final String DIALOG_INTRODUCTION_IS_START = "dialog_introduction_is_start";
 }

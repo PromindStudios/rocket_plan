@@ -34,19 +34,19 @@ import java.util.Calendar;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DatePickerDialog;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.Introduction.ContentListIntroductionDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.MyTimePickerDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.AnalyticsInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimePagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.NonSwipeableViewPager;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewPagerAdapter.ContentViewPagerAdapter;
 
@@ -139,17 +139,6 @@ public class ContentListPagerFragment extends Fragment implements ContentTimePag
                     mViewPagerAdapter.getFragment(currentContent).setAdapterUp();
                 }
                 resetFastAdd();
-
-                if (mSharedPreferences.getBoolean(MyConstants.FIRST_CONTENT, true)) {
-                    DialogFragment dialog = new InformationDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(MyConstants.DIALOGE_TITLE, getString(R.string.help_first_content_title));
-                    bundle.putString(MyConstants.DIALOGE_CONTENT, getString(R.string.help_first_content));
-                    dialog.setArguments(bundle);
-                    dialog.show(getActivity().getSupportFragmentManager(), "dialog_about");
-                    mEditor.putBoolean(MyConstants.FIRST_CONTENT, false).commit();
-                }
-                mViewPagerAdapter.getFragment(mViewPager.getCurrentItem()).disableHelpText();
             }
         });
 
@@ -221,6 +210,18 @@ public class ContentListPagerFragment extends Fragment implements ContentTimePag
         });
 
         return layout;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!mDatabaseHelper.hasShownIntroductionContentList()) {
+            ContentListIntroductionDialog dialog = new ContentListIntroductionDialog();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(MyConstants.DIALOG_INTRODUCTION_IS_START, true);
+            dialog.setArguments(bundle);
+            dialog.show(getActivity().getSupportFragmentManager(), "dialog");
+        }
     }
 
     @Override

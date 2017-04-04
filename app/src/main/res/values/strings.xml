@@ -89,6 +89,7 @@
     </string>
 
     <!-- Category -->
+    <string name="category">Category</string>
     <string name="toast_add_category">Before you can add any content you have to create a category</string>
     <string name="alert_dialog_category_title">Category for this</string>
     <string name="category_up">Move up</string>
@@ -116,7 +117,7 @@
     <string name="detail_subtext_date">Date</string>
     <string name="detail_subtext_time">Time</string>
     <string name="detail_subtext_repetition">Repetition</string>
-    <string name="detail_subtext_reminder">Choose a eminder</string>
+    <string name="detail_subtext_reminder">Choose a reminder</string>
     <string name="detail_subtext_priority">High priority</string>
     <string name="task_due_today">This task is due today</string>
     <string name="task_due_tomorrow">This task is due tomorrow</string>
@@ -330,5 +331,34 @@ Eric
 
     <!-- Location -->
     <string name="detail_location">Location</string>
+
+    <!-- Introduction Dialoge -->
+    <string name="introduction_help">Introduction and Tips</string>
+    <string name="introduction_category_add_title">Add Category</string>
+    <string name="introduction_category_add_text">Click and add a category like \"Private\" or \"Work\".</string>
+    <string name="introduction_category_edit_delete_title">Edit and Delete</string>
+    <string name="introduction_category_edit_delete_text">Keep the category item pressed to edit or delete it.</string>
+    <string name="introduction_category_dropdown_title">Dropdown menu</string>
+    <string name="introduction_category_dropdown_text">Click here for expanding and collapsing the dropdown menu.</string>
+    <string name="introduction_category_open_title">Open</string>
+    <string name="introduction_category_open_text">Click on the category to open it. Create tasks, events and notes after that.</string>
+
+    <string name="introduction_content_list_subtitle">Tasks, events &amp; notes</string>
+    <string name="introduction_content_list_structure">Choose a list</string>
+    <string name="introduction_content_list_structure_text">Click and open any content list like your tasks, events or notes.</string>
+    <string name="introduction_content_list_add">Add content</string>
+    <string name="introduction_content_list_add_text">Click here to add any content, depending on the current type of list.</string>
+    <string name="introduction_content_list_delete">Delete</string>
+    <string name="introduction_content_list_delete_text">Just swipe the content item to the left, while you hold on to it.</string>
+    <string name="introduction_content_list_check">Check off content</string>
+    <string name="introduction_content_list_check_text">Just swipe the content item to the right. It will be stored in a seperate list with done content.</string>
+    <string name="introduction_content_list_quick_add">Quick add</string>
+    <string name="introduction_content_list_quick_add_text">Click here to enter a name for any new content and create it through clicking on the arrow on the right.
+        In the case of tasks and events you can also add a date through clicking on the crossed calendar icon.</string>
+
+    <!-- Welcome Dialog -->
+    <string name="welcome">Welcome to Rocket-Plan!</string>
+    <string name="welcome_text">Before you get started you have to create your first category. Each category contains its own tasks, events and notes.
+        Please click the orange arrow and I will show you how you do it!</string>
 
 </resources>

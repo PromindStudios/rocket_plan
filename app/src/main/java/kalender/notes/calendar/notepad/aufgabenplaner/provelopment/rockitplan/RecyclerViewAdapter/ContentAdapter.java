@@ -10,19 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.NoteActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Category;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.ContentHelper;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DateTimeTexter;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeAdapterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ActionModeInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder.ContentViewHolder;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder.DividerViewHolder;
@@ -32,7 +31,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Vi
  * Created by Admin on 20.06.2016.
  * Set Click Listener for opening editReminder Activity
  */
-public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ContentTimeAdapterInterface{
+public class ContentAdapter extends ContentTimeCalendarAdapter {
 
     private final int TYPE_SHOW_HIDE = 0;
     private final int TYPE_CONTENT = 1;
@@ -45,9 +44,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     MainActivity mMainActivity;
 
     Context mContext;
-    ArrayList<Content> mContent;
     LayoutInflater mLayoutInflater;
-    DatabaseHelper mDataBaseHelper;
     int mCategoryId;
     int mContentType;
 
@@ -55,7 +52,8 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     ContentHelper mContentHelper;
 
-    public ContentAdapter(Context context, int categoryId, MainActivity mainActivity, int contentType) {
+    public ContentAdapter(Context context, int categoryId, MainActivity mainActivity, int contentType, ActionModeInterface actionModeInterface) {
+        super(actionModeInterface);
         Log.i("categoryIdd", Integer.toString(categoryId));
         mContext = context;
         mMainActivity = mainActivity;
@@ -88,13 +86,33 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         if (viewType == TYPE_CONTENT) {
             View view = mLayoutInflater.inflate(R.layout.item_content, parent, false);
+            LayoutColor layoutColor = new LayoutColor(mContext, mDataBaseHelper.getLayoutColorValue());
             ContentViewHolder holder = new ContentViewHolder(view, new ContentViewHolder.vhTasksClickListener() {
                 @Override
                 public void openContent(int position, int type) {
                     Content content = getContent(position);
                     startDetailActivity(content, type);
                 }
-            });
+
+                @Override
+                public void onItemClicked(int position, int type) {
+                    if (mActionModeInterface.isActionModeActive()) {
+                        toggleSelection(position);
+                    } else {
+                        Content content = getContent(position);
+                        startDetailActivity(content, type);
+                    }
+                }
+
+                @Override
+                public void onItemLongClicked(int position) {
+                    if (!mActionModeInterface.isActionModeActive()) {
+                        mActionModeInterface.startActionMode();
+                        toggleSelection(position);
+                        notifyDataSetChanged();
+                    }
+                }
+            }, layoutColor.getLayoutColor());
             return holder;
         } else {
             View view = mLayoutInflater.inflate(R.layout.item_expand_collapse, parent, false);
@@ -119,7 +137,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             Log.i("Bei Aufbau: ", Integer.toString(content.getCategoryId()));
 
-            mHolderHelper.setUpContentHolder(vhContent, content, false);
+            mHolderHelper.setUpContentHolder(vhContent, content, false, mActionModeInterface, mContentListDelete);
 
             // Date & Time
             if (mContentType == MyConstants.CONTENT_TASK || mContentType == MyConstants.CONTENT_EVENT) {
@@ -195,6 +213,22 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    /*
+    public void toggleSelection(int position) {
+        Content content = mContent.get(position);
+        selectView(position, !mContentListDelete.contains(content), content);
+    }
+
+    public void selectView(int position, boolean value, Content content) {
+        if (value)
+            mContentListDelete.add(content);
+        else
+            mContentListDelete.remove(content);
+        notifyDataSetChanged();
+    }
+    */
+
+
     public Content getContent(int position) {
         Log.i("Das ist", "die Position: "+Integer.toString(position));
         Log.i("Groesse von mContent ", Integer.toString(mContent.size()));
@@ -245,13 +279,6 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void update() {
-        setContent();
-        notifyDataSetChanged();
-    }
-
-
-
     public Content getContent(RecyclerView.ViewHolder viewHolder) {
         return getContent(viewHolder.getAdapterPosition());
     }
@@ -274,4 +301,18 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    /*
+    public void deleteContentListDelete() {
+        for (Content content : mContentListDelete) {
+            mDataBaseHelper.deleteContent(content.getId(), content.getContentType());
+        }
+        resetContentListDelete();
+        update();
+    }
+    */
+
+    public void update() {
+        setContent();
+        notifyDataSetChanged();
+    }
 }

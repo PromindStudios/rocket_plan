@@ -10,11 +10,57 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
         android:focusable="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
+
+        <RelativeLayout
+            android:id="@+id/rlTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true">
+
+            <View
+                android:id="@+id/vDummy"
+                android:layout_width="1px"
+                android:layout_height="1px"
+                android:background="@color/colorTransparent"
+                android:focusableInTouchMode="true" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorSecondaryText"
+                android:id="@+id/cbTitle"
+                android:layout_marginLeft="9dp"
+                android:paddingRight="9dp"
+                android:layout_centerVertical="true"/>
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:imeOptions="actionDone"
+                style="@style/activity_detail_text"
+                android:paddingLeft="0dp"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:maxLength="35"
+                android:layout_toRightOf="@id/cbTitle"
+                android:textColorHint="@color/colorDivider"
+                android:hint="@string/detail_subtext_title_task"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="@dimen/activity_detail_margin_vertical_default"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
+            android:background="@color/colorDivider" />
 
         <RelativeLayout
             android:id="@+id/rlCategory"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.AppCompatImageView
@@ -32,6 +78,7 @@
 
         <RelativeLayout
             android:id="@+id/rlContent"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -124,6 +171,25 @@
                     android:text="@string/detail_subtext_time" />
             </RelativeLayout>
 
+
+            <!--
+            <View
+                android:id="@+id/vDividerTime"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/activity_detail_margin_vertical_default"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
+                android:background="@color/colorDivider" />
+                -->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvReminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <RelativeLayout
                 android:id="@+id/rlRepeat"
                 android:layout_width="match_parent"
@@ -146,23 +212,7 @@
             </RelativeLayout>
 
 
-            <View
-                android:id="@+id/vDividerTime"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/activity_detail_margin_vertical_default"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
-                android:background="@color/colorDivider" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvReminder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
+            <!--
             <View
                 android:id="@+id/dividerReminder"
                 android:layout_width="match_parent"
@@ -173,6 +223,7 @@
                 android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
                 android:background="@color/colorDivider"
                 android:visibility="gone" />
+                -->
 
         </LinearLayout>
 <!--

@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rocket-Plan</string>
+    <string name="headerTitle">RocketPlan</string>
+    <string name="headerSubtitle">by Promind Studios</string>
+    <string name="item_overview_title">Übersicht</string>
+
+    <!-- General -->
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
+    <string name="overview">Übersicht</string>
+    <string name="done">Erledigt</string>
+    <string name="help">Hilfe</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="at">um</string>
+    <string name="minute_plural">Minuten</string>
+    <string name="hour_plural">Stunden</string>
+    <string name="day_plural">Tage</string>
+    <string name="week_plural">Wochen</string>
+    <string name="month_plural">Month</string>
+    <string name="every">Alle</string>
+    <string name="calendar">Kalender</string>
+    <string name="today">Heute</string>
+    <string name="tomorrow">Morgen</string>
+    <string name="overdue">Überfällig</string>
+    <string name="time">Uhrzeit</string>
+    <string name="drawer_footer">Developed with passion - promindstudios@gmail.com</string>
+    <string name="coming_soon">In der aktiven Entwicklung und bald verfügbar!</string>
+    <string name="name">Name</string>
+    <string name="phone">Telefon</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="sms">SMS</string>
+    <string name="information">Informationen</string>
+    <string name="home">Home</string>
+
+    <!-- Week names -->
+    <string name="monday_short">MO</string>
+    <string name="tuesday_short">DI</string>
+    <string name="wednesday_short">MI</string>
+    <string name="thursday_short">DO</string>
+    <string name="friday_short">FR</string>
+    <string name="saturday_short">SA</string>
+    <string name="sunday_short">SO</string>
+
+    <!-- Priority -->
+
+    <string name="priority">Priorität</string>
+    <string name="priority_none">Keine Priorität</string>
+    <string name="priority_normal">Normale Priorität</string>
+    <string name="priority_high">Hohe Priorität</string>
+    <string name="priority_very_high">Sehr hohe Priorität</string>
+
+    <!-- Tabs -->
+    <string name="title_tabTask">Aufgaben</string>
+    <string name="title_tabEvent">Termine</string>
+    <string name="title_tabNote">Notizen</string>
+    <string name="tab_notes">Notizen</string>
+    <string name="tab_details">Details</string>
+    <string name="tab_key_data">Allgemein</string>
+
+    <!-- Help -->
+    <string name="help_add_category_and_welcome">
+        Willkommen! \n\n
+        Leg los und erstelle deine erste Kategorie - Einfach den "Plus" Button in der rechten Ecke drücken! \n\n
+        Falls du eine Kategorie bearbeiten willst, halte diese einfach gedrückt. Ich wünsche Dir viel Erfolg beim "Planen"! \n\n
+        Eric - Promind Studios
+    </string>
+    <string name="help_add_category">
+        Keine Kategorien?\n\n
+        Füge eine hinzu indem du den "Plus" Button in der rechten Ecke drückst!</string>
+    <string name="help_add_content_and_welcome">
+        Der Start ist gelungen! \n\n
+        Mach weiter und erstelle deinen ersten Inhalt - Aufgaben, Termine und Notizen können durch das Drücken des "Plus" Buttons in der rechten Ecke erstellt werden! \n\n
+        Falls du einen Inhalt abhacken oder löschen willst kannst du die Wisch-Funktion nutzen. \n\n
+        Alles andere sollte Dir leicht von der Hand gehen. Falls du Fragen oder gute Ideen haben solltest kannst du mir gerne eine E-Mail an "promindstudios@gmail.com" schreiben.\n\n
+        Ich freue mich über jede gute Bewertung im Play Store! \n\n
+        Cheers \n\n
+        Eric - Promind Studios
+    </string>
+    <string name="help_first_content_title">
+        Wichtige Info!
+    </string>
+
+    <string name="help_first_content">
+        Gute Arbeit, du hast deinen ersten Inhalt hinzugefügt! \n\n
+            Wenn du eine Aufgabe oder einen Termin abhaken möchtest, kannst du diesen NACH RECHTS WISCHEN. Zum Löschen kannst du diesen nach LINKS WISCHEN. So einfach geht es! Das war auch schon alles, was ich Dir bei dieser Gelegenheit mit auf dem Weg geben wollte. Viel Spaß beim Planen!
+\n\n
+        Cheers \n\n
+        Eric - Promind Studios
+    </string>
+
+    <!-- Category -->
+    <string name="category">Kategorie</string>
+    <string name="toast_add_category">Bevor du einen Inhalt hinzufügen kannst, musst du zuerst eine Kategorie erstellen</string>
+    <string name="alert_dialog_category_title">Kategorie für diese(n)</string>
+    <string name="category_up">Nach oben verschieben</string>
+    <string name="category_down">Nach unten verschieben</string>
+    <string name="add_category">Kategorie hinzufügen</string>
+
+    <!-- Details -->
+
+    <!-- Content -->
+    <string name="reminder_due_date">Bei Fälligkeit</string>
+    <string name="reminder_one_hour">1 Stunde vor Fälligkeit</string>
+    <string name="reminder_one_day">1 Tag vor Fälligkeit</string>
+    <string name="date_due_at">Fällig am</string>
+    <string name="date_done_at">Erledigt am</string>
+
+    <!-- Tasks - General -->
+    <string name="task">Aufgabe</string>
+    <string name="tasks">Aufgaben</string>
+    <string name="detail_title">Titel</string>
+    <string name="detail_subtext_title_task">Erstelle einen Titel...</string>
+    <string name="detail_title_deadline">Deadline</string>
+    <string name="detail_title_reminder">Erinnerung</string>
+    <string name="detail_title_priority">Priorität</string>
+    <string name="detail_subtext_date">Datum</string>
+    <string name="detail_subtext_time">Uhrzeit</string>
+    <string name="detail_subtext_repetition">Wiederholung</string>
+    <string name="detail_subtext_reminder">Wähle eine Erinnerung</string>
+    <string name="detail_subtext_priority">Hohe Priorität</string>
+    <string name="task_due_today">Diese Aufgabe ist heute fällig</string>
+    <string name="task_due_tomorrow">Diese Aufgabe ist morgen fällig</string>
+    <string name="add_task">Füge eine Aufgabe hinzu..</string>
+
+    <!-- Tasks - Files -->
+    <string name="detail_description_empty">Erstelle eine Beschreibung</string>
+    <string name="detail_description">Beschreibung</string>
+    <string name="detail_description_hint">Description</string>
+    <string name="detail_image">Bild</string>
+    <string name="picture_edit">Erstelle ein neues Bild</string>
+
+    <!-- Tasks - Subtasks -->
+    <string name="detail_subtask_add">Teilaufgabe erstellen</string>
+
+    <!-- Tasks - Files -->
+    <string name="detail_title_picture">Bild</string>
+    <string name="detail_subtext_picture">Erstelle ein Bild</string>
+
+    <!-- Event - General -->
+    <string name="event">Termin</string>
+    <string name="events">Termine</string>
+    <string name="detail_subtext_title_event">Erstelle einen Titel...</string>
+    <string name="detail_title_date_time">Datum und Uhrzeit</string>
+    <string name="detail_subtext_beginning">Wähle einen Beginn</string>
+    <string name="detail_subtext_end">Wähle ein Ende</string>
+    <string name="event_due_today">Dieser Termin ist heute fällig</string>
+    <string name="event_due_tomorrow">Dieser Termin ist morgen fällig</string>
+    <string name="add_event">Füge einen Termin hinzu..</string>
+
+    <!-- Note - General -->
+    <string name="note">Notiz</string>
+    <string name="notes">Notizen</string>
+    <string name="detail_subtext_title_note">Erstelle einen Titel...</string>
+    <string name="openDrawer">öffnen</string>
+    <string name="closeDrawer">schließen</string>
+    <string name="add_note">Füge eine Notiz hinzu..</string>
+
+    <!-- Time -->
+    <string name="tab_day">Tag</string>
+    <string name="tab_week">Woche</string>
+    <string name="tab_month">Monat</string>
+    <string name="time_due_today">Heute fällig</string>
+    <string name="time_due_today_none">Heute ist nichts fällig</string>
+    <string name="time_done_today">Heute erledigt</string>
+    <string name="time_done_today_none">Heute wurde nichts erledigt</string>
+    <string name="time_due_tomorrow">Morgen fällig</string>
+    <string name="time_due_tomorrow_none">Nichts ist morgen fällig</string>
+    <string name="time_due_this_week">Diese Woche fällig</string>
+    <string name="time_due_this_week_none">Diese Woche ist nichts fällig</string>
+    <string name="time_done_this_week">Diese Woche erledigt</string>
+    <string name="time_done_this_week_none">Diese Woche wurde nichts erledigt</string>
+    <string name="time_due_next_week">Nächste Woche fällig</string>
+    <string name="time_due_next_week_none">Nichts ist diese Woche fällig</string>
+    <string name="time_due_this_month">Diesen Monat fällig</string>
+    <string name="time_due_this_month_none">Nichts ist diesen Monat fällig</string>
+    <string name="time_done_this_month">Diesen Monat erledigt</string>
+    <string name="time_done_this_month_none">Nichts diesen Monat erledigt</string>
+    <string name="time_due_next_month">Nächsten Monat fällig</string>
+    <string name="time_due_next_month_none">Nichts ist nächsten Monat fällig</string>
+
+    <!-- Dialogs -->
+    <string name="title_add_category">Kategorie hinzufügen</string>
+    <string name="hint_dialog_add">Namen eingeben...</string>
+    <string name="title_edit_category">Kategorie bearbeiten</string>
+    <string name="title_add_subtask">Teilaufgabe hinzufügen</string>
+    <string name="title_edit_subtask">Teilaufgabe bearbeiten</string>
+    <string name="choose_color">Farbe auswählen</string>
+    <string name="title_about">Über Rocket-Plan</string>
+    <string name="dialog_about_text">Dear Rocket Planer,\n\n
+als erstes bedanke ich mich bei Dir, dass du diese App ausgewählt hast und mit dieser arbeitest. Ich werde Dich im Folgenden kurz über meine Pläne für dieses Projekt informieren, dass ich 2015 gestartet habe:
+\n\nWHAT YOU CAN DO WITH ROCKET-PLAN\n\n
+You are able to organize your daily tasks, events and notes – All in one App. You have a choice of useful functions, such as subtasks.
+\n\nWAS DU MACHEN KANNST\n\n
+-	Wiederholungen für Inhalte festlegen\n
+-	Einen Standort für deine Termine festlegen\n
+-	Ein smartes App-Widget nutzen\n
+-	Mit einer Kalender Funktion arbeiten (Große Sache)\n
+-	Videos und Sprachnachrichten aufnehmen, als Teil deiner Beschreibungen\n
+-	Inhalte mit Freunden und Familie teilen – Ohne nervige Anmeldung\n\n
+Ich habe die App bereits auf diese Funktionen vorbereitet und bin zuversichtlich, dass alles sehr gut klappt! Du kannst mich mit starken Bewertungen unterstützen und dieses Projekt so definitiv puschen! Falls du Wünsche hast, kannst du mir gerne eine E-Mail an promindstudios@gmail.com schreiben.
+\n\nCheers,\n\n
+Eric
+</string>
+
+    <!-- Collapse & Expand -->
+    <string name="show_done">Erledigte</string>
+    <string name="hide_done">Erledigte</string>
+
+    <!-- Colors Category-->
+    <string name="color_category_one">Rot</string>
+    <string name="color_category_two">Blau</string>
+    <string name="color_category_three">Teal</string>
+    <string name="color_category_four">Grün</string>
+    <string name="color_category_five">Orange</string>
+    <string name="color_category_six">Rosa</string>
+
+    <!-- Colors Layout-->
+    <string name="color_layout_one">Rot</string>
+    <string name="color_layout_two">Blau</string>
+    <string name="color_layout_three">Teal</string>
+    <string name="color_layout_four">Grün</string>
+    <string name="color_layout_five">Orange</string>
+    <string name="color_layout_six">Rosa</string>
+
+    <!-- Reminder -->
+    <string name="add_reminder">Erinnerung</string>
+    <string name="before">vorher</string>
+    <string name="reminder_minute">Minute</string>
+    <string name="reminder_hour">Stunde</string>
+    <string name="reminder_day">Tag</string>
+    <string name="reminder_week">Woche</string>
+    <string name="at_due_time">Bei Fälligkeit</string>
+    <string name="reminder_default_one">1 Stunde vorher</string>
+    <string name="reminder_default_two">1 Tag vorher</string>
+    <string name="reminder_dialog_custom_title">Benutzerdefiniert</string>
+    <string name="reminder_choose_reminder_hint">Wähle einen Wert aus</string>
+    <string name="reminde_me">Erinnere mich</string>
+
+    <!-- Repeat -->
+    <string name="repetition">Wiederholung</string>
+    <string name="add_repeat">Wiederholung</string>
+    <string name="repetition_hourly">Stündlich</string>
+    <string name="repetition_daily">Tägliche Wiederholung</string>
+    <string name="repetition_weekly">Wöchentliche Wiederholung</string>
+    <string name="repetition_monthly">Monatliche Wiederholung</string>
+    <string name="repetition_delete_task">Nur diese Aufgabe löschen</string>
+    <string name="repetition_delete_all_tasks">Diese und folgende Aufgaben löschen</string>
+    <string name="repetition_delete_event">Nur diesen Termin löschen</string>
+    <string name="repetition_delete_all_events">Diesen und folgende Termine löschen</string>
+
+    <!-- Calendar Dialog -->
+    <string name="januar_short">JAN</string>
+    <string name="february_short">FEB</string>
+    <string name="march_short">MÄR</string>
+    <string name="april_short">APR</string>
+    <string name="may_short">MAI</string>
+    <string name="june_short">JUN</string>
+    <string name="july_short">JUL</string>
+    <string name="august_short">AUG</string>
+    <string name="september_short">SEP</string>
+    <string name="october_short">OKT</string>
+    <string name="november_short">NOV</string>
+    <string name="december_short">DEZ</string>
+
+    <!-- App Widget -->
+    <string name="tab_one_empty">Alles erledigt für heute</string>
+    <string name="tab_two_empty">Nichts erledigt heute</string>
+    <string name="tab_three_empty">Morgen hast Du frei</string>
+
+    <!-- Sort -->
+    <string name="sorted_by_due_date">Sortiert nach Fälligkeit</string>
+    <string name="sorted_by_priority">Sortiert nach Priorität</string>
+    <string name="sorted_by_time_of_creation">Sortiert nach dem Zeitpunkt der Erstellung</string>
+
+    <!-- Settings -->
+    <string name="settings">Einstellungen</string>
+    <string name="layout_color">Layout Farbe</string>
+    <string name="about_rocket_plan">Über Rocket-Plan</string>
+    <string name="rate_app">Rocket-Plan bewerten</string>
+    <string name="contact_mail">promindstudios@gmail.com</string>
+
+    <!-- Premium -->
+    <string name="rocket_plan_premium">Rocket-Plan | Premium</string>
+    <string name="premium_running_out_subtitle">Danke für Deine Unterstützung</string>
+    <string name="premium_purchase_successful">Ab sofort nutzt du wieder Rocket-Plan | Premium!</string>
+    <string name="premium_function">Premium Funktion</string>
+    <string name="premium_expired">Deine kostenlose Premium Version ist abgelaufen. Abonniere die monatlich kündbare Premium Version und arbeite wieder mit dem vollen Funktionsumfang von Rocket-Plan!
+        </string>
+    <string name="premium_support_subtitle">Deine Unterstützung zählt!</string>
+    <string name="premium_support_text">Durch das Abonnieren von Rocket-Plan unterstützt Du die Entwicklung dieser App nachhaltig. Am Ende führt alles zurück auf den klassischen Handel.
+        Gib mir die Chance Dir zu beweisen, dass es das Geld wert ist, indem ich Rocket-Plan für Dich kontinuierlich verbessere! Deine kreativen Ideen sind jederzeit willkommen! \n\n
+
+        Cheers,\n\n
+
+        Eric - Promind Studios
+    </string>
+    <string name="premium_running_out">Deine kostenlose Premium Version von Rocket-Plan läuft bald aus. Danach kannst du nicht mehr mit dem vollen Funktionsumfang von Rocket-Plan arbeiten.
+        Du hast jedoch die Möglichkeit die monatlich kündbare Premium Version zu abonnieren, um wieder alle Funktionen uneingeschränkt nutzen zu können. </string>
+    <string name="premium_later">NICHT JETZT</string>
+    <string name="premium_now">Premium</string>
+    <string name="status_premium">Du nutzt aktuell die Premium Version von Rocket-Plan</string>
+
+
+    <!-- Premium Silver functions -->
+    <string name="premium_silver_colors">Layout Farben</string>
+    <string name="premium_silver_overview">Übersicht</string>
+    <string name="premium_silver_calendar">Kalender</string>
+    <string name="premium_silver_sort">Sortieren</string>
+    <string name="premium_silver_priority">Priorität</string>
+    <string name="premium_silver_reminder">Erinnerungen</string>
+    <string name="premium_silver_subtasks">Teilaufgaben</string>
+    <string name="premium_silver_participant">Teilnehmer</string>
+    <string name="premium_silver_location">Standort</string>
+    <string name="premium_silver_image">Bild</string>
+    <string name="premium_silver_audio">Audio</string>
+    <string name="premium_silver_video">Video</string>
+
+    <!-- Audio -->
+    <string name="detail_audio">Sprachaufnahme</string>
+    <string name="detail_audio_running">Sprachaufnahme wird aufgenommen</string>
+    <string name="detail_audio_play">Sprachaufnahme abspielen</string>
+    <string name="detail_audio_playing">Sprachaufnahme wird abgespielt...</string>
+
+    <!-- Video -->
+    <string name="detail_video">Video</string>
+    <string name="detail_video_play">Video abspielen</string>
+
+    <!-- Participant -->
+    <string name="detail_participant">Teilnehemer</string>
+
+    <!-- Location -->
+    <string name="detail_location">Standort</string>
+
+    <!-- Introduction Dialoge -->
+    <string name="introduction_help">Einführung &amp; Tipps </string>
+    <string name="introduction_category_add_title">Kategorie hinzufügen</string>
+    <string name="introduction_category_add_text">Klicken um eine Kategorie wie \"Privat\" oder \"Arbeit\" hinzufügen.</string>
+    <string name="introduction_category_edit_delete_title">Bearbeiten und Löschen</string>
+    <string name="introduction_category_edit_delete_text">Halte eine Kategorie gedrückt, um sie zu bearbeiten oder zu löschen.</string>
+    <string name="introduction_category_dropdown_title">Ausklappbares Menü</string>
+    <string name="introduction_category_dropdown_text">Hier klicken, um das Menü ein- oder auszuklappen.</string>
+    <string name="introduction_category_open_title">Öffnen</string>
+    <string name="introduction_category_open_text">Klicke auf eine Kategorie, um diese zu öffnen. Erstelle danach Aufgaben, Termine oder Notizen.</string>
+
+    <string name="introduction_content_list_subtitle">Aufgaben, Termine &amp; Notizen</string>
+    <string name="introduction_content_list_structure">Liste auswählen</string>
+    <string name="introduction_content_list_structure_text">Hier klicken um die jeweilige Liste mit deinen Aufgaben, Terminen oder Notizen zu öffnen.</string>
+    <string name="introduction_content_list_add">Inhalt hinzufügen</string>
+    <string name="introduction_content_list_add_text">Klicken um Aufgaben, Termine oder Notizen zu erstellen, abhängig von der aktuell ausgewählten Liste.</string>
+    <string name="introduction_content_list_delete">Löschen</string>
+    <string name="introduction_content_list_delete_text">Einfach den Inhalt nach links wischen, während du diesen gedrückt hältst.</string>
+    <string name="introduction_content_list_check">Inhalt abhaken</string>
+    <string name="introduction_content_list_check_text">Einfach nach rechts wischen. Abgehakte Aufgaben und Termine werden unter \"Erledigt\" gespeichert.</string>
+    <string name="introduction_content_list_quick_add">Schnelles Hinzufügen</string>
+    <string name="introduction_content_list_quick_add_text">Hier klicken um den Namen für einen neuen Inhalt einzugeben und anschließend zum Erstellen rechts auf den Pfeil drücken.
+        Bei Aufgaben und Terminen kannst du durch Klicken auf den durchgestrichenen Kalender ein Datum hinzufügen.</string>
+
+    <!-- Welcome Dialog -->
+    <string name="welcome">Willkommen bei Rocket-Plan!</string>
+    <string name="welcome_text">Bevor du loslegst musst du zuerst eine Kategorie erstellen. Jede Kategorie beinhaltet ihre eigenen Aufgaben, Termine und Notizen.
+        Klick bitte auf den oragenen Pfeil und ich zeig Dir wie es geht!</string>
+
+
+</resources>

@@ -35,9 +35,30 @@
     <dimen name="navigation_drawer_margin_vertical_default">14dp</dimen>
     <dimen name="navigation_drawer_margin_vertical_small">10dp</dimen>
 
+    <!-- Donate Fragment -->
+    <dimen name="fragment_donate_title">19sp</dimen>
+    <dimen name="fragment_donate_content">14sp</dimen>
+    <dimen name="fragment_donate_margin_default">14dp</dimen>
+
     <!-- Content Item -->
     <dimen name="content_item_margin_vertical_default">14dp</dimen>
+    <dimen name="content_item_margin_vertical_radio_button">8dp</dimen>
     <dimen name="content_item_margin_vertical_big">20dp</dimen>
+
+
+    <!-- Introduction dialoge -->
+
+    <!-- Text Sizes -->
+    <dimen name="introduction_dialoge_text_size_title">19sp</dimen>
+    <dimen name="introduction_dialoge_text_size_subtitle">14sp</dimen>
+    <dimen name="introduction_dialoge_text_size_content">14sp</dimen>
+
+    <!-- Layout Margins -->
+    <dimen name="introduction_dialoge_layout_margin_default">14dp</dimen>
+    <dimen name="introduction_dialoge_layout_margin_small">8dp</dimen>
+
+    <!-- Heights -->
+    <dimen name="introduction_dialoge_scroll_view_height">300dp</dimen>
 
 
 

@@ -17,15 +17,16 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DateTimeTexter;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeAdapterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ActionModeInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder.ContentViewHolder;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder.DividerViewHolder;
@@ -34,7 +35,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Vi
 /**
  * Created by Admin on 15.07.2016.
  */
-public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ContentTimeAdapterInterface {
+public class TimeAdapter extends ContentTimeCalendarAdapter {
 
     private static final int TYPE_DIVIDER = 0;
     private static final int TYPE_TASKEVENT = 1;
@@ -52,7 +53,6 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     boolean mTimeThreeExtended;
 
     MainActivity mMainActivity;
-    DatabaseHelper mDataBaseHelper;
     HolderHelper mHolderHelper;
 
     Context mContext;
@@ -68,7 +68,8 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     SharedPreferences mSharedPreferences;
     SharedPreferences.Editor mEditor;
 
-    public TimeAdapter(Context context, int timeType, MainActivity mainActivity) {
+    public TimeAdapter(Context context, int timeType, MainActivity mainActivity, ActionModeInterface actionModeInterface) {
+        super(actionModeInterface);
         mSharedPreferences = context.getSharedPreferences(MyConstants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
         mMainActivity = mainActivity;
@@ -87,13 +88,33 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_TASKEVENT) {
             View view = mLayoutInflater.inflate(R.layout.item_content, parent, false);
+            LayoutColor layoutColor = new LayoutColor(mContext, mDataBaseHelper.getLayoutColorValue());
             ContentViewHolder holder = new ContentViewHolder(view, new ContentViewHolder.vhTasksClickListener() {
                 @Override
                 public void openContent(int position, int type) {
                     Content content = getContent(position);
                     startDetailActivity(content, type);
                 }
-            });
+
+                @Override
+                public void onItemClicked(int position, int type) {
+                    if (mActionModeInterface.isActionModeActive()) {
+                        toggleSelection(position);
+                    } else {
+                        Content content = getContent(position);
+                        startDetailActivity(content, type);
+                    }
+                }
+
+                @Override
+                public void onItemLongClicked(int position) {
+                    if (!mActionModeInterface.isActionModeActive()) {
+                        mActionModeInterface.startActionMode();
+                        toggleSelection(position);
+                        notifyDataSetChanged();
+                    }
+                }
+            }, layoutColor.getLayoutColor());
             return holder;
         } else {
             View view = mLayoutInflater.inflate(R.layout.item_expand_collapse, parent, false);
@@ -125,7 +146,7 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             Log.i("TaskEvent Positionn", ""+position);
             Content content = getContent(position);
             Log.i("TaskEvent Name", content.getTitle());
-            mHolderHelper.setUpContentHolder(h, content, true);
+            mHolderHelper.setUpContentHolder(h, content, true, mActionModeInterface, mContentListDelete);
 
             // Date & Time
 
@@ -545,6 +566,11 @@ public class TimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         bundle.putInt(MyConstants.DETAIL_TYPE, type);
         intent.putExtras(bundle);
         mMainActivity.startActivity(intent);
+    }
+
+    public void update() {
+        mTaskEvents = getTaskEvents();
+        notifyDataSetChanged();
     }
 }
 

@@ -18,7 +18,7 @@ public class Category {
 
     public Category() {
         mTitle = null;
-        mExpanded = true;
+        mExpanded = false;
         mPosition = 0;
         mTaskSortedByPriority = false;
         mEventSortedByPriority = false;
@@ -31,7 +31,7 @@ public class Category {
         mColor = color;
         mShowEventDone = false;
         mShowTaskDone = true;
-        mExpanded = true;
+        mExpanded = false;
         mPosition = 0;
         mTaskSortedByPriority = false;
         mEventSortedByPriority = false;

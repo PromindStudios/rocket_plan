@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeAdapterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.TimeAdapter;
 
@@ -23,7 +23,6 @@ public class OverviewFragment extends ContentTimeCalendarFragment {
 
     RecyclerView mRecyclerView;
     int mTimeType;
-    TimeAdapter mTimeAdapter;
 
     @Nullable
     @Override
@@ -52,11 +51,11 @@ public class OverviewFragment extends ContentTimeCalendarFragment {
          setAdapterUp();
     }
 
-    protected void setAdapterUp() {
 
-        mTimeAdapter = new TimeAdapter(getActivity(), mTimeType, mMainActivity);
-        mAdapterListener = (ContentTimeAdapterInterface)mTimeAdapter;
-        mRecyclerView.setAdapter(mTimeAdapter);
+    protected void setAdapterUp() {
+        mAdapter = new TimeAdapter(getActivity(), mTimeType, mMainActivity, this);
+        mAdapterListener = (ContentTimeAdapterInterface)mAdapter;
+        mRecyclerView.setAdapter(mAdapter);
         setSwipeFunction(MyConstants.CONTENT_TASK_EVENT, mRecyclerView);
 
     }

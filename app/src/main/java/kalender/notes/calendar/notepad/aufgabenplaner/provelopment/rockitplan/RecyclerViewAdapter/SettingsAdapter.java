@@ -17,11 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.InformationDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.Introduction.CategoryIntroductionDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.LayoutColorDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -43,9 +44,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mContext = context;
         mPremiumInterface = (PremiumInterface)context;
         mFragmentManager = fm;
-        mItemNames = new String[]{mContext.getString(R.string.layout_color), mContext.getString(R.string.about_rocket_plan), mContext.getString(R.string.contact_mail), mContext.getString(R.string.rate_app), mContext.getString(R.string.rocket_plan_premium)};
-        mIconIds = new int[]{R.drawable.ic_layout_color, R.drawable.ic_info_24dp, R.drawable.ic_mail, R.drawable.ic_thumb_up, R.drawable.ic_action_star_rate};
-
+        mItemNames = new String[]{mContext.getString(R.string.introduction_help), mContext.getString(R.string.layout_color), mContext.getString(R.string.about_rocket_plan), mContext.getString(R.string.contact_mail), mContext.getString(R.string.rate_app), mContext.getString(R.string.rocket_plan_premium)};
+        mIconIds = new int[]{R.drawable.ic_lightbulb_24dp, R.drawable.ic_layout_color, R.drawable.ic_info_24dp, R.drawable.ic_mail, R.drawable.ic_thumb_up, R.drawable.ic_action_star_rate};
     }
 
     @Override
@@ -56,6 +56,13 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onSettingClicked(int position) {
                 switch (position) {
                     case 0:
+                        CategoryIntroductionDialog dialogC = new CategoryIntroductionDialog();
+                        Bundle bundleC = new Bundle();
+                        bundleC.putBoolean(MyConstants.DIALOG_INTRODUCTION_IS_START, false);
+                        dialogC.setArguments(bundleC);
+                        dialogC.show(mFragmentManager, "dialog");
+                        break;
+                    case 1:
                         if (!Functions.PREMIUM_FUNCTION_LAYOUT_COLOR || mPremiumInterface.hasPremium()) {
                             DialogFragment dialogLayoutColor = new LayoutColorDialog();
                             dialogLayoutColor.show(mFragmentManager, "dialog_layout_color");
@@ -63,7 +70,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             mPremiumInterface.openDialogPremiumFunction(mContext.getString(R.string.premium_function), mContext.getString(R.string.premium_silver_colors), mContext.getString(R.string.premium_expired));
                         }
                         break;
-                    case 1:
+                    case 2:
                         // open Dialog with information about Rocket-Plan
                         DialogFragment dialog = new InformationDialog();
                         Bundle bundle = new Bundle();
@@ -86,7 +93,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             }
                         }
                         break;
-                    case 4:
+                    case 5:
                         if (mPremiumInterface.hasPremium()) {
                             Toast.makeText(mContext, mContext.getString(R.string.status_premium), Toast.LENGTH_LONG).show();
                         } else {

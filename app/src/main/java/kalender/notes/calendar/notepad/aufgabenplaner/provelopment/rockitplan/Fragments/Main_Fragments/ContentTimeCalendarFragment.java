@@ -12,6 +12,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -19,38 +21,73 @@ import android.view.View;
 
 import java.util.Calendar;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ActionMode.ActionModeCallback;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.MainActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities.TaskEventActivity;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Content;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DateTimeTexter;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteContentDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ActionModeInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentTimeAdapterInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContextualMenuFragmentInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ToolbarInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.UpdateInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.RecyclerViewAdapter.ContentTimeCalendarAdapter;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.ViewHolder.DividerViewHolder;
 
 /**
  * Created by Eric on 17.10.2016.
  */
 
-public class ContentTimeCalendarFragment extends Fragment implements UpdateInterface {
+public class ContentTimeCalendarFragment extends Fragment implements UpdateInterface, ContextualMenuFragmentInterface, ActionModeInterface {
 
     MainActivity mMainActivity;
     public ContentTimeAdapterInterface mAdapterListener;
     public DatabaseHelper mDatabaseHelper;
+    ContentTimeCalendarAdapter mAdapter;
 
     BodyManagerInterface mBodyManagerInterface;
+    ToolbarInterface mToolbarInterface;
+
+    // ActionMode
+    ActionMode mActionMode;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mMainActivity = (MainActivity) context;
         mBodyManagerInterface = (BodyManagerInterface)context;
+        mToolbarInterface = (ToolbarInterface)context;
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            if (mActionMode != null) {
+                mActionMode.finish();
+            }
+        }
+    }
+
+    public void removeActionMode() {
+        if (mActionMode != null)
+            mActionMode = null;
+        mToolbarInterface.setToolbarOverlay(false);
+        mAdapter.update();
+    }
+
+    public void deleteRows() {
+        mAdapter.deleteContentListDelete();
+        mActionMode.finish();
     }
 
     // Content functions
@@ -269,5 +306,16 @@ public class ContentTimeCalendarFragment extends Fragment implements UpdateInter
     public void updateList() {
         setAdapterUp();
         mMainActivity.updateDrawer();
+    }
+
+    @Override
+    public void startActionMode() {
+        mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback(getActivity(), this));
+        mToolbarInterface.setToolbarOverlay(true);
+    }
+
+    @Override
+    public boolean isActionModeActive() {
+        return mActionMode!=null;
     }
 }

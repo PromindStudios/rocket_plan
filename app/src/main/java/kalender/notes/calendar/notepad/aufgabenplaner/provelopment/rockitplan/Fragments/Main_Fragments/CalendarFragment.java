@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.CalendarChooseDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.CalendarFragmentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionButton;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyFloatingActionButton.FloatingActionsMenu;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
@@ -199,9 +199,9 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
         if (calendarPage == mViewPager.getCurrentItem()) {
             Log.i("WADDD", "LOOS");
             mRecyclerView.setVisibility(View.VISIBLE);
-            CalendarAdapter adapter = new CalendarAdapter(getActivity(), calendar);
-            mAdapterListener = adapter;
-            mRecyclerView.setAdapter(adapter);
+            mAdapter = new CalendarAdapter(getActivity(), calendar, this);
+            mAdapterListener = mAdapter;
+            mRecyclerView.setAdapter(mAdapter);
         }
     }
 
@@ -209,9 +209,9 @@ public class CalendarFragment extends ContentTimeCalendarFragment implements Cal
         mCurrentCalendar = calendar;
         Log.i("WADDD HIER", "LOOS");
         mRecyclerView.setVisibility(View.VISIBLE);
-        CalendarAdapter adapter = new CalendarAdapter(getActivity(), calendar);
-        mAdapterListener = adapter;
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new CalendarAdapter(getActivity(), calendar, this);
+        mAdapterListener = mAdapter;
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     /*

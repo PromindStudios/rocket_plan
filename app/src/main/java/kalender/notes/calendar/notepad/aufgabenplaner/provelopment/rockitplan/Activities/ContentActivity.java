@@ -16,16 +16,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,9 +60,9 @@ public class ContentActivity extends AppCompatActivity implements PremiumInterfa
     RelativeLayout rlActionBar;
     ImageView ivContent;
     TextView tvContent;
-    EditText etTitle;
-    CheckBox cbTitle;
-    View vDummy;
+    //EditText etTitle;
+    //CheckBox cbTitle;
+    //View vDummy;
 
     // Content
     int mContentId;
@@ -126,12 +120,12 @@ public class ContentActivity extends AppCompatActivity implements PremiumInterfa
         bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
         // Set up Layout
-        etTitle = (EditText)findViewById(R.id.etTitle);
+        //etTitle = (EditText)findViewById(R.id.etTitle);
         rlActionBar = (RelativeLayout)findViewById(R.id.rlActionBar);
         ivContent = (ImageView)findViewById(R.id.ivContent);
         tvContent = (TextView)findViewById(R.id.tvContent);
-        cbTitle = (CheckBox)findViewById(R.id.cbTitle);
-        vDummy = findViewById(R.id.vDummy);
+        //cbTitle = (CheckBox)findViewById(R.id.cbTitle);
+        //vDummy = findViewById(R.id.vDummy);
         fabDone = (FloatingActionButton)findViewById(R.id.fabDone);
 
         // Get Extras
@@ -145,6 +139,7 @@ public class ContentActivity extends AppCompatActivity implements PremiumInterfa
         mCategory = mDatabaseHelper.getCategory(mContent.getCategoryId());
 
         // Title
+        /*
         etTitle.setText(mContent.getTitle());
         etTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -180,6 +175,7 @@ public class ContentActivity extends AppCompatActivity implements PremiumInterfa
                 return false;
             }
         });
+        */
 
         // Set up Fab Button
         fabDone.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +294,7 @@ public class ContentActivity extends AppCompatActivity implements PremiumInterfa
 
     public void closeKeyboard() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+        //imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
     }
 
     public void endActivity(boolean delete) {

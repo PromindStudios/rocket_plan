@@ -1,14 +1,14 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
@@ -27,6 +27,10 @@ public class TaskEventActivity extends ContentActivity implements GeneralFragmen
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private DetailViewPagerAdapter mAdapterViewPager;
+
+    ImageView ivContent;
+    TextView tvContent;
+    TextView tvCategory;
 
     // Content
     int mDetailType;
@@ -58,8 +62,13 @@ public class TaskEventActivity extends ContentActivity implements GeneralFragmen
         mViewPager = (ViewPager)findViewById(R.id.view_pager_detail);
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout_detail);
 
+        ivContent = (ImageView)findViewById(R.id.ivContenT);
+        tvContent = (TextView)findViewById(R.id.tvContenT);
+        tvCategory = (TextView)findViewById(R.id.tvCategory);
+
         // Content Status (Done / Undone)
 
+        /*
         if (android.os.Build.VERSION.SDK_INT >= 21) {
         } else {
             int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
@@ -76,6 +85,10 @@ public class TaskEventActivity extends ContentActivity implements GeneralFragmen
                 ((GeneralFragment)mAdapterViewPager.getInstance(0)).setDateComponentsVisible(!b);
             }
         });
+        */
+
+        // Set up Category
+        tvCategory.setText(getString(R.string.category)+": "+mContent.getCategory());
 
         // TabLayout & ViewPager
 
@@ -93,7 +106,7 @@ public class TaskEventActivity extends ContentActivity implements GeneralFragmen
             ivContent.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_event_text_24dp, null));
             tvContent.setText(getString(R.string.event));
             //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.tab_details)));
-            mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_details_16dp, null)));
+            mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_details, null)));
         }
 
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_files, null)));
@@ -127,7 +140,7 @@ public class TaskEventActivity extends ContentActivity implements GeneralFragmen
             public void onTabSelected(TabLayout.Tab tab) {
                 //mAdapterViewPager.handleFocus(tab.getPosition());
                 mViewPager.setCurrentItem(tab.getPosition());
-                vDummy.requestFocus();
+                //vDummy.requestFocus();
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {

@@ -3,24 +3,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/llContentItem">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/llContentLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="58dp"
             android:layout_centerVertical="true">
 
             <ImageView
                 android:id="@+id/ivContent"
                 style="@style/content_item_image_view_left"
                 android:src="@drawable/ic_task"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:tint="@color/colorSecondaryText" />
 
             <ImageView
@@ -29,7 +30,15 @@
                 android:src="@drawable/ic_checkbox_24dp"
                 android:visibility="gone" />
 
-        </LinearLayout>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible"
+                android:id="@+id/rbContextualMenu"
+                />
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/ivCategory"
@@ -106,8 +115,7 @@
             android:layout_toRightOf="@id/llContentLeft"
             android:gravity="center_vertical"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:paddingLeft="16dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvTitle"

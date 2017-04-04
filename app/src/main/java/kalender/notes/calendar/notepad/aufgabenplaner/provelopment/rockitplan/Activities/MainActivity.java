@@ -49,29 +49,32 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.AddEditCategoryDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.DeleteCategoryDialog;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.Introduction.WelcomeDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Dialogs.PremiumDialog;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.CalendarFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.ContentListPagerFragment;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Main_Fragments.OverviewPagerFragment;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.DrawerFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.AnalyticsInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.LayoutColorInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.StarterInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.Functions;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ToolbarInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
-public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface, AnalyticsInterface {
-    // ggggggg
+public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface, AnalyticsInterface, ToolbarInterface {
+    //
     // Layout
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
+    private View vToolbarOverlay;
 
     // Variables
     DatabaseHelper mDatabaseHelper;
@@ -150,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
 
         // Set up layout
         setContentView(R.layout.activity_main);
+        vToolbarOverlay = findViewById(R.id.vToolbarOverlay);
 
         // Check if user has free premium version
         updatePremiumFree();
@@ -175,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 mDrawerFragment.updateDrawer();
+                if (!mDatabaseHelper.hasShownIntroductionCategory() && mDatabaseHelper.getContentCounterValue()==0) {
+                    WelcomeDialog dialogFragment = new WelcomeDialog();
+                    dialogFragment.show(getSupportFragmentManager(), "dialog_introduction_category");
+                }
             }
 
             @Override
@@ -307,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(mLayoutColor.getLayoutColorDark());
+            window.setStatusBarColor(mLayoutColor.getLayoutColor());
         }
     }
 
@@ -508,5 +516,15 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     @Override
     public void track(String category, String action) {
         mTracker.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).build());
+    }
+
+    @Override
+    public void setToolbarOverlay(boolean visible) {
+        if (visible) {
+            vToolbarOverlay.setVisibility(View.VISIBLE);
+            vToolbarOverlay.setBackgroundColor(mLayoutColor.getLayoutColor());
+        } else {
+            vToolbarOverlay.setVisibility(View.GONE);
+        }
     }
 }

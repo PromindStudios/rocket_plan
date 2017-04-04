@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusableInTouchMode="true"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -17,18 +18,66 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/flNote"></FrameLayout>
+        android:focusableInTouchMode="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="24dp"
-        android:src="@drawable/ic_done"
-        android:id="@+id/fabDone"/>
+
+        <RelativeLayout
+            android:id="@+id/rlTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
+            android:focusableInTouchMode="true">
+
+            <View
+                android:id="@+id/vDummy"
+                android:layout_width="1px"
+                android:layout_height="1px"
+                android:background="@color/colorTransparent"
+                android:focusableInTouchMode="true" />
+
+            <EditText
+                android:id="@+id/etTitle"
+                style="@style/activity_detail_text"
+                android:paddingLeft="16dp"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:maxLength="35"
+                android:textColorHint="@color/colorDivider"
+                android:hint="@string/detail_subtext_title_task"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorDivider"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_below="@id/rlTitle"
+            android:layout_marginTop="@dimen/activity_detail_margin_vertical_default"
+            android:id="@+id/vDividerOne"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/vDividerOne"
+            android:id="@+id/flNote"></FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="24dp"
+            android:src="@drawable/ic_done"
+            android:id="@+id/fabDone"/>
+
+    </RelativeLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

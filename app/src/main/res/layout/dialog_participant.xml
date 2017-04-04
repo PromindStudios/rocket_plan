@@ -131,7 +131,7 @@
         <ImageButton
             android:id="@+id/ibDelete"
             style="@style/image_button_dialog"
-            android:src="@drawable/ic_delete_18dp"
+            android:src="@drawable/ic_delete_red_18dp"
             android:tint="@color/red_delete"
             />
 
