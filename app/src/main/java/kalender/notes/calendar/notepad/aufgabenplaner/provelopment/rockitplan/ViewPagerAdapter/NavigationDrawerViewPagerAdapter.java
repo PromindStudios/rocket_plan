@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.DonateFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.HomeFragment;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fragments.Navigation_Drawer.SettingsFragment;
 
@@ -29,6 +30,9 @@ public class NavigationDrawerViewPagerAdapter extends FragmentStatePagerAdapter 
             case 1:
                 Fragment settingsFragment = new SettingsFragment();
                 return settingsFragment;
+            case 2:
+                Fragment donateFragment = new DonateFragment();
+                return donateFragment;
         }
         return null;
     }

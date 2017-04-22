@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="3dp"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fragment_donate_margin_default"
+        android:layout_marginBottom="@dimen/fragment_donate_margin_default"
+        android:textSize="@dimen/fragment_donate_title"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryText"
+        android:text="@string/fragment_donate_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/fragment_donate_content"
+        android:textColor="@color/colorSecondaryText"
+        android:paddingBottom="@dimen/fragment_donate_margin_default"
+        android:text="@string/fragment_donate_content_text"/>
+
+    <Button
+        style="@style/donate_fragment_button"
+        android:text="0,99 € - Kugel Eis"
+        android:id="@+id/bDonateOne"
+        />
+
+    <Button
+        style="@style/donate_fragment_button"
+        android:text="2,99 € - Currywurst mit Pommes"
+        android:id="@+id/bDonateTwo"
+        />
+
+    <Button
+        style="@style/donate_fragment_button"
+        android:text="4,99 € - Cocktail"
+        android:id="@+id/bDonateThree"
+        />
+
+
+
+
 
 </LinearLayout>

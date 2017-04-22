@@ -32,6 +32,7 @@
     <string name="sms">SMS</string>
     <string name="information">Informationen</string>
     <string name="home">Home</string>
+    <string name="ok">Ok </string> <!-- __________NEW__________ -->
 
     <!-- Week names -->
     <string name="monday_short">MO</string>
@@ -71,7 +72,7 @@
     <string name="help_add_content_and_welcome">
         Der Start ist gelungen! \n\n
         Mach weiter und erstelle deinen ersten Inhalt - Aufgaben, Termine und Notizen können durch das Drücken des "Plus" Buttons in der rechten Ecke erstellt werden! \n\n
-        Falls du einen Inhalt abhacken oder löschen willst kannst du die Wisch-Funktion nutzen. \n\n
+        Falls du einen Inhalt abhaken oder löschen willst kannst du die Wisch-Funktion nutzen. \n\n
         Alles andere sollte Dir leicht von der Hand gehen. Falls du Fragen oder gute Ideen haben solltest kannst du mir gerne eine E-Mail an "promindstudios@gmail.com" schreiben.\n\n
         Ich freue mich über jede gute Bewertung im Play Store! \n\n
         Cheers \n\n
@@ -236,6 +237,7 @@ Eric
     <string name="reminder_dialog_custom_title">Benutzerdefiniert</string>
     <string name="reminder_choose_reminder_hint">Wähle einen Wert aus</string>
     <string name="reminde_me">Erinnere mich</string>
+    <string name="reminder_shift">Verschieben</string>
 
     <!-- Repeat -->
     <string name="repetition">Wiederholung</string>
@@ -360,6 +362,14 @@ Eric
     <string name="welcome">Willkommen bei Rocket-Plan!</string>
     <string name="welcome_text">Bevor du loslegst musst du zuerst eine Kategorie erstellen. Jede Kategorie beinhaltet ihre eigenen Aufgaben, Termine und Notizen.
         Klick bitte auf den orangenen Pfeil und ich zeig Dir wie es geht!</string>
+
+    <!-- Donate -->
+    <string name="fragment_donate_title">Entwicklung unterstützen!</string>
+    <string name="fragment_donate_content_text">Dir gefällt Rocket-Plan und Du willst die Weiterentwicklung unterstützen? Dann gib mir doch einfach einen aus:</string>
+    <string name="fragment_donate_one">Eine Kugel Eis</string>
+    <string name="fragment_donate_two">Currywurst mit Pommes</string>
+    <string name="fragment_donate_three">Cocktail</string>
+    <string name="donation_successful">Danke für Deine Spende!</string>
 
 
 </resources>

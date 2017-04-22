@@ -25,7 +25,12 @@ public class DatePickerDialog extends DialogFragment implements android.app.Date
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         mDate = (Calendar)getArguments().getSerializable(MyConstants.TASK_DATE);
-        mListener = (DatePickerDialogListener)getTargetFragment();
+        if (getTargetFragment() != null) {
+            mListener = (DatePickerDialogListener)getTargetFragment();
+        } else {
+            mListener = (DatePickerDialogListener)getActivity();
+        }
+
 
         final android.app.DatePickerDialog datePickerDialog;
         if (android.os.Build.VERSION.SDK_INT >= 23)  {
@@ -42,7 +47,7 @@ public class DatePickerDialog extends DialogFragment implements android.app.Date
                 calendar.set(Calendar.YEAR, datePicker.getYear());
                 calendar.set(Calendar.MONTH, datePicker.getMonth());
                 calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-                mListener.onDateSelected(calendar);
+                mListener.onDateSelected(calendar, true);
                 mListener.openTimeDialog();
             }
         });
@@ -56,11 +61,11 @@ public class DatePickerDialog extends DialogFragment implements android.app.Date
         date.set(Calendar.YEAR, year);
         date.set(Calendar.MONTH, monthOfYear);
         date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        mListener.onDateSelected(date);
+        mListener.onDateSelected(date, false);
     }
 
     public interface DatePickerDialogListener {
-        public void onDateSelected(Calendar date);
+        public void onDateSelected(Calendar date, boolean timeSelected);
         public void openTimeDialog();
     }
 }

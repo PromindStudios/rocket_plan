@@ -60,6 +60,10 @@
     <!-- Heights -->
     <dimen name="introduction_dialoge_scroll_view_height">300dp</dimen>
 
+    <!-- Notification -->
+    <dimen name="notification_text_size_title">16sp</dimen>
+    <dimen name="notification_text_size_subtitle">14sp</dimen>
+
 
 
 

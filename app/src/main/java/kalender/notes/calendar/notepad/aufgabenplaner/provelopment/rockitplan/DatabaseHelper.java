@@ -24,6 +24,7 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Reminder.ReminderSetter;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.StatusBar.StatusBarManager;
 
 /**
  * Created by eric on 05.05.2016.
@@ -114,6 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     Context mContext;
+    StatusBarManager mStatusBarManager;
 
     // Task column names
 
@@ -160,6 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION_10);
         mContext = context;
+        mStatusBarManager = new StatusBarManager(context, this);
     }
 
     @Override
@@ -1085,6 +1088,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (content instanceof Note) {
             contentId = createNote((Note) content);;
         }
+        mStatusBarManager.update();
 
         return contentId;
     }
@@ -1114,6 +1118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             case MyConstants.CONTENT_NOTE:
                 deleteNote(id);
         }
+        mStatusBarManager.update();
     }
 
     public void updateContent(Content content) {
@@ -1155,6 +1160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(EVENT_LOCATION, event.getLocation());
         }
         db.update(content.getTable(), values, ID + " =?", new String[]{String.valueOf(content.getId())});
+        mStatusBarManager.update();
     }
 
     public ArrayList<Content> getCategoryContent(int categoryId, int contentType) {
@@ -1430,7 +1436,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Reminder Methods
 
-    public int createReminder(Reminder reminder, Context context) {
+    public int createReminder(Reminder reminder) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID_CONTENT, reminder.getContentId());

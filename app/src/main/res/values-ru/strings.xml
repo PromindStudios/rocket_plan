@@ -32,6 +32,7 @@
     <string name="sms">SMS</string>
     <string name="information">Информация</string>
     <string name="home">Главная</string>
+    <string name="ok">Ok </string> <!-- __________NEW__________ -->
 
 
     <!-- Week names -->
@@ -159,36 +160,36 @@
     <string name="add_note">Добавить заметку..</string>
 
     <!-- Time -->
-    <string name="tab_day">Day</string>
-    <string name="tab_week">Week</string>
-    <string name="tab_month">Month</string>
-    <string name="time_due_today">Due today</string>
-    <string name="time_due_today_none">Nothing is due today</string>
-    <string name="time_done_today">Done today</string>
-    <string name="time_done_today_none">Nothing done today</string>
-    <string name="time_due_tomorrow">Due tomorrow</string>
-    <string name="time_due_tomorrow_none">Nothing is due tomorrow</string>
-    <string name="time_due_this_week">Due this week</string>
-    <string name="time_due_this_week_none">Nothing is due this week</string>
-    <string name="time_done_this_week">Done this week</string>
-    <string name="time_done_this_week_none">Nothing done this week</string>
-    <string name="time_due_next_week">Due next week</string>
-    <string name="time_due_next_week_none">Nothing is due next week</string>
-    <string name="time_due_this_month">Due this month</string>
-    <string name="time_due_this_month_none">Nothing is due this month</string>
-    <string name="time_done_this_month">Done this month</string>
-    <string name="time_done_this_month_none">Nothing done this month</string>
-    <string name="time_due_next_month">Due next month</string>
-    <string name="time_due_next_month_none">Nothing is due next month</string>
+    <string name="tab_day">День</string>
+    <string name="tab_week">Неделю</string>
+    <string name="tab_month">Месяц</string>
+    <string name="time_due_today">Сегодня</string>
+    <string name="time_due_today_none">Сегодня ничего не нужно</string>
+    <string name="time_done_today">Выполнено сегодня</string>
+    <string name="time_done_today_none">Сегодня ничего не сделано</string>
+    <string name="time_due_tomorrow">До завтра</string>
+    <string name="time_due_tomorrow_none">Завтра ничего не будет</string>
+    <string name="time_due_this_week">На этой неделе</string>
+    <string name="time_due_this_week_none">На этой неделе ничего не произойдет</string>
+    <string name="time_done_this_week">Выполнено на этой неделе</string>
+    <string name="time_done_this_week_none">Ничего не сделано на этой неделе</string>
+    <string name="time_due_next_week">На следующей неделе</string>
+    <string name="time_due_next_week_none">На следующей неделе ничего не будет</string>
+    <string name="time_due_this_month">В течение этого месяца</string>
+    <string name="time_due_this_month_none">В этом месяце ничего не ожидается</string>
+    <string name="time_done_this_month">Выполнено в этом месяце</string>
+    <string name="time_done_this_month_none">Ничего не сделано в этом месяце</string>
+    <string name="time_due_next_month">В следующем месяце</string>
+    <string name="time_due_next_month_none">В следующем месяце ничего не ожидается</string>
 
     <!-- Dialogs -->
-    <string name="title_add_category">Add a Category</string>
-    <string name="hint_dialog_add">Enter a name...</string>
-    <string name="title_edit_category">Edit Category</string>
-    <string name="title_add_subtask">Add a Subtask</string>
-    <string name="title_edit_subtask">Edit Subtask</string>
-    <string name="choose_color">Choose a color</string>
-    <string name="title_about">About Rocket-Plan</string>
+    <string name="title_add_category">Добавить категорию</string>
+    <string name="hint_dialog_add">Введите имя ...</string>
+    <string name="title_edit_category">Изменить категорию</string>
+    <string name="title_add_subtask">Добавление подзадачи</string>
+    <string name="title_edit_subtask">Изменить подзадачу</string>
+    <string name="choose_color">Выберите цвет</string>
+    <string name="title_about">О проекте Rocket-Plan</string>
     <string name="dialog_about_text">Dear Rocket Planer,\n\n
 first of all I am very happy that you have picked this app and are working with it. I will inform you briefly about my plans for this neat project, which I have started in 2015:
 \n\nWHAT YOU CAN DO WITH ROCKET-PLAN\n\n
@@ -206,38 +207,39 @@ Eric
 </string>
 
     <!-- Collapse & Expand -->
-    <string name="show_done">Show done</string>
-    <string name="hide_done">Hide done</string>
+    <string name="show_done">SПоказать</string>
+    <string name="hide_done">Скрыть</string>
 
     <!-- Colors Category -->
-    <string name="color_category_one">Red</string>
-    <string name="color_category_two">Blue</string>
-    <string name="color_category_three">Teal</string>
-    <string name="color_category_four">Green</string>
-    <string name="color_category_five">Orange</string>
-    <string name="color_category_six">Pink</string>
+    <string name="color_category_one">Красный</string>
+    <string name="color_category_two">Синий</string>
+    <string name="color_category_three">Чил</string>
+    <string name="color_category_four">Зеленый</string>
+    <string name="color_category_five">оранжевый</string>
+    <string name="color_category_six">Розовый</string>
 
     <!-- Colors Layout -->
-    <string name="color_layout_one">Red</string>
-    <string name="color_layout_two">Blue</string>
-    <string name="color_layout_three">Teal</string>
-    <string name="color_layout_four">Green</string>
-    <string name="color_layout_five">Orange</string>
-    <string name="color_layout_six">Pink</string>
+    <string name="color_layout_one">Красный</string>
+    <string name="color_layout_two">Синий</string>
+    <string name="color_layout_three">Чил</string>
+    <string name="color_layout_four">Зеленый</string>
+    <string name="color_layout_five">оранжевый</string>
+    <string name="color_layout_six">Розовый</string>
 
     <!-- Reminder -->
-    <string name="add_reminder">Reminder</string>
-    <string name="before">before</string>
-    <string name="reminder_minute">Minute</string>
-    <string name="reminder_hour">Hour</string>
-    <string name="reminder_day">Day</string>
-    <string name="reminder_week">Week</string>
-    <string name="at_due_time">At due time</string>
-    <string name="reminder_default_one">1 hour before</string>
-    <string name="reminder_default_two">1 day before</string>
-    <string name="reminder_dialog_custom_title">Custom Reminder</string>
-    <string name="reminder_choose_reminder_hint">Choose a reminder value</string>
-    <string name="reminde_me">Remind me</string>
+    <string name="add_reminder">Напоминание</string>
+    <string name="before">до</string>
+    <string name="reminder_minute">Минута</string>
+    <string name="reminder_hour">Час</string>
+    <string name="reminder_day">День</string>
+    <string name="reminder_week">Неделю</string>
+    <string name="at_due_time">В свое время</string>
+    <string name="reminder_default_one">1 час назад</string>
+    <string name="reminder_default_two">1 день назад</string>
+    <string name="reminder_dialog_custom_title">Настраиваемое напоминание</string>
+    <string name="reminder_choose_reminder_hint">Выберите значение напоминания</string>
+    <string name="reminde_me">Напомни мне</string>
+    <string name="reminder_shift">Shift</string> <!-- __________NEW__________ -->
 
     <!-- Repeat -->
     <string name="repetition">Repetition</string>
@@ -361,5 +363,13 @@ Eric
     <string name="welcome">Welcome to Rocket-Plan!</string>
     <string name="welcome_text">Before you get started you have to create your first category. Each category contains its own tasks, events and notes.
         Please click the orange arrow and I will show you how you do it!</string>
+
+    <!-- Donate --> <!-- __________NEW__________ -->
+    <string name="fragment_donate_title">Support development!</string>
+    <string name="fragment_donate_content_text">You like Rocket-Plan and would like to support its development? Than do something good for me:</string>
+    <string name="fragment_donate_one">Ice cream</string>
+    <string name="fragment_donate_two">Hotdog</string>
+    <string name="fragment_donate_three">Cocktail</string>
+    <string name="donation_successful">Thank you for your donation!</string>
 
 </resources>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -63,13 +64,16 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Fr
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.AnalyticsInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.BodyManagerInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ContentInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.DonationInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.LayoutColorInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.PremiumInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.StarterInterface;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.StatusBar_Interface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ToolbarInterface;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.StatusBar.StatusBarManager;
 
-public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface, AnalyticsInterface, ToolbarInterface {
+public class MainActivity extends AppCompatActivity implements StarterInterface, LayoutColorInterface, ContentInterface, PremiumInterface, BodyManagerInterface, AnalyticsInterface, ToolbarInterface, DonationInterface, StatusBar_Interface {
     //
     // Layout
     private Toolbar mToolbar;
@@ -95,17 +99,40 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     boolean mPremiumCharged = false;
     boolean mPremiumFree = false;
     String mDeveloperPayload;
+    ServiceConnection mServiceConn;
 
     // Google Analytics
     Tracker mTracker;
+
+    // SharedPreferences
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
+
+    // Status Bar
+    StatusBarManager mStatusBarManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set up Database Helper
+        mDatabaseHelper = new DatabaseHelper(this);
+
+        // Initiate Variables
+        mSharedPreferences = getSharedPreferences(MyConstants.SHARED_PREFERENCES, 0);
+        mEditor = mSharedPreferences.edit();
+        mStatusBarManager = new StatusBarManager(this, mDatabaseHelper);
+
         // Set up tracker
         AnalyticsApplication application = (AnalyticsApplication)getApplication();
         mTracker = application.getDefaultTracker();
+
+        // Handle fixed notification status
+        if (mSharedPreferences.getBoolean(MyConstants.STATUS_BAR_INITIATION, true)) {
+            activateStatusBar();
+            mEditor.putBoolean(MyConstants.STATUS_BAR_INITIATION, false);
+            mEditor.commit();
+        }
 
         // Track onCreate mehtod
         mTracker.setScreenName("Activity-Main");
@@ -115,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
         mDatabaseHelper = new DatabaseHelper(this);
 
         // Set up InApp Purchase
-        ServiceConnection mServiceConn = new ServiceConnection() {
+        mServiceConn = new ServiceConnection() {
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 mPurchaseService = null;
@@ -201,13 +228,17 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
 
 
         // open Drawer in the beginning after a little delay to show the animation
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-        }, 500);
+
+        if (!MyConstants.MAIN_ACTIVITY_ACTION_OVERVIEW.equals(getIntent().getAction())) {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                }
+            }, 400);
+        }
+
     }
 
     @Override
@@ -228,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     @Override
     protected void onResume() {
         super.onResume();
-        updateDrawer();
+        //updateDrawer();
     }
 
     @Override
@@ -243,6 +274,9 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mPurchaseService != null) {
+            unbindService(mServiceConn);
+        }
     }
 
     @Override
@@ -265,6 +299,34 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
                             Toast.makeText(this, getString(R.string.premium_purchase_successful), Toast.LENGTH_LONG).show();
                             mDatabaseHelper.setPremiumSilver(true);
                             mPremiumCharged = true;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case MyConstants.REQUEST_DONATION:
+                final String donationData = data.getStringExtra("INAPP_PURCHASE_DATA");
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        final JSONObject json = new JSONObject(donationData);
+                        String developerPayload = json.getString("developerPayload");
+                        if (mDeveloperPayload.equals(developerPayload)) {
+                            Toast.makeText(this, getString(R.string.donation_successful), Toast.LENGTH_LONG).show();
+                            final Thread thread = new Thread(new Runnable(){
+                                @Override
+                                public void run(){
+                                    try {
+                                        mPurchaseService.consumePurchase(3, getPackageName(), json.getString("purchaseToken"));
+                                        Log.i("Consumed", "Successful");
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                            thread.start();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -526,5 +588,44 @@ public class MainActivity extends AppCompatActivity implements StarterInterface,
         } else {
             vToolbarOverlay.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void startDonation(String donationId) {
+        String uuid = UUID.randomUUID().toString();
+        mDeveloperPayload = uuid.replaceAll("-", "");
+        try {
+            Bundle buyIntentBundle = mPurchaseService.getBuyIntent(3, getPackageName(), donationId, "inapp", mDeveloperPayload);
+            PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
+            startIntentSenderForResult(pendingIntent.getIntentSender(), MyConstants.REQUEST_DONATION, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String getDonationPrice(int donationType) {
+        switch (donationType) {
+            case MyConstants.DONATION_TYPE_ONE:
+                return "0,99 €";
+            case MyConstants.DONATION_TYPE_TWO:
+                return "2,99 €";
+            case MyConstants.DONATION_TYPE_THREE:
+                return "4,99 €";
+            default:
+                return "€";
+        }
+    }
+
+
+    // Notification fixed api
+    @Override
+    public void activateStatusBar() {
+        mStatusBarManager.activate();
+    }
+
+    @Override
+    public void deactivateStatusBar() {
+        mStatusBarManager.deactivate();
     }
 }

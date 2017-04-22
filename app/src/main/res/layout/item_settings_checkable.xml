@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/llSettings">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            style="@style/navigation_drawer_image_view_icon"
+            android:id="@+id/ivIcon"
+            android:src="@drawable/ic_task_24dp"
+            android:tint="@color/colorSecondaryText"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="invisible"/>
+
+        <TextView
+            style="@style/navigation_drawer_text_view"
+            android:layout_toRightOf="@id/ivIcon"
+            android:id="@+id/tvSettings"
+            android:text="Standard text"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cbSettings"
+            android:buttonTint="@color/colorSecondaryText"
+            android:layout_toLeftOf="@id/tvSettings"
+            android:layout_centerVertical="true"
+            android:paddingRight="-7dp"
+            android:gravity="right"/>
+
+    </RelativeLayout>
+
+    <View
+        style="@style/navigation_drawer_view_divider_short"/>
+
+
+</LinearLayout>

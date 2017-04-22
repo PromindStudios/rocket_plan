@@ -38,7 +38,7 @@ public class MyMethods {
     public static String formatDate(Calendar calendar) {
         SimpleDateFormat fmt = new SimpleDateFormat("dd. MMMM");
         fmt.setCalendar(calendar);
-        Log.i("Datum", calendar.toString());
+        //Log.i("Datum", calendar.toString());
         String dateFormated = fmt.format(calendar.getTime());
         return dateFormated;
     }

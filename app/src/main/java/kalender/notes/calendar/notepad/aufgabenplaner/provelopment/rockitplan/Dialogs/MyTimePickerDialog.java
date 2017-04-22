@@ -23,7 +23,12 @@ public class MyTimePickerDialog extends DialogFragment implements android.app.Ti
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         Calendar time = (Calendar)getArguments().getSerializable(MyConstants.TASK_EVENT_TIME);
-        mListener = (TimePickerDialogListener)getTargetFragment();
+        if (getTargetFragment() != null) {
+            mListener = (TimePickerDialogListener)getTargetFragment();
+        } else {
+            mListener = (TimePickerDialogListener)getActivity();
+        }
+
         Log.i("Timee", "is selected");
 
         // Create a new instance of TimePickerDialog and return it

@@ -37,6 +37,12 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
 
+        <activity android:name=".Activities.NotificationActivities.ShiftContentActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
+
         <activity
             android:name=".Activities.Element_Activities.ImageActivity"
             android:screenOrientation="portrait"></activity>
@@ -52,6 +58,10 @@
                 <action android:name="packagename.ACTION2" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".BroadcastReceiver.NotificationAction_BroadcastReceiver"/>
+
+        <receiver android:name=".StatusBar.StatusBar_Receiver"/>
 
         <receiver
             android:name=".Reminder.BootBroadcastReceiver"

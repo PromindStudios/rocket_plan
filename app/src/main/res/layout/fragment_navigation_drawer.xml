@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:paddingLeft="12dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:paddingRight="12dp"
                 android:src="@drawable/ic_rocket_24" />
 
@@ -45,8 +45,11 @@
                 android:layout_toLeftOf="@id/ivSearch"
                 android:layout_toRightOf="@id/ivRocket"
                 android:text="@string/app_name"
+                android:paddingLeft="16dp"
+                android:paddingTop="10dp"
+                android:id="@+id/tvAppTitle"
                 android:textColor="@color/white"
-                android:textSize="21sp"
+                android:textSize="30sp"
                 android:textStyle="bold"/>
 
         </RelativeLayout>

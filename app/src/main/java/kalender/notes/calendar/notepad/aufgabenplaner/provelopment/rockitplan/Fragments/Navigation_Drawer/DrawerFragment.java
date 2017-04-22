@@ -2,6 +2,7 @@ package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.F
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.LayoutColor;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
@@ -32,12 +34,14 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     ImageView ivSearch;
     TabLayout mTabLayout;
     NonSwipeableViewPager mViewPager;
+    TextView tvAppTitle;
 
     // Variables
     PremiumInterface mPremiumInterface;
     LayoutColor mLayoutColor;
     DatabaseHelper mDatabaseHelper;
     NavigationDrawerViewPagerAdapter mNavigationDrawerViewPagerAdapter;
+    boolean openSettings = false;
 
     // Shared Preferences
     SharedPreferences mSharedPreferences;
@@ -54,6 +58,7 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         ivSearch = (ImageView)layout.findViewById(R.id.ivSearch);
         mTabLayout = (TabLayout)layout.findViewById(R.id.tlNavDrawer);
         mViewPager = (NonSwipeableViewPager) layout.findViewById(R.id.vpNavDrawer);
+        tvAppTitle = (TextView)layout.findViewById(R.id.tvAppTitle);
 
         // Initiate TabLayout
         //mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.home)));
@@ -61,6 +66,10 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_home_18dp, null)));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_18dp, null)));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_heart_18dp, null)));
+
+        // Put custom font in work for app title
+        Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/custom_font_one.ttf");
+        tvAppTitle.setTypeface(custom_font);
 
         // Set up ViewPager
         mNavigationDrawerViewPagerAdapter = new NavigationDrawerViewPagerAdapter(getActivity().getSupportFragmentManager(), mTabLayout.getTabCount());
@@ -80,7 +89,12 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
             }
         });
 
-
+        if (MyConstants.MAIN_ACTIVITY_ACTION_SETTINGS.equals(getActivity().getIntent().getAction())) {
+            //TabLayout.Tab tab = mTabLayout.getTabAt(1);
+            //tab.select();
+            getActivity().getIntent().setAction(null);
+            openSettings = true;
+        }
 
         // Initiate Interface
         mPremiumInterface = (PremiumInterface)getActivity();
@@ -144,6 +158,14 @@ public class DrawerFragment extends Fragment implements AddEditCategoryDialog.Ad
     public void updateDrawer() {
         mNavigationDrawerViewPagerAdapter = new NavigationDrawerViewPagerAdapter(getActivity().getSupportFragmentManager(), mTabLayout.getTabCount());
         mViewPager.setAdapter(mNavigationDrawerViewPagerAdapter);
+        TabLayout.Tab tab;
+        if (openSettings) {
+            tab = mTabLayout.getTabAt(1);
+            openSettings = false;
+        } else {
+            tab = mTabLayout.getTabAt(0);
+        }
+        tab.select();
 
         /*
         if (categories.size() == 0) {

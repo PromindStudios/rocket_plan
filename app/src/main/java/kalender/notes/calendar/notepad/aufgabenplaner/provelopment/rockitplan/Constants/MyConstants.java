@@ -11,6 +11,9 @@ public class MyConstants {
     public static final String SUBTITLE = "subtitle";
     public static final String TEXT = "text";
 
+    // Main Activity
+    public static final String MAIN_ACTIVITY_ACTION_OVERVIEW = "MAIN_ACTIVITY_ACTION_OVERVIEW";
+    public static final String MAIN_ACTIVITY_ACTION_SETTINGS = "MAIN_ACTIVITY_ACTION_SETTINGS";
 
     // Classes
     public static final String DATABASE_HELPER = "Database Helper: ";
@@ -94,6 +97,23 @@ public class MyConstants {
     public static final String REMINDER_NOTIFICATION = "reminder_notification";
     public static final String REMINDER_FROM = "reminder_from";
 
+    // Notification Action
+    public static final String NOTIFICATION_ACTION_CHECK_CONTENT = "NOTIFICATION_ACTION_CHECK_CONTENT";
+    public static final String NOTIFICATION_ACTION_DISMISS = "NOTIFICATION_ACTION_DISMISS";
+
+    // Status Bar
+    public static final int STATUS_BAR_ID = 30000;
+    public static final String STATUS_BAR_ACTIVATED = "NOTIFICATION_FIXED_ACTIVATED";
+    public static final String STATUS_BAR_INITIATION = "NOTIFICATION_FIXED_INITIATION";
+    public static final String STATUS_BAR_ACTION_ADD = "STATUS_BAR_ACTION_ADD";
+    public static final String STATUS_BAR_ACTION_VISIBILITY = "STATUS_BAR_ACTION_VISIBILITY";
+    public static final String STATUS_BAR_ACTION_SETTINGS = "STATUS_BAR_ACTION_SETTINGS";
+    public static final String STATUS_BAR_ACTION_OVERVIEW = "STATUS_BAR_ACTION_OVERVIEW";
+    public static final String STATUS_BAR_AGENDA_VISIBLE = "STATUS_BAR_AGENDA_VISIBLE";
+    public static final String STATUS_BAR_DAILY_UPDATE = "STATUS_BAR_DAILY_UPDATE";
+
+
+
     // Repetition
     public static final int REPETITION_TYPE_NONE = 0;
     public static final int REPETITION_TYPE_HOUR = 1;
@@ -133,10 +153,8 @@ public class MyConstants {
     public static final String APP_WIDGET_ITEM_EVENT = "app_widget_item_event";
 
     // Priority
-    public static final int PRIORITY_NONE = -1;
     public static final int PRIORITY_NORMAL = 0;
     public static final int PRIORITY_HIGH = 1;
-    public static final int PRIORITY_VERY_HIGH = 2;
 
     // Dialog
     public static final String DIALOGE_TITLE = "dialoge_title";
@@ -145,6 +163,7 @@ public class MyConstants {
     // Requests
     public static final int REQUEST_ACTIVITY_SETTINGS = 1;
     public static final int REQUEST_PURCHASE = 1001;
+    public static final int REQUEST_DONATION = 2001;
     public static final int REQUEST_ACTIVITY_DETAIL = 2;
     public static final int REQUEST_VIDEO_RECORD = 3;
 
@@ -169,4 +188,9 @@ public class MyConstants {
 
     // Dialog Introduction
     public static final String DIALOG_INTRODUCTION_IS_START = "dialog_introduction_is_start";
+
+    // Donation Type
+    public static final int DONATION_TYPE_ONE = 1;
+    public static final int DONATION_TYPE_TWO = 2;
+    public static final int DONATION_TYPE_THREE = 3;
 }

@@ -400,6 +400,18 @@
         <item name="android:layout_marginBottom">@dimen/introduction_dialoge_layout_margin_default</item>
     </style>
 
+    <!-- Donate Fragment -->
+    <style name="donate_fragment_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginTop">@dimen/fragment_donate_margin_default</item>
+        <item name="android:layout_marginBottom">@dimen/fragment_donate_margin_default</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 
 
 </resources>

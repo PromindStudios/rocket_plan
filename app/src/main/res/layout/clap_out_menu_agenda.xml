@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlAdd"
+        android:layout_width="64dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/circle_notifiation_add" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_add_24dp"
+            android:id="@+id/ivAdd"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/rlAdd"
+        android:visibility="visible"
+        android:id="@+id/llAddContent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rlAddTask"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/ivCircleTask"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_notifiation_add" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_task" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAddEvent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_notifiation_add" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_event" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAddNote"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_notifiation_add" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_note" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvAddTask"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/task"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:id="@+id/tvAddEvent"
+                android:layout_centerHorizontal="true"
+                android:text="@string/event"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryText"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:id="@+id/tvAddNote"
+                android:layout_centerHorizontal="true"
+                android:text="@string/note"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryText"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/ivSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="16dp"
+        android:src="@drawable/ic_settings_18dp"
+        android:tint="@color/colorSecondaryText"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/ivSettings"
+        android:layout_toRightOf="@id/rlAdd"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:id="@+id/llStatus"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tvStatusBarTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2 Aufgaben  &amp;  3 Termine fällig"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/notification_text_size_title" />
+
+        <TextView
+            android:id="@+id/tvStatusBarBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:text="Heute bereits 2 erledigt"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/notification_text_size_subtitle"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -17,10 +17,9 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Interfaces.ActionModeInterface;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 /**
@@ -142,11 +141,13 @@ public class HolderHelper {
                 vhContent.tvSubtask.setVisibility(View.VISIBLE);
                 vhContent.ivSubtaskDetails.setVisibility(View.VISIBLE);
                 vhContent.ivSubtaskDetails.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_subtask_16dp, null));
+                /*
                 if ((content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals(""))) {
                     vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 8), 0);
                 } else {
                     vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 17), 0);
                 }
+                */
 
                 ArrayList<Subtask> doneSubtasks = new ArrayList<>();
                 for (Subtask subtask : subtasks) {
@@ -160,12 +161,12 @@ public class HolderHelper {
             } else {
                 vhContent.tvSubtask.setVisibility(View.GONE);
                 vhContent.ivSubtaskDetails.setVisibility(View.GONE);
-                vhContent.llSubtaskDetails.setPadding(0,0,0,0);
+                //vhContent.llSubtaskDetails.setPadding(0,0,0,0);
             }
         } else {
             vhContent.tvSubtask.setVisibility(View.GONE);
             vhContent.ivSubtaskDetails.setVisibility(View.GONE);
-            vhContent.llSubtaskDetails.setPadding(0,0,0,0);
+            //vhContent.llSubtaskDetails.setPadding(0,0,0,0);
         }
 
         // Details
@@ -173,14 +174,16 @@ public class HolderHelper {
             if ((event.getLocation() != null && !event.getLocation().equals("")) || mDatabaseHelper.getAllContentParticipants(event.getId()).size() > 0) {
                 vhContent.ivSubtaskDetails.setVisibility(View.VISIBLE);
                 vhContent.ivSubtaskDetails.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_details_16dp, null));
+                /*
                 if ((content.hasVideo() || content.hasAudio() || content.getPicturePath() != null || !content.getDescription().equals(""))) {
                     vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 8), 0);
                 } else {
                     vhContent.llSubtaskDetails.setPadding(0,0, MyMethods.dpToPx(mContext, 17), 0);
                 }
+                */
             } else {
                 vhContent.tvSubtask.setVisibility(View.GONE);
-                vhContent.llSubtaskDetails.setPadding(0,0,0,0);
+                //vhContent.llSubtaskDetails.setPadding(0,0,0,0);
             }
 
         }

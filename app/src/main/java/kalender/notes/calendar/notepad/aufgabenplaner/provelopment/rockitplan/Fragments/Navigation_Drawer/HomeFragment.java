@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,8 +60,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
         // Layout Color
         mLayoutColor = new LayoutColor(getActivity(), mDatabaseHelper.getLayoutColorValue());
-        ivOverview.setColorFilter(mLayoutColor.getLayoutColor());
-        ivCalendar.setColorFilter(mLayoutColor.getLayoutColor());
+        //ivOverview.setColorFilter(mLayoutColor.getLayoutColor());
+        //ivCalendar.setColorFilter(mLayoutColor.getLayoutColor());
+        ivOverview.setColorFilter(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
+        ivCalendar.setColorFilter(ResourcesCompat.getColor(getResources(), R.color.colorSecondaryText, null));
 
         // Set up RecyclerView
         rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));

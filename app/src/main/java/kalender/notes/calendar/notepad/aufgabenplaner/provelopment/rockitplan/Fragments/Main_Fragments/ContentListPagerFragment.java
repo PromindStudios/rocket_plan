@@ -385,7 +385,7 @@ public class ContentListPagerFragment extends Fragment implements ContentTimePag
     }
 
     @Override
-    public void onDateSelected(Calendar date) {
+    public void onDateSelected(Calendar date, boolean timeSelected) {
         mFastDate = date;
         tvAddDate.setVisibility(View.VISIBLE);
         tvAddDate.setText(Integer.toString(mFastDate.get(Calendar.DAY_OF_MONTH)));

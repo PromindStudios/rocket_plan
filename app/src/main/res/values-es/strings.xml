@@ -32,6 +32,7 @@
     <string name="sms">SMS</string>
     <string name="information">Informationen</string>
     <string name="home">Home</string>
+    <string name="ok">Ok </string> <!-- __________NEW__________ -->
 
     <!-- Week names -->
     <string name="monday_short">MO</string>
@@ -236,6 +237,7 @@ Eric
     <string name="reminder_dialog_custom_title">Benutzerdefiniert</string>
     <string name="reminder_choose_reminder_hint">Wähle einen Wert aus</string>
     <string name="reminde_me">Erinnere mich</string>
+    <string name="reminder_shift">Shift</string> <!-- __________NEW__________ -->
 
     <!-- Repeat -->
     <string name="repetition">Wiederholung</string>
@@ -360,6 +362,14 @@ Eric
     <string name="welcome">Willkommen bei Rocket-Plan!</string>
     <string name="welcome_text">Bevor du loslegst musst du zuerst eine Kategorie erstellen. Jede Kategorie beinhaltet ihre eigenen Aufgaben, Termine und Notizen.
         Klick bitte auf den oragenen Pfeil und ich zeig Dir wie es geht!</string>
+
+    <!-- Donate --> <!-- __________NEW__________ -->
+    <string name="fragment_donate_title">Support development!</string>
+    <string name="fragment_donate_content_text">You like Rocket-Plan and would like to support its development? Than do something good for me:</string>
+    <string name="fragment_donate_one">Ice cream</string>
+    <string name="fragment_donate_two">Hotdog</string>
+    <string name="fragment_donate_three">Cocktail</string>
+    <string name="donation_successful">Thank you for your donation!</string>
 
 
 </resources>

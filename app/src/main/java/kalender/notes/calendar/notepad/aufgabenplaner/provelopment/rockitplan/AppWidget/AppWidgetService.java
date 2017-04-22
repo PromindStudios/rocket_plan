@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -25,9 +26,9 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.TaskEvent;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.CategoryColor;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DateTimeTexter;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
 import static kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R.string.task;
@@ -80,11 +81,14 @@ public class AppWidgetService extends RemoteViewsService{
 
         @Override
         public RemoteViews getViewAt(int i) {
-            RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.item_content);
+            RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.item_content_app_widget);
             TaskEvent taskEvent = (TaskEvent)mTaskEvents.get(i);
 
             // Title
             rv.setTextViewText(R.id.tvTitle, taskEvent.getTitle());
+
+            // Content
+            rv.setViewVisibility(R.id.ivContent, View.GONE);
 
             // Type of Content
             rv.setTextViewText(R.id.tvSubtitle, (taskEvent instanceof Task) ? mContext.getString(task) : mContext.getString(R.string.event));
@@ -98,7 +102,7 @@ public class AppWidgetService extends RemoteViewsService{
             }
 
             // Time
-            if (taskEvent.getDate() != null) {
+            if (taskEvent.getTime() != null ) {
                 rv.setTextViewText(R.id.tvDate, DateTimeTexter.getTimeDay(taskEvent, mContext));
                 rv.setViewVisibility(R.id.vSubtitleDateDivider, View.VISIBLE);
             } else {
@@ -122,6 +126,7 @@ public class AppWidgetService extends RemoteViewsService{
 
             // Category Color
             rv.setInt(R.id.ivCategory, "setBackgroundColor", ResourcesCompat.getColor(mContext.getResources(), mCategoryColor.getCategoryColorLight(), null));
+
 
             // Subtask
             if (taskEvent instanceof Task) {
@@ -176,7 +181,7 @@ public class AppWidgetService extends RemoteViewsService{
             bundleClickFiles.putInt(MyConstants.DETAIL_TYPE, MyConstants.DETAIL_FILES);
             Intent intentClickFiles = new Intent();
             intentClickFiles.putExtras(bundleClickFiles);
-            rv.setOnClickFillInIntent(R.id.llFiles, intentClickFiles);
+            rv.setOnClickFillInIntent(R.id.ivFiles, intentClickFiles);
 
             // Attach information to pending intent - Item Click - Subtask
 
@@ -247,6 +252,7 @@ public class AppWidgetService extends RemoteViewsService{
                         }
                     }
                     //return mDatabaseHelper.getAllTaskEventsAtDateAndDoneCheck(today, false);
+                    Log.i("Show me!", ""+mSharedPreferences.getInt(MyConstants.APP_WIDGET_TAB_SELECTED, MyConstants.APP_WIDGET_TAB_TODAY)+"         "+taskEventsToday.size());
                     return taskEventsToday;
                 case MyConstants.APP_WIDGET_TAB_DONE:
                     return mDatabaseHelper.getAllTaskEventsAtDateAndDoneCheck(today, true);

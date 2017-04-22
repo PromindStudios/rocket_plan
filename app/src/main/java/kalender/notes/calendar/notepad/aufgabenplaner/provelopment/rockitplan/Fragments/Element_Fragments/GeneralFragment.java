@@ -288,6 +288,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
                     // also remove Time
                     mTaskEvent.setTime(null);
                     tvTime.setText(getActivity().getString(R.string.detail_subtext_time));
+                    setImageView(ivAddTime, R.drawable.ic_add_18dp, R.color.colorDivider);
                     tvTime.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorDivider, null));
                     ivRemoveTime.setVisibility(View.GONE);
                 }
@@ -478,7 +479,7 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     }
 
     @Override
-    public void onDateSelected(Calendar date) {
+    public void onDateSelected(Calendar date, boolean timeSelected) {
         mAnalyticsInterface.track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_DATE);
         mTaskEvent.setDate(date);
         tvDate.setText(MyMethods.formatDate(date));
@@ -593,9 +594,10 @@ public class GeneralFragment extends Fragment implements DatePickerDialog.DatePi
     public void createReminder(int reminderType, int reminderValue) {
         mAnalyticsInterface.track(Functions.CATEGORY_FUNCTION, Functions.FUNCTION_REMINDER);
         Reminder reminder = new Reminder(mTaskEvent.getId(), mContentType, reminderType, reminderValue);
-        int reminderId = mDatabaseHelper.createReminder(reminder, getActivity());
+        int reminderId = mDatabaseHelper.createReminder(reminder);
         reminder.setId(reminderId);
         setAlarmForReminder(reminder);
+        Log.i("Orgin", ""+reminder.getReminderType()+" "+reminder.getReminderValue());
     }
 
     public void setAlarmForReminder(Reminder reminder) {

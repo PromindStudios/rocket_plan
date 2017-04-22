@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,8 +18,8 @@ import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Ba
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Event;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Note;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.BasicClasses.Task;
-import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Constants.MyConstants;
+import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.DatabaseHelper;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.MyMethods;
 import kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.R;
 
@@ -32,12 +34,12 @@ public class ChooseCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.tab_general);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         mDatabaseHelper = new DatabaseHelper(this);
         getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-
         final int contentType = getIntent().getIntExtra(MyConstants.CONTENT_TYPE, MyConstants.CONTENT_TASK);
+        Log.i("Check_2", ""+contentType);
 
         // Let user select category
         final ArrayList<Category> categories = mDatabaseHelper.getAllCategories();

@@ -31,6 +31,8 @@
     <string name="sms">SMS</string>
     <string name="information">Information</string>
     <string name="home">Home</string>
+    <string name="ok">Ok </string> <!-- __________NEW__________ -->
+    <string name="due">due </string> <!-- __________NEW__________ -->
 
 
     <!-- Week names -->
@@ -237,6 +239,19 @@ Eric
     <string name="reminder_dialog_custom_title">Custom Reminder</string>
     <string name="reminder_choose_reminder_hint">Choose a reminder value</string>
     <string name="reminde_me">Remind me</string>
+    <string name="reminder_shift">Shift</string>
+    <string name="reminder_is_already_checked">Content is already checked</string> <!-- __________NEW__________ -->
+    <string name="reminder_shift_due_date">Shift by</string> <!-- __________NEW__________ -->
+    <string name="reminder_shift_due_date_hour">One hour:</string> <!-- __________NEW__________ -->
+    <string name="reminder_shift_due_date_day">One day</string> <!-- __________NEW__________ -->
+    <string name="reminder_shift_due_date_week">One week</string> <!-- __________NEW__________ -->
+
+    <!-- Status Bar -->
+    <string name="status_bar">status bar</string> <!-- __________NEW__________ -->
+    <string name="status_bar_nothing_more_due_today">No due tasks or events</string> <!-- __________NEW__________ -->
+    <string name="status_bar_nothing_due_today">No due tasks or events</string> <!-- __________NEW__________ -->
+    <string name="status_bar_already_done">already done for today</string> <!-- __________NEW__________ -->
+
 
     <!-- Repeat -->
     <string name="repetition">Repetition</string>
@@ -360,5 +375,13 @@ Eric
     <string name="welcome">Welcome to Rocket-Plan!</string>
     <string name="welcome_text">Before you get started you have to create your first category. Each category contains its own tasks, events and notes.
         Please click the orange arrow and I will show you how you do it!</string>
+
+    <!-- Donate --> <!-- __________NEW__________ -->
+    <string name="fragment_donate_title">Support development!</string>
+    <string name="fragment_donate_content_text">You like Rocket-Plan and would like to support its development? Than do something good for me:</string>
+    <string name="fragment_donate_one">Ice cream</string>
+    <string name="fragment_donate_two">Hotdog</string>
+    <string name="fragment_donate_three">Cocktail</string>
+    <string name="donation_successful">Thank you for your donation!</string>
 
 </resources>

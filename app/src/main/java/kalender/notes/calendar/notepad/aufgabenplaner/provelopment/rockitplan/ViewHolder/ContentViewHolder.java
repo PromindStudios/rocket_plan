@@ -33,7 +33,6 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public LinearLayout llSubtitleDate;
     public LinearLayout llContent;
-    public LinearLayout llFiles;
     public LinearLayout llSubtaskDetails;
     public LinearLayout llContentItem;
 
@@ -60,7 +59,6 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
 
         llSubtitleDate = (LinearLayout) itemView.findViewById(R.id.llSubtitleDate);
         llContent = (LinearLayout) itemView.findViewById(R.id.llContent);
-        llFiles = (LinearLayout) itemView.findViewById(R.id.llFiles);
         llSubtaskDetails = (LinearLayout) itemView.findViewById(R.id.llSubtaskDetails);
         llContentItem = (LinearLayout) itemView.findViewById(R.id.llContentItem);
         vSubtitleDateDivider = itemView.findViewById(R.id.vSubtitleDateDivider);
@@ -77,7 +75,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
 
         //llContent.setOnClickListener(this);
         rbActionMode.setOnClickListener(this);
-        llFiles.setOnClickListener(this);
+        ivFiles.setOnClickListener(this);
         llSubtaskDetails.setOnClickListener(this);
         llContentItem.setOnClickListener(this);
         llContentItem.setOnLongClickListener(this);
@@ -89,7 +87,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder implements View.O
         if (v.getId() == R.id.rbContextualMenu) {
             mListener.onItemClicked(getAdapterPosition(), MyConstants.DETAIL_GENERAL);
         }
-        if (v.getId() == R.id.llFiles) {
+        if (v.getId() == R.id.ivFiles) {
             mListener.openContent(getAdapterPosition(), MyConstants.DETAIL_FILES);
         }
         if (v.getId() == R.id.llSubtaskDetails) {

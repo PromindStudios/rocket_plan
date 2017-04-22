@@ -1,6 +1,5 @@
 package kalender.notes.calendar.notepad.aufgabenplaner.provelopment.rockitplan.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -199,8 +198,8 @@ public class TaskEventActivity extends ContentActivity implements GeneralFragmen
             mDatabaseHelper.deleteContent(mContent.getId(), mContentType);
         }
         if (mFromReminder) {
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
+            //Intent i = new Intent(this, MainActivity.class);
+            //startActivity(i);
         }
         finish();
     }
